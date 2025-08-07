@@ -484,7 +484,7 @@ export default function HomePage() {
               </p>
               <div className="flex items-center space-x-2 text-sm text-muted-foreground">
                 <MapPin className="h-4 w-4" />
-                <span>Via Santa Croce, 84 - Lucca, Itália</span>
+                <span>Lucca, Itália</span>
               </div>
             </div>
 
