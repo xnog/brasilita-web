@@ -25,7 +25,7 @@ export default function HomePage() {
             <a href="#contato" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
               Contato
             </a>
-            <a href="#contato" className="btn-primary text-sm px-6 py-2">
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSf9g6IP9r91YeX0MExvMrbI2C40AXgqZkhyuXoibUvXXoThpA/viewform?usp=dialog" target="_blank" rel="noopener noreferrer" className="btn-primary text-sm px-6 py-2">
               Começar
             </a>
           </nav>
@@ -51,7 +51,7 @@ export default function HomePage() {
               Da compra à gestão, cuidamos de cada detalhe com expertise local.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-              <a href="#contato" className="btn-primary">
+              <a href="https://docs.google.com/forms/d/e/1FAIpQLSf9g6IP9r91YeX0MExvMrbI2C40AXgqZkhyuXoibUvXXoThpA/viewform?usp=dialog" target="_blank" rel="noopener noreferrer" className="btn-primary">
                 Iniciar Consulta Gratuita
               </a>
               <a href="#servicos" className="btn-secondary">
@@ -339,8 +339,8 @@ export default function HomePage() {
                   e paixão.
                 </p>
                 <div className="flex items-center space-x-4">
-                  <a href="#contato" className="btn-primary">
-                    Falar Conosco
+                  <a href="https://docs.google.com/forms/d/e/1FAIpQLSf9g6IP9r91YeX0MExvMrbI2C40AXgqZkhyuXoibUvXXoThpA/viewform?usp=dialog" target="_blank" rel="noopener noreferrer" className="btn-primary">
+                    Fale Conosco
                   </a>
                   <div className="text-sm text-muted-foreground">
                     <p className="font-semibold">Baseados em Lucca, Itália</p>
@@ -387,7 +387,7 @@ export default function HomePage() {
               Agende uma consulta gratuita e descubra como podemos ajudá-lo a investir no mercado imobiliário italiano
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a href="mailto:contato@brasilita.com" className="btn-primary">
+              <a href="https://docs.google.com/forms/d/e/1FAIpQLSf9g6IP9r91YeX0MExvMrbI2C40AXgqZkhyuXoibUvXXoThpA/viewform?usp=dialog" target="_blank" rel="noopener noreferrer" className="btn-primary">
                 Consulta Gratuita
               </a>
               <a href="tel:+393312828232" className="btn-secondary">
