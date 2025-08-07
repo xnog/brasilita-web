@@ -390,7 +390,7 @@ export default function HomePage() {
               <a href="https://docs.google.com/forms/d/e/1FAIpQLSf9g6IP9r91YeX0MExvMrbI2C40AXgqZkhyuXoibUvXXoThpA/viewform?usp=dialog" target="_blank" rel="noopener noreferrer" className="btn-primary">
                 Consulta Gratuita
               </a>
-              <a href="tel:+393312828232" className="btn-secondary">
+              <a href="tel:+393473625028" className="btn-secondary">
                 Ligar Agora
               </a>
             </div>
