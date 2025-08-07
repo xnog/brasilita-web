@@ -260,7 +260,7 @@ export default function HomePage() {
                 </div>
               </div>
               <p className="text-muted-foreground mb-4 italic">
-                "A Brasilitá Wealth tornou possível o que parecia impossível. Compramos nossa casa dos sonhos em Toscana com total segurança e transparência."
+                &ldquo;A Brasilitá Wealth tornou possível o que parecia impossível. Compramos nossa casa dos sonhos em Toscana com total segurança e transparência.&rdquo;
               </p>
               <div className="flex items-center">
                 <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center mr-3">
@@ -282,7 +282,7 @@ export default function HomePage() {
                 </div>
               </div>
               <p className="text-muted-foreground mb-4 italic">
-                "Excelente gestão do nosso Airbnb em Roma. A rentabilidade superou nossas expectativas e o atendimento é impecável."
+                &ldquo;Excelente gestão do nosso Airbnb em Roma. A rentabilidade superou nossas expectativas e o atendimento é impecável.&rdquo;
               </p>
               <div className="flex items-center">
                 <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center mr-3">
@@ -304,7 +304,7 @@ export default function HomePage() {
                 </div>
               </div>
               <p className="text-muted-foreground mb-4 italic">
-                "Profissionalismo e expertise únicos. Nos ajudaram desde a escolha até a documentação. Recomendo sem hesitar."
+                &ldquo;Profissionalismo e expertise únicos. Nos ajudaram desde a escolha até a documentação. Recomendo sem hesitar.&rdquo;
               </p>
               <div className="flex items-center">
                 <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center mr-3">
