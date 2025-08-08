@@ -83,7 +83,7 @@ export default async function DashboardPage() {
                                 </div>
                                 <Button size="lg" className="shrink-0" asChild>
                                     <a href="/checklist">
-                                        Começar Checklist
+                                        Acessar Checklist
                                         <ArrowRight className="h-4 w-4 ml-2" />
                                     </a>
                                 </Button>

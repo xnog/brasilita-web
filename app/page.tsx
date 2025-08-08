@@ -404,9 +404,6 @@ export default async function HomePage() {
               <a href="/auth/signin?callbackUrl=/dashboard" className="btn-primary">
                 Consulta Gratuita
               </a>
-              <a href="tel:+393473625028" className="btn-secondary">
-                Ligar Agora
-              </a>
             </div>
           </div>
         </div>
@@ -425,18 +422,7 @@ export default async function HomePage() {
               </p>
             </div>
 
-            <div className="grid lg:grid-cols-3 gap-8">
-              <div className="professional-card text-center">
-                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Phone className="h-8 w-8 text-primary" />
-                </div>
-                <h3 className="text-xl font-semibold mb-2">Telefone</h3>
-                <p className="text-muted-foreground mb-4">Fale diretamente conosco</p>
-                <a href="tel:+393473625028" className="text-primary font-medium hover:underline">
-                  +39 347 362 5028
-                </a>
-              </div>
-
+            <div className="grid lg:grid-cols-2 gap-8">
               <div className="professional-card text-center">
                 <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Mail className="h-8 w-8 text-primary" />
@@ -515,11 +501,6 @@ export default async function HomePage() {
             <div>
               <h4 className="font-semibold mb-4 text-foreground">Contato</h4>
               <ul className="space-y-2 text-sm text-muted-foreground">
-                <li>
-                  <a href="tel:+393473625028" className="hover:text-foreground transition-colors">
-                    +39 347 362 5028
-                  </a>
-                </li>
                 <li>
                   <a href="mailto:contato@brasilita.com" className="hover:text-foreground transition-colors">
                     contato@brasilita.com
