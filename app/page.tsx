@@ -48,28 +48,30 @@ export default async function HomePage() {
       </header>
 
       {/* Hero Section */}
-      <section className="section-padding">
-        <div className="container mx-auto container-padding text-center">
+      <section className="section-padding relative bg-cover bg-center bg-no-repeat" style={{ backgroundImage: 'url(/bg.jpeg)' }}>
+        {/* Enhanced overlay for better text readability */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/10 to-black/30"></div>
+        <div className="container mx-auto container-padding text-center relative z-10">
           <div className="max-w-4xl mx-auto">
             <div className="mb-6">
-              <span className="inline-flex items-center px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
+              <span className="inline-flex items-center px-4 py-2 rounded-full bg-white/90 backdrop-blur-md text-gray-800 text-sm font-medium mb-4 shadow-xl border border-white/50">
                 <Award className="w-4 h-4 mr-2" />
                 Assessoria Especializada em Imóveis Italianos
               </span>
             </div>
-            <h1 className="text-4xl md:text-6xl font-bold mb-6 text-foreground leading-tight">
+            <h1 className="text-4xl md:text-6xl font-bold mb-6 text-white leading-tight" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.8), 0px 0px 8px rgba(0,0,0,0.6)' }}>
               Realize seu sonho de ter uma
-              <span className="gradient-text"> casa na Itália</span>
+              <span className="text-yellow-400" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.8), 0px 0px 8px rgba(0,0,0,0.6)' }}> casa na Itália</span>
             </h1>
-            <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-lg md:text-xl text-white mb-8 max-w-3xl mx-auto leading-relaxed" style={{ textShadow: '1px 1px 3px rgba(0,0,0,0.8)' }}>
               Assessoria completa e personalizada para brasileiros que desejam investir no mercado imobiliário italiano.
               Da compra à gestão, cuidamos de cada detalhe com expertise local.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-              <a href="/auth/signin?callbackUrl=/dashboard" className="btn-primary">
+              <a href="/auth/signin?callbackUrl=/dashboard" className="inline-flex items-center justify-center px-8 py-3 rounded-lg bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-black font-semibold transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105">
                 Iniciar Consulta Gratuita
               </a>
-              <a href="#servicos" className="btn-secondary">
+              <a href="#servicos" className="inline-flex items-center justify-center px-8 py-3 rounded-lg bg-white/10 backdrop-blur-md hover:bg-white/20 text-white font-semibold border-2 border-white/70 hover:border-white transition-all duration-300 shadow-lg hover:scale-105">
                 Ver Nossos Serviços
               </a>
             </div>
@@ -77,20 +79,20 @@ export default async function HomePage() {
             {/* Stats */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-16">
               <div className="text-center">
-                <div className="stats-number">50+</div>
-                <div className="stats-label">Imóveis Vendidos</div>
+                <div className="text-3xl md:text-4xl font-bold text-white mb-2" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.8)' }}>50+</div>
+                <div className="text-sm text-white/90" style={{ textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>Imóveis Vendidos</div>
               </div>
               <div className="text-center">
-                <div className="stats-number">100%</div>
-                <div className="stats-label">Satisfação</div>
+                <div className="text-3xl md:text-4xl font-bold text-white mb-2" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.8)' }}>100%</div>
+                <div className="text-sm text-white/90" style={{ textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>Satisfação</div>
               </div>
               <div className="text-center">
-                <div className="stats-number">5+</div>
-                <div className="stats-label">Anos Experiência</div>
+                <div className="text-3xl md:text-4xl font-bold text-white mb-2" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.8)' }}>5+</div>
+                <div className="text-sm text-white/90" style={{ textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>Anos Experiência</div>
               </div>
               <div className="text-center">
-                <div className="stats-number">15</div>
-                <div className="stats-label">Cidades Cobertas</div>
+                <div className="text-3xl md:text-4xl font-bold text-white mb-2" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.8)' }}>15</div>
+                <div className="text-sm text-white/90" style={{ textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>Cidades Cobertas</div>
               </div>
             </div>
           </div>
