@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useCallback, useRef, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -71,7 +71,16 @@ export function ChecklistView({
 }: ChecklistViewProps) {
     const [progress, setProgress] = useState<UserProgress>(initialProgress);
     const [showOptional, setShowOptional] = useState(true);
+    const progressUpdateTimeouts = useRef<Map<string, NodeJS.Timeout>>(new Map());
     const [showCompleted, setShowCompleted] = useState(true);
+
+    // Limpar todos os timeouts quando o componente for desmontado
+    useEffect(() => {
+        return () => {
+            progressUpdateTimeouts.current.forEach(timeout => clearTimeout(timeout));
+            progressUpdateTimeouts.current.clear();
+        };
+    }, []);
 
     // Filter items based on user profile
     const filteredItems = useMemo(() => {
@@ -125,7 +134,7 @@ export function ChecklistView({
         };
     }, [filteredItems, progress]);
 
-    const handleToggleComplete = (itemId: string, completed: boolean, notes?: string) => {
+    const handleToggleComplete = useCallback((itemId: string, completed: boolean, notes?: string) => {
         const newProgress = {
             ...progress,
             [itemId]: {
@@ -136,8 +145,30 @@ export function ChecklistView({
         };
 
         setProgress(newProgress);
-        onProgressUpdate(itemId, completed, notes);
-    };
+
+        // Limpar timeout anterior se existir
+        const existingTimeout = progressUpdateTimeouts.current.get(itemId);
+        if (existingTimeout) {
+            clearTimeout(existingTimeout);
+        }
+
+        // Para mudanças de checkbox (completed), salvar imediatamente
+        // Para mudanças apenas de notas, usar debounce
+        const isCheckboxChange = progress[itemId]?.isCompleted !== completed;
+
+        if (isCheckboxChange) {
+            // Mudança de status - salvar imediatamente
+            onProgressUpdate(itemId, completed, notes);
+        } else {
+            // Apenas mudança de notas - usar debounce de 500ms
+            const timeout = setTimeout(() => {
+                onProgressUpdate(itemId, completed, notes);
+                progressUpdateTimeouts.current.delete(itemId);
+            }, 500);
+
+            progressUpdateTimeouts.current.set(itemId, timeout);
+        }
+    }, [progress, onProgressUpdate]);
 
     const getProfileLabel = (key: string, value: string) => {
         const labels: Record<string, Record<string, string>> = {
@@ -171,10 +202,10 @@ export function ChecklistView({
                             <CardTitle>Seu Perfil</CardTitle>
                             <CardDescription>Checklist personalizado baseado nas suas informações</CardDescription>
                         </div>
-                        <Button variant="outline" onClick={onResetProfile}>
+                        {/* <Button variant="outline" onClick={onResetProfile}>
                             <RotateCcw className="h-4 w-4 mr-2" />
                             Alterar Perfil
-                        </Button>
+                        </Button> */}
                     </div>
                 </CardHeader>
                 <CardContent>
@@ -265,7 +296,7 @@ export function ChecklistView({
                         >
                             Concluídos
                         </Button>
-                        <div className="ml-auto flex gap-2">
+                        {/* <div className="ml-auto flex gap-2">
                             <Button variant="outline" size="sm">
                                 <Download className="h-4 w-4 mr-2" />
                                 Exportar PDF
@@ -274,7 +305,7 @@ export function ChecklistView({
                                 <Share className="h-4 w-4 mr-2" />
                                 Compartilhar
                             </Button>
-                        </div>
+                        </div> */}
                     </div>
                 </CardContent>
             </Card>

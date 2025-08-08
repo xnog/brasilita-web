@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -12,7 +12,8 @@ import {
     ExternalLink,
     FileText,
     ChevronDown,
-    ChevronRight
+    ChevronRight,
+    Loader2
 } from "lucide-react";
 
 interface ChecklistItemProps {
@@ -41,15 +42,66 @@ export function ChecklistItem({
     const [isExpanded, setIsExpanded] = useState(false);
     const [userNotes, setUserNotes] = useState(notes);
     const [showNotes, setShowNotes] = useState(false);
+    const [isSavingNotes, setIsSavingNotes] = useState(false);
+    const debounceRef = useRef<NodeJS.Timeout>();
+
+    // Atualizar notas quando receber novas props
+    useEffect(() => {
+        setUserNotes(notes);
+    }, [notes]);
+
+    // Limpar timeout quando componente desmontar
+    useEffect(() => {
+        return () => {
+            if (debounceRef.current) {
+                clearTimeout(debounceRef.current);
+            }
+        };
+    }, []);
 
     const handleToggleComplete = () => {
+        // Limpar qualquer debounce pendente
+        if (debounceRef.current) {
+            clearTimeout(debounceRef.current);
+        }
         onToggleComplete(id, !isCompleted, userNotes);
     };
 
+    // Debounce para salvar notas apenas após 1 segundo de inatividade
+    const debouncedSaveNotes = useCallback((newNotes: string) => {
+        if (debounceRef.current) {
+            clearTimeout(debounceRef.current);
+        }
+
+        setIsSavingNotes(true);
+
+        debounceRef.current = setTimeout(() => {
+            if (isCompleted) {
+                onToggleComplete(id, true, newNotes);
+            }
+            setIsSavingNotes(false);
+        }, 1000); // 1 segundo de debounce
+    }, [id, isCompleted, onToggleComplete]);
+
     const handleNotesChange = (newNotes: string) => {
         setUserNotes(newNotes);
+
+        // Se o item estiver completo, usar debounce para salvar
         if (isCompleted) {
-            onToggleComplete(id, true, newNotes);
+            debouncedSaveNotes(newNotes);
+        }
+    };
+
+    const handleNotesBlur = () => {
+        // Salvar imediatamente quando o usuário sair do campo
+        if (debounceRef.current) {
+            clearTimeout(debounceRef.current);
+        }
+
+        if (isCompleted && userNotes !== notes) {
+            setIsSavingNotes(true);
+            onToggleComplete(id, true, userNotes);
+            setTimeout(() => setIsSavingNotes(false), 500);
         }
     };
 
@@ -134,6 +186,12 @@ export function ChecklistItem({
                                 <h4 className="font-medium text-sm flex items-center gap-1">
                                     <FileText className="h-4 w-4" />
                                     Suas Anotações
+                                    {isSavingNotes && (
+                                        <span className="flex items-center gap-1 text-xs text-muted-foreground">
+                                            <Loader2 className="h-3 w-3 animate-spin" />
+                                            Salvando...
+                                        </span>
+                                    )}
                                 </h4>
                                 <Button
                                     variant="ghost"
@@ -149,6 +207,7 @@ export function ChecklistItem({
                                     placeholder="Adicione suas anotações sobre este item..."
                                     value={userNotes}
                                     onChange={(e) => handleNotesChange(e.target.value)}
+                                    onBlur={handleNotesBlur}
                                     className="min-h-[80px] text-sm"
                                 />
                             )}

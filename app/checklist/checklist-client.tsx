@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import { RequirementsForm } from "@/components/checklist/requirements-form";
 import { ChecklistView } from "@/components/checklist/checklist-view";
-import { checklistCategories, checklistItems } from "@/lib/checklist-data";
 import { Building, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -31,12 +30,22 @@ interface ChecklistPageClientProps {
 export function ChecklistPageClient({ userId }: ChecklistPageClientProps) {
     const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
     const [userProgress, setUserProgress] = useState<UserProgress>({});
+    const [categories, setCategories] = useState<any[]>([]);
+    const [items, setItems] = useState<any[]>([]);
     const [isLoading, setIsLoading] = useState(true);
 
-    // Load user profile and progress from database
+    // Load user profile, progress and checklist items from database
     useEffect(() => {
         const loadData = async () => {
             try {
+                // Load checklist items and categories
+                const itemsResponse = await fetch('/api/checklist/items');
+                if (itemsResponse.ok) {
+                    const itemsData = await itemsResponse.json();
+                    setCategories(itemsData.categories || []);
+                    setItems(itemsData.items || []);
+                }
+
                 // Load profile
                 const profileResponse = await fetch('/api/checklist/profile');
                 if (profileResponse.ok) {
@@ -144,18 +153,17 @@ export function ChecklistPageClient({ userId }: ChecklistPageClientProps) {
     };
 
     // Transform checklist data to match component interface
-    const transformedCategories = checklistCategories.map((cat, index) => ({
-        id: `category-${index}`,
+    const transformedCategories = categories.map((cat) => ({
+        id: cat.id,
         name: cat.name,
         description: cat.description || "",
         order: cat.order,
     }));
 
-    const transformedItems = checklistItems.map((item, index) => {
-        const categoryIndex = checklistCategories.findIndex(cat => cat.order === Math.floor(index / 10) + 1);
+    const transformedItems = items.map((item) => {
         return {
-            id: `item-${index}`,
-            categoryId: `category-${categoryIndex}`,
+            id: item.id, // ID real do banco
+            categoryId: item.categoryId,
             title: item.title,
             description: item.description || "",
             order: item.order,

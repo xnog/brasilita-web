@@ -140,8 +140,25 @@ export const userChecklistProgress = pgTable("user_checklist_progress", {
     isCompleted: boolean("isCompleted").default(false),
     completedAt: timestamp("completedAt", { mode: "date" }),
     notes: text("notes"), // user's notes for this item
+    priority: integer("priority").default(0), // 0=normal, 1=high, -1=low
+    dueDate: timestamp("dueDate", { mode: "date" }), // user-defined deadline
+    attachments: text("attachments"), // JSON array of file URLs/paths
     createdAt: timestamp("createdAt", { mode: "date" }).defaultNow(),
     updatedAt: timestamp("updatedAt", { mode: "date" }).defaultNow(),
+});
+
+// Nova tabela para histórico de mudanças
+export const userProgressHistory = pgTable("user_progress_history", {
+    id: text("id")
+        .primaryKey()
+        .$defaultFn(() => crypto.randomUUID()),
+    progressId: text("progressId")
+        .notNull()
+        .references(() => userChecklistProgress.id, { onDelete: "cascade" }),
+    action: text("action").notNull(), // "created", "completed", "uncompleted", "note_added", "priority_changed"
+    previousValue: text("previousValue"), // JSON do estado anterior
+    newValue: text("newValue"), // JSON do novo estado
+    timestamp: timestamp("timestamp", { mode: "date" }).defaultNow(),
 });
 
 export type User = typeof users.$inferSelect;
@@ -153,3 +170,6 @@ export type NewUserProfile = typeof userProfiles.$inferInsert;
 export type ChecklistCategory = typeof checklistCategories.$inferSelect;
 export type ChecklistItem = typeof checklistItems.$inferSelect;
 export type UserChecklistProgress = typeof userChecklistProgress.$inferSelect;
+export type NewUserChecklistProgress = typeof userChecklistProgress.$inferInsert;
+export type UserProgressHistory = typeof userProgressHistory.$inferSelect;
+export type NewUserProgressHistory = typeof userProgressHistory.$inferInsert;
