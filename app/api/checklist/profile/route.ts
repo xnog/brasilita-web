@@ -15,9 +15,9 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        const { propertyType, location, buyerProfile, usageType, investmentBudget, phone } = await request.json();
+        const { propertyType, location, buyerProfile, usageType, investmentBudget, phone, investmentGoal } = await request.json();
 
-        if (!propertyType || !location || !buyerProfile || !usageType || !investmentBudget) {
+        if (!propertyType || !location || !buyerProfile || !usageType || !investmentBudget || !investmentGoal) {
             return NextResponse.json(
                 { error: "Todos os campos são obrigatórios" },
                 { status: 400 }
@@ -40,6 +40,7 @@ export async function POST(request: NextRequest) {
                     usageType,
                     investmentBudget,
                     phone,
+                    investmentGoal,
                     updatedAt: new Date(),
                 })
                 .where(eq(userProfiles.userId, session.user.id))
@@ -55,6 +56,7 @@ export async function POST(request: NextRequest) {
                 usageType,
                 investmentBudget,
                 phone,
+                investmentGoal,
             }).returning();
             profile = created[0];
         }

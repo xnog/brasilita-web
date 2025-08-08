@@ -91,7 +91,7 @@ export default async function DashboardPage() {
                         </CardContent>
                     </Card>
 
-                    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                    <div className="grid gap-6 md:grid-cols-2">
                         <Card>
                             <CardHeader>
                                 <CardTitle className="flex items-center gap-2">
@@ -127,49 +127,6 @@ export default async function DashboardPage() {
                             <CardContent>
                                 <p className="text-2xl font-bold">0</p>
                                 <p className="text-xs text-muted-foreground">propriedades registradas</p>
-                            </CardContent>
-                        </Card>
-
-                        <Card>
-                            <CardHeader>
-                                <CardTitle>Consultoria</CardTitle>
-                                <CardDescription>
-                                    Agende uma consulta
-                                </CardDescription>
-                            </CardHeader>
-                            <CardContent>
-                                <Button className="w-full" asChild>
-                                    <a href="/auth/signin?callbackUrl=/dashboard">
-                                        Agendar Consulta
-                                    </a>
-                                </Button>
-                            </CardContent>
-                        </Card>
-                    </div>
-
-                    <div className="mt-8">
-                        <Card>
-                            <CardHeader>
-                                <CardTitle>Próximos Passos</CardTitle>
-                                <CardDescription>
-                                    Complete seu perfil para uma experiência personalizada
-                                </CardDescription>
-                            </CardHeader>
-                            <CardContent>
-                                <ul className="space-y-2 text-sm">
-                                    <li className="flex items-center gap-2">
-                                        <div className="w-2 h-2 bg-primary rounded-full"></div>
-                                        Inicie seu checklist personalizado de compra
-                                    </li>
-                                    <li className="flex items-center gap-2">
-                                        <div className="w-2 h-2 bg-muted rounded-full"></div>
-                                        Complete suas informações de perfil
-                                    </li>
-                                    <li className="flex items-center gap-2">
-                                        <div className="w-2 h-2 bg-muted rounded-full"></div>
-                                        Agende uma consulta inicial
-                                    </li>
-                                </ul>
                             </CardContent>
                         </Card>
                     </div>

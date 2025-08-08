@@ -8,8 +8,9 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 
-import { Building2, MapPin, User, Target, Euro, Phone } from "lucide-react";
+import { Building2, MapPin, User, Target, Euro, Phone, Goal } from "lucide-react";
 
 const formSchema = z.object({
     propertyType: z.enum(["residential", "commercial", "investment"], {
@@ -32,6 +33,11 @@ const formSchema = z.object({
     }).regex(/^[+\d\s()-]+$/, {
         message: "Formato de telefone inválido.",
     }),
+    investmentGoal: z.string().min(10, {
+        message: "Descreva seu objetivo com pelo menos 10 caracteres.",
+    }).max(500, {
+        message: "Descrição deve ter no máximo 500 caracteres.",
+    }),
 });
 
 type FormData = z.infer<typeof formSchema>;
@@ -51,6 +57,7 @@ export function RequirementsForm({ onSubmit, initialData }: RequirementsFormProp
             usageType: initialData?.usageType || undefined,
             investmentBudget: initialData?.investmentBudget || 0,
             phone: initialData?.phone || "",
+            investmentGoal: initialData?.investmentGoal || "",
         },
     });
 
@@ -270,6 +277,31 @@ export function RequirementsForm({ onSubmit, initialData }: RequirementsFormProp
                                     </FormControl>
                                     <FormDescription>
                                         Seu telefone para contato (incluir código do país, ex: +55)
+                                    </FormDescription>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
+                        {/* Investment Goal */}
+                        <FormField
+                            control={form.control}
+                            name="investmentGoal"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel className="flex items-center gap-2">
+                                        <Goal className="h-4 w-4" />
+                                        Objetivo do Investimento
+                                    </FormLabel>
+                                    <FormControl>
+                                        <Textarea
+                                            placeholder="Descreva o que você pretende fazer com este imóvel na Itália. Ex: Casa de férias para a família, investimento para aposentadoria, mudança definitiva para a Europa, renda com aluguel de temporada, etc."
+                                            className="min-h-[100px] resize-none"
+                                            {...field}
+                                        />
+                                    </FormControl>
+                                    <FormDescription>
+                                        Conte-nos seus planos e objetivos para personalizar melhor seu checklist (10-500 caracteres)
                                     </FormDescription>
                                     <FormMessage />
                                 </FormItem>

@@ -29,6 +29,13 @@
       "when": 1754672711820,
       "tag": "0003_thin_wildside",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1754680483776,
+      "tag": "0004_loud_stranger",
+      "breakpoints": true
     }
   ]
 }

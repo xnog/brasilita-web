@@ -13,6 +13,7 @@ interface UserProfile {
     usageType: "personal_use" | "long_rental" | "short_rental";
     investmentBudget: number;
     phone: string;
+    investmentGoal: string;
 }
 
 interface UserProgress {

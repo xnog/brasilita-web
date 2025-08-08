@@ -93,6 +93,7 @@ export const userProfiles = pgTable("user_profile", {
     usageType: text("usageType"), // personal_use, long_rental, short_rental
     investmentBudget: integer("investmentBudget"), // budget in euros
     phone: text("phone"), // user's phone number
+    investmentGoal: text("investmentGoal"), // user's objective/intention for the property investment
     createdAt: timestamp("createdAt", { mode: "date" }).defaultNow(),
     updatedAt: timestamp("updatedAt", { mode: "date" }).defaultNow(),
 });

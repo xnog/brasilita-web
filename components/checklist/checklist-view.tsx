@@ -50,6 +50,7 @@ interface UserProfile {
     buyerProfile: string;
     usageType: string;
     investmentBudget: number;
+    investmentGoal: string;
 }
 
 interface ChecklistViewProps {
@@ -209,22 +210,30 @@ export function ChecklistView({
                     </div>
                 </CardHeader>
                 <CardContent>
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
-                        <div>
-                            <span className="font-medium">Tipo:</span>
-                            <p className="text-muted-foreground">{getProfileLabel('propertyType', userProfile.propertyType)}</p>
+                    <div className="space-y-4">
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                            <div>
+                                <span className="font-medium">Tipo:</span>
+                                <p className="text-muted-foreground">{getProfileLabel('propertyType', userProfile.propertyType)}</p>
+                            </div>
+                            <div>
+                                <span className="font-medium">Local:</span>
+                                <p className="text-muted-foreground">{userProfile.location}</p>
+                            </div>
+                            <div>
+                                <span className="font-medium">Perfil:</span>
+                                <p className="text-muted-foreground">{getProfileLabel('buyerProfile', userProfile.buyerProfile)}</p>
+                            </div>
+                            <div>
+                                <span className="font-medium">Uso:</span>
+                                <p className="text-muted-foreground">{getProfileLabel('usageType', userProfile.usageType)}</p>
+                            </div>
                         </div>
-                        <div>
-                            <span className="font-medium">Local:</span>
-                            <p className="text-muted-foreground">{userProfile.location}</p>
-                        </div>
-                        <div>
-                            <span className="font-medium">Perfil:</span>
-                            <p className="text-muted-foreground">{getProfileLabel('buyerProfile', userProfile.buyerProfile)}</p>
-                        </div>
-                        <div>
-                            <span className="font-medium">Uso:</span>
-                            <p className="text-muted-foreground">{getProfileLabel('usageType', userProfile.usageType)}</p>
+                        <div className="border-t pt-4">
+                            <div>
+                                <span className="font-medium">Objetivo do Investimento:</span>
+                                <p className="text-muted-foreground mt-1">{userProfile.investmentGoal}</p>
+                            </div>
                         </div>
                     </div>
                 </CardContent>
