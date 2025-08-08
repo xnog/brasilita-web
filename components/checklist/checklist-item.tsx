@@ -43,7 +43,7 @@ export function ChecklistItem({
     const [userNotes, setUserNotes] = useState(notes);
     const [showNotes, setShowNotes] = useState(false);
     const [isSavingNotes, setIsSavingNotes] = useState(false);
-    const debounceRef = useRef<NodeJS.Timeout>();
+    const debounceRef = useRef<NodeJS.Timeout | null>(null);
 
     // Atualizar notas quando receber novas props
     useEffect(() => {
