@@ -71,7 +71,7 @@ export function SignUpForm() {
             } else {
                 router.push("/dashboard");
             }
-        } catch (error) {
+        } catch {
             setError("Ocorreu um erro. Tente novamente.");
         } finally {
             setIsLoading(false);
