@@ -15,6 +15,13 @@
       "when": 1754646217141,
       "tag": "0001_worried_quicksilver",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1754663655489,
+      "tag": "0002_gorgeous_eternals",
+      "breakpoints": true
     }
   ]
 }

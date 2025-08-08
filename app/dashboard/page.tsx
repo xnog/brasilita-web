@@ -138,8 +138,10 @@ export default async function DashboardPage() {
                                 </CardDescription>
                             </CardHeader>
                             <CardContent>
-                                <Button className="w-full">
-                                    Agendar Consulta
+                                <Button className="w-full" asChild>
+                                    <a href="/auth/signin?callbackUrl=/dashboard">
+                                        Agendar Consulta
+                                    </a>
                                 </Button>
                             </CardContent>
                         </Card>

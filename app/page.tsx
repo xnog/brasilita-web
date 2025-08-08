@@ -65,7 +65,7 @@ export default async function HomePage() {
               Da compra à gestão, cuidamos de cada detalhe com expertise local.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-              <a href="https://docs.google.com/forms/d/e/1FAIpQLSf9g6IP9r91YeX0MExvMrbI2C40AXgqZkhyuXoibUvXXoThpA/viewform?usp=dialog" target="_blank" rel="noopener noreferrer" className="btn-primary">
+              <a href="/auth/signin?callbackUrl=/dashboard" className="btn-primary">
                 Iniciar Consulta Gratuita
               </a>
               <a href="#servicos" className="btn-secondary">
@@ -353,7 +353,7 @@ export default async function HomePage() {
                   e paixão.
                 </p>
                 <div className="flex items-center space-x-4">
-                  <a href="https://docs.google.com/forms/d/e/1FAIpQLSf9g6IP9r91YeX0MExvMrbI2C40AXgqZkhyuXoibUvXXoThpA/viewform?usp=dialog" target="_blank" rel="noopener noreferrer" className="btn-primary">
+                  <a href="/auth/signin?callbackUrl=/dashboard" className="btn-primary">
                     Fale Conosco
                   </a>
                   <div className="text-sm text-muted-foreground">
@@ -401,7 +401,7 @@ export default async function HomePage() {
               Agende uma consulta gratuita e descubra como podemos ajudá-lo a investir no mercado imobiliário italiano
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a href="https://docs.google.com/forms/d/e/1FAIpQLSf9g6IP9r91YeX0MExvMrbI2C40AXgqZkhyuXoibUvXXoThpA/viewform?usp=dialog" target="_blank" rel="noopener noreferrer" className="btn-primary">
+              <a href="/auth/signin?callbackUrl=/dashboard" className="btn-primary">
                 Consulta Gratuita
               </a>
               <a href="tel:+393473625028" className="btn-secondary">

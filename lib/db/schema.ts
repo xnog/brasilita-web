@@ -92,6 +92,7 @@ export const userProfiles = pgTable("user_profile", {
     buyerProfile: text("buyerProfile"), // resident, italian_citizen, foreign_non_resident
     usageType: text("usageType"), // personal_use, long_rental, short_rental
     investmentBudget: integer("investmentBudget"), // budget in euros
+    phone: text("phone"), // user's phone number
     createdAt: timestamp("createdAt", { mode: "date" }).defaultNow(),
     updatedAt: timestamp("updatedAt", { mode: "date" }).defaultNow(),
 });

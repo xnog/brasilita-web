@@ -9,7 +9,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
-import { Building2, MapPin, User, Target, Euro } from "lucide-react";
+import { Building2, MapPin, User, Target, Euro, Phone } from "lucide-react";
 
 const formSchema = z.object({
     propertyType: z.enum(["residential", "commercial", "investment"], {
@@ -26,6 +26,11 @@ const formSchema = z.object({
     }),
     investmentBudget: z.number().min(10000, {
         message: "O investimento deve ser de pelo menos €10.000.",
+    }),
+    phone: z.string().min(8, {
+        message: "Telefone deve ter pelo menos 8 dígitos.",
+    }).regex(/^[+\d\s()-]+$/, {
+        message: "Formato de telefone inválido.",
     }),
 });
 
@@ -44,7 +49,8 @@ export function RequirementsForm({ onSubmit, initialData }: RequirementsFormProp
             location: initialData?.location || "",
             buyerProfile: initialData?.buyerProfile || undefined,
             usageType: initialData?.usageType || undefined,
-            investmentBudget: initialData?.investmentBudget || undefined,
+            investmentBudget: initialData?.investmentBudget || 0,
+            phone: initialData?.phone || "",
         },
     });
 
@@ -228,12 +234,42 @@ export function RequirementsForm({ onSubmit, initialData }: RequirementsFormProp
                                                 placeholder="100000"
                                                 className="pl-10"
                                                 {...field}
-                                                onChange={(e) => field.onChange(Number(e.target.value))}
+                                                value={field.value || ""}
+                                                onChange={(e) => field.onChange(e.target.value ? Number(e.target.value) : 0)}
                                             />
                                         </div>
                                     </FormControl>
                                     <FormDescription>
                                         Valor total disponível em euros (incluindo custos adicionais: impostos, notário, reforma)
+                                    </FormDescription>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
+                        {/* Phone */}
+                        <FormField
+                            control={form.control}
+                            name="phone"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel className="flex items-center gap-2">
+                                        <Phone className="h-4 w-4" />
+                                        Telefone
+                                    </FormLabel>
+                                    <FormControl>
+                                        <div className="relative">
+                                            <Phone className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                                            <Input
+                                                type="tel"
+                                                placeholder="+55 11 99999-9999"
+                                                className="pl-10"
+                                                {...field}
+                                            />
+                                        </div>
+                                    </FormControl>
+                                    <FormDescription>
+                                        Seu telefone para contato (incluir código do país, ex: +55)
                                     </FormDescription>
                                     <FormMessage />
                                 </FormItem>

@@ -13,6 +13,7 @@ interface UserProfile {
     buyerProfile: "resident" | "italian_citizen" | "foreign_non_resident";
     usageType: "personal_use" | "long_rental" | "short_rental";
     investmentBudget: number;
+    phone: string;
 }
 
 interface UserProgress {
@@ -32,28 +33,62 @@ export function ChecklistPageClient({ userId }: ChecklistPageClientProps) {
     const [userProgress, setUserProgress] = useState<UserProgress>({});
     const [isLoading, setIsLoading] = useState(true);
 
-    // Load user profile and progress from localStorage (in a real app, this would be from the database)
+    // Load user profile and progress from database
     useEffect(() => {
-        const savedProfile = localStorage.getItem(`checklist-profile-${userId}`);
-        const savedProgress = localStorage.getItem(`checklist-progress-${userId}`);
+        const loadData = async () => {
+            try {
+                // Load profile
+                const profileResponse = await fetch('/api/checklist/profile');
+                if (profileResponse.ok) {
+                    const profileData = await profileResponse.json();
+                    if (profileData.profile) {
+                        setUserProfile(profileData.profile);
+                    }
+                }
 
-        if (savedProfile) {
-            setUserProfile(JSON.parse(savedProfile));
-        }
+                // Load progress
+                const progressResponse = await fetch('/api/checklist/progress');
+                if (progressResponse.ok) {
+                    const progressData = await progressResponse.json();
+                    if (progressData.progress) {
+                        setUserProgress(progressData.progress);
+                    }
+                }
+            } catch (error) {
+                console.error('Erro ao carregar dados:', error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
 
-        if (savedProgress) {
-            setUserProgress(JSON.parse(savedProgress));
-        }
-
-        setIsLoading(false);
+        loadData();
     }, [userId]);
 
-    const handleProfileSubmit = (profile: UserProfile) => {
-        setUserProfile(profile);
-        localStorage.setItem(`checklist-profile-${userId}`, JSON.stringify(profile));
+    const handleProfileSubmit = async (profile: UserProfile) => {
+        try {
+            const response = await fetch('/api/checklist/profile', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(profile),
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                setUserProfile(data.profile);
+            } else {
+                console.error('Erro ao salvar perfil:', await response.text());
+                alert('Erro ao salvar perfil. Tente novamente.');
+            }
+        } catch (error) {
+            console.error('Erro ao salvar perfil:', error);
+            alert('Erro ao salvar perfil. Tente novamente.');
+        }
     };
 
-    const handleProgressUpdate = (itemId: string, completed: boolean, notes?: string) => {
+    const handleProgressUpdate = async (itemId: string, completed: boolean, notes?: string) => {
+        // Atualizar estado local imediatamente para UX responsiva
         const newProgress = {
             ...userProgress,
             [itemId]: {
@@ -62,16 +97,50 @@ export function ChecklistPageClient({ userId }: ChecklistPageClientProps) {
                 completedAt: completed ? new Date() : undefined,
             },
         };
-
         setUserProgress(newProgress);
-        localStorage.setItem(`checklist-progress-${userId}`, JSON.stringify(newProgress));
+
+        try {
+            const response = await fetch('/api/checklist/progress', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    checklistItemId: itemId,
+                    isCompleted: completed,
+                    notes: notes || userProgress[itemId]?.notes || "",
+                }),
+            });
+
+            if (!response.ok) {
+                console.error('Erro ao salvar progresso:', await response.text());
+                // Reverter mudança local se falhou no servidor
+                setUserProgress(userProgress);
+                alert('Erro ao salvar progresso. Tente novamente.');
+            }
+        } catch (error) {
+            console.error('Erro ao salvar progresso:', error);
+            // Reverter mudança local se falhou
+            setUserProgress(userProgress);
+            alert('Erro ao salvar progresso. Tente novamente.');
+        }
     };
 
-    const handleResetProfile = () => {
-        setUserProfile(null);
-        setUserProgress({});
-        localStorage.removeItem(`checklist-profile-${userId}`);
-        localStorage.removeItem(`checklist-progress-${userId}`);
+    const handleResetProfile = async () => {
+        if (confirm('Tem certeza que deseja resetar seu perfil? Todos os dados serão perdidos.')) {
+            try {
+                // Não temos endpoint de delete ainda, então vamos apenas limpar localmente
+                // Em uma implementação completa, você criaria endpoints DELETE
+                setUserProfile(null);
+                setUserProgress({});
+
+                // Opcional: Recarregar a página para garantir estado limpo
+                window.location.reload();
+            } catch (error) {
+                console.error('Erro ao resetar perfil:', error);
+                alert('Erro ao resetar perfil. Tente novamente.');
+            }
+        }
     };
 
     // Transform checklist data to match component interface
