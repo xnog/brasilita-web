@@ -30,7 +30,7 @@ export default async function HomePage() {
             </a>
             {session ? (
               <Link href="/dashboard" className="btn-primary text-sm px-6 py-2">
-                Dashboard
+                Entrar
               </Link>
             ) : (
               <div className="flex items-center space-x-4">
