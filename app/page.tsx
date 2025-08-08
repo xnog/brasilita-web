@@ -1,6 +1,9 @@
 import { Building, Home, Key, MapPin, Phone, Mail, CheckCircle, Star, Users, TrendingUp, Shield, Clock, Award, Globe } from "lucide-react";
+import Link from "next/link";
+import { auth } from "@/lib/auth";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const session = await auth();
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
@@ -25,9 +28,20 @@ export default function HomePage() {
             <a href="#contato" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
               Contato
             </a>
-            <a href="https://docs.google.com/forms/d/e/1FAIpQLSf9g6IP9r91YeX0MExvMrbI2C40AXgqZkhyuXoibUvXXoThpA/viewform?usp=dialog" target="_blank" rel="noopener noreferrer" className="btn-primary text-sm px-6 py-2">
-              Começar
-            </a>
+            {session ? (
+              <Link href="/dashboard" className="btn-primary text-sm px-6 py-2">
+                Dashboard
+              </Link>
+            ) : (
+              <div className="flex items-center space-x-4">
+                <Link href="/auth/signin" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+                  Entrar
+                </Link>
+                <Link href="/auth/signup" className="btn-primary text-sm px-6 py-2">
+                  Começar
+                </Link>
+              </div>
+            )}
           </nav>
         </div>
       </header>
@@ -418,8 +432,8 @@ export default function HomePage() {
                 </div>
                 <h3 className="text-xl font-semibold mb-2">Telefone</h3>
                 <p className="text-muted-foreground mb-4">Fale diretamente conosco</p>
-                <a href="tel:+393312828232" className="text-primary font-medium hover:underline">
-                  +39 331 282 8232
+                <a href="tel:+393473625028" className="text-primary font-medium hover:underline">
+                  +39 347 362 5028
                 </a>
               </div>
 
@@ -502,8 +516,8 @@ export default function HomePage() {
               <h4 className="font-semibold mb-4 text-foreground">Contato</h4>
               <ul className="space-y-2 text-sm text-muted-foreground">
                 <li>
-                  <a href="tel:+393312828232" className="hover:text-foreground transition-colors">
-                    +39 331 282 8232
+                  <a href="tel:+393473625028" className="hover:text-foreground transition-colors">
+                    +39 347 362 5028
                   </a>
                 </li>
                 <li>
