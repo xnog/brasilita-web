@@ -1,6 +1,7 @@
 import { Building, Home, Key, MapPin, Phone, Mail, CheckCircle, Star, Users, TrendingUp, Shield, Clock, Award, Globe } from "lucide-react";
 import Link from "next/link";
 import { auth } from "@/lib/auth";
+import { Logo } from "@/components/ui/logo";
 
 export default async function HomePage() {
   const session = await auth();
@@ -10,8 +11,8 @@ export default async function HomePage() {
       <header className="border-b border-border/50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
         <div className="container mx-auto container-padding py-4 flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
-              <Building className="h-6 w-6 text-primary-foreground" />
+            <div className="w-10 h-10 rounded-lg flex items-center justify-center">
+              <Logo className="text-primary-foreground" size={48} />
             </div>
             <div>
               <h1 className="text-xl font-bold text-foreground">Brasilità Wealth</h1>
@@ -353,7 +354,7 @@ export default async function HomePage() {
                   e paixão.
                 </p>
                 <div className="flex items-center space-x-4">
-                  <a href="/auth/signin?callbackUrl=/dashboard" className="btn-primary">
+                  <a href="/auth/signin?callbackUrl=/checklist" className="btn-primary">
                     Fale Conosco
                   </a>
                   <div className="text-sm text-muted-foreground">
@@ -401,7 +402,7 @@ export default async function HomePage() {
               Agende uma consulta gratuita e descubra como podemos ajudá-lo a investir no mercado imobiliário italiano
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a href="/auth/signin?callbackUrl=/dashboard" className="btn-primary">
+              <a href="/auth/signin?callbackUrl=/checklist" className="btn-primary">
                 Consulta Gratuita
               </a>
             </div>
@@ -471,8 +472,8 @@ export default async function HomePage() {
           <div className="grid lg:grid-cols-4 gap-8">
             <div className="lg:col-span-2">
               <div className="flex items-center space-x-3 mb-4">
-                <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
-                  <Building className="h-6 w-6 text-primary-foreground" />
+                <div className="w-10 h-10 rounded-lg flex items-center justify-center">
+                  <Logo className="text-primary-foreground" size={48} />
                 </div>
                 <div>
                   <h3 className="text-xl font-bold text-foreground">Brasilità Wealth</h3>

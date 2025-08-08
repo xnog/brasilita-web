@@ -17,6 +17,7 @@ export default auth((req) => {
         "/dashboard",
         "/profile",
         "/settings",
+        "/checklist",
     ];
 
     const isPublicRoute = publicRoutes.some(route =>
@@ -44,9 +45,9 @@ export default auth((req) => {
         return NextResponse.redirect(signInUrl);
     }
 
-    // Se estiver logado e tentando acessar página de login, redirecionar para dashboard
+    // Se estiver logado e tentando acessar página de login, redirecionar para checklist
     if (req.auth && (pathname === "/auth/signin" || pathname === "/auth/signup")) {
-        return NextResponse.redirect(new URL("/dashboard", req.url));
+        return NextResponse.redirect(new URL("/checklist", req.url));
     }
 
     return NextResponse.next();

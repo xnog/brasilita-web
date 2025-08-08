@@ -3,8 +3,11 @@
 import { useState, useEffect } from "react";
 import { RequirementsForm } from "@/components/checklist/requirements-form";
 import { ChecklistView } from "@/components/checklist/checklist-view";
+import { SuccessBanner } from "@/components/checklist/success-banner";
 import { Building, ArrowLeft } from "lucide-react";
+import { Logo } from "@/components/ui/logo";
 import { Button } from "@/components/ui/button";
+import type { ChecklistCategory, ChecklistItem } from "@/lib/db/schema";
 
 interface UserProfile {
     propertyType: "residential" | "commercial" | "investment";
@@ -31,8 +34,8 @@ interface ChecklistPageClientProps {
 export function ChecklistPageClient({ userId }: ChecklistPageClientProps) {
     const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
     const [userProgress, setUserProgress] = useState<UserProgress>({});
-    const [categories, setCategories] = useState<any[]>([]);
-    const [items, setItems] = useState<any[]>([]);
+    const [categories, setCategories] = useState<ChecklistCategory[]>([]);
+    const [items, setItems] = useState<ChecklistItem[]>([]);
     const [isLoading, setIsLoading] = useState(true);
 
     // Load user profile, progress and checklist items from database
@@ -194,8 +197,8 @@ export function ChecklistPageClient({ userId }: ChecklistPageClientProps) {
             <header className="border-b border-border/50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
                 <div className="container mx-auto px-4 py-4 flex items-center justify-between">
                     <div className="flex items-center space-x-3">
-                        <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
-                            <Building className="h-6 w-6 text-primary-foreground" />
+                        <div className="w-10 h-10 rounded-lg flex items-center justify-center">
+                            <Logo className="text-primary-foreground" size={48} />
                         </div>
                         <div>
                             <h1 className="text-xl font-bold text-foreground">Brasilità Wealth</h1>
@@ -235,6 +238,11 @@ export function ChecklistPageClient({ userId }: ChecklistPageClientProps) {
                             <p className="text-muted-foreground">
                                 Acompanhe seu progresso na compra do imóvel em {userProfile.location}, Itália
                             </p>
+                        </div>
+
+                        {/* Success Banner */}
+                        <div className="mb-6">
+                            <SuccessBanner userProfile={userProfile} />
                         </div>
 
                         <ChecklistView

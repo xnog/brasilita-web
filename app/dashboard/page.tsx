@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Building, LogOut, User, CheckSquare, ArrowRight } from "lucide-react";
 import { redirect } from "next/navigation";
+import { Logo } from "@/components/ui/logo";
 
 export default async function DashboardPage() {
     const session = await auth();
@@ -17,8 +18,8 @@ export default async function DashboardPage() {
             <header className="border-b border-border/50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
                 <div className="container mx-auto px-4 py-4 flex items-center justify-between">
                     <div className="flex items-center space-x-3">
-                        <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
-                            <Building className="h-6 w-6 text-primary-foreground" />
+                        <div className="w-10 h-10 rounded-lg flex items-center justify-center">
+                            <Logo className="text-primary-foreground" size={48} />
                         </div>
                         <div>
                             <h1 className="text-xl font-bold text-foreground">Brasilità Wealth</h1>

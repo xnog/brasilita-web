@@ -23,14 +23,26 @@ export async function POST() {
         }, {} as Record<number, string>);
 
         // Inserir items com referência correta às categorias
+        // Distribuição: Cat1=4 itens, Cat2=3 itens, Cat3=5 itens, Cat4=2 itens
+        const categoryDistribution = [4, 3, 5, 2];
+        let currentCategoryIndex = 0;
+        let itemsInCurrentCategory = 0;
+
         const itemsWithCategoryIds = itemsData.map((item, index) => {
-            // Calcular qual categoria baseado na ordem do item
-            const categoryOrder = Math.floor(index / 10) + 1;
+            // Se ultrapassou o limite da categoria atual, muda para próxima
+            if (itemsInCurrentCategory >= categoryDistribution[currentCategoryIndex]) {
+                currentCategoryIndex++;
+                itemsInCurrentCategory = 0;
+            }
+
+            const categoryOrder = currentCategoryIndex + 1;
             const categoryId = categoryOrderToId[categoryOrder];
 
             if (!categoryId) {
                 throw new Error(`Categoria não encontrada para ordem ${categoryOrder}`);
             }
+
+            itemsInCurrentCategory++;
 
             return {
                 ...item,
@@ -52,7 +64,7 @@ export async function POST() {
     } catch (error) {
         console.error("Erro ao popular dados:", error);
         return NextResponse.json(
-            { error: "Erro interno do servidor", details: error.message },
+            { error: "Erro interno do servidor" },
             { status: 500 }
         );
     }

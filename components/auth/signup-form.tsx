@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Building, Mail, Lock, User, Eye, EyeOff } from "lucide-react";
+import { Logo } from "@/components/ui/logo";
 import Link from "next/link";
 
 export function SignUpForm() {
@@ -69,7 +70,7 @@ export function SignUpForm() {
             if (result?.error) {
                 setError("Conta criada, mas houve erro no login automático");
             } else {
-                router.push("/dashboard");
+                router.push("/checklist");
             }
         } catch {
             setError("Ocorreu um erro. Tente novamente.");
@@ -79,7 +80,7 @@ export function SignUpForm() {
     };
 
     const handleGoogleSignIn = () => {
-        signIn("google", { callbackUrl: "/dashboard" });
+        signIn("google", { callbackUrl: "/checklist" });
     };
 
     return (
@@ -87,8 +88,8 @@ export function SignUpForm() {
             <Card className="w-full max-w-md">
                 <CardHeader className="space-y-1">
                     <div className="flex items-center justify-center mb-4">
-                        <div className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center">
-                            <Building className="h-6 w-6 text-primary-foreground" />
+                        <div className="w-12 h-12 rounded-lg flex items-center justify-center">
+                            <Logo className="text-primary-foreground" size={48} />
                         </div>
                     </div>
                     <CardTitle className="text-2xl text-center">Criar conta</CardTitle>

@@ -44,7 +44,7 @@ export class ChecklistService {
 
             let progress: UserChecklistProgress;
             let action: string;
-            let previousValue: any = null;
+            let previousValue: Record<string, boolean | string | number | null> | null = null;
 
             if (existingProgress) {
                 // Capturar estado anterior para histórico
@@ -204,7 +204,7 @@ export class ChecklistService {
             });
 
             return acc;
-        }, {} as Record<string, any>);
+        }, {} as Record<string, { total: number; completed: number; items: Array<{ title: string; isCompleted: boolean; completedAt?: Date | null; notes?: string | null }> }>);
 
         return {
             stats,

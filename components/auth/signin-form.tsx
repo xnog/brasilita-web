@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Building, Mail, Lock, Eye, EyeOff } from "lucide-react";
+import { Logo } from "@/components/ui/logo";
 import Link from "next/link";
 
 export function SignInForm() {
@@ -19,7 +20,7 @@ export function SignInForm() {
 
     const router = useRouter();
     const searchParams = useSearchParams();
-    const callbackUrl = searchParams.get("callbackUrl") || "/dashboard";
+    const callbackUrl = searchParams.get("callbackUrl") || "/checklist";
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -54,8 +55,8 @@ export function SignInForm() {
             <Card className="w-full max-w-md">
                 <CardHeader className="space-y-1">
                     <div className="flex items-center justify-center mb-4">
-                        <div className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center">
-                            <Building className="h-6 w-6 text-primary-foreground" />
+                        <div className="w-12 h-12 rounded-lg flex items-center justify-center">
+                            <Logo className="text-primary-foreground" size={48} />
                         </div>
                     </div>
                     <CardTitle className="text-2xl text-center">Entrar</CardTitle>

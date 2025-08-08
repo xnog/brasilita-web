@@ -83,16 +83,10 @@ export function ChecklistView({
         };
     }, []);
 
-    // Filter items based on user profile
+    // Show all items regardless of user profile
     const filteredItems = useMemo(() => {
-        return items.filter(item => {
-            const matchesPropertyType = item.propertyTypes.includes(userProfile.propertyType);
-            const matchesBuyerProfile = item.buyerProfiles.includes(userProfile.buyerProfile);
-            const matchesUsageType = item.usageTypes.includes(userProfile.usageType);
-
-            return matchesPropertyType && matchesBuyerProfile && matchesUsageType;
-        });
-    }, [items, userProfile]);
+        return items; // Return all items without filtering
+    }, [items]);
 
     // Group items by category
     const categorizedItems = useMemo(() => {
@@ -229,7 +223,7 @@ export function ChecklistView({
                                 <p className="text-muted-foreground">{getProfileLabel('usageType', userProfile.usageType)}</p>
                             </div>
                         </div>
-                        <div className="border-t pt-4">
+                        <div className="border-t pt-4 text-sm">
                             <div>
                                 <span className="font-medium">Objetivo do Investimento:</span>
                                 <p className="text-muted-foreground mt-1">{userProfile.investmentGoal}</p>
