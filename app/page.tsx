@@ -14,7 +14,7 @@ export default async function HomePage() {
               <Building className="h-6 w-6 text-primary-foreground" />
             </div>
             <div>
-              <h1 className="text-xl font-bold text-foreground">Brasilitá Wealth</h1>
+              <h1 className="text-xl font-bold text-foreground">Brasilità Wealth</h1>
               <p className="text-xs text-muted-foreground">Real Estate Italy</p>
             </div>
           </div>
@@ -102,7 +102,7 @@ export default async function HomePage() {
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-16">
               <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">
-                Por que escolher a Brasilitá Wealth?
+                Por que escolher a Brasilità Wealth?
               </h2>
               <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
                 Somos especialistas em conectar brasileiros ao mercado imobiliário italiano com total segurança e transparência
@@ -274,7 +274,7 @@ export default async function HomePage() {
                 </div>
               </div>
               <p className="text-muted-foreground mb-4 italic">
-                &ldquo;A Brasilitá Wealth tornou possível o que parecia impossível. Compramos nossa casa dos sonhos em Toscana com total segurança e transparência.&rdquo;
+                &ldquo;A Brasilità Wealth tornou possível o que parecia impossível. Compramos nossa casa dos sonhos em Toscana com total segurança e transparência.&rdquo;
               </p>
               <div className="flex items-center">
                 <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center mr-3">
@@ -341,7 +341,7 @@ export default async function HomePage() {
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div>
                 <h2 className="text-3xl md:text-4xl font-bold mb-6 text-foreground">
-                  Sobre a Brasilitá Wealth
+                  Sobre a Brasilità Wealth
                 </h2>
                 <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
                   Nossa essência vem do amor por propriedades que contam histórias e pela honra em fazer parte
@@ -489,7 +489,7 @@ export default async function HomePage() {
                   <Building className="h-6 w-6 text-primary-foreground" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-foreground">Brasilitá Wealth</h3>
+                  <h3 className="text-xl font-bold text-foreground">Brasilità Wealth</h3>
                   <p className="text-sm text-muted-foreground">Real Estate Italy</p>
                 </div>
               </div>
@@ -533,7 +533,7 @@ export default async function HomePage() {
 
           <div className="border-t border-border/50 mt-12 pt-8 flex flex-col md:flex-row items-center justify-between">
             <p className="text-sm text-muted-foreground">
-              © 2024 Brasilitá Wealth. Todos os direitos reservados.
+              © 2024 Brasilità Wealth. Todos os direitos reservados.
             </p>
             <div className="flex items-center space-x-6 mt-4 md:mt-0 text-sm text-muted-foreground">
               <a href="#" className="hover:text-foreground transition-colors">Política de Privacidade</a>

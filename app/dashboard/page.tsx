@@ -21,7 +21,7 @@ export default async function DashboardPage() {
                             <Building className="h-6 w-6 text-primary-foreground" />
                         </div>
                         <div>
-                            <h1 className="text-xl font-bold text-foreground">Brasilitá Wealth</h1>
+                            <h1 className="text-xl font-bold text-foreground">Brasilità Wealth</h1>
                             <p className="text-xs text-muted-foreground">Dashboard</p>
                         </div>
                     </div>

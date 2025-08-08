@@ -1,4 +1,4 @@
-# Sistema de Autenticação - Brasilitá Wealth
+# Sistema de Autenticação - Brasilità Wealth
 
 ## Visão Geral
 
@@ -217,4 +217,4 @@ Modifique os componentes em `components/auth/`:
 
 ---
 
-**Desenvolvido para Brasilitá Wealth** 🇮🇹🏠
+**Desenvolvido para Brasilità Wealth** 🇮🇹🏠
