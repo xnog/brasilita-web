@@ -28,7 +28,7 @@ export default async function DashboardPage() {
                     <form
                         action={async () => {
                             "use server";
-                            await signOut();
+                            await signOut({ redirectTo: "/" });
                         }}
                     >
                         <Button variant="outline" size="sm" type="submit">
