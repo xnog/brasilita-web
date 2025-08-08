@@ -38,7 +38,8 @@ export async function POST(request: NextRequest) {
         }).returning();
 
         // Remover a senha da resposta
-        const { password: _password, ...userWithoutPassword } = newUser[0];
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { password: _, ...userWithoutPassword } = newUser[0];
 
         return NextResponse.json(
             {

@@ -1,7 +1,7 @@
 import { auth, signOut } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Building, LogOut, User } from "lucide-react";
+import { Building, LogOut, User, CheckSquare, ArrowRight } from "lucide-react";
 import { redirect } from "next/navigation";
 
 export default async function DashboardPage() {
@@ -50,6 +50,46 @@ export default async function DashboardPage() {
                             Esta é sua área exclusiva para gerenciar seus investimentos imobiliários na Itália.
                         </p>
                     </div>
+
+                    {/* Featured Section - Checklist */}
+                    <Card className="mb-8 bg-gradient-to-r from-primary/10 to-primary/5 border-primary/20">
+                        <CardHeader>
+                            <CardTitle className="flex items-center gap-3 text-xl">
+                                <CheckSquare className="h-6 w-6 text-primary" />
+                                Checklist de Compra de Imóvel na Itália
+                            </CardTitle>
+                            <CardDescription className="text-base">
+                                Guia completo e personalizado para sua jornada de compra de imóvel na Itália.
+                                Organize todas as etapas legais, financeiras e práticas com confiança.
+                            </CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                            <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
+                                <div className="space-y-2">
+                                    <div className="flex items-center gap-4 text-sm">
+                                        <span className="flex items-center gap-1">
+                                            ✅ <strong>Personalizado</strong> para seu perfil
+                                        </span>
+                                        <span className="flex items-center gap-1">
+                                            📋 <strong>50+</strong> itens organizados
+                                        </span>
+                                        <span className="flex items-center gap-1">
+                                            🇮🇹 <strong>Específico</strong> para Itália
+                                        </span>
+                                    </div>
+                                    <p className="text-sm text-muted-foreground">
+                                        Desde documentos iniciais até a finalização da compra
+                                    </p>
+                                </div>
+                                <Button size="lg" className="shrink-0" asChild>
+                                    <a href="/checklist">
+                                        Começar Checklist
+                                        <ArrowRight className="h-4 w-4 ml-2" />
+                                    </a>
+                                </Button>
+                            </div>
+                        </CardContent>
+                    </Card>
 
                     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                         <Card>
@@ -117,11 +157,11 @@ export default async function DashboardPage() {
                                 <ul className="space-y-2 text-sm">
                                     <li className="flex items-center gap-2">
                                         <div className="w-2 h-2 bg-primary rounded-full"></div>
-                                        Complete suas informações de perfil
+                                        Inicie seu checklist personalizado de compra
                                     </li>
                                     <li className="flex items-center gap-2">
                                         <div className="w-2 h-2 bg-muted rounded-full"></div>
-                                        Defina suas preferências de investimento
+                                        Complete suas informações de perfil
                                     </li>
                                     <li className="flex items-center gap-2">
                                         <div className="w-2 h-2 bg-muted rounded-full"></div>

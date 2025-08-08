@@ -79,7 +79,76 @@ export const authenticators = pgTable(
     })
 );
 
+// Checklist tables
+export const userProfiles = pgTable("user_profile", {
+    id: text("id")
+        .primaryKey()
+        .$defaultFn(() => crypto.randomUUID()),
+    userId: text("userId")
+        .notNull()
+        .references(() => users.id, { onDelete: "cascade" }),
+    propertyType: text("propertyType"), // residential, commercial, investment
+    location: text("location"), // desired location in Italy
+    buyerProfile: text("buyerProfile"), // resident, italian_citizen, foreign_non_resident
+    usageType: text("usageType"), // personal_use, long_rental, short_rental
+    investmentBudget: integer("investmentBudget"), // budget in euros
+    createdAt: timestamp("createdAt", { mode: "date" }).defaultNow(),
+    updatedAt: timestamp("updatedAt", { mode: "date" }).defaultNow(),
+});
+
+export const checklistCategories = pgTable("checklist_category", {
+    id: text("id")
+        .primaryKey()
+        .$defaultFn(() => crypto.randomUUID()),
+    name: text("name").notNull(),
+    description: text("description"),
+    order: integer("order").notNull(),
+    createdAt: timestamp("createdAt", { mode: "date" }).defaultNow(),
+});
+
+export const checklistItems = pgTable("checklist_item", {
+    id: text("id")
+        .primaryKey()
+        .$defaultFn(() => crypto.randomUUID()),
+    categoryId: text("categoryId")
+        .notNull()
+        .references(() => checklistCategories.id, { onDelete: "cascade" }),
+    title: text("title").notNull(),
+    description: text("description"),
+    order: integer("order").notNull(),
+    // Conditions for when this item applies
+    propertyTypes: text("propertyTypes"), // JSON array of applicable property types
+    buyerProfiles: text("buyerProfiles"), // JSON array of applicable buyer profiles
+    usageTypes: text("usageTypes"), // JSON array of applicable usage types
+    isOptional: boolean("isOptional").default(false),
+    estimatedDays: integer("estimatedDays"), // estimated time to complete
+    resources: text("resources"), // JSON array of helpful links/resources
+    createdAt: timestamp("createdAt", { mode: "date" }).defaultNow(),
+});
+
+export const userChecklistProgress = pgTable("user_checklist_progress", {
+    id: text("id")
+        .primaryKey()
+        .$defaultFn(() => crypto.randomUUID()),
+    userId: text("userId")
+        .notNull()
+        .references(() => users.id, { onDelete: "cascade" }),
+    checklistItemId: text("checklistItemId")
+        .notNull()
+        .references(() => checklistItems.id, { onDelete: "cascade" }),
+    isCompleted: boolean("isCompleted").default(false),
+    completedAt: timestamp("completedAt", { mode: "date" }),
+    notes: text("notes"), // user's notes for this item
+    createdAt: timestamp("createdAt", { mode: "date" }).defaultNow(),
+    updatedAt: timestamp("updatedAt", { mode: "date" }).defaultNow(),
+});
+
 export type User = typeof users.$inferSelect;
 export type NewUser = typeof users.$inferInsert;
 export type Account = typeof accounts.$inferSelect;
 export type Session = typeof sessions.$inferSelect;
+export type UserProfile = typeof userProfiles.$inferSelect;
+export type NewUserProfile = typeof userProfiles.$inferInsert;
+export type ChecklistCategory = typeof checklistCategories.$inferSelect;
+export type ChecklistItem = typeof checklistItems.$inferSelect;
+export type UserChecklistProgress = typeof userChecklistProgress.$inferSelect;
