@@ -67,7 +67,7 @@ export default async function DashboardPage() {
                         <CardContent>
                             <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
                                 <div className="space-y-2">
-                                    <div className="flex items-center gap-4 text-sm">
+                                    <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-sm">
                                         <span className="flex items-center gap-1">
                                             ✅ <strong>Personalizado</strong> para seu perfil
                                         </span>

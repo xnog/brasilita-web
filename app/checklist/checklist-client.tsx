@@ -208,7 +208,7 @@ export function ChecklistPageClient({ userId }: ChecklistPageClientProps) {
                     <Button variant="outline" asChild>
                         <a href="/dashboard">
                             <ArrowLeft className="h-4 w-4 mr-2" />
-                            Voltar ao Dashboard
+                            Voltar
                         </a>
                     </Button>
                 </div>
