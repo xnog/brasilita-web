@@ -75,26 +75,6 @@ export default async function HomePage() {
                 Ver Nossos Serviços
               </a>
             </div>
-
-            {/* Stats */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-16">
-              <div className="text-center">
-                <div className="text-3xl md:text-4xl font-bold text-white mb-2" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.8)' }}>50+</div>
-                <div className="text-sm text-white/90" style={{ textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>Imóveis Vendidos</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl md:text-4xl font-bold text-white mb-2" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.8)' }}>100%</div>
-                <div className="text-sm text-white/90" style={{ textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>Satisfação</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl md:text-4xl font-bold text-white mb-2" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.8)' }}>5+</div>
-                <div className="text-sm text-white/90" style={{ textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>Anos Experiência</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl md:text-4xl font-bold text-white mb-2" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.8)' }}>15</div>
-                <div className="text-sm text-white/90" style={{ textShadow: '1px 1px 2px rgba(0,0,0,0.8)' }}>Cidades Cobertas</div>
-              </div>
-            </div>
           </div>
         </div>
       </section>
