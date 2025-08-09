@@ -22,7 +22,7 @@ export default async function DashboardPage() {
                             <Logo className="text-primary-foreground" size={48} />
                         </div>
                         <div>
-                            <h1 className="text-xl font-bold text-foreground">Brasilità Wealth</h1>
+                            <h1 className="text-xl font-bold text-foreground">Brasilità</h1>
                             <p className="text-xs text-muted-foreground">Dashboard</p>
                         </div>
                     </div>

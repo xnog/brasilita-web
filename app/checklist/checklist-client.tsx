@@ -13,7 +13,7 @@ interface UserProfile {
     propertyType: "residential" | "commercial" | "investment";
     location: string;
     buyerProfile: "resident" | "italian_citizen" | "foreign_non_resident";
-    usageType: "personal_use" | "long_rental" | "short_rental";
+    usageType: "personal_use" | "long_rental" | "short_rental" | "relocation" | "mixed_use" | "family_legacy";
     investmentBudget: number;
     phone: string;
     investmentGoal: string;
@@ -201,7 +201,7 @@ export function ChecklistPageClient({ userId }: ChecklistPageClientProps) {
                             <Logo className="text-primary-foreground" size={48} />
                         </div>
                         <div>
-                            <h1 className="text-xl font-bold text-foreground">Brasilità Wealth</h1>
+                            <h1 className="text-xl font-bold text-foreground">Brasilità</h1>
                             <p className="text-xs text-muted-foreground">Checklist de Compra - Itália</p>
                         </div>
                     </div>
