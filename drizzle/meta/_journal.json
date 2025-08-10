@@ -36,6 +36,27 @@
       "when": 1754680483776,
       "tag": "0004_loud_stranger",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1754813556015,
+      "tag": "0005_lowly_devos",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1754817391675,
+      "tag": "0006_sleepy_stone_men",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1754859950170,
+      "tag": "0007_lame_namorita",
+      "breakpoints": true
     }
   ]
 }

@@ -1,12 +1,12 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { RequirementsForm } from "@/components/checklist/requirements-form";
 import { ChecklistView } from "@/components/checklist/checklist-view";
 import { SuccessBanner } from "@/components/checklist/success-banner";
-import { Building, ArrowLeft } from "lucide-react";
-import { Logo } from "@/components/ui/logo";
+import { Loading } from "@/components/ui/loading";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Settings, ArrowRight } from "lucide-react";
 import type { ChecklistCategory, ChecklistItem } from "@/lib/db/schema";
 
 interface UserProfile {
@@ -42,30 +42,23 @@ export function ChecklistPageClient({ userId }: ChecklistPageClientProps) {
     useEffect(() => {
         const loadData = async () => {
             try {
-                // Load checklist items and categories
-                const itemsResponse = await fetch('/api/checklist/items');
-                if (itemsResponse.ok) {
-                    const itemsData = await itemsResponse.json();
-                    setCategories(itemsData.categories || []);
-                    setItems(itemsData.items || []);
-                }
-
-                // Load profile
-                const profileResponse = await fetch('/api/checklist/profile');
-                if (profileResponse.ok) {
-                    const profileData = await profileResponse.json();
-                    if (profileData.profile) {
-                        setUserProfile(profileData.profile);
+                // Usar API unificada para carregar todos os dados em uma única requisição
+                const response = await fetch('/api/checklist/data');
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    
+                    // Set all data at once
+                    setCategories(data.categories || []);
+                    setItems(data.items || []);
+                    if (data.profile) {
+                        setUserProfile(data.profile);
                     }
-                }
-
-                // Load progress
-                const progressResponse = await fetch('/api/checklist/progress');
-                if (progressResponse.ok) {
-                    const progressData = await progressResponse.json();
-                    if (progressData.progress) {
-                        setUserProgress(progressData.progress);
+                    if (data.progress) {
+                        setUserProgress(data.progress);
                     }
+                } else {
+                    console.error('Erro ao carregar dados:', response.statusText);
                 }
             } catch (error) {
                 console.error('Erro ao carregar dados:', error);
@@ -77,28 +70,7 @@ export function ChecklistPageClient({ userId }: ChecklistPageClientProps) {
         loadData();
     }, [userId]);
 
-    const handleProfileSubmit = async (profile: UserProfile) => {
-        try {
-            const response = await fetch('/api/checklist/profile', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(profile),
-            });
-
-            if (response.ok) {
-                const data = await response.json();
-                setUserProfile(data.profile);
-            } else {
-                console.error('Erro ao salvar perfil:', await response.text());
-                alert('Erro ao salvar perfil. Tente novamente.');
-            }
-        } catch (error) {
-            console.error('Erro ao salvar perfil:', error);
-            alert('Erro ao salvar perfil. Tente novamente.');
-        }
-    };
+    // Removed profile submit handler - preferences are now handled separately
 
     const handleProgressUpdate = async (itemId: string, completed: boolean, notes?: string) => {
         // Atualizar estado local imediatamente para UX responsiva
@@ -181,56 +153,55 @@ export function ChecklistPageClient({ userId }: ChecklistPageClientProps) {
     });
 
     if (isLoading) {
-        return (
-            <div className="min-h-screen bg-background flex items-center justify-center">
-                <div className="text-center">
-                    <Building className="h-8 w-8 animate-spin mx-auto mb-4 text-primary" />
-                    <p className="text-muted-foreground">Carregando seu checklist...</p>
-                </div>
-            </div>
-        );
+        return <Loading message="Carregando seu checklist..." />;
     }
 
     return (
-        <div className="min-h-screen bg-background">
-            {/* Header */}
-            <header className="border-b border-border/50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-                <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-                    <div className="flex items-center space-x-3">
-                        <div className="w-10 h-10 rounded-lg flex items-center justify-center">
-                            <Logo className="text-primary-foreground" size={48} />
-                        </div>
-                        <div>
-                            <h1 className="text-xl font-bold text-foreground">Brasilità</h1>
-                            <p className="text-xs text-muted-foreground">Checklist de Compra - Itália</p>
-                        </div>
-                    </div>
-                    <Button variant="outline" asChild>
-                        <a href="/dashboard">
-                            <ArrowLeft className="h-4 w-4 mr-2" />
-                            Voltar
-                        </a>
-                    </Button>
-                </div>
-            </header>
-
-            {/* Main Content */}
-            <main className="container mx-auto px-4 py-8">
+        <div className="container mx-auto py-8">
                 {!userProfile ? (
                     <div className="max-w-4xl mx-auto">
                         <div className="text-center mb-8">
                             <h1 className="text-3xl font-bold text-foreground mb-2">
-                                Checklist Personalizado para Compra de Imóvel na Itália
+                                Checklist de Compra de Imóvel na Itália
                             </h1>
                             <p className="text-muted-foreground max-w-2xl mx-auto">
-                                Responda algumas perguntas para criarmos um checklist personalizado com todas as etapas
-                                necessárias para sua compra de imóvel na Itália, considerando sua situação específica.
+                                Para acessar seu checklist personalizado, você precisa configurar suas preferências primeiro.
                             </p>
                         </div>
-                        <RequirementsForm onSubmit={handleProfileSubmit} />
+                        
+                        <Card className="max-w-2xl mx-auto">
+                            <CardHeader className="text-center">
+                                <CardTitle className="flex items-center justify-center gap-2 text-xl">
+                                    <Settings className="h-6 w-6 text-primary" />
+                                    Configure suas Preferências
+                                </CardTitle>
+                                <CardDescription>
+                                    Suas preferências de investimento são necessárias para gerar um checklist personalizado
+                                </CardDescription>
+                            </CardHeader>
+                            <CardContent className="text-center space-y-4">
+                                <p className="text-muted-foreground">
+                                    O checklist será personalizado baseado em:
+                                </p>
+                                <ul className="text-sm text-muted-foreground space-y-1">
+                                    <li>• Tipo de imóvel (residencial, comercial, investimento)</li>
+                                    <li>• Sua localização desejada na Itália</li>
+                                    <li>• Seu perfil como comprador</li>
+                                    <li>• Tipo de uso pretendido</li>
+                                    <li>• Orçamento disponível</li>
+                                </ul>
+                                <Button size="lg" asChild className="mt-6">
+                                    <a href="/preferences">
+                                        <Settings className="h-4 w-4 mr-2" />
+                                        Configurar Preferências
+                                        <ArrowRight className="h-4 w-4 ml-2" />
+                                    </a>
+                                </Button>
+                            </CardContent>
+                        </Card>
                     </div>
                 ) : (
-                    <div className="max-w-6xl mx-auto">
+                    <div>
                         <div className="mb-6">
                             <h1 className="text-3xl font-bold text-foreground mb-2">
                                 Seu Checklist Personalizado
@@ -255,7 +226,6 @@ export function ChecklistPageClient({ userId }: ChecklistPageClientProps) {
                         />
                     </div>
                 )}
-            </main>
         </div>
     );
 }
