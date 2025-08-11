@@ -702,6 +702,11 @@ export default async function HomePage() {
                 <li className="pt-2">
                   46.438.133/0001-45
                 </li>
+                <li className="pt-2">
+                  <Link href="/privacy-policy" className="hover:text-foreground transition-colors">
+                    Política de Privacidade
+                  </Link>
+                </li>
               </ul>
             </div>
           </div>
