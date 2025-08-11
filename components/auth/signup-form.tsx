@@ -18,6 +18,7 @@ export function SignUpForm() {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const [acceptPrivacyPolicy, setAcceptPrivacyPolicy] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState("");
 
@@ -36,6 +37,12 @@ export function SignUpForm() {
 
         if (password.length < 6) {
             setError("A senha deve ter pelo menos 6 caracteres");
+            setIsLoading(false);
+            return;
+        }
+
+        if (!acceptPrivacyPolicy) {
+            setError("Você deve concordar com a Política de Privacidade para continuar");
             setIsLoading(false);
             return;
         }
@@ -215,13 +222,32 @@ export function SignUpForm() {
                             </div>
                         </div>
 
+                        <div className="space-y-2">
+                            <div className="flex items-start space-x-2">
+                                <input
+                                    type="checkbox"
+                                    id="acceptPrivacyPolicy"
+                                    checked={acceptPrivacyPolicy}
+                                    onChange={(e) => setAcceptPrivacyPolicy(e.target.checked)}
+                                    className="mt-1 h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
+                                />
+                                <label htmlFor="acceptPrivacyPolicy" className="text-sm text-muted-foreground leading-relaxed">
+                                    Li e concordo com a{" "}
+                                    <Link href="/privacy-policy" target="_blank" className="text-primary hover:underline">
+                                        Política de Privacidade e Proteção de Dados
+                                    </Link>{" "}
+                                    da Brasilità.
+                                </label>
+                            </div>
+                        </div>
+
                         {error && (
                             <div className="text-sm text-red-600 bg-red-50 p-3 rounded-md">
                                 {error}
                             </div>
                         )}
 
-                        <Button type="submit" className="w-full" disabled={isLoading}>
+                        <Button type="submit" className="w-full" disabled={isLoading || !acceptPrivacyPolicy}>
                             {isLoading ? "Criando conta..." : "Criar conta"}
                         </Button>
                     </form>

@@ -57,12 +57,12 @@ export function SuccessBanner({ userProfile }: SuccessBannerProps) {
                         </ul>
                     </div>
 
-                    <div className="flex items-center gap-2 pt-2 border-t border-green-200 dark:border-green-800">
+                    {/* <div className="flex items-center gap-2 pt-2 border-t border-green-200 dark:border-green-800">
                         <Phone className="h-4 w-4 text-green-600" />
                         <span className="text-sm text-green-700 dark:text-green-300">
                             Nossos especialistas estão disponíveis pelo telefone: <strong>{userProfile.phone}</strong>
                         </span>
-                    </div>
+                    </div> */}
                 </div>
             </CardContent>
         </Card>

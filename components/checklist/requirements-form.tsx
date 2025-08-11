@@ -10,8 +10,9 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { convertEurToBrl, formatBrlCurrency, CURRENCY_CONFIG } from "@/lib/config/currency";
+import Link from "next/link";
 
-import { Building2, MapPin, User, Target, Euro, Phone, Goal } from "lucide-react";
+import { Building2, MapPin, User, Target, Euro, Phone, Goal, Shield } from "lucide-react";
 
 const formSchema = z.object({
     propertyType: z.enum(["residential", "commercial", "investment"], {
@@ -201,35 +202,35 @@ export function RequirementsForm({ onSubmit, initialData }: RequirementsFormProp
                                     <FormControl>
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                                             {[
-                                                { 
-                                                    value: "short_rental", 
-                                                    label: "Aluguel por Temporada", 
-                                                    desc: "Airbnb, Booking.com - alta rentabilidade sazonal" 
+                                                {
+                                                    value: "short_rental",
+                                                    label: "Aluguel por Temporada",
+                                                    desc: "Airbnb, Booking.com - alta rentabilidade sazonal"
                                                 },
-                                                { 
-                                                    value: "personal_use", 
-                                                    label: "Casa de Férias Pessoal", 
-                                                    desc: "Refúgio particular para família e amigos" 
+                                                {
+                                                    value: "personal_use",
+                                                    label: "Casa de Férias Pessoal",
+                                                    desc: "Refúgio particular para família e amigos"
                                                 },
-                                                { 
-                                                    value: "long_rental", 
-                                                    label: "Investimento Longo Prazo", 
-                                                    desc: "Aluguel residencial + valorização patrimonial" 
+                                                {
+                                                    value: "long_rental",
+                                                    label: "Investimento Longo Prazo",
+                                                    desc: "Aluguel residencial + valorização patrimonial"
                                                 },
-                                                { 
-                                                    value: "relocation", 
-                                                    label: "Mudança Definitiva", 
-                                                    desc: "Morar na Itália com suporte completo" 
+                                                {
+                                                    value: "relocation",
+                                                    label: "Mudança Definitiva",
+                                                    desc: "Morar na Itália com suporte completo"
                                                 },
-                                                { 
-                                                    value: "mixed_use", 
-                                                    label: "Uso Misto", 
-                                                    desc: "Combinação de uso pessoal e rentabilização" 
+                                                {
+                                                    value: "mixed_use",
+                                                    label: "Uso Misto",
+                                                    desc: "Combinação de uso pessoal e rentabilização"
                                                 },
-                                                { 
-                                                    value: "family_legacy", 
-                                                    label: "Patrimônio Familiar", 
-                                                    desc: "Legado duradouro para próximas gerações" 
+                                                {
+                                                    value: "family_legacy",
+                                                    label: "Patrimônio Familiar",
+                                                    desc: "Legado duradouro para próximas gerações"
                                                 },
                                             ].map((option) => (
                                                 <div
@@ -354,6 +355,25 @@ export function RequirementsForm({ onSubmit, initialData }: RequirementsFormProp
                                 </FormItem>
                             )}
                         />
+
+                        {/* Privacy Policy Notice */}
+                        <div className="bg-primary/5 border border-primary/20 rounded-lg p-4">
+                            <div className="flex items-start space-x-3">
+                                <div className="w-5 h-5 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                    <Shield className="h-3 w-3 text-primary" />
+                                </div>
+                                <div className="space-y-1">
+                                    <p className="text-sm font-medium text-foreground">Proteção dos seus dados</p>
+                                    <p className="text-xs text-muted-foreground leading-relaxed">
+                                        As informações fornecidas serão usadas apenas para mapear oportunidades e conectá-lo a profissionais locais, conforme nossa{" "}
+                                        <Link href="/privacy-policy" target="_blank" className="text-primary hover:underline font-medium">
+                                            Política de Privacidade
+                                        </Link>
+                                        .
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
 
                         <Button type="submit" className="w-full" size="lg">
                             Gerar Meu Checklist Personalizado
