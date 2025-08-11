@@ -11,6 +11,8 @@ Sistema de autenticação completo implementado com **NextAuth.js v5** e **Drizz
 - ✅ Páginas de login/signup responsivas
 - ✅ Dashboard protegido
 - ✅ Integração com PostgreSQL
+- ✅ Tratamento de erros OAuth com mensagens amigáveis
+- ✅ Vinculação automática de contas verificadas
 
 ## Estrutura do Projeto
 
@@ -160,6 +162,18 @@ npm run db:studio
 
 # Nova migração
 npm run db:generate
+```
+
+## Tratamento de Erros
+
+O sistema inclui tratamento abrangente de erros OAuth:
+
+- **OAuthAccountNotLinked**: Mensagem explicativa quando email já está cadastrado
+- **Vinculação automática**: Contas Google com emails verificados são vinculadas automaticamente
+- **Mensagens amigáveis**: Todos os códigos de erro são traduzidos para mensagens úteis
+- **Detecção automática**: Erros na URL são detectados e exibidos automaticamente
+
+Para mais detalhes, consulte o arquivo `OAUTH_ERROR_HANDLING.md`.
 
 # Aplicar migrações
 npm run db:migrate

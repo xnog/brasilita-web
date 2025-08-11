@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { useAuthError } from "@/lib/hooks/useAuthError";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -20,9 +21,11 @@ export function SignUpForm() {
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [acceptPrivacyPolicy, setAcceptPrivacyPolicy] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState("");
 
     const router = useRouter();
+
+    // Use centralized error handling hook
+    const { error, setError } = useAuthError();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();

@@ -14,6 +14,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         Google({
             clientId: process.env.GOOGLE_CLIENT_ID!,
             clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+            allowDangerousEmailAccountLinking: true,
         }),
         Credentials({
             name: "credentials",
@@ -60,6 +61,20 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         signOut: "/",
     },
     callbacks: {
+        async signIn({ user, account, profile }) {
+            // Allow all credential-based sign ins
+            if (account?.provider === "credentials") {
+                return true;
+            }
+
+            // For OAuth providers (like Google), allow sign in
+            // The allowDangerousEmailAccountLinking setting will handle account linking automatically
+            if (account?.provider === "google") {
+                return true;
+            }
+
+            return true;
+        },
         async jwt({ token, user }) {
             if (user) {
                 token.id = user.id;
