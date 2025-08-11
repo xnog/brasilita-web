@@ -700,7 +700,7 @@ export default async function HomePage() {
               <ul className="space-y-2 text-sm text-muted-foreground">
                 <li>DUAS MALAS E UM DESTINO PRODUCAO DE CONTEUDO</li>
                 <li className="pt-2">
-                  <span className="font-medium">CNPJ:</span> 46.438.133/0001-45
+                  46.438.133/0001-45
                 </li>
               </ul>
             </div>
