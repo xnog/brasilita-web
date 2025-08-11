@@ -93,7 +93,7 @@ export default async function DashboardPage() {
                     </Card>
 
                     <div className="grid gap-6 md:grid-cols-2">
-                        <Card>
+                        {/* <Card>
                             <CardHeader>
                                 <CardTitle className="flex items-center gap-2">
                                     <User className="h-5 w-5" />
@@ -116,7 +116,7 @@ export default async function DashboardPage() {
                                     </p>
                                 </div>
                             </CardContent>
-                        </Card>
+                        </Card> */}
 
                         <Card>
                             <CardHeader>
