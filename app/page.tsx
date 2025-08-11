@@ -20,6 +20,9 @@ export default async function HomePage() {
             </div>
           </div>
           <nav className="hidden md:flex items-center space-x-8">
+            <a href="#como-funciona" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+              Como Funciona
+            </a>
             <a href="#servicos" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
               Serviços
             </a>
@@ -64,8 +67,7 @@ export default async function HomePage() {
               <span className="text-yellow-400" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.8), 0px 0px 8px rgba(0,0,0,0.6)' }}> casa na Itália</span>
             </h1>
             <p className="text-lg md:text-xl text-white mb-8 max-w-3xl mx-auto leading-relaxed" style={{ textShadow: '1px 1px 3px rgba(0,0,0,0.8)' }}>
-              Assessoria completa e personalizada para brasileiros que desejam investir no mercado imobiliário italiano.
-              Da compra à gestão, cuidamos de cada detalhe com expertise local.
+              Encontramos seu imóvel dos sonhos e conectamos você a profissionais e imobiliárias locais, facilitando a comunicação e a organização das etapas, eliminando barreiras de idioma e burocracia.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
               <a href="/auth/signin?callbackUrl=/dashboard" className="inline-flex items-center justify-center px-8 py-3 rounded-lg bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-black font-semibold transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105">
@@ -117,8 +119,121 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* How We Work Section */}
+      <section id="como-funciona" className="section-padding">
+        <div className="container mx-auto container-padding">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-16">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">
+                Como Funciona Nosso Processo
+              </h2>
+              <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+                Entenda nossa metodologia transparente para guiar brasileiros na aquisição de imóveis na Itália
+              </p>
+            </div>
+
+            <div className="grid lg:grid-cols-3 gap-8 mb-12">
+              {/* Step 1 */}
+              <div className="professional-card text-center">
+                <div className="w-16 h-16 bg-gradient-to-br from-blue-500/10 to-blue-600/10 rounded-xl flex items-center justify-center mx-auto mb-4">
+                  <Users className="w-8 h-8 text-blue-600" />
+                </div>
+                <h3 className="text-xl font-semibold mb-3">1. Mapeamento do Perfil</h3>
+                <p className="text-muted-foreground">
+                  Mapeamos seu perfil e identificamos oportunidades alinhadas ao seu orçamento e preferências,
+                  criando uma direção clara para sua busca.
+                </p>
+              </div>
+
+              {/* Step 2 */}
+              <div className="professional-card text-center">
+                <div className="w-16 h-16 bg-gradient-to-br from-green-500/10 to-green-600/10 rounded-xl flex items-center justify-center mx-auto mb-4">
+                  <Globe className="w-8 h-8 text-green-600" />
+                </div>
+                <h3 className="text-xl font-semibold mb-3">2. Conexões Locais</h3>
+                <p className="text-muted-foreground">
+                  Conectamos você a profissionais e imobiliárias locais, facilitando a comunicação
+                  e eliminando barreiras de idioma e burocracia.
+                </p>
+              </div>
+
+              {/* Step 3 */}
+              <div className="professional-card text-center">
+                <div className="w-16 h-16 bg-gradient-to-br from-purple-500/10 to-purple-600/10 rounded-xl flex items-center justify-center mx-auto mb-4">
+                  <CheckCircle className="w-8 h-8 text-purple-600" />
+                </div>
+                <h3 className="text-xl font-semibold mb-3">3. Organização do Processo</h3>
+                <p className="text-muted-foreground">
+                  Organizamos as etapas do processo para que você acompanhe cada avanço
+                  com clareza e transparência.
+                </p>
+              </div>
+            </div>
+
+            {/* Transparency and Responsibilities */}
+            <div className="grid lg:grid-cols-2 gap-8 mb-8">
+              <div className="bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-xl p-6">
+                <div className="flex items-start space-x-3 mb-4">
+                  <div className="w-8 h-8 bg-amber-500/10 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
+                    <Shield className="w-5 h-5 text-amber-600" />
+                  </div>
+                  <h3 className="text-lg font-bold text-amber-900">Transparência e Responsabilidades</h3>
+                </div>
+                <div className="space-y-3 text-amber-800 text-sm">
+                  <p className="leading-relaxed">
+                    • A Brasilità não realiza transações financeiras, não retém valores e não intermedia juridicamente compra e venda.
+                  </p>
+                  <p className="leading-relaxed">
+                    • Negociação, contratos e pagamentos são de responsabilidade exclusiva de comprador, vendedor e corretor credenciado.
+                  </p>
+                  <p className="leading-relaxed">
+                    • Não garantimos disponibilidade de imóveis, prazos ou resultado final. Nosso papel é facilitar e organizar o processo.
+                  </p>
+                </div>
+              </div>
+
+              <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-xl p-6">
+                <div className="flex items-start space-x-3 mb-4">
+                  <div className="w-8 h-8 bg-blue-500/10 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
+                    <Clock className="w-5 h-5 text-blue-600" />
+                  </div>
+                  <h3 className="text-lg font-bold text-blue-900">Prazos e Dinâmica de Mercado</h3>
+                </div>
+                <div className="space-y-3 text-blue-800 text-sm">
+                  <p className="leading-relaxed">
+                    • Encontrar e concluir a compra pode levar de 3 meses a 1 ano.
+                  </p>
+                  <p className="leading-relaxed">
+                    • Oferta e demanda variam por região e época; imóveis mais baratos são mais disputados e podem mudar rapidamente.
+                  </p>
+                  <p className="leading-relaxed">
+                    • Preços e disponibilidade podem ser alterados sem aviso por imobiliárias/proprietários.
+                  </p>
+                  <p className="leading-relaxed">
+                    • Prazos também dependem de terceiros (imobiliárias, notários/cartórios, bancos e órgãos públicos).
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Mission Statement */}
+            <div className="text-center bg-muted/30 rounded-xl p-8">
+              <h3 className="text-2xl font-bold mb-4 text-foreground">Nossa Missão</h3>
+              <p className="text-lg text-muted-foreground max-w-4xl mx-auto leading-relaxed">
+                Guiar e apoiar brasileiros que desejam comprar um imóvel na Itália, oferecendo um caminho
+                organizado, com informações confiáveis e acompanhamento por etapas. Estamos aqui para
+                organizar sua jornada e ajudar você a avançar na realização desse sonho.
+              </p>
+              <p className="text-primary font-semibold mt-4 text-lg">
+                Orientando cada passo da sua jornada na Itália
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Services Section */}
-      <section id="servicos" className="section-padding">
+      <section id="servicos" className="bg-muted/30 section-padding">
         <div className="container mx-auto container-padding">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">
