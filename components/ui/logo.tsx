@@ -10,7 +10,7 @@ export function Logo({ className, size = 24 }: LogoProps) {
   return (
     <Image
       src="/logo.svg"
-      alt="Brasilità Wealth Logo"
+      alt="Brasilità Logo"
       width={size}
       height={size}
       className={cn("", className)}

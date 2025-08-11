@@ -14,10 +14,10 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Brasilità Wealth - Real Estate Italy",
+  title: "Brasilità - Seu imóvel na itália",
   description: "Assessoria completa para brasileiros que desejam investir no mercado imobiliário italiano",
   openGraph: {
-    title: "Brasilità Wealth - Real Estate Italy",
+    title: "Brasilità - Seu imóvel na itália",
     description: "Assessoria completa para brasileiros que desejam investir no mercado imobiliário italiano",
     images: ["/logo.svg"],
   },

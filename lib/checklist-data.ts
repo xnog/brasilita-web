@@ -31,7 +31,7 @@ export const checklistItems: Omit<ChecklistItem, "id" | "createdAt" | "categoryI
         order: 1,
         propertyTypes: JSON.stringify(["residential", "commercial", "investment"]),
         buyerProfiles: JSON.stringify(["resident", "italian_citizen", "foreign_non_resident"]),
-        usageTypes: JSON.stringify(["personal_use", "long_rental", "short_rental"]),
+        usageTypes: JSON.stringify(["personal_use", "long_rental", "short_rental", "relocation", "mixed_use", "family_legacy"]),
         isOptional: false,
         estimatedDays: 5,
         resources: JSON.stringify([
@@ -46,7 +46,7 @@ export const checklistItems: Omit<ChecklistItem, "id" | "createdAt" | "categoryI
         order: 2,
         propertyTypes: JSON.stringify(["residential", "commercial", "investment"]),
         buyerProfiles: JSON.stringify(["resident", "italian_citizen", "foreign_non_resident"]),
-        usageTypes: JSON.stringify(["personal_use", "long_rental", "short_rental"]),
+        usageTypes: JSON.stringify(["personal_use", "long_rental", "short_rental", "relocation", "mixed_use", "family_legacy"]),
         isOptional: false,
         estimatedDays: 7,
         resources: JSON.stringify([
@@ -61,7 +61,7 @@ export const checklistItems: Omit<ChecklistItem, "id" | "createdAt" | "categoryI
         order: 3,
         propertyTypes: JSON.stringify(["residential", "commercial", "investment"]),
         buyerProfiles: JSON.stringify(["resident", "italian_citizen", "foreign_non_resident"]),
-        usageTypes: JSON.stringify(["personal_use", "long_rental", "short_rental"]),
+        usageTypes: JSON.stringify(["personal_use", "long_rental", "short_rental", "relocation", "mixed_use", "family_legacy"]),
         isOptional: false,
         estimatedDays: 2,
         resources: JSON.stringify([
@@ -76,7 +76,7 @@ export const checklistItems: Omit<ChecklistItem, "id" | "createdAt" | "categoryI
         order: 4,
         propertyTypes: JSON.stringify(["residential", "commercial", "investment"]),
         buyerProfiles: JSON.stringify(["resident", "italian_citizen", "foreign_non_resident"]),
-        usageTypes: JSON.stringify(["personal_use", "long_rental", "short_rental"]),
+        usageTypes: JSON.stringify(["personal_use", "long_rental", "short_rental", "relocation", "mixed_use", "family_legacy"]),
         isOptional: false,
         estimatedDays: 5,
         resources: JSON.stringify([
@@ -93,7 +93,7 @@ export const checklistItems: Omit<ChecklistItem, "id" | "createdAt" | "categoryI
         order: 1,
         propertyTypes: JSON.stringify(["residential", "commercial", "investment"]),
         buyerProfiles: JSON.stringify(["resident", "italian_citizen", "foreign_non_resident"]),
-        usageTypes: JSON.stringify(["personal_use", "long_rental", "short_rental"]),
+        usageTypes: JSON.stringify(["personal_use", "long_rental", "short_rental", "relocation", "mixed_use", "family_legacy"]),
         isOptional: false,
         estimatedDays: 2,
         resources: JSON.stringify([
@@ -108,11 +108,11 @@ export const checklistItems: Omit<ChecklistItem, "id" | "createdAt" | "categoryI
         order: 2,
         propertyTypes: JSON.stringify(["residential", "commercial", "investment"]),
         buyerProfiles: JSON.stringify(["resident", "italian_citizen", "foreign_non_resident"]),
-        usageTypes: JSON.stringify(["personal_use", "long_rental", "short_rental"]),
+        usageTypes: JSON.stringify(["personal_use", "long_rental", "short_rental", "relocation", "mixed_use", "family_legacy"]),
         isOptional: false,
         estimatedDays: 5,
         resources: JSON.stringify([
-            "https://consbrasilmilano.esteri.it/consolato_milano/pt/i_servizi/per_i_cittadini/codice-fiscale.html",
+            "https://consbrasilmilano.esteri.it/consolato_milano/pt/i_servicos/per_i_cittadini/codice-fiscale.html",
             "Consulado Italiano mais próximo",
             "Agenzia delle Entrate"
         ]),
@@ -123,7 +123,7 @@ export const checklistItems: Omit<ChecklistItem, "id" | "createdAt" | "categoryI
         order: 3,
         propertyTypes: JSON.stringify(["residential", "commercial", "investment"]),
         buyerProfiles: JSON.stringify(["resident", "italian_citizen", "foreign_non_resident"]),
-        usageTypes: JSON.stringify(["personal_use", "long_rental", "short_rental"]),
+        usageTypes: JSON.stringify(["personal_use", "long_rental", "short_rental", "relocation", "mixed_use", "family_legacy"]),
         isOptional: false,
         estimatedDays: 7,
         resources: JSON.stringify([
@@ -141,7 +141,7 @@ export const checklistItems: Omit<ChecklistItem, "id" | "createdAt" | "categoryI
         order: 1,
         propertyTypes: JSON.stringify(["residential", "commercial", "investment"]),
         buyerProfiles: JSON.stringify(["resident", "italian_citizen", "foreign_non_resident"]),
-        usageTypes: JSON.stringify(["personal_use", "long_rental", "short_rental"]),
+        usageTypes: JSON.stringify(["personal_use", "long_rental", "short_rental", "relocation", "mixed_use", "family_legacy"]),
         isOptional: false,
         estimatedDays: 10,
         resources: JSON.stringify([
@@ -157,7 +157,7 @@ export const checklistItems: Omit<ChecklistItem, "id" | "createdAt" | "categoryI
         order: 2,
         propertyTypes: JSON.stringify(["residential", "commercial", "investment"]),
         buyerProfiles: JSON.stringify(["resident", "italian_citizen", "foreign_non_resident"]),
-        usageTypes: JSON.stringify(["personal_use", "long_rental", "short_rental"]),
+        usageTypes: JSON.stringify(["personal_use", "long_rental", "short_rental", "relocation", "mixed_use", "family_legacy"]),
         isOptional: false,
         estimatedDays: 5,
         resources: JSON.stringify([
@@ -172,7 +172,7 @@ export const checklistItems: Omit<ChecklistItem, "id" | "createdAt" | "categoryI
         order: 3,
         propertyTypes: JSON.stringify(["residential", "commercial", "investment"]),
         buyerProfiles: JSON.stringify(["resident", "italian_citizen", "foreign_non_resident"]),
-        usageTypes: JSON.stringify(["personal_use", "long_rental", "short_rental"]),
+        usageTypes: JSON.stringify(["personal_use", "long_rental", "short_rental", "relocation", "mixed_use", "family_legacy"]),
         isOptional: false,
         estimatedDays: 1,
         resources: JSON.stringify([
@@ -187,7 +187,7 @@ export const checklistItems: Omit<ChecklistItem, "id" | "createdAt" | "categoryI
         order: 4,
         propertyTypes: JSON.stringify(["residential", "commercial", "investment"]),
         buyerProfiles: JSON.stringify(["resident", "italian_citizen", "foreign_non_resident"]),
-        usageTypes: JSON.stringify(["personal_use", "long_rental", "short_rental"]),
+        usageTypes: JSON.stringify(["personal_use", "long_rental", "short_rental", "relocation", "mixed_use", "family_legacy"]),
         isOptional: true,
         estimatedDays: 3,
         resources: JSON.stringify([
@@ -202,7 +202,7 @@ export const checklistItems: Omit<ChecklistItem, "id" | "createdAt" | "categoryI
         order: 5,
         propertyTypes: JSON.stringify(["residential", "commercial", "investment"]),
         buyerProfiles: JSON.stringify(["resident", "italian_citizen", "foreign_non_resident"]),
-        usageTypes: JSON.stringify(["personal_use", "long_rental", "short_rental"]),
+        usageTypes: JSON.stringify(["personal_use", "long_rental", "short_rental", "relocation", "mixed_use", "family_legacy"]),
         isOptional: false,
         estimatedDays: 2,
         resources: JSON.stringify([
@@ -219,7 +219,7 @@ export const checklistItems: Omit<ChecklistItem, "id" | "createdAt" | "categoryI
         order: 1,
         propertyTypes: JSON.stringify(["residential", "commercial", "investment"]),
         buyerProfiles: JSON.stringify(["resident", "italian_citizen", "foreign_non_resident"]),
-        usageTypes: JSON.stringify(["personal_use", "long_rental", "short_rental"]),
+        usageTypes: JSON.stringify(["personal_use", "long_rental", "short_rental", "relocation", "mixed_use", "family_legacy"]),
         isOptional: false,
         estimatedDays: 5,
         resources: JSON.stringify([
@@ -235,7 +235,7 @@ export const checklistItems: Omit<ChecklistItem, "id" | "createdAt" | "categoryI
         order: 2,
         propertyTypes: JSON.stringify(["residential", "commercial", "investment"]),
         buyerProfiles: JSON.stringify(["resident", "italian_citizen", "foreign_non_resident"]),
-        usageTypes: JSON.stringify(["personal_use", "long_rental", "short_rental"]),
+        usageTypes: JSON.stringify(["personal_use", "long_rental", "short_rental", "relocation", "mixed_use", "family_legacy"]),
         isOptional: false,
         estimatedDays: 7,
         resources: JSON.stringify([
@@ -243,6 +243,108 @@ export const checklistItems: Omit<ChecklistItem, "id" | "createdAt" | "categoryI
             "Consultor fiscal italiano",
             "Receita Federal - declaração de bens no exterior",
             "Acordo Brasil-Itália contra dupla tributação"
+        ]),
+    },
+
+    // Itens específicos para Aluguel por Temporada (Airbnb)
+    {
+        title: "Licenças para Aluguel por Temporada",
+        description: "Obter autorizações municipais necessárias para operar como aluguel por temporada (CIN, SCIA, etc.) e registrar-se nas plataformas digitais.",
+        order: 3,
+        propertyTypes: JSON.stringify(["residential", "investment"]),
+        buyerProfiles: JSON.stringify(["resident", "italian_citizen", "foreign_non_resident"]),
+        usageTypes: JSON.stringify(["short_rental", "mixed_use"]),
+        isOptional: false,
+        estimatedDays: 15,
+        resources: JSON.stringify([
+            "Prefeitura local - licenças turísticas",
+            "Airbnb, Booking.com - cadastro",
+            "Consultor especializado em turismo",
+            "SCIA - Segnalazione Certificata di Inizio Attività"
+        ]),
+    },
+    {
+        title: "Mobiliário e Equipamentos para Turismo",
+        description: "Planejar e adquirir mobiliário, eletrodomésticos e equipamentos adequados para receber hóspedes, considerando segurança e conforto.",
+        order: 4,
+        propertyTypes: JSON.stringify(["residential", "investment"]),
+        buyerProfiles: JSON.stringify(["resident", "italian_citizen", "foreign_non_resident"]),
+        usageTypes: JSON.stringify(["short_rental", "mixed_use"]),
+        isOptional: true,
+        estimatedDays: 20,
+        resources: JSON.stringify([
+            "IKEA, Maisons du Monde - mobiliário",
+            "Empresas de design de interiores",
+            "Fornecedores de equipamentos hoteleiros",
+            "Seguros para propriedades turísticas"
+        ]),
+    },
+
+    // Itens específicos para Mudança Definitiva
+    {
+        title: "Visto de Residência / Permesso di Soggiorno",
+        description: "Solicitar visto apropriado ou permesso di soggiorno para residir legalmente na Itália, considerando seu status de cidadania.",
+        order: 3,
+        propertyTypes: JSON.stringify(["residential"]),
+        buyerProfiles: JSON.stringify(["foreign_non_resident"]),
+        usageTypes: JSON.stringify(["relocation"]),
+        isOptional: false,
+        estimatedDays: 30,
+        resources: JSON.stringify([
+            "Consulado Italiano no Brasil",
+            "Questura italiana - permesso di soggiorno",
+            "Advogado de imigração",
+            "Documentação de renda/aposentadoria"
+        ]),
+    },
+    {
+        title: "Transferência de Serviços e Contas",
+        description: "Organizar transferência de contas bancárias, seguros, serviços médicos e outros serviços essenciais para a Itália.",
+        order: 4,
+        propertyTypes: JSON.stringify(["residential"]),
+        buyerProfiles: JSON.stringify(["resident", "italian_citizen", "foreign_non_resident"]),
+        usageTypes: JSON.stringify(["relocation"]),
+        isOptional: true,
+        estimatedDays: 15,
+        resources: JSON.stringify([
+            "Bancos italianos para abertura de conta",
+            "Sistema de saúde italiano (SSN)",
+            "Seguros residenciais e de saúde",
+            "Empresas de mudança internacional"
+        ]),
+    },
+
+    // Itens específicos para Patrimônio Familiar
+    {
+        title: "Planejamento Sucessório Internacional",
+        description: "Estruturar documentação legal para sucessão considerando leis brasileiras e italianas, incluindo testamento internacional.",
+        order: 3,
+        propertyTypes: JSON.stringify(["residential", "investment"]),
+        buyerProfiles: JSON.stringify(["resident", "italian_citizen", "foreign_non_resident"]),
+        usageTypes: JSON.stringify(["family_legacy"]),
+        isOptional: true,
+        estimatedDays: 20,
+        resources: JSON.stringify([
+            "Advogado especializado em sucessões internacionais",
+            "Notário para testamento internacional",
+            "Consultor fiscal especializado",
+            "Acordo Brasil-Itália sobre sucessões"
+        ]),
+    },
+    {
+        title: "Documentação para Cidadania Italiana (descendentes)",
+        description: "Organizar documentação necessária para que descendentes possam solicitar cidadania italiana no futuro.",
+        order: 4,
+        propertyTypes: JSON.stringify(["residential", "investment"]),
+        buyerProfiles: JSON.stringify(["resident", "italian_citizen", "foreign_non_resident"]),
+        usageTypes: JSON.stringify(["family_legacy"]),
+        isOptional: true,
+        estimatedDays: 10,
+        resources: JSON.stringify([
+            "Consulado Italiano - documentação",
+            "Cartórios para certidões",
+            "Tradutores juramentados",
+            "Advogados especializados em cidadania"
         ]),
     },
 ];

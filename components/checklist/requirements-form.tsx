@@ -1,6 +1,6 @@
 "use client";
 
-
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -9,6 +9,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { convertEurToBrl, formatBrlCurrency, CURRENCY_CONFIG } from "@/lib/config/currency";
 
 import { Building2, MapPin, User, Target, Euro, Phone, Goal } from "lucide-react";
 
@@ -22,7 +23,7 @@ const formSchema = z.object({
     buyerProfile: z.enum(["resident", "italian_citizen", "foreign_non_resident"], {
         message: "Selecione seu perfil como comprador.",
     }),
-    usageType: z.enum(["personal_use", "long_rental", "short_rental"], {
+    usageType: z.enum(["personal_use", "long_rental", "short_rental", "relocation", "mixed_use", "family_legacy"], {
         message: "Selecione o tipo de uso pretendido.",
     }),
     investmentBudget: z.number().min(10000, {
@@ -55,7 +56,7 @@ export function RequirementsForm({ onSubmit, initialData }: RequirementsFormProp
             location: initialData?.location || "",
             buyerProfile: initialData?.buyerProfile || undefined,
             usageType: initialData?.usageType || undefined,
-            investmentBudget: initialData?.investmentBudget || 0,
+            investmentBudget: initialData?.investmentBudget || undefined,
             phone: initialData?.phone || "",
             investmentGoal: initialData?.investmentGoal || "",
         },
@@ -195,14 +196,41 @@ export function RequirementsForm({ onSubmit, initialData }: RequirementsFormProp
                                 <FormItem>
                                     <FormLabel className="flex items-center gap-2">
                                         <Target className="h-4 w-4" />
-                                        Tipo de Uso
+                                        Como Pretende Usar o Imóvel
                                     </FormLabel>
                                     <FormControl>
-                                        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                                             {[
-                                                { value: "personal_use", label: "Uso Próprio", desc: "Casa de férias ou moradia" },
-                                                { value: "long_rental", label: "Aluguel Longo", desc: "Aluguel anual/residencial" },
-                                                { value: "short_rental", label: "Aluguel Curto", desc: "Airbnb, turismo" },
+                                                { 
+                                                    value: "short_rental", 
+                                                    label: "Aluguel por Temporada", 
+                                                    desc: "Airbnb, Booking.com - alta rentabilidade sazonal" 
+                                                },
+                                                { 
+                                                    value: "personal_use", 
+                                                    label: "Casa de Férias Pessoal", 
+                                                    desc: "Refúgio particular para família e amigos" 
+                                                },
+                                                { 
+                                                    value: "long_rental", 
+                                                    label: "Investimento Longo Prazo", 
+                                                    desc: "Aluguel residencial + valorização patrimonial" 
+                                                },
+                                                { 
+                                                    value: "relocation", 
+                                                    label: "Mudança Definitiva", 
+                                                    desc: "Morar na Itália com suporte completo" 
+                                                },
+                                                { 
+                                                    value: "mixed_use", 
+                                                    label: "Uso Misto", 
+                                                    desc: "Combinação de uso pessoal e rentabilização" 
+                                                },
+                                                { 
+                                                    value: "family_legacy", 
+                                                    label: "Patrimônio Familiar", 
+                                                    desc: "Legado duradouro para próximas gerações" 
+                                                },
                                             ].map((option) => (
                                                 <div
                                                     key={option.value}
@@ -234,20 +262,39 @@ export function RequirementsForm({ onSubmit, initialData }: RequirementsFormProp
                                         Orçamento de Investimento
                                     </FormLabel>
                                     <FormControl>
-                                        <div className="relative">
-                                            <Euro className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                                            <Input
-                                                type="number"
-                                                placeholder="100000"
-                                                className="pl-10"
-                                                {...field}
-                                                value={field.value || ""}
-                                                onChange={(e) => field.onChange(e.target.value ? Number(e.target.value) : 0)}
-                                            />
+                                        <div className="space-y-3">
+                                            <div className="relative">
+                                                <Euro className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                                                <Input
+                                                    type="number"
+                                                    placeholder="100000"
+                                                    className="pl-10"
+                                                    {...field}
+                                                    value={field.value || ""}
+                                                    onChange={(e) => field.onChange(e.target.value ? Number(e.target.value) : undefined)}
+                                                />
+                                            </div>
+                                            {field.value > 0 && (
+                                                <div className="bg-muted/50 rounded-lg p-3 border border-border/50">
+                                                    <div className="flex items-center justify-between text-sm">
+                                                        <span className="text-muted-foreground">Valor aproximado em reais:</span>
+                                                        <span className="font-medium text-foreground">
+                                                            {formatBrlCurrency(convertEurToBrl(field.value))}
+                                                        </span>
+                                                    </div>
+                                                    <div className="text-xs text-muted-foreground mt-1">
+                                                        Cotação aproximada: €1 = R$ {CURRENCY_CONFIG.EUR_TO_BRL_RATE.toFixed(2)}
+                                                    </div>
+                                                </div>
+                                            )}
                                         </div>
                                     </FormControl>
                                     <FormDescription>
-                                        Valor total disponível em euros (incluindo custos adicionais: impostos, notário, reforma)
+                                        Valor total disponível em euros (incluindo custos adicionais: impostos, notário, reforma).
+                                        <br />
+                                        <span className="text-xs text-muted-foreground">
+                                            * A conversão para reais é apenas uma referência aproximada.
+                                        </span>
                                     </FormDescription>
                                     <FormMessage />
                                 </FormItem>
