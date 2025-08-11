@@ -236,7 +236,7 @@ export default async function HomePage() {
       </section>
 
       {/* Testimonials */}
-      <section className="bg-muted/30 section-padding">
+      {/* <section className="bg-muted/30 section-padding">
         <div className="container mx-auto container-padding">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">
@@ -315,7 +315,7 @@ export default async function HomePage() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* About Section */}
       <section id="sobre" className="section-padding">
@@ -499,10 +499,10 @@ export default async function HomePage() {
             <p className="text-sm text-muted-foreground">
               © 2024 Brasilità Wealth. Todos os direitos reservados.
             </p>
-            <div className="flex items-center space-x-6 mt-4 md:mt-0 text-sm text-muted-foreground">
+            {/* <div className="flex items-center space-x-6 mt-4 md:mt-0 text-sm text-muted-foreground">
               <a href="#" className="hover:text-foreground transition-colors">Política de Privacidade</a>
               <a href="#" className="hover:text-foreground transition-colors">Termos de Uso</a>
-            </div>
+            </div> */}
           </div>
         </div>
       </footer>
