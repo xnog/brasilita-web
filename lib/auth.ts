@@ -53,7 +53,38 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         })
     ],
     session: {
-        strategy: "jwt"
+        strategy: "jwt",
+        maxAge: 30 * 24 * 60 * 60, // 30 dias
+        updateAge: 24 * 60 * 60, // 24 horas
+    },
+    cookies: {
+        sessionToken: {
+            name: "__Secure-next-auth.session-token",
+            options: {
+                httpOnly: true,
+                sameSite: "lax",
+                path: "/",
+                secure: true,
+            },
+        },
+        callbackUrl: {
+            name: "__Secure-next-auth.callback-url",
+            options: {
+                httpOnly: true,
+                sameSite: "lax",
+                path: "/",
+                secure: true,
+            },
+        },
+        csrfToken: {
+            name: "__Host-next-auth.csrf-token",
+            options: {
+                httpOnly: true,
+                sameSite: "lax",
+                path: "/",
+                secure: true,
+            },
+        },
     },
     pages: {
         signIn: "/auth/signin",
