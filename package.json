@@ -13,7 +13,6 @@
     "db:setup": "npm run db:generate && npm run db:migrate"
   },
   "dependencies": {
-    "@auth/drizzle-adapter": "^1.10.0",
     "@hookform/resolvers": "^5.2.1",
     "@radix-ui/react-avatar": "^1.1.10",
     "@radix-ui/react-dialog": "^1.1.14",

@@ -1,15 +1,14 @@
 import NextAuth from "next-auth";
 import Google from "next-auth/providers/google";
 import Credentials from "next-auth/providers/credentials";
-import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import { db } from "./db";
 import { users } from "./db/schema";
 import { eq } from "drizzle-orm";
 import bcrypt from "bcryptjs";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
-    adapter: DrizzleAdapter(db),
     trustHost: true,
+    debug: true,
     providers: [
         Google({
             clientId: process.env.GOOGLE_CLIENT_ID!,
@@ -54,37 +53,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     ],
     session: {
         strategy: "jwt",
-        maxAge: 30 * 24 * 60 * 60, // 30 dias
-        updateAge: 24 * 60 * 60, // 24 horas
-    },
-    cookies: {
-        sessionToken: {
-            name: "__Secure-next-auth.session-token",
-            options: {
-                httpOnly: true,
-                sameSite: "lax",
-                path: "/",
-                secure: true,
-            },
-        },
-        callbackUrl: {
-            name: "__Secure-next-auth.callback-url",
-            options: {
-                httpOnly: true,
-                sameSite: "lax",
-                path: "/",
-                secure: true,
-            },
-        },
-        csrfToken: {
-            name: "__Host-next-auth.csrf-token",
-            options: {
-                httpOnly: true,
-                sameSite: "lax",
-                path: "/",
-                secure: true,
-            },
-        },
     },
     pages: {
         signIn: "/auth/signin",
