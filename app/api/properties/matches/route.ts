@@ -24,21 +24,31 @@ export async function GET(request: NextRequest) {
             )
         });
         
-        if (matches.length === 0) {
-            // Check if user has completed profile
-            const userProfile = await db.query.userProfiles.findFirst({
-                where: eq(userProfiles.userId, session.user.id)
-            });
+        // Check if user has completed profile
+        const userProfile = await db.query.userProfiles.findFirst({
+            where: eq(userProfiles.userId, session.user.id)
+        });
 
-            const message = userProfile 
-                ? "Nossa IA está analisando novos imóveis para seu perfil. Volte em breve para ver as recomendações!"
-                : "Complete seu perfil no checklist para que nossa IA possa selecionar imóveis ideais para você.";
+        // User must have a complete profile to see properties
+        if (!userProfile || !userProfile.propertyType || !userProfile.location || !userProfile.buyerProfile || !userProfile.usageType || !userProfile.investmentBudget) {
+            return NextResponse.json({
+                properties: [],
+                total: 0,
+                message: "Complete seu perfil no checklist para que nossa IA e especialistas possam selecionar imóveis ideais para você.",
+                hasProfile: false,
+                requiresProfile: true
+            });
+        }
+
+        if (matches.length === 0) {
+            const message = "Nossa IA e especialistas estão analisando novos imóveis para seu perfil. Volte em breve para ver as recomendações!";
 
             return NextResponse.json({
                 properties: [],
                 total: 0,
                 message,
-                hasProfile: !!userProfile
+                hasProfile: true,
+                requiresProfile: false
             });
         }
 
@@ -107,8 +117,11 @@ export async function POST(request: NextRequest) {
             const matchesToInsert = validPropertyIds.map(propertyId => ({
                 userId: session.user.id,
                 propertyId,
-                matchScore: 100, // AI determined this is a match
-                matchReason: JSON.stringify({ source: source || 'AI' }),
+                matchScore: 100, // AI or specialist determined this is a match
+                matchReason: JSON.stringify({ 
+                    timestamp: new Date().toISOString(),
+                    method: 'curated_selection'
+                }),
                 isActive: true
             }));
 
@@ -123,6 +136,48 @@ export async function POST(request: NextRequest) {
 
     } catch (error) {
         console.error("Error setting property matches:", error);
+        return NextResponse.json(
+            { error: "Erro interno do servidor" },
+            { status: 500 }
+        );
+    }
+}
+
+// DELETE: Remove a specific property from user's matches
+export async function DELETE(request: NextRequest) {
+    try {
+        const session = await auth();
+
+        if (!session?.user?.id) {
+            return NextResponse.json(
+                { error: "Não autenticado" },
+                { status: 401 }
+            );
+        }
+
+        const body = await request.json();
+        const { propertyId } = body;
+
+        if (!propertyId) {
+            return NextResponse.json(
+                { error: "propertyId é obrigatório" },
+                { status: 400 }
+            );
+        }
+
+        // Remove the specific match for this user
+        await db.delete(propertyMatches)
+            .where(and(
+                eq(propertyMatches.userId, session.user.id),
+                eq(propertyMatches.propertyId, propertyId)
+            ));
+
+        return NextResponse.json({
+            message: "Imóvel removido do match com sucesso"
+        });
+
+    } catch (error) {
+        console.error("Error removing property from match:", error);
         return NextResponse.json(
             { error: "Erro interno do servidor" },
             { status: 500 }

@@ -22,7 +22,7 @@ const navigationItems = [
     },
     {
         name: "Imóveis",
-        href: "/imoveis",
+        href: "/properties",
     },
     {
         name: "Checklist",

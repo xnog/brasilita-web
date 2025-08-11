@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
-import { db } from "@/lib/db";
-import { userPropertyInterests } from "@/lib/db/schema";
-import { eq, and } from "drizzle-orm";
+// import { db } from "@/lib/db";
+// import { userPropertyInterests } from "@/lib/db/schema";
+// import { eq, and } from "drizzle-orm";
 
 // Temporary in-memory storage for interests (replace with database when ready)
-const mockInterests = new Map<string, Map<string, "interested" | "rejected">>(); // userId -> Map<propertyId, status>
+const mockInterests = new Map<string, Set<string>>(); // userId -> Set of propertyIds
 
 export async function GET(request: NextRequest) {
     try {
@@ -18,27 +18,21 @@ export async function GET(request: NextRequest) {
             );
         }
 
-        // Get user interests from database
-        try {
-            const userInterestsDb = await db.query.userPropertyInterests.findMany({
-                where: eq(userPropertyInterests.userId, session.user.id)
-            });
+        // TODO: Replace with actual database query
+        const userInterests = mockInterests.get(session.user.id) || new Set();
+        
+        /*
+        const userInterests = await db.query.userPropertyInterests.findMany({
+            where: and(
+                eq(userPropertyInterests.userId, session.user.id),
+                eq(userPropertyInterests.isInterested, true)
+            )
+        });
+        */
 
-            const interests = userInterestsDb.reduce((acc, interest) => {
-                if (interest.status) {
-                    acc[interest.propertyId] = interest.status;
-                }
-                return acc;
-            }, {} as Record<string, "interested" | "rejected">);
-
-            return NextResponse.json({ interests });
-        } catch (dbError) {
-            console.log("Database not ready, using mock data:", dbError);
-            // Fallback to mock data
-            const userInterests = mockInterests.get(session.user.id) || new Map();
-            const interests = Object.fromEntries(userInterests);
-            return NextResponse.json({ interests });
-        }
+        return NextResponse.json({
+            interests: Array.from(userInterests)
+        });
 
     } catch (error) {
         console.error("Error fetching user interests:", error);
@@ -60,7 +54,7 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        const { propertyId, status, notes } = await request.json();
+        const { propertyId, isInterested, notes } = await request.json();
 
         if (!propertyId) {
             return NextResponse.json(
@@ -69,73 +63,54 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        if (!status || !["interested", "rejected"].includes(status)) {
-            return NextResponse.json(
-                { error: "Status deve ser 'interested' ou 'rejected'" },
-                { status: 400 }
-            );
+        // TODO: Replace with actual database operations
+        if (!mockInterests.has(session.user.id)) {
+            mockInterests.set(session.user.id, new Set());
+        }
+        
+        const userInterests = mockInterests.get(session.user.id)!;
+        
+        if (isInterested) {
+            userInterests.add(propertyId);
+        } else {
+            userInterests.delete(propertyId);
         }
 
-        // Try database operations first
-        try {
-            // Check if interest already exists
-            const existingInterest = await db.query.userPropertyInterests.findFirst({
-                where: and(
-                    eq(userPropertyInterests.userId, session.user.id),
-                    eq(userPropertyInterests.propertyId, propertyId)
-                )
-            });
+        /*
+        // Check if interest already exists
+        const existingInterest = await db.query.userPropertyInterests.findFirst({
+            where: and(
+                eq(userPropertyInterests.userId, session.user.id),
+                eq(userPropertyInterests.propertyId, propertyId)
+            )
+        });
 
-            if (existingInterest) {
-                // Update existing interest
-                await db.update(userPropertyInterests)
-                    .set({
-                        status,
-                        isInterested: status === "interested",
-                        notes,
-                        updatedAt: new Date()
-                    })
-                    .where(eq(userPropertyInterests.id, existingInterest.id));
-            } else {
-                // Create new interest
-                await db.insert(userPropertyInterests).values({
-                    userId: session.user.id,
-                    propertyId,
-                    status,
-                    isInterested: status === "interested",
-                    notes
-                });
-            }
-
-            const message = status === "interested" 
-                ? "✅ Imóvel adicionado aos seus interesses" 
-                : "❌ Entendido, nossa IA vai aprender com isso";
-
-            return NextResponse.json({
-                success: true,
-                message
-            });
-
-        } catch (dbError) {
-            console.log("Database not ready, using mock data:", dbError);
-            
-            // Fallback to mock data
-            if (!mockInterests.has(session.user.id)) {
-                mockInterests.set(session.user.id, new Map());
-            }
-            
-            const userInterests = mockInterests.get(session.user.id)!;
-            userInterests.set(propertyId, status);
-
-            const message = status === "interested" 
-                ? "✅ Imóvel adicionado aos seus interesses" 
-                : "❌ Entendido, nossa IA vai aprender com isso";
-
-            return NextResponse.json({
-                success: true,
-                message
+        if (existingInterest) {
+            // Update existing interest
+            await db.update(userPropertyInterests)
+                .set({
+                    isInterested,
+                    notes,
+                    updatedAt: new Date()
+                })
+                .where(eq(userPropertyInterests.id, existingInterest.id));
+        } else if (isInterested) {
+            // Create new interest
+            await db.insert(userPropertyInterests).values({
+                userId: session.user.id,
+                propertyId,
+                isInterested,
+                notes
             });
         }
+        */
+
+        return NextResponse.json({
+            success: true,
+            message: isInterested ? 
+                "Interesse marcado com sucesso" : 
+                "Interesse removido com sucesso"
+        });
 
     } catch (error) {
         console.error("Error updating property interest:", error);

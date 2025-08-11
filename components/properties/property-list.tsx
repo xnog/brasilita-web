@@ -35,11 +35,11 @@ interface CurationInfo {
     } | null;
 }
 
-export function PropertyList({ 
-    userProfile, 
-    propertyInterests = {}, 
-    onStatusChange, 
-    showOnlyInterested = false 
+export function PropertyList({
+    userProfile,
+    propertyInterests = {},
+    onStatusChange,
+    showOnlyInterested = false
 }: PropertyListProps) {
     const [allProperties, setAllProperties] = useState<Property[]>([]); // All properties from API
     const [loading, setLoading] = useState(true);
@@ -59,10 +59,10 @@ export function PropertyList({
     const fetchProperties = useCallback(async () => {
         setLoading(true);
         setError(null);
-        
+
         try {
             const params = new URLSearchParams();
-            
+
             if (filters.location) params.append("location", filters.location);
             if (filters.maxPrice) params.append("maxPrice", filters.maxPrice.toString());
             if (filters.propertyType) params.append("propertyType", filters.propertyType);
@@ -70,15 +70,15 @@ export function PropertyList({
             params.append("sortBy", sortBy);
             params.append("sortOrder", sortOrder);
 
-            const response = await fetch(`/api/imoveis?${params.toString()}`);
-            
+            const response = await fetch(`/api/properties?${params.toString()}`);
+
             if (!response.ok) {
                 throw new Error("Erro ao carregar imóveis");
             }
 
             const data = await response.json();
             const allProps = data.properties || [];
-            
+
             // Store all properties without filtering
             setAllProperties(allProps);
             setCurationInfo({
@@ -111,7 +111,7 @@ export function PropertyList({
     // Removed useEffect for fetchUserInterests - now handled by parent
 
     // Create a stable reference for propertyInterests to avoid unnecessary re-renders
-    const propertyInterestsKey = useMemo(() => 
+    const propertyInterestsKey = useMemo(() =>
         JSON.stringify(propertyInterests), [propertyInterests]
     );
 
@@ -119,12 +119,12 @@ export function PropertyList({
     const properties = useMemo(() => {
         if (showOnlyInterested) {
             // Show only properties marked as interested
-            return allProperties.filter((property: Property) => 
+            return allProperties.filter((property: Property) =>
                 propertyInterests[property.id] === "interested"
             );
         } else {
             // Show all properties except rejected ones
-            return allProperties.filter((property: Property) => 
+            return allProperties.filter((property: Property) =>
                 propertyInterests[property.id] !== "rejected"
             );
         }
@@ -212,7 +212,7 @@ export function PropertyList({
                             🤖👨‍💼 Nossa equipe está trabalhando para você
                         </h3>
                         <p className="text-blue-700">
-                            {curationInfo.message || (curationInfo.hasProfile 
+                            {curationInfo.message || (curationInfo.hasProfile
                                 ? "Nossa IA e especialistas estão analisando novos imóveis para seu perfil. Volte em breve para ver as recomendações!"
                                 : "Complete seu perfil no checklist para que nossa IA e especialistas possam analisar suas preferências e selecionar os imóveis ideais para você."
                             )}
@@ -244,9 +244,9 @@ export function PropertyList({
                             property={property}
                             isInterested={propertyInterests[property.id] === "interested"}
                             currentStatus={propertyInterests[property.id]}
-                            onToggleInterest={() => {}} // Legacy support - not used
+                            onToggleInterest={() => { }} // Legacy support - not used
                             onStatusChange={onStatusChange}
-                            onRemoveFromMatch={() => {}} // Legacy support - not used
+                            onRemoveFromMatch={() => { }} // Legacy support - not used
                         />
                     ))}
                 </div>
@@ -258,7 +258,7 @@ export function PropertyList({
                     <CardContent className="p-4 text-center">
                         <Home className="h-6 w-6 text-green-600 mx-auto mb-2" />
                         <p className="text-green-800">
-                            Encontramos <strong>{properties.length}</strong> imóve{properties.length !== 1 ? 'is' : 'l'} 
+                            Encontramos <strong>{properties.length}</strong> imóve{properties.length !== 1 ? 'is' : 'l'}
                             {Object.values(propertyInterests).filter(status => status === "interested").length > 0 && (
                                 <span> • <strong>{Object.values(propertyInterests).filter(status => status === "interested").length}</strong> marcado{Object.values(propertyInterests).filter(status => status === "interested").length !== 1 ? 's' : ''} como interesse</span>
                             )}

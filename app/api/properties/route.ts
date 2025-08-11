@@ -22,6 +22,19 @@ export async function GET(request: NextRequest) {
 
             if (matchesResponse.ok) {
                 const matchesData = await matchesResponse.json();
+
+                // If user doesn't have a complete profile, return early
+                if (matchesData.requiresProfile) {
+                    return NextResponse.json({
+                        properties: [],
+                        total: 0,
+                        isMatched: false,
+                        hasProfile: false,
+                        requiresProfile: true,
+                        message: matchesData.message
+                    });
+                }
+
                 const matchedProperties = matchesData.properties || [];
 
                 // Apply filters on matched properties
@@ -37,27 +50,27 @@ export async function GET(request: NextRequest) {
 
                 // Apply filters
                 if (location) {
-                    filteredProperties = filteredProperties.filter(property => 
+                    filteredProperties = filteredProperties.filter(property =>
                         property.location.toLowerCase().includes(location.toLowerCase())
                     );
                 }
 
                 if (maxPrice) {
                     const maxPriceNum = parseInt(maxPrice);
-                    filteredProperties = filteredProperties.filter(property => 
+                    filteredProperties = filteredProperties.filter(property =>
                         property.price <= maxPriceNum
                     );
                 }
 
                 if (propertyType) {
-                    filteredProperties = filteredProperties.filter(property => 
+                    filteredProperties = filteredProperties.filter(property =>
                         property.propertyType === propertyType
                     );
                 }
 
                 if (minBedrooms) {
                     const minBedroomsNum = parseInt(minBedrooms);
-                    filteredProperties = filteredProperties.filter(property => 
+                    filteredProperties = filteredProperties.filter(property =>
                         property.bedrooms && property.bedrooms >= minBedroomsNum
                     );
                 }
@@ -65,7 +78,7 @@ export async function GET(request: NextRequest) {
                 // Apply sorting
                 filteredProperties.sort((a, b) => {
                     let aValue, bValue;
-                    
+
                     switch (sortBy) {
                         case "price":
                             aValue = a.price;
@@ -98,9 +111,9 @@ export async function GET(request: NextRequest) {
                     total: filteredProperties.length,
                     totalMatched: matchedProperties.length,
                     isMatched: true,
-                    message: matchedProperties.length > 0 ? 
+                    message: matchedProperties.length > 0 ?
                         `Mostrando ${filteredProperties.length} de ${matchedProperties.length} imóveis selecionados para você` :
-                        "Nossa IA está analisando seu perfil para selecionar os melhores imóveis"
+                        "Nossa IA e especialistas estão analisando seu perfil para selecionar os melhores imóveis"
                 });
             }
         } catch (error) {
@@ -112,7 +125,7 @@ export async function GET(request: NextRequest) {
             properties: [],
             total: 0,
             isMatched: false,
-            message: "Complete seu perfil no checklist para que nossa IA possa selecionar imóveis ideais para você"
+            message: "Complete seu perfil no checklist para que nossa IA e especialistas possam selecionar imóveis ideais para você"
         });
 
     } catch (error) {
