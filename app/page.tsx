@@ -93,12 +93,7 @@ export default async function HomePage() {
                 Somos especialistas em conectar brasileiros ao mercado imobiliário italiano com total segurança e transparência
               </p>
             </div>
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              <div className="professional-card text-center">
-                <Shield className="w-12 h-12 text-primary mx-auto mb-4" />
-                <h3 className="text-lg font-semibold mb-2">100% Seguro</h3>
-                <p className="text-sm text-muted-foreground">Assessoria jurídica completa e validação de todos os documentos</p>
-              </div>
+            <div className="grid md:grid-cols-3 gap-6">
               <div className="professional-card text-center">
                 <Globe className="w-12 h-12 text-primary mx-auto mb-4" />
                 <h3 className="text-lg font-semibold mb-2">Expertise Local</h3>
