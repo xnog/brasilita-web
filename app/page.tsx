@@ -97,7 +97,7 @@ export default async function HomePage() {
               <div className="professional-card text-center">
                 <Globe className="w-12 h-12 text-primary mx-auto mb-4" />
                 <h3 className="text-lg font-semibold mb-2">Expertise Local</h3>
-                <p className="text-sm text-muted-foreground">Equipe baseada na Itália com profundo conhecimento do mercado</p>
+                <p className="text-sm text-muted-foreground">Profundo conhecimento do mercado e assessoria especializada</p>
               </div>
               <div className="professional-card text-center">
                 <Users className="w-12 h-12 text-primary mx-auto mb-4" />
@@ -459,7 +459,7 @@ export default async function HomePage() {
                 </div>
               </div>
               <p className="text-muted-foreground mb-4 italic">
-                &ldquo;A Brasilità tornou possível o que parecia impossível. Compramos nossa casa dos sonhos em Toscana com total segurança e transparência.&rdquo;
+                &ldquo;A Brasilità tornou possível o que parecia impossível. Compramos nossa casa dos sonhos com total segurança e transparência.&rdquo;
               </p>
               <div className="flex items-center">
                 <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center mr-3">
@@ -542,8 +542,8 @@ export default async function HomePage() {
                     Fale Conosco
                   </a>
                   <div className="text-sm text-muted-foreground">
-                    <p className="font-semibold">Baseados em Lucca, Itália</p>
-                    <p>Atendemos todo o território italiano</p>
+                    <p className="font-semibold">Atendimento Personalizado</p>
+                    <p>Assessoria completa e especializada</p>
                   </div>
                 </div>
               </div>
@@ -623,10 +623,10 @@ export default async function HomePage() {
                 <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
                   <MapPin className="h-8 w-8 text-primary" />
                 </div>
-                <h3 className="text-xl font-semibold mb-2">Localização</h3>
-                <p className="text-muted-foreground mb-4">Baseados na Itália</p>
+                <h3 className="text-xl font-semibold mb-2">Experiência</h3>
+                <p className="text-muted-foreground mb-4">Profundo conhecimento do mercado</p>
                 <p className="text-primary font-medium">
-                  Lucca, Toscana
+                  Assessoria especializada
                 </p>
               </div>
             </div>
@@ -669,7 +669,7 @@ export default async function HomePage() {
               </p>
               <div className="flex items-center space-x-2 text-sm text-muted-foreground">
                 <MapPin className="h-4 w-4" />
-                <span>Lucca, Itália</span>
+                <span>Assessoria Especializada</span>
               </div>
             </div>
 
