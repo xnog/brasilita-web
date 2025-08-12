@@ -43,7 +43,7 @@ export default async function PropertiesPage() {
                             </p>
                         </div>
 
-                        <PropertiesClient userProfile={userProfile} />
+                        <PropertiesClient />
                     </>
                 )}
             </div>

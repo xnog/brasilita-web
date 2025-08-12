@@ -209,30 +209,14 @@ export const propertyMatches = pgTable("property_match", {
     matchScore: integer("matchScore").default(0), // 0-100 matching score
     matchReason: text("matchReason"), // JSON explaining why it matched
     isActive: boolean("isActive").default(true),
+    isInterested: boolean("isInterested").default(false), // User marked as interested
     createdAt: timestamp("createdAt", { mode: "date" }).defaultNow(),
     updatedAt: timestamp("updatedAt", { mode: "date" }).defaultNow(),
 });
 
-export const userPropertyInterests = pgTable("user_property_interest", {
-    id: text("id")
-        .primaryKey()
-        .$defaultFn(() => crypto.randomUUID()),
-    userId: text("userId")
-        .notNull()
-        .references(() => users.id, { onDelete: "cascade" }),
-    propertyId: text("propertyId")
-        .notNull()
-        .references(() => properties.id, { onDelete: "cascade" }),
-    isInterested: boolean("isInterested").default(true),
-    status: text("status").$type<"interested" | "rejected">(), // user's action on property
-    notes: text("notes"), // user's private notes about the property
-    createdAt: timestamp("createdAt", { mode: "date" }).defaultNow(),
-    updatedAt: timestamp("updatedAt", { mode: "date" }).defaultNow(),
-});
+
 
 export type Property = typeof properties.$inferSelect;
 export type NewProperty = typeof properties.$inferInsert;
 export type PropertyMatch = typeof propertyMatches.$inferSelect;
 export type NewPropertyMatch = typeof propertyMatches.$inferInsert;
-export type UserPropertyInterest = typeof userPropertyInterests.$inferSelect;
-export type NewUserPropertyInterest = typeof userPropertyInterests.$inferInsert;

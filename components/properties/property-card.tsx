@@ -4,18 +4,13 @@ import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Heart, MapPin, Bed, Bath, Square, Eye, Car, Wifi, Dumbbell, ChefHat, X, ThumbsUp, ThumbsDown } from "lucide-react";
+import { MapPin, Bed, Bath, Square, Car, Wifi, Dumbbell, ChefHat, ThumbsUp } from "lucide-react";
 import { Property } from "@/lib/db/schema";
 import { PropertyDetailModal } from "./property-detail-modal";
-import { cn } from "@/lib/utils";
 
 interface PropertyCardProps {
-    property: Property;
-    isInterested: boolean;
-    currentStatus?: "interested" | "rejected" | null;
+    property: Property & { isInterested?: boolean };
     onToggleInterest: (propertyId: string, isInterested: boolean) => void;
-    onStatusChange?: (propertyId: string, status: "interested" | "rejected") => Promise<void>;
-    onRemoveFromMatch?: (propertyId: string) => void;
 }
 
 const getFeatureIcon = (feature: string) => {
@@ -27,14 +22,7 @@ const getFeatureIcon = (feature: string) => {
     return null;
 };
 
-export function PropertyCard({ 
-    property, 
-    isInterested, 
-    currentStatus, 
-    onToggleInterest, 
-    onStatusChange, 
-    onRemoveFromMatch 
-}: PropertyCardProps) {
+export function PropertyCard({ property, onToggleInterest }: PropertyCardProps) {
     const [loading, setLoading] = useState(false);
     const [showDetails, setShowDetails] = useState(false);
     const [imageError, setImageError] = useState(false);
@@ -43,29 +31,11 @@ export function PropertyCard({
     const features = property.features ? JSON.parse(property.features) : [];
     const mainImage = images[0] || '/api/placeholder/400/300';
 
-    const handleLike = async () => {
+    const handleToggleInterest = async (e: React.MouseEvent) => {
+        e.stopPropagation();
         setLoading(true);
         try {
-            if (onStatusChange) {
-                await onStatusChange(property.id, "interested");
-            } else {
-                await onToggleInterest(property.id, true);
-            }
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    const handleDislike = async () => {
-        setLoading(true);
-        try {
-            if (onStatusChange) {
-                await onStatusChange(property.id, "rejected");
-            }
-            // Se tem função de remover do match, chama ela também
-            if (onRemoveFromMatch) {
-                await onRemoveFromMatch(property.id);
-            }
+            await onToggleInterest(property.id, !property.isInterested);
         } finally {
             setLoading(false);
         }
@@ -89,14 +59,12 @@ export function PropertyCard({
         return types[type as keyof typeof types] || type;
     };
 
-    // Se o imóvel foi rejeitado, não mostra
-    if (currentStatus === "rejected") {
-        return null;
-    }
-
     return (
         <>
-            <Card className="group overflow-hidden bg-white shadow-sm hover:shadow-xl transition-all duration-300 border-0 rounded-2xl">
+            <Card 
+                className="group overflow-hidden bg-white shadow-sm hover:shadow-xl transition-all duration-300 border-0 rounded-2xl cursor-pointer"
+                onClick={() => setShowDetails(true)}
+            >
                 {/* Image Section */}
                 <div className="relative overflow-hidden">
                     <div className="aspect-[4/3] overflow-hidden">
@@ -132,17 +100,7 @@ export function PropertyCard({
                         </div>
                     </div>
 
-                    {/* Action buttons */}
-                    <div className="absolute bottom-4 right-4 flex gap-2">
-                        <Button
-                            variant="ghost"
-                            size="sm"
-                            className="bg-white/90 backdrop-blur-sm text-slate-700 hover:bg-white border-0 rounded-full w-10 h-10 p-0"
-                            onClick={() => setShowDetails(true)}
-                        >
-                            <Eye className="h-4 w-4" />
-                        </Button>
-                    </div>
+
                 </div>
 
                 {/* Content */}
@@ -206,41 +164,18 @@ export function PropertyCard({
                         </div>
                     )}
 
-                    {/* Action buttons */}
-                    <div className="flex gap-3 pt-2">
-                        <Button
-                            onClick={handleLike}
-                            disabled={loading}
-                            className={cn(
-                                "flex-1 rounded-xl font-medium transition-all duration-200",
-                                currentStatus === "interested" || isInterested
-                                    ? "bg-emerald-500 hover:bg-emerald-600 text-white shadow-lg shadow-emerald-200"
-                                    : "bg-slate-100 text-slate-700 hover:bg-emerald-50 hover:text-emerald-700 border border-slate-200"
-                            )}
-                        >
-                            <ThumbsUp className="h-4 w-4 mr-2" />
-                            {currentStatus === "interested" || isInterested ? "Interessado" : "Tenho interesse"}
-                        </Button>
-
-                        {onStatusChange && (
-                            <Button
-                                onClick={handleDislike}
-                                disabled={loading}
-                                variant="outline"
-                                className="px-4 rounded-xl border-slate-200 text-slate-600 hover:bg-red-50 hover:text-red-600 hover:border-red-200 transition-all duration-200"
-                            >
-                                <ThumbsDown className="h-4 w-4" />
-                            </Button>
-                        )}
-
-                        <Button
-                            onClick={() => setShowDetails(true)}
-                            variant="outline"
-                            className="px-4 rounded-xl border-slate-200 text-slate-600 hover:bg-slate-50 transition-all duration-200"
-                        >
-                            <Eye className="h-4 w-4" />
-                        </Button>
-                    </div>
+                    {/* Action button */}
+                    <Button
+                        onClick={handleToggleInterest}
+                        disabled={loading}
+                        className={property.isInterested
+                            ? "w-full bg-emerald-500 hover:bg-emerald-600 text-white"
+                            : "w-full bg-slate-100 text-slate-700 hover:bg-emerald-50"
+                        }
+                    >
+                        <ThumbsUp className="h-4 w-4 mr-2" />
+                        {property.isInterested ? "Interessado" : "Tenho interesse"}
+                    </Button>
                 </CardContent>
             </Card>
 
@@ -249,10 +184,7 @@ export function PropertyCard({
                 property={property}
                 isOpen={showDetails}
                 onClose={() => setShowDetails(false)}
-                isInterested={isInterested || currentStatus === "interested"}
                 onToggleInterest={onToggleInterest}
-                onStatusChange={onStatusChange}
-                onRemoveFromMatch={onRemoveFromMatch}
             />
         </>
     );

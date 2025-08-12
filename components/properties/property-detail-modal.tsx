@@ -6,14 +6,11 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { 
-    X, 
     MapPin, 
     Bed, 
     Bath, 
     Square, 
-    Heart, 
     ThumbsUp, 
-    ThumbsDown,
     ChevronLeft,
     ChevronRight,
     Car,
@@ -27,13 +24,10 @@ import { Property } from "@/lib/db/schema";
 import { cn } from "@/lib/utils";
 
 interface PropertyDetailModalProps {
-    property: Property;
+    property: Property & { isInterested?: boolean };
     isOpen: boolean;
     onClose: () => void;
-    isInterested: boolean;
     onToggleInterest: (propertyId: string, isInterested: boolean) => void;
-    onStatusChange?: (propertyId: string, status: "interested" | "rejected") => Promise<void>;
-    onRemoveFromMatch?: (propertyId: string) => void;
 }
 
 const getFeatureIcon = (feature: string) => {
@@ -49,10 +43,7 @@ export function PropertyDetailModal({
     property,
     isOpen,
     onClose,
-    isInterested,
-    onToggleInterest,
-    onStatusChange,
-    onRemoveFromMatch
+    onToggleInterest
 }: PropertyDetailModalProps) {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [loading, setLoading] = useState(false);
@@ -60,29 +51,10 @@ export function PropertyDetailModal({
     const images = property.images ? JSON.parse(property.images) : ['/api/placeholder/800/600'];
     const features = property.features ? JSON.parse(property.features) : [];
 
-    const handleLike = async () => {
+    const handleToggleInterest = async () => {
         setLoading(true);
         try {
-            if (onStatusChange) {
-                await onStatusChange(property.id, "interested");
-            } else {
-                await onToggleInterest(property.id, true);
-            }
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    const handleDislike = async () => {
-        setLoading(true);
-        try {
-            if (onStatusChange) {
-                await onStatusChange(property.id, "rejected");
-            }
-            if (onRemoveFromMatch) {
-                await onRemoveFromMatch(property.id);
-            }
-            onClose();
+            await onToggleInterest(property.id, !property.isInterested);
         } finally {
             setLoading(false);
         }
@@ -317,32 +289,17 @@ export function PropertyDetailModal({
                                     {/* Action Buttons */}
                                     <div className="space-y-3">
                                         <Button
-                                            onClick={handleLike}
+                                            onClick={handleToggleInterest}
                                             disabled={loading}
-                                            className={cn(
-                                                "w-full rounded-xl font-medium transition-all duration-200",
-                                                isInterested
-                                                    ? "bg-emerald-500 hover:bg-emerald-600 text-white shadow-lg shadow-emerald-200"
-                                                    : "bg-slate-100 text-slate-700 hover:bg-emerald-50 hover:text-emerald-700 border border-slate-200"
-                                            )}
+                                            className={property.isInterested
+                                                ? "w-full bg-emerald-500 hover:bg-emerald-600 text-white"
+                                                : "w-full bg-slate-100 text-slate-700 hover:bg-emerald-50"
+                                            }
                                             size="lg"
                                         >
                                             <ThumbsUp className="h-5 w-5 mr-2" />
-                                            {isInterested ? "Interessado" : "Tenho interesse"}
+                                            {property.isInterested ? "Interessado" : "Tenho interesse"}
                                         </Button>
-
-                                        {onStatusChange && (
-                                            <Button
-                                                onClick={handleDislike}
-                                                disabled={loading}
-                                                variant="outline"
-                                                size="lg"
-                                                className="w-full rounded-xl border-slate-200 text-slate-600 hover:bg-red-50 hover:text-red-600 hover:border-red-200 transition-all duration-200"
-                                            >
-                                                <ThumbsDown className="h-5 w-5 mr-2" />
-                                                Não tenho interesse
-                                            </Button>
-                                        )}
                                     </div>
                                 </div>
                             </div>

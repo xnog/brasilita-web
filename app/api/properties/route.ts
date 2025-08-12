@@ -1,138 +1,93 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
+import { db } from "@/lib/db";
+import { propertyMatches, properties, userProfiles } from "@/lib/db/schema";
+import { eq, and, inArray } from "drizzle-orm";
 
-export async function GET(request: NextRequest) {
+export async function GET() {
     try {
         const session = await auth();
-
         if (!session?.user?.id) {
-            return NextResponse.json(
-                { error: "Não autenticado" },
-                { status: 401 }
-            );
+            return NextResponse.json({ error: "Não autenticado" }, { status: 401 });
         }
 
-        // Get matched properties via internal call
-        try {
-            const matchesResponse = await fetch(`${process.env.NEXTAUTH_URL || 'http://localhost:3000'}/api/properties/matches`, {
-                headers: {
-                    'Cookie': request.headers.get('Cookie') || ''
-                }
-            });
+        // Check profile
+        const userProfile = await db.query.userProfiles.findFirst({
+            where: eq(userProfiles.userId, session.user.id)
+        });
 
-            if (matchesResponse.ok) {
-                const matchesData = await matchesResponse.json();
-
-                // If user doesn't have a complete profile, return early
-                if (matchesData.requiresProfile) {
+        if (!userProfile?.propertyType || !userProfile.location || !userProfile.investmentBudget) {
                     return NextResponse.json({
                         properties: [],
-                        total: 0,
-                        isMatched: false,
-                        hasProfile: false,
-                        requiresProfile: true,
-                        message: matchesData.message
-                    });
-                }
-
-                const matchedProperties = matchesData.properties || [];
-
-                // Apply filters on matched properties
-                const { searchParams } = new URL(request.url);
-                const location = searchParams.get("location");
-                const maxPrice = searchParams.get("maxPrice");
-                const propertyType = searchParams.get("propertyType");
-                const minBedrooms = searchParams.get("minBedrooms");
-                const sortBy = searchParams.get("sortBy") || "createdAt";
-                const sortOrder = searchParams.get("sortOrder") || "desc";
-
-                let filteredProperties = [...matchedProperties];
-
-                // Apply filters
-                if (location) {
-                    filteredProperties = filteredProperties.filter(property =>
-                        property.location.toLowerCase().includes(location.toLowerCase())
-                    );
-                }
-
-                if (maxPrice) {
-                    const maxPriceNum = parseInt(maxPrice);
-                    filteredProperties = filteredProperties.filter(property =>
-                        property.price <= maxPriceNum
-                    );
-                }
-
-                if (propertyType) {
-                    filteredProperties = filteredProperties.filter(property =>
-                        property.propertyType === propertyType
-                    );
-                }
-
-                if (minBedrooms) {
-                    const minBedroomsNum = parseInt(minBedrooms);
-                    filteredProperties = filteredProperties.filter(property =>
-                        property.bedrooms && property.bedrooms >= minBedroomsNum
-                    );
-                }
-
-                // Apply sorting
-                filteredProperties.sort((a, b) => {
-                    let aValue, bValue;
-
-                    switch (sortBy) {
-                        case "price":
-                            aValue = a.price;
-                            bValue = b.price;
-                            break;
-                        case "area":
-                            aValue = a.area || 0;
-                            bValue = b.area || 0;
-                            break;
-                        case "bedrooms":
-                            aValue = a.bedrooms || 0;
-                            bValue = b.bedrooms || 0;
-                            break;
-                        case "createdAt":
-                        default:
-                            aValue = a.createdAt.getTime();
-                            bValue = b.createdAt.getTime();
-                            break;
-                    }
-
-                    if (sortOrder === "asc") {
-                        return aValue - bValue;
-                    } else {
-                        return bValue - aValue;
-                    }
-                });
-
-                return NextResponse.json({
-                    properties: filteredProperties,
-                    total: filteredProperties.length,
-                    totalMatched: matchedProperties.length,
-                    isMatched: true,
-                    message: matchedProperties.length > 0 ?
-                        `Mostrando ${filteredProperties.length} de ${matchedProperties.length} imóveis selecionados para você` :
-                        "Nossa IA e especialistas estão analisando seu perfil para selecionar os melhores imóveis"
-                });
-            }
-        } catch (error) {
-            console.error("Error fetching matches:", error);
+                message: "Complete seu perfil para ver imóveis selecionados"
+            });
         }
 
-        // Fallback: show empty state encouraging profile completion
+        // Get matches
+        const matches = await db.query.propertyMatches.findMany({
+            where: and(
+                eq(propertyMatches.userId, session.user.id),
+                eq(propertyMatches.isActive, true)
+            )
+        });
+
+        if (matches.length === 0) {
+            return NextResponse.json({
+                properties: [],
+                message: "Nenhum imóvel encontrado para seu perfil"
+            });
+        }
+
+        // Get properties
+        const propertyIds = matches.map(m => m.propertyId);
+        const propertyList = await db.query.properties.findMany({
+            where: inArray(properties.id, propertyIds)
+        });
+
+        // Combine with interest status
+        const propertiesWithInterest = propertyList.map(property => {
+            const match = matches.find(m => m.propertyId === property.id);
+            return {
+                ...property,
+                isInterested: match?.isInterested || false
+            };
+        });
+
         return NextResponse.json({
-            properties: [],
-            total: 0,
-            isMatched: false,
-            message: "Complete seu perfil no checklist para que nossa IA e especialistas possam selecionar imóveis ideais para você"
+            properties: propertiesWithInterest,
+            message: `${propertiesWithInterest.length} imóveis encontrados`
         });
 
     } catch (error) {
-        console.error("Error fetching properties:", error);
-        return NextResponse.json(
-            { error: "Erro interno do servidor" },
-            { status: 500 }
-        );
+        console.error("Error:", error);
+        return NextResponse.json({ error: "Erro interno" }, { status: 500 });
+    }
+}
+
+export async function POST(request: NextRequest) {
+    try {
+        const session = await auth();
+        if (!session?.user?.id) {
+            return NextResponse.json({ error: "Não autenticado" }, { status: 401 });
+        }
+
+        const { propertyId, isInterested } = await request.json();
+        if (!propertyId) {
+            return NextResponse.json({ error: "PropertyId obrigatório" }, { status: 400 });
+        }
+
+        // Update interest in property_match
+        await db.update(propertyMatches)
+            .set({ isInterested })
+            .where(and(
+                eq(propertyMatches.userId, session.user.id),
+                eq(propertyMatches.propertyId, propertyId)
+            ));
+
+        return NextResponse.json({ success: true });
+
+    } catch (error) {
+        console.error("Error:", error);
+        return NextResponse.json({ error: "Erro interno" }, { status: 500 });
     }
 }
