@@ -68,7 +68,7 @@ export function PreferencesForm({ onSubmit, initialData, isEditing = false, isLo
     };
 
     return (
-        <Card className="w-full max-w-2xl mx-auto">
+        <Card className="w-full">
             <CardHeader className="text-center">
                 <CardTitle className="flex items-center justify-center gap-2 text-2xl">
                     <Building2 className="h-6 w-6 text-primary" />

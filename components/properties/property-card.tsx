@@ -1,14 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { Heart, MapPin, Bed, Bath, Square, MoreVertical, X } from "lucide-react";
+import { Heart, MapPin, Bed, Bath, Square, Eye, Car, Wifi, Dumbbell, ChefHat, X, ThumbsUp, ThumbsDown } from "lucide-react";
 import { Property } from "@/lib/db/schema";
-import { PropertyActions } from "./property-actions";
+import { PropertyDetailModal } from "./property-detail-modal";
+import { cn } from "@/lib/utils";
 
 interface PropertyCardProps {
     property: Property;
@@ -19,6 +18,15 @@ interface PropertyCardProps {
     onRemoveFromMatch?: (propertyId: string) => void;
 }
 
+const getFeatureIcon = (feature: string) => {
+    const lowerFeature = feature.toLowerCase();
+    if (lowerFeature.includes('garage') || lowerFeature.includes('parking')) return Car;
+    if (lowerFeature.includes('wifi') || lowerFeature.includes('internet')) return Wifi;
+    if (lowerFeature.includes('gym') || lowerFeature.includes('academia')) return Dumbbell;
+    if (lowerFeature.includes('kitchen') || lowerFeature.includes('cozinha')) return ChefHat;
+    return null;
+};
+
 export function PropertyCard({ 
     property, 
     isInterested, 
@@ -28,25 +36,38 @@ export function PropertyCard({
     onRemoveFromMatch 
 }: PropertyCardProps) {
     const [loading, setLoading] = useState(false);
-    const [removeLoading, setRemoveLoading] = useState(false);
+    const [showDetails, setShowDetails] = useState(false);
+    const [imageError, setImageError] = useState(false);
 
-    const handleToggleInterest = async () => {
+    const images = property.images ? JSON.parse(property.images) : [];
+    const features = property.features ? JSON.parse(property.features) : [];
+    const mainImage = images[0] || '/api/placeholder/400/300';
+
+    const handleLike = async () => {
         setLoading(true);
         try {
-            await onToggleInterest(property.id, !isInterested);
+            if (onStatusChange) {
+                await onStatusChange(property.id, "interested");
+            } else {
+                await onToggleInterest(property.id, true);
+            }
         } finally {
             setLoading(false);
         }
     };
 
-    const handleRemoveFromMatch = async () => {
-        if (!onRemoveFromMatch) return;
-        
-        setRemoveLoading(true);
+    const handleDislike = async () => {
+        setLoading(true);
         try {
-            await onRemoveFromMatch(property.id);
+            if (onStatusChange) {
+                await onStatusChange(property.id, "rejected");
+            }
+            // Se tem função de remover do match, chama ela também
+            if (onRemoveFromMatch) {
+                await onRemoveFromMatch(property.id);
+            }
         } finally {
-            setRemoveLoading(false);
+            setLoading(false);
         }
     };
 
@@ -54,6 +75,8 @@ export function PropertyCard({
         return new Intl.NumberFormat('pt-BR', {
             style: 'currency',
             currency: 'EUR',
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0,
         }).format(price);
     };
 
@@ -66,166 +89,171 @@ export function PropertyCard({
         return types[type as keyof typeof types] || type;
     };
 
+    // Se o imóvel foi rejeitado, não mostra
+    if (currentStatus === "rejected") {
+        return null;
+    }
+
     return (
-        <Card className="overflow-hidden hover:shadow-lg transition-shadow">
-            <CardHeader className="p-0">
-                <div className="relative">
-                    <img
-                        src={property.images ? JSON.parse(property.images)[0] : '/api/placeholder/400/300'}
-                        alt={property.title}
-                        className="w-full h-48 object-cover"
-                    />
-                    <div className="absolute top-2 left-2">
-                        <Badge variant="secondary">
+        <>
+            <Card className="group overflow-hidden bg-white shadow-sm hover:shadow-xl transition-all duration-300 border-0 rounded-2xl">
+                {/* Image Section */}
+                <div className="relative overflow-hidden">
+                    <div className="aspect-[4/3] overflow-hidden">
+                        <img
+                            src={imageError ? '/api/placeholder/400/300' : mainImage}
+                            alt={property.title}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                            onError={() => setImageError(true)}
+                        />
+                    </div>
+                    
+                    {/* Overlay gradient */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
+                    
+                    {/* Top badges */}
+                    <div className="absolute top-4 left-4 flex gap-2">
+                        <Badge variant="secondary" className="bg-white/90 text-slate-700 border-0 font-medium">
                             {getPropertyTypeLabel(property.propertyType)}
                         </Badge>
+                        {images.length > 1 && (
+                            <Badge variant="secondary" className="bg-white/90 text-slate-700 border-0 font-medium">
+                                {images.length} fotos
+                            </Badge>
+                        )}
                     </div>
-                    <div className="absolute top-2 right-2 flex gap-2">
+
+                    {/* Price overlay */}
+                    <div className="absolute bottom-4 left-4">
+                        <div className="bg-white/95 backdrop-blur-sm rounded-lg px-3 py-2">
+                            <div className="text-2xl font-bold text-emerald-600">
+                                {formatPrice(property.price)}
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Action buttons */}
+                    <div className="absolute bottom-4 right-4 flex gap-2">
                         <Button
                             variant="ghost"
                             size="sm"
-                            className={`p-2 rounded-full ${isInterested 
-                                ? 'bg-red-500 text-white hover:bg-red-600' 
-                                : 'bg-white/80 text-gray-600 hover:bg-white'
-                            }`}
-                            onClick={handleToggleInterest}
-                            disabled={loading}
+                            className="bg-white/90 backdrop-blur-sm text-slate-700 hover:bg-white border-0 rounded-full w-10 h-10 p-0"
+                            onClick={() => setShowDetails(true)}
                         >
-                            <Heart 
-                                className={`h-4 w-4 ${isInterested ? 'fill-current' : ''}`}
-                            />
+                            <Eye className="h-4 w-4" />
                         </Button>
-                        
-                        {onRemoveFromMatch && (
-                            <Dialog>
-                                <DropdownMenu>
-                                    <DropdownMenuTrigger asChild>
-                                        <Button
-                                            variant="ghost"
-                                            size="sm"
-                                            className="p-2 rounded-full bg-white/80 text-gray-600 hover:bg-white"
-                                        >
-                                            <MoreVertical className="h-4 w-4" />
-                                        </Button>
-                                    </DropdownMenuTrigger>
-                                    <DropdownMenuContent align="end">
-                                        <DialogTrigger asChild>
-                                            <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                                                <X className="h-4 w-4 mr-2" />
-                                                Remover do match
-                                            </DropdownMenuItem>
-                                        </DialogTrigger>
-                                    </DropdownMenuContent>
-                                </DropdownMenu>
-                                <DialogContent>
-                                    <DialogHeader>
-                                        <DialogTitle>Remover imóvel do match</DialogTitle>
-                                        <DialogDescription>
-                                            Tem certeza que deseja remover este imóvel da sua lista de matches? 
-                                            Esta ação não pode ser desfeita e o imóvel não aparecerá mais nas suas recomendações.
-                                        </DialogDescription>
-                                    </DialogHeader>
-                                    <DialogFooter>
-                                        <Button variant="outline">
-                                            Cancelar
-                                        </Button>
-                                        <Button 
-                                            variant="destructive" 
-                                            onClick={handleRemoveFromMatch}
-                                            disabled={removeLoading}
-                                        >
-                                            {removeLoading ? "Removendo..." : "Remover"}
-                                        </Button>
-                                    </DialogFooter>
-                                </DialogContent>
-                            </Dialog>
-                        )}
                     </div>
                 </div>
-            </CardHeader>
-            
-            <CardContent className="p-4">
-                <div className="space-y-2">
-                    <h3 className="font-semibold text-lg line-clamp-1">
-                        {property.title}
-                    </h3>
-                    
-                    <div className="flex items-center text-gray-600 text-sm">
-                        <MapPin className="h-4 w-4 mr-1" />
-                        {property.location}
+
+                {/* Content */}
+                <CardContent className="p-6 space-y-4">
+                    {/* Title and location */}
+                    <div className="space-y-2">
+                        <h3 className="font-bold text-xl text-slate-900 line-clamp-1 group-hover:text-emerald-600 transition-colors">
+                            {property.title}
+                        </h3>
+                        
+                        <div className="flex items-center text-slate-500">
+                            <MapPin className="h-4 w-4 mr-2 text-emerald-500" />
+                            <span className="text-sm font-medium">{property.location}</span>
+                        </div>
                     </div>
-                    
-                    <p className="text-gray-700 text-sm line-clamp-2">
-                        {property.description}
-                    </p>
-                    
-                    <div className="flex items-center space-x-4 text-sm text-gray-600">
+
+                    {/* Property specs */}
+                    <div className="flex items-center gap-6 text-slate-600">
                         {property.bedrooms && (
-                            <div className="flex items-center">
-                                <Bed className="h-4 w-4 mr-1" />
-                                {property.bedrooms}
+                            <div className="flex items-center gap-1">
+                                <Bed className="h-4 w-4 text-emerald-500" />
+                                <span className="text-sm font-medium">{property.bedrooms} quartos</span>
                             </div>
                         )}
                         {property.bathrooms && (
-                            <div className="flex items-center">
-                                <Bath className="h-4 w-4 mr-1" />
-                                {property.bathrooms}
+                            <div className="flex items-center gap-1">
+                                <Bath className="h-4 w-4 text-emerald-500" />
+                                <span className="text-sm font-medium">{property.bathrooms} banheiros</span>
                             </div>
                         )}
                         {property.area && (
-                            <div className="flex items-center">
-                                <Square className="h-4 w-4 mr-1" />
-                                {property.area}m²
+                            <div className="flex items-center gap-1">
+                                <Square className="h-4 w-4 text-emerald-500" />
+                                <span className="text-sm font-medium">{property.area}m²</span>
                             </div>
                         )}
                     </div>
-                    
-                    {property.features && (
-                        <div className="flex flex-wrap gap-1 mt-2">
-                            {JSON.parse(property.features).slice(0, 3).map((feature: string, index: number) => (
-                                <Badge key={index} variant="outline" className="text-xs">
-                                    {feature}
-                                </Badge>
-                            ))}
-                            {JSON.parse(property.features).length > 3 && (
-                                <Badge variant="outline" className="text-xs">
-                                    +{JSON.parse(property.features).length - 3} mais
-                                </Badge>
+
+                    {/* Description */}
+                    <p className="text-slate-600 text-sm line-clamp-2 leading-relaxed">
+                        {property.description}
+                    </p>
+
+                    {/* Features */}
+                    {features.length > 0 && (
+                        <div className="flex flex-wrap gap-2">
+                            {features.slice(0, 4).map((feature: string, index: number) => {
+                                const FeatureIcon = getFeatureIcon(feature);
+                                return (
+                                    <div key={index} className="flex items-center gap-1 bg-slate-50 text-slate-600 px-3 py-1 rounded-full text-xs">
+                                        {FeatureIcon && <FeatureIcon className="h-3 w-3" />}
+                                        <span>{feature}</span>
+                                    </div>
+                                );
+                            })}
+                            {features.length > 4 && (
+                                <div className="bg-slate-50 text-slate-600 px-3 py-1 rounded-full text-xs">
+                                    +{features.length - 4} mais
+                                </div>
                             )}
                         </div>
                     )}
-                </div>
-            </CardContent>
-            
-            <CardFooter className="p-4 pt-0 space-y-3">
-                <div className="flex justify-between items-center w-full">
-                    <div className="text-2xl font-bold text-green-600">
-                        {formatPrice(property.price)}
+
+                    {/* Action buttons */}
+                    <div className="flex gap-3 pt-2">
+                        <Button
+                            onClick={handleLike}
+                            disabled={loading}
+                            className={cn(
+                                "flex-1 rounded-xl font-medium transition-all duration-200",
+                                currentStatus === "interested" || isInterested
+                                    ? "bg-emerald-500 hover:bg-emerald-600 text-white shadow-lg shadow-emerald-200"
+                                    : "bg-slate-100 text-slate-700 hover:bg-emerald-50 hover:text-emerald-700 border border-slate-200"
+                            )}
+                        >
+                            <ThumbsUp className="h-4 w-4 mr-2" />
+                            {currentStatus === "interested" || isInterested ? "Interessado" : "Tenho interesse"}
+                        </Button>
+
+                        {onStatusChange && (
+                            <Button
+                                onClick={handleDislike}
+                                disabled={loading}
+                                variant="outline"
+                                className="px-4 rounded-xl border-slate-200 text-slate-600 hover:bg-red-50 hover:text-red-600 hover:border-red-200 transition-all duration-200"
+                            >
+                                <ThumbsDown className="h-4 w-4" />
+                            </Button>
+                        )}
+
+                        <Button
+                            onClick={() => setShowDetails(true)}
+                            variant="outline"
+                            className="px-4 rounded-xl border-slate-200 text-slate-600 hover:bg-slate-50 transition-all duration-200"
+                        >
+                            <Eye className="h-4 w-4" />
+                        </Button>
                     </div>
-                </div>
-                
-                {/* Property Actions */}
-                {onStatusChange ? (
-                    <div className="w-full">
-                        <PropertyActions
-                            propertyId={property.id}
-                            currentStatus={currentStatus}
-                            onStatusChange={onStatusChange}
-                            isLoading={loading}
-                        />
-                    </div>
-                ) : (
-                    <Button 
-                        variant={isInterested ? "default" : "outline"}
-                        size="sm"
-                        onClick={handleToggleInterest}
-                        disabled={loading}
-                        className="w-full"
-                    >
-                        {loading ? "..." : isInterested ? "Interessado" : "Tenho interesse"}
-                    </Button>
-                )}
-            </CardFooter>
-        </Card>
+                </CardContent>
+            </Card>
+
+            {/* Detail Modal */}
+            <PropertyDetailModal
+                property={property}
+                isOpen={showDetails}
+                onClose={() => setShowDetails(false)}
+                isInterested={isInterested || currentStatus === "interested"}
+                onToggleInterest={onToggleInterest}
+                onStatusChange={onStatusChange}
+                onRemoveFromMatch={onRemoveFromMatch}
+            />
+        </>
     );
 }
