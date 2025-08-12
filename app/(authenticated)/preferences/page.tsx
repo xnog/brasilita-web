@@ -6,7 +6,7 @@ export default async function PreferencesPage() {
 
     return (
         <div className="container mx-auto container-padding py-8">
-            <PreferencesClient userId={session.user?.id || ""} />
+            <PreferencesClient userId={session?.user?.id || ""} />
         </div>
     );
 }

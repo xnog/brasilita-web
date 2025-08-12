@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
                 eq(propertyMatches.isActive, true)
             )
         });
-        
+
         // Check if user has completed profile
         const userProfile = await db.query.userProfiles.findFirst({
             where: eq(userProfiles.userId, session.user.id)
@@ -86,6 +86,7 @@ export async function POST(request: NextRequest) {
             );
         }
 
+        const userId = session.user.id;
         const body = await request.json();
         const { propertyIds, source } = body;
 
@@ -110,15 +111,15 @@ export async function POST(request: NextRequest) {
 
         // Clear existing matches for this user
         await db.delete(propertyMatches)
-            .where(eq(propertyMatches.userId, session.user.id));
+            .where(eq(propertyMatches.userId, userId));
 
         // Insert new matches
         if (validPropertyIds.length > 0) {
             const matchesToInsert = validPropertyIds.map(propertyId => ({
-                userId: session.user.id,
+                userId: userId,
                 propertyId,
                 matchScore: 100, // AI or specialist determined this is a match
-                matchReason: JSON.stringify({ 
+                matchReason: JSON.stringify({
                     timestamp: new Date().toISOString(),
                     method: 'curated_selection'
                 }),

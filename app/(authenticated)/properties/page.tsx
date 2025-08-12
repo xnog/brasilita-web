@@ -11,9 +11,11 @@ export default async function PropertiesPage() {
     // Try to get user profile for default filters
     let userProfile = null;
     try {
-        userProfile = await db.query.userProfiles.findFirst({
-            where: eq(userProfiles.userId, session?.user?.id)
-        });
+        if (session?.user?.id) {
+            userProfile = await db.query.userProfiles.findFirst({
+                where: eq(userProfiles.userId, session.user.id)
+            });
+        }
     } catch (error) {
         console.log("User profile not found or database not ready:", error);
         // Continue without profile - user can still use the page

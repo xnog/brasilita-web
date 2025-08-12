@@ -13,17 +13,19 @@ export default async function DashboardPage() {
     let userProfile = null;
     let propertyInterests = 0;
     try {
-        userProfile = await db.query.userProfiles.findFirst({
-            where: eq(userProfiles.userId, session?.user?.id)
-        });
+        if (session?.user?.id) {
+            userProfile = await db.query.userProfiles.findFirst({
+                where: eq(userProfiles.userId, session.user.id)
+            });
 
-        if (userProfile) {
-            const interests = await db.select().from(userPropertyInterests)
-                .where(and(
-                    eq(userPropertyInterests.userId, session?.user?.id),
-                    eq(userPropertyInterests.status, "interested")
-                ));
-            propertyInterests = interests.length;
+            if (userProfile) {
+                const interests = await db.select().from(userPropertyInterests)
+                    .where(and(
+                        eq(userPropertyInterests.userId, session.user.id),
+                        eq(userPropertyInterests.status, "interested")
+                    ));
+                propertyInterests = interests.length;
+            }
         }
     } catch (error) {
         console.log("Error fetching user data:", error);
@@ -34,7 +36,7 @@ export default async function DashboardPage() {
             <div className="max-w-4xl mx-auto">
                 <div className="mb-8">
                     <h1 className="text-3xl font-bold text-foreground mb-2">
-                        Bem-vindo, {session.user?.name || session.user?.email}!
+                        Bem-vindo, {session?.user?.name || session?.user?.email}!
                     </h1>
                     <p className="text-muted-foreground">
                         Esta é sua área exclusiva para gerenciar seus investimentos imobiliários na Itália.
@@ -55,13 +57,13 @@ export default async function DashboardPage() {
                         <CardContent>
                             <div className="space-y-2">
                                 <p className="text-sm">
-                                    <strong>Nome:</strong> {session.user?.name || "Não informado"}
+                                    <strong>Nome:</strong> {session?.user?.name || "Não informado"}
                                 </p>
                                 <p className="text-sm">
-                                    <strong>Email:</strong> {session.user?.email}
+                                    <strong>Email:</strong> {session?.user?.email}
                                 </p>
                                 <p className="text-sm">
-                                    <strong>Método de login:</strong> {session.user?.image ? "Google" : "Email"}
+                                    <strong>Método de login:</strong> {session?.user?.image ? "Google" : "Email"}
                                 </p>
                             </div>
                         </CardContent>

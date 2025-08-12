@@ -2,7 +2,13 @@ import Link from "next/link";
 import { Logo } from "@/components/ui/logo";
 
 interface LandingHeaderProps {
-    session?: any;
+    session?: {
+        user?: {
+            id?: string;
+            name?: string | null;
+            email?: string | null;
+        };
+    } | null;
 }
 
 export function LandingHeader({ session }: LandingHeaderProps) {
@@ -23,20 +29,20 @@ export function LandingHeader({ session }: LandingHeaderProps) {
                 <div className="flex flex-1 items-center justify-end">
                     {/* Navigation - Same style as authenticated header */}
                     <nav className="hidden md:flex items-center space-x-6 text-sm font-medium mr-6">
-                        <a 
-                            href="#servicos" 
+                        <a
+                            href="#servicos"
                             className="transition-colors hover:text-foreground/80 text-foreground/60"
                         >
                             Serviços
                         </a>
-                        <a 
-                            href="#sobre" 
+                        <a
+                            href="#sobre"
                             className="transition-colors hover:text-foreground/80 text-foreground/60"
                         >
                             Sobre
                         </a>
-                        <a 
-                            href="#contato" 
+                        <a
+                            href="#contato"
                             className="transition-colors hover:text-foreground/80 text-foreground/60"
                         >
                             Contato
@@ -45,22 +51,22 @@ export function LandingHeader({ session }: LandingHeaderProps) {
 
                     {/* Auth buttons - Same spacing as navigation items */}
                     {session ? (
-                        <Link 
-                            href="/dashboard" 
+                        <Link
+                            href="/dashboard"
                             className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2"
                         >
                             Dashboard
                         </Link>
                     ) : (
                         <>
-                            <Link 
-                                href="/auth/signin" 
+                            <Link
+                                href="/auth/signin"
                                 className="transition-colors hover:text-foreground/80 text-foreground/60 text-sm font-medium mr-6"
                             >
                                 Entrar
                             </Link>
-                            <Link 
-                                href="/auth/signup" 
+                            <Link
+                                href="/auth/signup"
                                 className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2"
                             >
                                 Começar

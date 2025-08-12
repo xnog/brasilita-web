@@ -34,7 +34,15 @@ export function PreferencesClient({ userId }: PreferencesClientProps) {
         fetchProfile();
     }, []);
 
-    const handleSubmit = async (data: any) => {
+    const handleSubmit = async (data: {
+        propertyType: "residential" | "commercial" | "investment";
+        location: string;
+        buyerProfile: "resident" | "italian_citizen" | "foreign_non_resident";
+        usageType: "personal_use" | "long_rental" | "short_rental" | "relocation" | "mixed_use" | "family_legacy";
+        investmentBudget: number;
+        phone: string;
+        investmentGoal: string;
+    }) => {
         setIsSaving(true);
         try {
             const method = userProfile ? "PUT" : "POST";
@@ -70,7 +78,7 @@ export function PreferencesClient({ userId }: PreferencesClientProps) {
                     {userProfile ? "Editar Preferências" : "Configure suas Preferências"}
                 </h1>
                 <p className="text-muted-foreground">
-                    {userProfile 
+                    {userProfile
                         ? "Atualize suas preferências para melhorar as recomendações de imóveis"
                         : "Configurar suas preferências é o primeiro passo para receber recomendações personalizadas de imóveis na Itália"
                     }
@@ -79,7 +87,15 @@ export function PreferencesClient({ userId }: PreferencesClientProps) {
 
             <PreferencesForm
                 onSubmit={handleSubmit}
-                initialData={userProfile || undefined}
+                initialData={userProfile ? {
+                    propertyType: userProfile.propertyType as "residential" | "commercial" | "investment" | undefined,
+                    location: userProfile.location || "",
+                    buyerProfile: userProfile.buyerProfile as "resident" | "italian_citizen" | "foreign_non_resident" | undefined,
+                    usageType: userProfile.usageType as "personal_use" | "long_rental" | "short_rental" | "relocation" | "mixed_use" | "family_legacy" | undefined,
+                    investmentBudget: userProfile.investmentBudget || undefined,
+                    phone: userProfile.phone || "",
+                    investmentGoal: userProfile.investmentGoal || "",
+                } : undefined}
                 isEditing={!!userProfile}
                 isLoading={isSaving}
             />
