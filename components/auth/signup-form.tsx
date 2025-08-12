@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Building, Mail, Lock, User, Eye, EyeOff } from "lucide-react";
+import { Building, Mail, Lock, User } from "lucide-react";
 import { Logo } from "@/components/ui/logo";
 import Link from "next/link";
 
@@ -16,8 +16,7 @@ export function SignUpForm() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-    const [showPassword, setShowPassword] = useState(false);
-    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
     const [acceptPrivacyPolicy, setAcceptPrivacyPolicy] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState("");
@@ -77,7 +76,7 @@ export function SignUpForm() {
             if (result?.error) {
                 setError("Conta criada, mas houve erro no login automático");
             } else {
-                router.push("/checklist");
+                router.push("/preferences");
             }
         } catch {
             setError("Ocorreu um erro. Tente novamente.");
@@ -87,7 +86,7 @@ export function SignUpForm() {
     };
 
     const handleGoogleSignIn = () => {
-        signIn("google", { callbackUrl: "/checklist" });
+        signIn("google", { callbackUrl: "/preferences" });
     };
 
     return (
@@ -182,20 +181,13 @@ export function SignUpForm() {
                                 <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                                 <Input
                                     id="password"
-                                    type={showPassword ? "text" : "password"}
+                                    type="password"
                                     placeholder="Mínimo 6 caracteres"
-                                    className="pl-10 pr-10"
+                                    className="pl-10"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                     required
                                 />
-                                <button
-                                    type="button"
-                                    className="absolute right-3 top-3 h-4 w-4 text-muted-foreground hover:text-foreground"
-                                    onClick={() => setShowPassword(!showPassword)}
-                                >
-                                    {showPassword ? <EyeOff /> : <Eye />}
-                                </button>
                             </div>
                         </div>
 
@@ -205,20 +197,13 @@ export function SignUpForm() {
                                 <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                                 <Input
                                     id="confirmPassword"
-                                    type={showConfirmPassword ? "text" : "password"}
+                                    type="password"
                                     placeholder="Confirme sua senha"
-                                    className="pl-10 pr-10"
+                                    className="pl-10"
                                     value={confirmPassword}
                                     onChange={(e) => setConfirmPassword(e.target.value)}
                                     required
                                 />
-                                <button
-                                    type="button"
-                                    className="absolute right-3 top-3 h-4 w-4 text-muted-foreground hover:text-foreground"
-                                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                                >
-                                    {showConfirmPassword ? <EyeOff /> : <Eye />}
-                                </button>
                             </div>
                         </div>
 

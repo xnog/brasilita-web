@@ -2,53 +2,14 @@ import { Building, Home, Key, MapPin, Phone, Mail, CheckCircle, Star, Users, Tre
 import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { Logo } from "@/components/ui/logo";
+import { LandingHeader } from "@/components/layout/landing-header";
 
 export default async function HomePage() {
   const session = await auth();
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="border-b border-border/50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
-        <div className="container mx-auto container-padding py-4 flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 rounded-lg flex items-center justify-center">
-              <Logo className="text-primary-foreground" size={48} />
-            </div>
-            <div>
-              <h1 className="text-xl font-bold text-foreground">Brasilità</h1>
-              <p className="text-xs text-muted-foreground">Seu imóvel na Itália</p>
-            </div>
-          </div>
-          <nav className="hidden md:flex items-center space-x-8">
-            <a href="#como-funciona" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
-              Como Funciona
-            </a>
-            <a href="#servicos" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
-              Serviços
-            </a>
-            <a href="#sobre" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
-              Sobre
-            </a>
-            <a href="#contato" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
-              Contato
-            </a>
-            {session ? (
-              <Link href="/dashboard" className="btn-primary text-sm px-6 py-2">
-                Entrar
-              </Link>
-            ) : (
-              <div className="flex items-center space-x-4">
-                <Link href="/auth/signin" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
-                  Entrar
-                </Link>
-                <Link href="/auth/signup" className="btn-primary text-sm px-6 py-2">
-                  Começar
-                </Link>
-              </div>
-            )}
-          </nav>
-        </div>
-      </header>
+      <LandingHeader session={session} />
 
       {/* Hero Section */}
       <section className="section-padding relative bg-cover bg-center bg-no-repeat" style={{ backgroundImage: 'url(/bg.jpeg)' }}>

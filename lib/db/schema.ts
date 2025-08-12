@@ -174,3 +174,65 @@ export type UserChecklistProgress = typeof userChecklistProgress.$inferSelect;
 export type NewUserChecklistProgress = typeof userChecklistProgress.$inferInsert;
 export type UserProgressHistory = typeof userProgressHistory.$inferSelect;
 export type NewUserProgressHistory = typeof userProgressHistory.$inferInsert;
+
+// Property listings tables
+export const properties = pgTable("property", {
+    id: text("id")
+        .primaryKey()
+        .$defaultFn(() => crypto.randomUUID()),
+    title: text("title").notNull(),
+    description: text("description"),
+    price: integer("price").notNull(), // price in euros
+    location: text("location").notNull(), // city or neighborhood
+    propertyType: text("propertyType").notNull(), // residential, commercial, investment
+    bedrooms: integer("bedrooms"),
+    bathrooms: integer("bathrooms"),
+    area: integer("area"), // square meters
+    features: text("features"), // JSON array of features
+    images: text("images"), // JSON array of image URLs
+    isAvailable: boolean("isAvailable").default(true),
+    createdAt: timestamp("createdAt", { mode: "date" }).defaultNow(),
+    updatedAt: timestamp("updatedAt", { mode: "date" }).defaultNow(),
+});
+
+// Property matching - links properties to users based on their profile
+export const propertyMatches = pgTable("property_match", {
+    id: text("id")
+        .primaryKey()
+        .$defaultFn(() => crypto.randomUUID()),
+    userId: text("userId")
+        .notNull()
+        .references(() => users.id, { onDelete: "cascade" }),
+    propertyId: text("propertyId")
+        .notNull()
+        .references(() => properties.id, { onDelete: "cascade" }),
+    matchScore: integer("matchScore").default(0), // 0-100 matching score
+    matchReason: text("matchReason"), // JSON explaining why it matched
+    isActive: boolean("isActive").default(true),
+    createdAt: timestamp("createdAt", { mode: "date" }).defaultNow(),
+    updatedAt: timestamp("updatedAt", { mode: "date" }).defaultNow(),
+});
+
+export const userPropertyInterests = pgTable("user_property_interest", {
+    id: text("id")
+        .primaryKey()
+        .$defaultFn(() => crypto.randomUUID()),
+    userId: text("userId")
+        .notNull()
+        .references(() => users.id, { onDelete: "cascade" }),
+    propertyId: text("propertyId")
+        .notNull()
+        .references(() => properties.id, { onDelete: "cascade" }),
+    isInterested: boolean("isInterested").default(true),
+    status: text("status").$type<"interested" | "rejected">(), // user's action on property
+    notes: text("notes"), // user's private notes about the property
+    createdAt: timestamp("createdAt", { mode: "date" }).defaultNow(),
+    updatedAt: timestamp("updatedAt", { mode: "date" }).defaultNow(),
+});
+
+export type Property = typeof properties.$inferSelect;
+export type NewProperty = typeof properties.$inferInsert;
+export type PropertyMatch = typeof propertyMatches.$inferSelect;
+export type NewPropertyMatch = typeof propertyMatches.$inferInsert;
+export type UserPropertyInterest = typeof userPropertyInterests.$inferSelect;
+export type NewUserPropertyInterest = typeof userPropertyInterests.$inferInsert;
