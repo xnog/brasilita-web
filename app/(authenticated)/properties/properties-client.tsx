@@ -1,6 +1,6 @@
 "use client";
 
-import { PropertyList } from "@/components/properties/property-list";
+import { PropertiesWithInterests } from "@/components/properties/properties-with-interests";
 
 interface PropertiesClientProps {
     userProfile?: {
@@ -18,5 +18,5 @@ export function PropertiesClient({ userProfile }: PropertiesClientProps) {
         propertyType: userProfile.propertyType || undefined,
     } : undefined;
 
-    return <PropertyList userProfile={cleanUserProfile} />;
+    return <PropertiesWithInterests userProfile={cleanUserProfile} />;
 }

@@ -3,10 +3,11 @@
 import { useState, useEffect } from "react";
 import { ChecklistView } from "@/components/checklist/checklist-view";
 import { SuccessBanner } from "@/components/checklist/success-banner";
-import { Loading } from "@/components/ui/loading";
+import { PageLoading } from "@/components/ui/page-loading";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Settings, ArrowRight } from "lucide-react";
+import { PreferencesRequiredBanner } from "@/components/preferences/preferences-required-banner";
 import type { ChecklistCategory, ChecklistItem } from "@/lib/db/schema";
 
 interface UserProfile {
@@ -153,79 +154,42 @@ export function ChecklistPageClient({ userId }: ChecklistPageClientProps) {
     });
 
     if (isLoading) {
-        return <Loading message="Carregando seu checklist..." />;
+        return <PageLoading message="Carregando seu checklist..." />;
     }
 
     return (
-        <div className="container mx-auto py-8">
-                {!userProfile ? (
-                    <div className="max-w-4xl mx-auto">
-                        <div className="text-center mb-8">
-                            <h1 className="text-3xl font-bold text-foreground mb-2">
-                                Checklist de Compra de Imóvel na Itália
-                            </h1>
-                            <p className="text-muted-foreground max-w-2xl mx-auto">
-                                Para acessar seu checklist personalizado, você precisa configurar suas preferências primeiro.
-                            </p>
-                        </div>
-                        
-                        <Card className="max-w-2xl mx-auto">
-                            <CardHeader className="text-center">
-                                <CardTitle className="flex items-center justify-center gap-2 text-xl">
-                                    <Settings className="h-6 w-6 text-primary" />
-                                    Configure suas Preferências
-                                </CardTitle>
-                                <CardDescription>
-                                    Suas preferências de investimento são necessárias para gerar um checklist personalizado
-                                </CardDescription>
-                            </CardHeader>
-                            <CardContent className="text-center space-y-4">
-                                <p className="text-muted-foreground">
-                                    O checklist será personalizado baseado em:
-                                </p>
-                                <ul className="text-sm text-muted-foreground space-y-1">
-                                    <li>• Tipo de imóvel (residencial, comercial, investimento)</li>
-                                    <li>• Sua localização desejada na Itália</li>
-                                    <li>• Seu perfil como comprador</li>
-                                    <li>• Tipo de uso pretendido</li>
-                                    <li>• Orçamento disponível</li>
-                                </ul>
-                                <Button size="lg" asChild className="mt-6">
-                                    <a href="/preferences">
-                                        <Settings className="h-4 w-4 mr-2" />
-                                        Configurar Preferências
-                                        <ArrowRight className="h-4 w-4 ml-2" />
-                                    </a>
-                                </Button>
-                            </CardContent>
-                        </Card>
+        <>
+            {!userProfile ? (
+                <PreferencesRequiredBanner
+                    title="Checklist de Compra de Imóvel na Itália"
+                    description="Para acessar seu checklist personalizado, você precisa configurar suas preferências primeiro."
+                />
+            ) : (
+                <>
+                    <div className="mb-8">
+                        <h1 className="text-3xl font-bold text-foreground mb-2">
+                            Seu Checklist Personalizado
+                        </h1>
+                        <p className="text-muted-foreground">
+                            Acompanhe seu progresso na compra do imóvel em {userProfile.location}, Itália
+                        </p>
                     </div>
-                ) : (
-                    <div>
-                        <div className="mb-6">
-                            <h1 className="text-3xl font-bold text-foreground mb-2">
-                                Seu Checklist Personalizado
-                            </h1>
-                            <p className="text-muted-foreground">
-                                Acompanhe seu progresso na compra do imóvel em {userProfile.location}, Itália
-                            </p>
-                        </div>
 
-                        {/* Success Banner */}
-                        <div className="mb-6">
-                            <SuccessBanner userProfile={userProfile} />
-                        </div>
-
-                        <ChecklistView
-                            categories={transformedCategories}
-                            items={transformedItems}
-                            userProfile={userProfile}
-                            initialProgress={userProgress}
-                            onProgressUpdate={handleProgressUpdate}
-                            onResetProfile={handleResetProfile}
-                        />
+                    {/* Success Banner */}
+                    <div className="mb-6">
+                        <SuccessBanner userProfile={userProfile} />
                     </div>
-                )}
-        </div>
+
+                    <ChecklistView
+                        categories={transformedCategories}
+                        items={transformedItems}
+                        userProfile={userProfile}
+                        initialProgress={userProgress}
+                        onProgressUpdate={handleProgressUpdate}
+                        onResetProfile={handleResetProfile}
+                    />
+                </>
+            )}
+        </>
     );
 }

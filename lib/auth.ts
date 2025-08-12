@@ -1,12 +1,14 @@
 import NextAuth from "next-auth";
 import Google from "next-auth/providers/google";
 import Credentials from "next-auth/providers/credentials";
+import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import { db } from "./db";
 import { users } from "./db/schema";
 import { eq } from "drizzle-orm";
 import bcrypt from "bcryptjs";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
+    adapter: DrizzleAdapter(db),
     trustHost: true,
     debug: true,
     providers: [
@@ -60,12 +62,16 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
     callbacks: {
         async jwt({ token, user }) {
+            console.log("jwt", user);
+            console.log("jwt", token);
             if (user) {
                 token.id = user.id;
             }
             return token;
         },
         async session({ session, token }) {
+            console.log("session", session);
+            console.log("token", token);
             if (token) {
                 session.user.id = token.id as string;
             }

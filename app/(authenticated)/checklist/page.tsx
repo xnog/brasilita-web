@@ -6,7 +6,9 @@ export default async function ChecklistPage() {
 
     return (
         <div className="container mx-auto container-padding py-8">
-            <ChecklistPageClient userId={session.user?.id || ""} />
+            <div className="max-w-4xl mx-auto">
+                <ChecklistPageClient userId={session.user?.id || ""} />
+            </div>
         </div>
     );
 }
