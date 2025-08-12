@@ -126,8 +126,48 @@ export default async function DashboardPage() {
                     </Card>
                 </div>
 
+                {/* Featured Section - Properties */}
+                <Card className="mb-8 bg-gradient-to-r from-green-500/10 to-green-500/5 border-green-500/20">
+                    <CardHeader>
+                        <CardTitle className="flex items-center gap-3 text-xl">
+                            <Home className="h-6 w-6 text-green-600" />
+                            Imóveis
+                        </CardTitle>
+                        <CardDescription className="text-base">
+                            Explore nossa seleção de imóveis na Itália.
+                        </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
+                            <div className="space-y-2">
+                                <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-sm">
+                                    <span className="flex items-center gap-1">
+                                        🏠 <strong>Seleção</strong> curada
+                                    </span>
+                                    <span className="flex items-center gap-1">
+                                        💚 <strong>Marque</strong> seus favoritos
+                                    </span>
+                                    <span className="flex items-center gap-1">
+                                        🔍 <strong>Filtros</strong> avançados
+                                    </span>
+                                </div>
+                                <p className="text-sm text-muted-foreground">
+                                    Seleção personalizada baseada no seu perfil
+                                </p>
+                            </div>
+                            <Button size="lg" className="shrink-0 bg-green-600 hover:bg-green-700" asChild>
+                                <a href="/properties">
+                                    <Search className="h-4 w-4 mr-2" />
+                                    Ver Imóveis
+                                    <ArrowRight className="h-4 w-4 ml-2" />
+                                </a>
+                            </Button>
+                        </div>
+                    </CardContent>
+                </Card>
+
                 {/* Featured Section - Checklist */}
-                <Card className="mb-8 bg-gradient-to-r from-primary/10 to-primary/5 border-primary/20">
+                {/* <Card className="mb-8 bg-gradient-to-r from-primary/10 to-primary/5 border-primary/20">
                     <CardHeader>
                         <CardTitle className="flex items-center gap-3 text-xl">
                             <CheckSquare className="h-6 w-6 text-primary" />
@@ -164,48 +204,7 @@ export default async function DashboardPage() {
                             </Button>
                         </div>
                     </CardContent>
-                </Card>
-
-                {/* Featured Section - Properties */}
-                <Card className="mb-8 bg-gradient-to-r from-green-500/10 to-green-500/5 border-green-500/20">
-                    <CardHeader>
-                        <CardTitle className="flex items-center gap-3 text-xl">
-                            <Home className="h-6 w-6 text-green-600" />
-                            Imóveis Disponíveis
-                        </CardTitle>
-                        <CardDescription className="text-base">
-                            Explore nossa seleção de imóveis na Itália e marque aqueles que despertam seu interesse.
-                            Filtros personalizados baseados no seu perfil de investimento.
-                        </CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                        <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
-                            <div className="space-y-2">
-                                <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-sm">
-                                    <span className="flex items-center gap-1">
-                                        🏠 <strong>Seleção</strong> curada
-                                    </span>
-                                    <span className="flex items-center gap-1">
-                                        💚 <strong>Marque</strong> seus favoritos
-                                    </span>
-                                    <span className="flex items-center gap-1">
-                                        🔍 <strong>Filtros</strong> avançados
-                                    </span>
-                                </div>
-                                <p className="text-sm text-muted-foreground">
-                                    Seleção personalizada baseada no seu perfil
-                                </p>
-                            </div>
-                            <Button size="lg" className="shrink-0 bg-green-600 hover:bg-green-700" asChild>
-                                <a href="/properties">
-                                    <Search className="h-4 w-4 mr-2" />
-                                    Ver Imóveis
-                                    <ArrowRight className="h-4 w-4 ml-2" />
-                                </a>
-                            </Button>
-                        </div>
-                    </CardContent>
-                </Card>
+                </Card> */}
 
             </div>
         </div>

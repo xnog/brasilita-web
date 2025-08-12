@@ -76,7 +76,7 @@ export function SignUpForm() {
             if (result?.error) {
                 setError("Conta criada, mas houve erro no login automático");
             } else {
-                router.push("/checklist");
+                router.push("/preferences");
             }
         } catch {
             setError("Ocorreu um erro. Tente novamente.");
@@ -86,7 +86,7 @@ export function SignUpForm() {
     };
 
     const handleGoogleSignIn = () => {
-        signIn("google", { callbackUrl: "/checklist" });
+        signIn("google", { callbackUrl: "/preferences" });
     };
 
     return (

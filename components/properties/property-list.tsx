@@ -2,12 +2,13 @@
 
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { PropertyCard } from "./property-card";
-import { PropertyFilters, PropertyFilters as FiltersType } from "./property-filters";
+// import { PropertyFilters } from "./property-filters"; // Temporarily disabled
+import { PropertyFilters as FiltersType } from "./property-filters";
 import { Property } from "@/lib/db/schema";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Home, Search, SlidersHorizontal, Grid, List, Heart, Sparkles, Filter } from "lucide-react";
+import { Home, Search, Grid, List, Heart, Sparkles } from "lucide-react";
 import { PageLoading } from "@/components/ui/page-loading";
 import { cn } from "@/lib/utils";
 
@@ -50,7 +51,7 @@ export function PropertyList({
     const [filters, setFilters] = useState<FiltersType>({});
     const [sortBy, setSortBy] = useState("createdAt");
     const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
-    const [showFilters, setShowFilters] = useState(false);
+    // const [showFilters, setShowFilters] = useState(false); // Temporarily disabled
     const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
     const [showFavoritesOnly, setShowFavoritesOnly] = useState(showOnlyInterested);
     const [curationInfo, setCurationInfo] = useState<CurationInfo>({
@@ -114,12 +115,12 @@ export function PropertyList({
         let filtered = allProperties;
 
         if (showFavoritesOnly) {
-            filtered = filtered.filter(property => 
+            filtered = filtered.filter(property =>
                 propertyInterests[property.id] === "interested"
             );
         } else {
             // Remove rejected properties from view
-            filtered = filtered.filter(property => 
+            filtered = filtered.filter(property =>
                 propertyInterests[property.id] !== "rejected"
             );
         }
@@ -185,16 +186,16 @@ export function PropertyList({
                 <CardContent>
                     <Home className="h-16 w-16 mx-auto text-slate-300 mb-4" />
                     <h3 className="text-xl font-semibold text-slate-900 mb-2">
-                        Nenhum imóvel encontrado
+                        Procurando imóveis para você
                     </h3>
                     <p className="text-slate-600 mb-6">
-                        {curationInfo.requiresProfile 
+                        {curationInfo.requiresProfile
                             ? "Complete seu perfil para ver imóveis personalizados para você"
-                            : "Não encontramos imóveis que atendam aos critérios de busca. Tente ajustar os filtros."}
+                            : "Nossos especialistas procuram novos imóveis todos os dias que atendam ao seu perfil. Você será notificado por email assim que encontrarmos opções ideais para você."}
                     </p>
                     {Object.keys(filters).length > 0 && (
-                        <Button 
-                            onClick={() => setFilters({})} 
+                        <Button
+                            onClick={() => setFilters({})}
                             variant="outline"
                             className="mr-2"
                         >
@@ -213,39 +214,21 @@ export function PropertyList({
     return (
         <div className="space-y-6">
             {/* Header with stats */}
-            <div className="bg-gradient-to-r from-emerald-50 to-green-50 rounded-2xl p-6 border border-emerald-100">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            {filteredProperties.length > 0 && (
+                <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-3">
-                        <div className="w-12 h-12 bg-emerald-500 rounded-full flex items-center justify-center">
-                            <Sparkles className="h-6 w-6 text-white" />
-                        </div>
-                        <div>
-                            <h2 className="text-xl font-bold text-slate-900">
-                                Imóveis Selecionados para Você
-                            </h2>
-                            <p className="text-slate-600">
-                                {curationInfo.isMatched 
-                                    ? `${filteredProperties.length} imóveis correspondem ao seu perfil`
-                                    : `${filteredProperties.length} imóveis disponíveis`}
-                            </p>
-                        </div>
-                    </div>
-                    
-                    <div className="flex items-center gap-2">
+                        <h2 className="text-xl font-semibold text-slate-900">
+                            {filteredProperties.length} imóveis
+                        </h2>
                         {interestedCount > 0 && (
                             <Badge variant="secondary" className="bg-emerald-100 text-emerald-700 border-emerald-200">
                                 <Heart className="h-3 w-3 mr-1 fill-current" />
                                 {interestedCount} interessados
                             </Badge>
                         )}
-                        {curationInfo.isMatched && (
-                            <Badge variant="secondary" className="bg-blue-100 text-blue-700 border-blue-200">
-                                🤖 IA Personalizada
-                            </Badge>
-                        )}
                     </div>
                 </div>
-            </div>
+            )}
 
             {/* Controls */}
             <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
@@ -263,16 +246,9 @@ export function PropertyList({
                             </Badge>
                         )}
                     </Button>
-                    
-                    <Button
-                        variant={showFilters ? "default" : "outline"}
-                        onClick={() => setShowFilters(!showFilters)}
-                        className="rounded-xl"
-                    >
-                        <SlidersHorizontal className="h-4 w-4 mr-2" />
-                        Filtros
-                    </Button>
-                    
+
+
+
                     {Object.keys(filters).length > 0 && (
                         <Button
                             variant="ghost"
@@ -307,19 +283,17 @@ export function PropertyList({
                 </div>
             </div>
 
-            {/* Filters */}
-            {showFilters && (
-                <Card className="p-6 border-slate-200">
-                    <PropertyFilters
-                        onFiltersChange={setFilters}
-                        onSortChange={(sortBy, sortOrder) => {
-                            setSortBy(sortBy);
-                            setSortOrder(sortOrder);
-                        }}
-                        totalProperties={filteredProperties.length}
-                    />
-                </Card>
-            )}
+            {/* Filters - Temporarily disabled due to infinite loop */}
+            {/* <PropertyFilters
+                onFiltersChange={setFilters}
+                onSortChange={(sortBy, sortOrder) => {
+                    setSortBy(sortBy);
+                    setSortOrder(sortOrder);
+                }}
+                totalProperties={filteredProperties.length}
+                showFilters={showFilters}
+                onToggleFilters={() => setShowFilters(!showFilters)}
+            /> */}
 
             {/* Properties grid/list */}
             {filteredProperties.length === 0 ? (
@@ -327,8 +301,8 @@ export function PropertyList({
             ) : (
                 <div className={cn(
                     "grid gap-6",
-                    viewMode === "grid" 
-                        ? "grid-cols-1 lg:grid-cols-2 xl:grid-cols-3" 
+                    viewMode === "grid"
+                        ? "grid-cols-1 lg:grid-cols-2 xl:grid-cols-3"
                         : "grid-cols-1 max-w-4xl mx-auto"
                 )}>
                     {filteredProperties.map((property) => (

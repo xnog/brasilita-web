@@ -24,22 +24,20 @@ export default async function PropertiesPage() {
             <div className="max-w-4xl mx-auto">
                 {!userProfile ? (
                     <PreferencesRequiredBanner
-                        title="Imóveis Selecionados"
-                        description="Complete seu perfil para que nossa IA e especialistas possam selecionar imóveis ideais para você."
+                        title="Imóveis"
+                        description="Complete seu perfil para ver imóveis selecionados para você."
                     />
                 ) : (
                     <>
                         <div className="mb-8">
-                            <h1 className="text-3xl font-bold text-foreground mb-2">Imóveis</h1>
-                            <p className="text-muted-foreground mb-4">Seleção personalizada da IA e especialistas</p>
-                            <p className="text-muted-foreground">
-                                Nossa IA e especialistas selecionaram imóveis que atendem ao seu perfil de investimento.
-                                Marque aqueles que despertam seu interesse para acompanhamento personalizado.
-                                <span className="block mt-2 text-sm text-green-600 font-medium">
-                                    🤖👨‍💼 Baseado no seu perfil: {userProfile.location && `${userProfile.location} • `}
-                                    {userProfile.investmentBudget && `Até €${userProfile.investmentBudget.toLocaleString()} • `}
-                                    {userProfile.propertyType && `${userProfile.propertyType}`}
-                                </span>
+                            <h1 className="text-3xl font-bold text-foreground mb-2">Imóveis Selecionados</h1>
+                            <p className="text-muted-foreground mb-3">
+                                Lista curada por especialistas baseada no seu perfil
+                            </p>
+                            <p className="text-sm text-emerald-600 font-medium">
+                                {userProfile.location && `${userProfile.location}`}
+                                {userProfile.location && userProfile.investmentBudget && ` • `}
+                                {userProfile.investmentBudget && `Até €${userProfile.investmentBudget.toLocaleString()}`}
                             </p>
                         </div>
 

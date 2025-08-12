@@ -13,6 +13,8 @@ interface PropertyFiltersProps {
     onFiltersChange: (filters: PropertyFilters) => void;
     onSortChange: (sortBy: string, sortOrder: "asc" | "desc") => void;
     totalProperties: number;
+    showFilters?: boolean;
+    onToggleFilters?: () => void;
 }
 
 export interface PropertyFilters {
@@ -22,15 +24,16 @@ export interface PropertyFilters {
     minBedrooms?: number;
 }
 
-export function PropertyFilters({ 
-    onFiltersChange, 
-    onSortChange, 
-    totalProperties 
+export function PropertyFilters({
+    onFiltersChange,
+    onSortChange,
+    totalProperties,
+    showFilters = false,
+    onToggleFilters
 }: PropertyFiltersProps) {
     const [filters, setFilters] = useState<PropertyFilters>({});
     const [sortBy, setSortBy] = useState("createdAt");
     const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
-    const [showFilters, setShowFilters] = useState(false);
 
     const propertyTypes = [
         { value: "", label: "Todos os tipos" },
@@ -78,20 +81,22 @@ export function PropertyFilters({
             {/* Filter Toggle and Results Summary */}
             <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-4">
-                    <Button
-                        variant="outline"
-                        onClick={() => setShowFilters(!showFilters)}
-                        className="flex items-center space-x-2"
-                    >
-                        <Filter className="h-4 w-4" />
-                        <span>Filtros</span>
-                        {getActiveFiltersCount() > 0 && (
-                            <Badge variant="secondary" className="ml-1">
-                                {getActiveFiltersCount()}
-                            </Badge>
-                        )}
-                    </Button>
-                    
+                    {onToggleFilters && (
+                        <Button
+                            variant="outline"
+                            onClick={onToggleFilters}
+                            className="flex items-center space-x-2"
+                        >
+                            <Filter className="h-4 w-4" />
+                            <span>Filtros</span>
+                            {getActiveFiltersCount() > 0 && (
+                                <Badge variant="secondary" className="ml-1">
+                                    {getActiveFiltersCount()}
+                                </Badge>
+                            )}
+                        </Button>
+                    )}
+
                     <div className="text-sm text-gray-600">
                         {totalProperties} imóve{totalProperties !== 1 ? 'is' : 'l'} encontrado{totalProperties !== 1 ? 's' : ''}
                     </div>
@@ -118,8 +123,8 @@ export function PropertyFilters({
                         onClick={toggleSort}
                         className="p-1"
                     >
-                        {sortOrder === "asc" ? 
-                            <SortAsc className="h-4 w-4" /> : 
+                        {sortOrder === "asc" ?
+                            <SortAsc className="h-4 w-4" /> :
                             <SortDesc className="h-4 w-4" />
                         }
                     </Button>
@@ -133,8 +138,8 @@ export function PropertyFilters({
                     {filters.location && (
                         <Badge variant="secondary" className="flex items-center gap-1">
                             Local: {filters.location}
-                            <X 
-                                className="h-3 w-3 cursor-pointer" 
+                            <X
+                                className="h-3 w-3 cursor-pointer"
                                 onClick={() => handleFilterChange("location", "")}
                             />
                         </Badge>
@@ -142,8 +147,8 @@ export function PropertyFilters({
                     {filters.maxPrice && (
                         <Badge variant="secondary" className="flex items-center gap-1">
                             Até €{filters.maxPrice.toLocaleString()}
-                            <X 
-                                className="h-3 w-3 cursor-pointer" 
+                            <X
+                                className="h-3 w-3 cursor-pointer"
                                 onClick={() => handleFilterChange("maxPrice", "")}
                             />
                         </Badge>
@@ -151,8 +156,8 @@ export function PropertyFilters({
                     {filters.propertyType && (
                         <Badge variant="secondary" className="flex items-center gap-1">
                             {propertyTypes.find(t => t.value === filters.propertyType)?.label}
-                            <X 
-                                className="h-3 w-3 cursor-pointer" 
+                            <X
+                                className="h-3 w-3 cursor-pointer"
                                 onClick={() => handleFilterChange("propertyType", "")}
                             />
                         </Badge>
@@ -160,8 +165,8 @@ export function PropertyFilters({
                     {filters.minBedrooms && (
                         <Badge variant="secondary" className="flex items-center gap-1">
                             Min. {filters.minBedrooms} quartos
-                            <X 
-                                className="h-3 w-3 cursor-pointer" 
+                            <X
+                                className="h-3 w-3 cursor-pointer"
                                 onClick={() => handleFilterChange("minBedrooms", "")}
                             />
                         </Badge>
@@ -211,8 +216,8 @@ export function PropertyFilters({
                             {/* Property Type Filter */}
                             <div className="space-y-2">
                                 <Label>Tipo de imóvel</Label>
-                                <Select 
-                                    value={filters.propertyType || ""} 
+                                <Select
+                                    value={filters.propertyType || ""}
                                     onValueChange={(value) => handleFilterChange("propertyType", value)}
                                 >
                                     <SelectTrigger>
@@ -231,8 +236,8 @@ export function PropertyFilters({
                             {/* Min Bedrooms Filter */}
                             <div className="space-y-2">
                                 <Label>Quartos mínimos</Label>
-                                <Select 
-                                    value={filters.minBedrooms?.toString() || ""} 
+                                <Select
+                                    value={filters.minBedrooms?.toString() || ""}
                                     onValueChange={(value) => handleFilterChange("minBedrooms", value ? parseInt(value) : "")}
                                 >
                                     <SelectTrigger>

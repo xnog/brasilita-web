@@ -24,10 +24,10 @@ const navigationItems = [
         name: "Imóveis",
         href: "/properties",
     },
-    {
-        name: "Checklist",
-        href: "/checklist",
-    },
+    // {
+    //     name: "Checklist",
+    //     href: "/checklist",
+    // },
 ];
 
 interface AuthenticatedHeaderProps {

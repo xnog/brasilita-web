@@ -10,44 +10,27 @@ export default auth((req) => {
         "/auth/signin",
         "/auth/signup",
         "/api/auth",
-    ];
-
-    // Rotas protegidas que precisam de autenticação
-    const protectedRoutes = [
-        "/dashboard",
-        "/profile",
-        "/settings",
-        "/checklist",
+        "/privacy-policy",
     ];
 
     const isPublicRoute = publicRoutes.some(route =>
         pathname.startsWith(route) || pathname === route
     );
 
-    const isProtectedRoute = protectedRoutes.some(route =>
-        pathname.startsWith(route)
-    );
-
-    // Se for rota de API de auth, permitir
-    if (pathname.startsWith("/api/auth")) {
-        return NextResponse.next();
-    }
-
-    // Se for rota pública, permitir
+    // Se for rota pública, permitir acesso
     if (isPublicRoute) {
+        // Se estiver logado e tentando acessar login/signup, redirecionar para dashboard
+        if (req.auth && (pathname === "/auth/signin" || pathname === "/auth/signup")) {
+            return NextResponse.redirect(new URL("/dashboard", req.url));
+        }
         return NextResponse.next();
     }
 
-    // Se for rota protegida e não estiver logado, redirecionar para login
-    if (isProtectedRoute && !req.auth) {
+    // Todas as outras rotas (incluindo APIs) são privadas
+    if (!req.auth) {
         const signInUrl = new URL("/auth/signin", req.url);
         signInUrl.searchParams.set("callbackUrl", pathname);
         return NextResponse.redirect(signInUrl);
-    }
-
-    // Se estiver logado e tentando acessar página de login, redirecionar para dashboard
-    if (req.auth && (pathname === "/auth/signin" || pathname === "/auth/signup")) {
-        return NextResponse.redirect(new URL("/dashboard", req.url));
     }
 
     return NextResponse.next();
