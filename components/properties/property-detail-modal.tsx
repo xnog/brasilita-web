@@ -1,16 +1,17 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { 
-    MapPin, 
-    Bed, 
-    Bath, 
-    Square, 
-    ThumbsUp, 
+import {
+    MapPin,
+    Bed,
+    Bath,
+    Square,
+    ThumbsUp,
     ChevronLeft,
     ChevronRight,
     Car,
@@ -79,14 +80,14 @@ export function PropertyDetailModal({
 
     const formatDate = (date: Date | string | null) => {
         if (!date) return "Data não informada";
-        
+
         const dateObj = typeof date === 'string' ? new Date(date) : date;
-        
+
         // Check if the date is valid
         if (isNaN(dateObj.getTime())) {
             return "Data não informada";
         }
-        
+
         return new Intl.DateTimeFormat('pt-BR', {
             day: '2-digit',
             month: '2-digit',
@@ -118,12 +119,13 @@ export function PropertyDetailModal({
                             {/* Image Gallery */}
                             <div className="space-y-4">
                                 <div className="relative aspect-[16/10] overflow-hidden rounded-xl bg-slate-100">
-                                    <img
+                                    <Image
                                         src={images[currentImageIndex]}
                                         alt={`${property.title} - Foto ${currentImageIndex + 1}`}
-                                        className="w-full h-full object-cover"
+                                        fill
+                                        className="object-cover"
                                     />
-                                    
+
                                     {images.length > 1 && (
                                         <>
                                             <Button
@@ -142,7 +144,7 @@ export function PropertyDetailModal({
                                             >
                                                 <ChevronRight className="h-5 w-5" />
                                             </Button>
-                                            
+
                                             <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-white/80 backdrop-blur-sm rounded-full px-3 py-1">
                                                 <span className="text-sm font-medium text-slate-700">
                                                     {currentImageIndex + 1} / {images.length}
@@ -161,15 +163,16 @@ export function PropertyDetailModal({
                                                 onClick={() => setCurrentImageIndex(index)}
                                                 className={cn(
                                                     "relative aspect-[4/3] w-20 flex-shrink-0 overflow-hidden rounded-lg border-2 transition-all",
-                                                    index === currentImageIndex 
-                                                        ? "border-emerald-500" 
+                                                    index === currentImageIndex
+                                                        ? "border-emerald-500"
                                                         : "border-transparent hover:border-slate-300"
                                                 )}
                                             >
-                                                <img
+                                                <Image
                                                     src={image}
                                                     alt={`Thumbnail ${index + 1}`}
-                                                    className="w-full h-full object-cover"
+                                                    fill
+                                                    className="object-cover"
                                                 />
                                             </button>
                                         ))}
@@ -266,7 +269,7 @@ export function PropertyDetailModal({
                                     {/* Additional Info */}
                                     <div className="bg-slate-50 rounded-xl p-4 space-y-3">
                                         <h4 className="font-semibold text-slate-900">Informações Adicionais</h4>
-                                        
+
                                         <div className="space-y-2 text-sm">
                                             <div className="flex items-center gap-2">
                                                 <Calendar className="h-4 w-4 text-slate-500" />
@@ -274,7 +277,7 @@ export function PropertyDetailModal({
                                                     Anunciado em {formatDate(property.createdAt)}
                                                 </span>
                                             </div>
-                                            
+
                                             {property.area && (
                                                 <div className="flex items-center gap-2">
                                                     <Euro className="h-4 w-4 text-slate-500" />

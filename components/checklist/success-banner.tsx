@@ -2,7 +2,7 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Building, Phone, CheckCircle } from "lucide-react";
+import { Building, CheckCircle } from "lucide-react";
 
 interface SuccessBannerProps {
     userProfile: {
@@ -26,8 +26,8 @@ export function SuccessBanner({ userProfile }: SuccessBannerProps) {
                     Perfil Configurado com Sucesso!
                 </CardTitle>
                 <CardDescription className="text-green-700 dark:text-green-300 text-base">
-                    Seu checklist personalizado está pronto! Com base no seu perfil de <strong>{userProfile.location}</strong> com 
-                    orçamento de <strong>€{userProfile.investmentBudget.toLocaleString()}</strong>, organizamos todas as etapas 
+                    Seu checklist personalizado está pronto! Com base no seu perfil de <strong>{userProfile.location}</strong> com
+                    orçamento de <strong>€{userProfile.investmentBudget.toLocaleString()}</strong>, organizamos todas as etapas
                     legais e burocráticas necessárias para sua compra de imóvel na Itália.
                 </CardDescription>
             </CardHeader>

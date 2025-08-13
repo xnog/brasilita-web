@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { User, CheckSquare, ArrowRight, Home, Search, Settings } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { db } from "@/lib/db";
-import { userProfiles, userPropertyInterests } from "@/lib/db/schema";
+import { userProfiles, propertyMatches } from "@/lib/db/schema";
 import { eq, and } from "drizzle-orm";
 
 export default async function DashboardPage() {
@@ -19,10 +19,10 @@ export default async function DashboardPage() {
             });
 
             if (userProfile) {
-                const interests = await db.select().from(userPropertyInterests)
+                const interests = await db.select().from(propertyMatches)
                     .where(and(
-                        eq(userPropertyInterests.userId, session.user.id),
-                        eq(userPropertyInterests.status, "interested")
+                        eq(propertyMatches.userId, session.user.id),
+                        eq(propertyMatches.isInterested, true)
                     ));
                 propertyInterests = interests.length;
             }

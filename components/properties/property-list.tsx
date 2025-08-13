@@ -30,7 +30,7 @@ export function PropertyList() {
 
     const handleToggleInterest = async (propertyId: string, isInterested: boolean) => {
         // Optimistic update
-        setProperties(prev => prev.map(p => 
+        setProperties(prev => prev.map(p =>
             p.id === propertyId ? { ...p, isInterested } : p
         ));
 
@@ -40,9 +40,9 @@ export function PropertyList() {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ propertyId, isInterested })
             });
-        } catch (error) {
+        } catch {
             // Revert on error
-            setProperties(prev => prev.map(p => 
+            setProperties(prev => prev.map(p =>
                 p.id === propertyId ? { ...p, isInterested: !isInterested } : p
             ));
         }
@@ -56,8 +56,8 @@ export function PropertyList() {
         return <PageLoading />;
     }
 
-    const filteredProperties = showFavoritesOnly 
-        ? properties.filter(p => p.isInterested) 
+    const filteredProperties = showFavoritesOnly
+        ? properties.filter(p => p.isInterested)
         : properties;
 
     const interestedCount = properties.filter(p => p.isInterested).length;
@@ -71,7 +71,7 @@ export function PropertyList() {
                         {showFavoritesOnly ? "Nenhum favorito" : "Procurando imóveis para você"}
                     </h3>
                     <p className="text-slate-600 mb-6">
-                        {showFavoritesOnly 
+                        {showFavoritesOnly
                             ? "Marque imóveis como interessante para vê-los aqui"
                             : "Nossos especialistas procuram novos imóveis todos os dias que atendam ao seu perfil. Você será notificado por email assim que encontrarmos opções ideais para você."
                         }

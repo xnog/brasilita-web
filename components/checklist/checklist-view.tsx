@@ -9,10 +9,7 @@ import { ChecklistItem } from "./checklist-item";
 import {
     CheckCircle2,
     Clock,
-    Filter,
-    RotateCcw,
-    Download,
-    Share
+    Filter
 } from "lucide-react";
 
 interface ChecklistCategory {
@@ -59,7 +56,6 @@ interface ChecklistViewProps {
     userProfile: UserProfile;
     initialProgress?: UserProgress;
     onProgressUpdate: (itemId: string, completed: boolean, notes?: string) => void;
-    onResetProfile: () => void;
 }
 
 export function ChecklistView({
@@ -68,7 +64,6 @@ export function ChecklistView({
     userProfile,
     initialProgress = {},
     onProgressUpdate,
-    onResetProfile,
 }: ChecklistViewProps) {
     const [progress, setProgress] = useState<UserProgress>(initialProgress);
     const [showOptional, setShowOptional] = useState(true);
@@ -77,9 +72,10 @@ export function ChecklistView({
 
     // Limpar todos os timeouts quando o componente for desmontado
     useEffect(() => {
+        const timeouts = progressUpdateTimeouts.current;
         return () => {
-            progressUpdateTimeouts.current.forEach(timeout => clearTimeout(timeout));
-            progressUpdateTimeouts.current.clear();
+            timeouts.forEach(timeout => clearTimeout(timeout));
+            timeouts.clear();
         };
     }, []);
 
