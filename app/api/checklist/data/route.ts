@@ -63,7 +63,7 @@ export async function GET() {
             profileWithRegions = {
                 ...profile,
                 formattedRegions
-            };
+            } as typeof profile & { formattedRegions: string };
         }
 
         return NextResponse.json({

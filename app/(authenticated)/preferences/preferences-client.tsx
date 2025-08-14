@@ -44,7 +44,7 @@ export function PreferencesClient() {
 
     const handleSubmit = async (data: {
         propertyType: "residential" | "commercial" | "investment";
-        location: string;
+        location?: string;
         regions: string[];
         buyerProfile: "resident" | "italian_citizen" | "foreign_non_resident";
         usageType: "personal_use" | "long_rental" | "short_rental" | "relocation" | "mixed_use" | "family_legacy";

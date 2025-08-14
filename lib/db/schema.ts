@@ -245,7 +245,7 @@ export const userProfileRegions = pgTable("user_profile_region", {
 });
 
 // Relations
-export const regionsRelations = relations(regions, ({ many, one }) => ({
+export const regionsRelations = relations(regions, ({ many }) => ({
     userProfileRegions: many(userProfileRegions),
     properties: many(properties),
 }));

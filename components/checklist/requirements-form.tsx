@@ -166,7 +166,7 @@ export function RequirementsForm({ onSubmit, initialData }: RequirementsFormProp
                                         <MultiSelector
                                             values={field.value?.map(regionId =>
                                                 italianRegions.find(region => region.value === regionId)
-                                            ).filter(Boolean) || []}
+                                            ).filter(Boolean) as MultiSelectValue[] || []}
                                             onValuesChange={(selected) => {
                                                 field.onChange(selected.map(option => option.value));
                                             }}

@@ -43,7 +43,7 @@ interface UserProgress {
 
 interface UserProfile {
     propertyType: string;
-    location: string;
+    location?: string;
     buyerProfile: string;
     usageType: string;
     investmentBudget: number;
@@ -208,7 +208,7 @@ export function ChecklistView({
                             </div>
                             <div>
                                 <span className="font-medium">Regiões:</span>
-                                <p className="text-muted-foreground">{(userProfile as any).formattedRegions || userProfile.location || "Não especificado"}</p>
+                                <p className="text-muted-foreground">{(userProfile as UserProfile & { formattedRegions?: string }).formattedRegions || userProfile.location || "Não especificado"}</p>
                             </div>
                             <div>
                                 <span className="font-medium">Perfil:</span>

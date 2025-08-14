@@ -1,6 +1,6 @@
 import { db } from "@/lib/db";
 import { properties, propertyMatches, userProfiles } from "@/lib/db/schema";
-import { eq, and, inArray, isNull, or } from "drizzle-orm";
+import { eq, and, inArray, gte, lte } from "drizzle-orm";
 
 export interface MatchingCriteria {
     userProfileId: string;
@@ -18,11 +18,8 @@ export async function generatePropertyMatches(criteria: MatchingCriteria) {
         let whereCondition = and(
             eq(properties.propertyType, criteria.propertyType),
             // Propriedades dentro do orçamento (considerando uma margem de 20%)
-            properties.price ?
-                and(
-                    properties.price <= criteria.investmentBudget * 1.2,
-                    properties.price >= criteria.investmentBudget * 0.5
-                ) : undefined,
+            lte(properties.price, criteria.investmentBudget * 1.2),
+            gte(properties.price, criteria.investmentBudget * 0.5),
             eq(properties.isAvailable, true)
         );
 
