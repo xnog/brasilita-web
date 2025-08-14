@@ -1,4 +1,5 @@
 import { pgTable, text, timestamp, integer, primaryKey, boolean } from "drizzle-orm/pg-core";
+import { relations } from "drizzle-orm";
 import type { AdapterAccountType } from "next-auth/adapters";
 
 export const users = pgTable("user", {
@@ -184,6 +185,8 @@ export const properties = pgTable("property", {
     description: text("description"),
     price: integer("price").notNull(), // price in euros
     location: text("location").notNull(), // city or neighborhood
+    regionId: text("regionId")
+        .references(() => regions.id, { onDelete: "set null" }), // Italian region
     propertyType: text("propertyType").notNull(), // residential, commercial, investment
     bedrooms: integer("bedrooms"),
     bathrooms: integer("bathrooms"),
@@ -216,6 +219,88 @@ export const propertyMatches = pgTable("property_match", {
 
 
 
+// Regions tables
+export const regions = pgTable("region", {
+    id: text("id")
+        .primaryKey()
+        .$defaultFn(() => crypto.randomUUID()),
+    name: text("name").notNull().unique(), // "Lombardia", "Toscana", etc.
+    examples: text("examples"), // "Milão, Como, Bergamo" etc.
+    createdAt: timestamp("createdAt", { mode: "date" }).defaultNow(),
+    updatedAt: timestamp("updatedAt", { mode: "date" }).defaultNow(),
+});
+
+// User profile regions - many-to-many relationship
+export const userProfileRegions = pgTable("user_profile_region", {
+    id: text("id")
+        .primaryKey()
+        .$defaultFn(() => crypto.randomUUID()),
+    userProfileId: text("userProfileId")
+        .notNull()
+        .references(() => userProfiles.id, { onDelete: "cascade" }),
+    regionId: text("regionId")
+        .notNull()
+        .references(() => regions.id, { onDelete: "cascade" }),
+    createdAt: timestamp("createdAt", { mode: "date" }).defaultNow(),
+});
+
+// Relations
+export const regionsRelations = relations(regions, ({ many, one }) => ({
+    userProfileRegions: many(userProfileRegions),
+    properties: many(properties),
+}));
+
+export const userProfileRegionsRelations = relations(userProfileRegions, ({ one }) => ({
+    userProfile: one(userProfiles, {
+        fields: [userProfileRegions.userProfileId],
+        references: [userProfiles.id],
+    }),
+    region: one(regions, {
+        fields: [userProfileRegions.regionId],
+        references: [regions.id],
+    }),
+}));
+
+export const userProfilesRelations = relations(userProfiles, ({ one, many }) => ({
+    user: one(users, {
+        fields: [userProfiles.userId],
+        references: [users.id],
+    }),
+    userProfileRegions: many(userProfileRegions),
+}));
+
+export const propertiesRelations = relations(properties, ({ one, many }) => ({
+    region: one(regions, {
+        fields: [properties.regionId],
+        references: [regions.id],
+    }),
+    propertyMatches: many(propertyMatches),
+}));
+
+export const propertyMatchesRelations = relations(propertyMatches, ({ one }) => ({
+    user: one(users, {
+        fields: [propertyMatches.userId],
+        references: [users.id],
+    }),
+    property: one(properties, {
+        fields: [propertyMatches.propertyId],
+        references: [properties.id],
+    }),
+}));
+
+export const usersRelations = relations(users, ({ many }) => ({
+    accounts: many(accounts),
+    sessions: many(sessions),
+    authenticators: many(authenticators),
+    userProfiles: many(userProfiles),
+    propertyMatches: many(propertyMatches),
+    userChecklistProgress: many(userChecklistProgress),
+}));
+
+export type Region = typeof regions.$inferSelect;
+export type NewRegion = typeof regions.$inferInsert;
+export type UserProfileRegion = typeof userProfileRegions.$inferSelect;
+export type NewUserProfileRegion = typeof userProfileRegions.$inferInsert;
 export type Property = typeof properties.$inferSelect;
 export type NewProperty = typeof properties.$inferInsert;
 export type PropertyMatch = typeof propertyMatches.$inferSelect;

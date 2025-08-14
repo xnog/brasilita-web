@@ -11,15 +11,33 @@ export async function GET() {
             return NextResponse.json({ error: "Não autenticado" }, { status: 401 });
         }
 
-        // Check profile
+        // Check profile with regions
         const userProfile = await db.query.userProfiles.findFirst({
-            where: eq(userProfiles.userId, session.user.id)
+            where: eq(userProfiles.userId, session.user.id),
+            with: {
+                userProfileRegions: {
+                    with: {
+                        region: true
+                    }
+                }
+            }
         });
 
-        if (!userProfile?.propertyType || !userProfile.location || !userProfile.investmentBudget) {
-                    return NextResponse.json({
-                        properties: [],
+        if (!userProfile?.propertyType || !userProfile.investmentBudget) {
+            return NextResponse.json({
+                properties: [],
                 message: "Complete seu perfil para ver imóveis selecionados"
+            });
+        }
+
+        // Verificar se tem regiões selecionadas (novo campo) ou location (campo antigo)
+        const hasRegions = userProfile.userProfileRegions.length > 0;
+        const hasLocation = userProfile.location && userProfile.location.trim().length > 0;
+
+        if (!hasRegions && !hasLocation) {
+            return NextResponse.json({
+                properties: [],
+                message: "Selecione pelo menos uma região de interesse para ver imóveis"
             });
         }
 
@@ -38,10 +56,13 @@ export async function GET() {
             });
         }
 
-        // Get properties
+        // Get properties with region information
         const propertyIds = matches.map(m => m.propertyId);
         const propertyList = await db.query.properties.findMany({
-            where: inArray(properties.id, propertyIds)
+            where: inArray(properties.id, propertyIds),
+            with: {
+                region: true
+            }
         });
 
         // Combine with interest status

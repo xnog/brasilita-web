@@ -3,6 +3,7 @@ import { db } from "@/lib/db";
 import { userProfiles, userChecklistProgress } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
 import { auth } from "@/lib/auth";
+import { formatUserRegions } from "@/lib/utils";
 
 export async function GET() {
     try {
@@ -27,9 +28,16 @@ export async function GET() {
                 orderBy: (items, { asc }) => [asc(items.order)]
             }),
 
-            // Buscar perfil do usuário
+            // Buscar perfil do usuário com regiões
             db.query.userProfiles.findFirst({
-                where: eq(userProfiles.userId, session.user.id)
+                where: eq(userProfiles.userId, session.user.id),
+                with: {
+                    userProfileRegions: {
+                        with: {
+                            region: true
+                        }
+                    }
+                }
             }),
 
             // Buscar progresso do usuário
@@ -48,10 +56,20 @@ export async function GET() {
             };
         });
 
+        // Formatar regiões se houver perfil
+        let profileWithRegions = profile;
+        if (profile) {
+            const formattedRegions = await formatUserRegions(profile);
+            profileWithRegions = {
+                ...profile,
+                formattedRegions
+            };
+        }
+
         return NextResponse.json({
             categories,
             items,
-            profile,
+            profile: profileWithRegions,
             progress: progressMap
         });
     } catch (error) {

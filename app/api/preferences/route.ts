@@ -1,26 +1,39 @@
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { userProfiles } from "@/lib/db/schema";
+import { userProfiles, userProfileRegions } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
+import { updateUserMatches } from "@/lib/services/property-matching-service";
 
 export async function GET() {
     try {
         const session = await auth();
-        console.log(session);
         if (!session?.user?.id) {
             return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
         }
 
         const profile = await db.query.userProfiles.findFirst({
-            where: eq(userProfiles.userId, session.user.id)
+            where: eq(userProfiles.userId, session.user.id),
+            with: {
+                userProfileRegions: {
+                    with: {
+                        region: true
+                    }
+                }
+            }
         });
 
         if (!profile) {
             return NextResponse.json(null);
         }
 
-        return NextResponse.json(profile);
+        // Formatar resposta com regiões
+        const profileWithRegions = {
+            ...profile,
+            regions: profile.userProfileRegions.map(upr => upr.region.id)
+        };
+
+        return NextResponse.json(profileWithRegions);
     } catch (error) {
         console.error("Error fetching user profile:", error);
         return NextResponse.json({ error: "Internal server error" }, { status: 500 });
@@ -30,13 +43,13 @@ export async function GET() {
 export async function POST(request: Request) {
     try {
         const session = await auth();
-        console.log(session);
         if (!session?.user?.id) {
             return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
         }
 
         const data = await request.json();
 
+        // Criar o perfil
         const profile = await db.insert(userProfiles).values({
             userId: session.user.id,
             propertyType: data.propertyType,
@@ -48,7 +61,25 @@ export async function POST(request: Request) {
             investmentGoal: data.investmentGoal,
         }).returning();
 
-        return NextResponse.json(profile[0]);
+        // Inserir regiões se fornecidas
+        if (data.regions && data.regions.length > 0) {
+            const regionInserts = data.regions.map((regionId: string) => ({
+                userProfileId: profile[0].id,
+                regionId: regionId
+            }));
+
+            await db.insert(userProfileRegions).values(regionInserts);
+        }
+
+        // Regenerar matches de propriedades
+        try {
+            await updateUserMatches(session.user.id);
+        } catch (matchError) {
+            console.error("Error updating matches:", matchError);
+            // Não falhar a criação do perfil por causa dos matches
+        }
+
+        return NextResponse.json({ ...profile[0], regions: data.regions || [] });
     } catch (error) {
         console.error("Error creating user profile:", error);
         return NextResponse.json({ error: "Internal server error" }, { status: 500 });
@@ -64,6 +95,7 @@ export async function PUT(request: Request) {
 
         const data = await request.json();
 
+        // Atualizar o perfil
         const profile = await db.update(userProfiles)
             .set({
                 propertyType: data.propertyType,
@@ -78,7 +110,33 @@ export async function PUT(request: Request) {
             .where(eq(userProfiles.userId, session.user.id))
             .returning();
 
-        return NextResponse.json(profile[0]);
+        if (profile.length === 0) {
+            return NextResponse.json({ error: "Profile not found" }, { status: 404 });
+        }
+
+        // Gerenciar regiões - primeiro remover todas as existentes
+        await db.delete(userProfileRegions)
+            .where(eq(userProfileRegions.userProfileId, profile[0].id));
+
+        // Inserir novas regiões se fornecidas
+        if (data.regions && data.regions.length > 0) {
+            const regionInserts = data.regions.map((regionId: string) => ({
+                userProfileId: profile[0].id,
+                regionId: regionId
+            }));
+
+            await db.insert(userProfileRegions).values(regionInserts);
+        }
+
+        // Regenerar matches de propriedades
+        try {
+            await updateUserMatches(session.user.id);
+        } catch (matchError) {
+            console.error("Error updating matches:", matchError);
+            // Não falhar a atualização do perfil por causa dos matches
+        }
+
+        return NextResponse.json({ ...profile[0], regions: data.regions || [] });
     } catch (error) {
         console.error("Error updating user profile:", error);
         return NextResponse.json({ error: "Internal server error" }, { status: 500 });

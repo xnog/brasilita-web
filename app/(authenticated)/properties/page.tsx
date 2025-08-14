@@ -4,17 +4,30 @@ import { db } from "@/lib/db";
 import { userProfiles } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
 import { PreferencesRequiredBanner } from "@/components/preferences/preferences-required-banner";
+import { formatUserRegions } from "@/lib/utils";
 
 export default async function PropertiesPage() {
     const session = await auth();
 
     // Try to get user profile for default filters
     let userProfile = null;
+    let formattedRegions = "";
     try {
         if (session?.user?.id) {
             userProfile = await db.query.userProfiles.findFirst({
-                where: eq(userProfiles.userId, session.user.id)
+                where: eq(userProfiles.userId, session.user.id),
+                with: {
+                    userProfileRegions: {
+                        with: {
+                            region: true
+                        }
+                    }
+                }
             });
+
+            if (userProfile) {
+                formattedRegions = await formatUserRegions(userProfile);
+            }
         }
     } catch (error) {
         console.log("User profile not found or database not ready:", error);
@@ -37,8 +50,8 @@ export default async function PropertiesPage() {
                                 Lista curada por especialistas baseada no seu perfil
                             </p>
                             <p className="text-sm text-emerald-600 font-medium">
-                                {userProfile.location && `${userProfile.location}`}
-                                {userProfile.location && userProfile.investmentBudget && ` • `}
+                                {formattedRegions && `${formattedRegions}`}
+                                {formattedRegions && userProfile.investmentBudget && ` • `}
                                 {userProfile.investmentBudget && `Até €${userProfile.investmentBudget.toLocaleString()}`}
                             </p>
                         </div>

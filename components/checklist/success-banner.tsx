@@ -26,7 +26,7 @@ export function SuccessBanner({ userProfile }: SuccessBannerProps) {
                     Perfil Configurado com Sucesso!
                 </CardTitle>
                 <CardDescription className="text-green-700 dark:text-green-300 text-base">
-                    Seu checklist personalizado está pronto! Com base no seu perfil de <strong>{userProfile.location}</strong> com
+                    Seu checklist personalizado está pronto! Com base no seu perfil para <strong>{(userProfile as any).formattedRegions || userProfile.location || "suas regiões selecionadas"}</strong> com
                     orçamento de <strong>€{userProfile.investmentBudget.toLocaleString()}</strong>, organizamos todas as etapas
                     legais e burocráticas necessárias para sua compra de imóvel na Itália.
                 </CardDescription>

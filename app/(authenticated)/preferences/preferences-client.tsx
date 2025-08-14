@@ -5,34 +5,47 @@ import { useRouter } from "next/navigation";
 import { PreferencesForm } from "@/components/preferences/preferences-form";
 import { UserProfile } from "@/lib/db/schema";
 import { PageLoading } from "@/components/ui/page-loading";
+import { MultiSelectValue } from "@/components/extension/multi-select";
 
 export function PreferencesClient() {
     const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
+    const [availableRegions, setAvailableRegions] = useState<MultiSelectValue[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [isSaving, setIsSaving] = useState(false);
     const router = useRouter();
 
     useEffect(() => {
-        const fetchProfile = async () => {
+        const fetchData = async () => {
             try {
-                const response = await fetch("/api/preferences");
-                if (response.ok) {
-                    const profile = await response.json();
+                // Carregar perfil e regiões em paralelo
+                const [profileResponse, regionsResponse] = await Promise.all([
+                    fetch("/api/preferences"),
+                    fetch("/api/regions")
+                ]);
+
+                if (profileResponse.ok) {
+                    const profile = await profileResponse.json();
                     setUserProfile(profile);
                 }
+
+                if (regionsResponse.ok) {
+                    const regions = await regionsResponse.json();
+                    setAvailableRegions(regions);
+                }
             } catch (error) {
-                console.error("Erro ao buscar perfil:", error);
+                console.error("Erro ao buscar dados:", error);
             } finally {
                 setIsLoading(false);
             }
         };
 
-        fetchProfile();
+        fetchData();
     }, []);
 
     const handleSubmit = async (data: {
         propertyType: "residential" | "commercial" | "investment";
         location: string;
+        regions: string[];
         buyerProfile: "resident" | "italian_citizen" | "foreign_non_resident";
         usageType: "personal_use" | "long_rental" | "short_rental" | "relocation" | "mixed_use" | "family_legacy";
         investmentBudget: number;
@@ -83,9 +96,11 @@ export function PreferencesClient() {
 
             <PreferencesForm
                 onSubmit={handleSubmit}
+                availableRegions={availableRegions}
                 initialData={userProfile ? {
                     propertyType: userProfile.propertyType as "residential" | "commercial" | "investment" | undefined,
                     location: userProfile.location || "",
+                    regions: (userProfile as UserProfile & { regions?: string[] }).regions || [], // Incluir regiões selecionadas
                     buyerProfile: userProfile.buyerProfile as "resident" | "italian_citizen" | "foreign_non_resident" | undefined,
                     usageType: userProfile.usageType as "personal_use" | "long_rental" | "short_rental" | "relocation" | "mixed_use" | "family_legacy" | undefined,
                     investmentBudget: userProfile.investmentBudget || undefined,

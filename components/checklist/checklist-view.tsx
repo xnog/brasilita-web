@@ -207,8 +207,8 @@ export function ChecklistView({
                                 <p className="text-muted-foreground">{getProfileLabel('propertyType', userProfile.propertyType)}</p>
                             </div>
                             <div>
-                                <span className="font-medium">Local:</span>
-                                <p className="text-muted-foreground">{userProfile.location}</p>
+                                <span className="font-medium">Regiões:</span>
+                                <p className="text-muted-foreground">{(userProfile as any).formattedRegions || userProfile.location || "Não especificado"}</p>
                             </div>
                             <div>
                                 <span className="font-medium">Perfil:</span>

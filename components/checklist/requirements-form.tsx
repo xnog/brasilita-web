@@ -9,18 +9,52 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import {
+    MultiSelector,
+    MultiSelectorTrigger,
+    MultiSelectorInput,
+    MultiSelectorContent,
+    MultiSelectorList,
+    MultiSelectorItem,
+    MultiSelectValue,
+} from "@/components/extension/multi-select";
 import { convertEurToBrl, formatBrlCurrency, CURRENCY_CONFIG } from "@/lib/config/currency";
 import Link from "next/link";
 
 import { Building2, MapPin, User, Target, Euro, Phone, Goal, Shield } from "lucide-react";
 
+// Regiões da Itália - em produção, isso vem da API
+const italianRegions: MultiSelectValue[] = [
+    { value: 'abruzzo', label: 'Abruzzo (L\'Aquila, Pescara, Costa Adriática)' },
+    { value: 'basilicata', label: 'Basilicata (Matera, Potenza, Maratea)' },
+    { value: 'calabria', label: 'Calabria' },
+    { value: 'campania', label: 'Campania' },
+    { value: 'emilia-romagna', label: 'Emilia-Romagna' },
+    { value: 'friuli-venezia-giulia', label: 'Friuli-Venezia Giulia' },
+    { value: 'lazio', label: 'Lazio' },
+    { value: 'liguria', label: 'Liguria' },
+    { value: 'lombardia', label: 'Lombardia' },
+    { value: 'marche', label: 'Marche' },
+    { value: 'molise', label: 'Molise' },
+    { value: 'piemonte', label: 'Piemonte' },
+    { value: 'puglia', label: 'Puglia' },
+    { value: 'sardegna', label: 'Sardegna' },
+    { value: 'sicilia', label: 'Sicilia' },
+    { value: 'toscana', label: 'Toscana' },
+    { value: 'trentino-alto-adige', label: 'Trentino-Alto Adige' },
+    { value: 'umbria', label: 'Umbria' },
+    { value: 'valle-d-aosta', label: "Valle d'Aosta" },
+    { value: 'veneto', label: 'Veneto' }
+];
+
 const formSchema = z.object({
     propertyType: z.enum(["residential", "commercial", "investment"], {
         message: "Selecione o tipo de imóvel.",
     }),
-    location: z.string().min(2, {
-        message: "Localização deve ter pelo menos 2 caracteres.",
+    regions: z.array(z.string()).min(1, {
+        message: "Selecione pelo menos uma região.",
     }),
+    location: z.string().optional(), // Mantido para compatibilidade, agora opcional
     buyerProfile: z.enum(["resident", "italian_citizen", "foreign_non_resident"], {
         message: "Selecione seu perfil como comprador.",
     }),
@@ -55,6 +89,7 @@ export function RequirementsForm({ onSubmit, initialData }: RequirementsFormProp
         defaultValues: {
             propertyType: initialData?.propertyType || undefined,
             location: initialData?.location || "",
+            regions: initialData?.regions || [],
             buyerProfile: initialData?.buyerProfile || undefined,
             usageType: initialData?.usageType || undefined,
             investmentBudget: initialData?.investmentBudget || undefined,
@@ -117,7 +152,52 @@ export function RequirementsForm({ onSubmit, initialData }: RequirementsFormProp
                             )}
                         />
 
-                        {/* Location */}
+                        {/* Regions */}
+                        <FormField
+                            control={form.control}
+                            name="regions"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel className="flex items-center gap-2">
+                                        <MapPin className="h-4 w-4" />
+                                        Regiões de Interesse
+                                    </FormLabel>
+                                    <FormControl>
+                                        <MultiSelector
+                                            values={field.value?.map(regionId =>
+                                                italianRegions.find(region => region.value === regionId)
+                                            ).filter(Boolean) || []}
+                                            onValuesChange={(selected) => {
+                                                field.onChange(selected.map(option => option.value));
+                                            }}
+                                        >
+                                            <MultiSelectorTrigger>
+                                                <MultiSelectorInput placeholder="Selecione as regiões desejadas..." />
+                                            </MultiSelectorTrigger>
+                                            <MultiSelectorContent>
+                                                <MultiSelectorList>
+                                                    {italianRegions.map((region) => (
+                                                        <MultiSelectorItem
+                                                            key={region.value}
+                                                            value={region.value}
+                                                            label={region.label}
+                                                        >
+                                                            {region.label}
+                                                        </MultiSelectorItem>
+                                                    ))}
+                                                </MultiSelectorList>
+                                            </MultiSelectorContent>
+                                        </MultiSelector>
+                                    </FormControl>
+                                    <FormDescription>
+                                        Selecione uma ou mais regiões da Itália onde deseja comprar propriedades
+                                    </FormDescription>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
+                        {/* Location - Mantido como campo opcional para detalhes específicos */}
                         <FormField
                             control={form.control}
                             name="location"
@@ -125,16 +205,16 @@ export function RequirementsForm({ onSubmit, initialData }: RequirementsFormProp
                                 <FormItem>
                                     <FormLabel className="flex items-center gap-2">
                                         <MapPin className="h-4 w-4" />
-                                        Localização Desejada
+                                        Detalhes de Localização (Opcional)
                                     </FormLabel>
                                     <FormControl>
                                         <Input
-                                            placeholder="Ex: Roma, Milão, Toscana, Costa Amalfitana..."
+                                            placeholder="Ex: Centro histórico, proximidade ao mar, áreas específicas..."
                                             {...field}
                                         />
                                     </FormControl>
                                     <FormDescription>
-                                        Região, cidade ou área específica onde deseja comprar
+                                        Informações adicionais sobre a localização desejada dentro das regiões selecionadas
                                     </FormDescription>
                                     <FormMessage />
                                 </FormItem>

@@ -10,12 +10,14 @@ import type { ChecklistCategory, ChecklistItem } from "@/lib/db/schema";
 
 interface UserProfile {
     propertyType: "residential" | "commercial" | "investment";
-    location: string;
+    location?: string; // Deprecated
+    regions?: string[];
     buyerProfile: "resident" | "italian_citizen" | "foreign_non_resident";
     usageType: "personal_use" | "long_rental" | "short_rental" | "relocation" | "mixed_use" | "family_legacy";
     investmentBudget: number;
     phone: string;
     investmentGoal: string;
+    formattedRegions?: string; // Para exibição formatada
 }
 
 interface UserProgress {
@@ -154,7 +156,7 @@ export function ChecklistPageClient({ userId }: ChecklistPageClientProps) {
                             Seu Checklist Personalizado
                         </h1>
                         <p className="text-muted-foreground">
-                            Acompanhe seu progresso na compra do imóvel em {userProfile.location}, Itália
+                            Acompanhe seu progresso na compra do imóvel em {userProfile.formattedRegions || userProfile.location || "suas regiões selecionadas"}, Itália
                         </p>
                     </div>
 

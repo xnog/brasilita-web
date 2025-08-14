@@ -1,6 +1,5 @@
 "use client";
 
-
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -9,6 +8,15 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import {
+    MultiSelector,
+    MultiSelectorTrigger,
+    MultiSelectorInput,
+    MultiSelectorContent,
+    MultiSelectorList,
+    MultiSelectorItem,
+    MultiSelectValue,
+} from "@/components/extension/multi-select";
 import { convertEurToBrl, formatBrlCurrency, CURRENCY_CONFIG } from "@/lib/config/currency";
 import { Building2, MapPin, User, Target, Euro, Phone, Goal } from "lucide-react";
 
@@ -16,9 +24,10 @@ const formSchema = z.object({
     propertyType: z.enum(["residential", "commercial", "investment"], {
         message: "Selecione o tipo de imóvel.",
     }),
-    location: z.string().min(2, {
-        message: "Localização deve ter pelo menos 2 caracteres.",
+    regions: z.array(z.string()).min(1, {
+        message: "Selecione pelo menos uma região.",
     }),
+    location: z.string().optional(), // Mantido para compatibilidade, agora opcional
     buyerProfile: z.enum(["resident", "italian_citizen", "foreign_non_resident"], {
         message: "Selecione seu perfil como comprador.",
     }),
@@ -44,17 +53,20 @@ type FormData = z.infer<typeof formSchema>;
 
 interface PreferencesFormProps {
     onSubmit: (data: FormData) => void;
+    availableRegions: MultiSelectValue[];
     initialData?: Partial<FormData>;
     isEditing?: boolean;
     isLoading?: boolean;
 }
 
-export function PreferencesForm({ onSubmit, initialData, isEditing = false, isLoading = false }: PreferencesFormProps) {
+export function PreferencesForm({ onSubmit, availableRegions, initialData, isEditing = false, isLoading = false }: PreferencesFormProps) {
+
     const form = useForm<FormData>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             propertyType: initialData?.propertyType || undefined,
             location: initialData?.location || "",
+            regions: initialData?.regions || [],
             buyerProfile: initialData?.buyerProfile || undefined,
             usageType: initialData?.usageType || undefined,
             investmentBudget: initialData?.investmentBudget || undefined,
@@ -120,7 +132,55 @@ export function PreferencesForm({ onSubmit, initialData, isEditing = false, isLo
                             )}
                         />
 
-                        {/* Location */}
+                        {/* Regions */}
+                        <FormField
+                            control={form.control}
+                            name="regions"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel className="flex items-center gap-2">
+                                        <MapPin className="h-4 w-4" />
+                                        Regiões de Interesse
+                                    </FormLabel>
+                                    <FormControl>
+                                        <MultiSelector
+                                            values={field.value?.map(regionId =>
+                                                availableRegions.find(region => region.value === regionId)
+                                            ).filter((region): region is MultiSelectValue => region !== undefined) || []}
+                                            onValuesChange={(selected) => {
+                                                field.onChange(selected.map(option => option.value));
+                                            }}
+                                        >
+                                            <MultiSelectorTrigger>
+                                                <MultiSelectorInput
+                                                    placeholder="Selecione as regiões desejadas..."
+                                                />
+                                            </MultiSelectorTrigger>
+                                            <MultiSelectorContent>
+                                                <MultiSelectorList>
+                                                    {availableRegions.map((region) => (
+                                                        <MultiSelectorItem
+                                                            key={region.value}
+                                                            value={region.value}
+                                                            label={region.label}
+                                                            description={region.description}
+                                                        >
+                                                            {region.label}
+                                                        </MultiSelectorItem>
+                                                    ))}
+                                                </MultiSelectorList>
+                                            </MultiSelectorContent>
+                                        </MultiSelector>
+                                    </FormControl>
+                                    <FormDescription>
+                                        Selecione uma ou mais regiões da Itália onde deseja comprar propriedades
+                                    </FormDescription>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
+                        {/* Location - Mantido como campo opcional para detalhes específicos */}
                         <FormField
                             control={form.control}
                             name="location"
@@ -128,16 +188,16 @@ export function PreferencesForm({ onSubmit, initialData, isEditing = false, isLo
                                 <FormItem>
                                     <FormLabel className="flex items-center gap-2">
                                         <MapPin className="h-4 w-4" />
-                                        Localização Desejada
+                                        Detalhes de Localização (Opcional)
                                     </FormLabel>
                                     <FormControl>
                                         <Input
-                                            placeholder="Ex: Roma, Milão, Toscana, Costa Amalfitana..."
+                                            placeholder="Ex: Centro histórico, proximidade ao mar, áreas específicas..."
                                             {...field}
                                         />
                                     </FormControl>
                                     <FormDescription>
-                                        Região, cidade ou área específica onde deseja comprar
+                                        Informações adicionais sobre a localização desejada dentro das regiões selecionadas
                                     </FormDescription>
                                     <FormMessage />
                                 </FormItem>

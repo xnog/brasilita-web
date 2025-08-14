@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { db } from "@/lib/db";
 import { userProfiles, propertyMatches } from "@/lib/db/schema";
 import { eq, and } from "drizzle-orm";
+import { formatUserRegions } from "@/lib/utils";
 
 export default async function DashboardPage() {
     const session = await auth();
@@ -12,10 +13,18 @@ export default async function DashboardPage() {
     // Get user profile
     let userProfile = null;
     let propertyInterests = 0;
+    let formattedRegions = "";
     try {
         if (session?.user?.id) {
             userProfile = await db.query.userProfiles.findFirst({
-                where: eq(userProfiles.userId, session.user.id)
+                where: eq(userProfiles.userId, session.user.id),
+                with: {
+                    userProfileRegions: {
+                        with: {
+                            region: true
+                        }
+                    }
+                }
             });
 
             if (userProfile) {
@@ -25,6 +34,9 @@ export default async function DashboardPage() {
                         eq(propertyMatches.isInterested, true)
                     ));
                 propertyInterests = interests.length;
+
+                // Format regions
+                formattedRegions = await formatUserRegions(userProfile);
             }
         }
     } catch (error) {
@@ -96,7 +108,7 @@ export default async function DashboardPage() {
                                         <span className="text-sm font-medium">Perfil completo</span>
                                     </div>
                                     <p className="text-xs text-muted-foreground">
-                                        {userProfile.location} • €{userProfile.investmentBudget?.toLocaleString()}
+                                        {formattedRegions} • €{userProfile.investmentBudget?.toLocaleString()}
                                     </p>
                                 </div>
                             ) : (
