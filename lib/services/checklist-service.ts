@@ -1,10 +1,8 @@
 import { db } from "@/lib/db";
-import { userChecklistProgress, userProgressHistory, checklistItems } from "@/lib/db/schema";
+import { userChecklistProgress, userProgressHistory } from "@/lib/db/schema";
 import { eq, and, desc } from "drizzle-orm";
 import type {
-    UserChecklistProgress,
-    NewUserChecklistProgress,
-    NewUserProgressHistory
+    UserChecklistProgress
 } from "@/lib/db/schema";
 
 export interface ProgressUpdateData {

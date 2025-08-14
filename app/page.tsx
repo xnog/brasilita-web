@@ -1,4 +1,4 @@
-import { Building, Home, Key, MapPin, Phone, Mail, CheckCircle, Star, Users, TrendingUp, Shield, Clock, Award, Globe } from "lucide-react";
+import { Building, Home, Key, MapPin, Mail, CheckCircle, Users, TrendingUp, Shield, Clock, Award, Globe } from "lucide-react";
 import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { Logo } from "@/components/ui/logo";

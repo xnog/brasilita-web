@@ -4,9 +4,7 @@ import { useState, useEffect } from "react";
 import { ChecklistView } from "@/components/checklist/checklist-view";
 import { SuccessBanner } from "@/components/checklist/success-banner";
 import { PageLoading } from "@/components/ui/page-loading";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Settings, ArrowRight } from "lucide-react";
+
 import { PreferencesRequiredBanner } from "@/components/preferences/preferences-required-banner";
 import type { ChecklistCategory, ChecklistItem } from "@/lib/db/schema";
 
@@ -45,10 +43,10 @@ export function ChecklistPageClient({ userId }: ChecklistPageClientProps) {
             try {
                 // Usar API unificada para carregar todos os dados em uma única requisição
                 const response = await fetch('/api/checklist/data');
-                
+
                 if (response.ok) {
                     const data = await response.json();
-                    
+
                     // Set all data at once
                     setCategories(data.categories || []);
                     setItems(data.items || []);
@@ -112,22 +110,7 @@ export function ChecklistPageClient({ userId }: ChecklistPageClientProps) {
         }
     };
 
-    const handleResetProfile = async () => {
-        if (confirm('Tem certeza que deseja resetar seu perfil? Todos os dados serão perdidos.')) {
-            try {
-                // Não temos endpoint de delete ainda, então vamos apenas limpar localmente
-                // Em uma implementação completa, você criaria endpoints DELETE
-                setUserProfile(null);
-                setUserProgress({});
 
-                // Opcional: Recarregar a página para garantir estado limpo
-                window.location.reload();
-            } catch (error) {
-                console.error('Erro ao resetar perfil:', error);
-                alert('Erro ao resetar perfil. Tente novamente.');
-            }
-        }
-    };
 
     // Transform checklist data to match component interface
     const transformedCategories = categories.map((cat) => ({
@@ -186,7 +169,6 @@ export function ChecklistPageClient({ userId }: ChecklistPageClientProps) {
                         userProfile={userProfile}
                         initialProgress={userProgress}
                         onProgressUpdate={handleProgressUpdate}
-                        onResetProfile={handleResetProfile}
                     />
                 </>
             )}

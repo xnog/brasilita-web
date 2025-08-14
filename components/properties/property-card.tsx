@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -61,24 +62,25 @@ export function PropertyCard({ property, onToggleInterest }: PropertyCardProps) 
 
     return (
         <>
-            <Card 
+            <Card
                 className="group overflow-hidden bg-white shadow-sm hover:shadow-xl transition-all duration-300 border-0 rounded-2xl cursor-pointer"
                 onClick={() => setShowDetails(true)}
             >
                 {/* Image Section */}
                 <div className="relative overflow-hidden">
                     <div className="aspect-[4/3] overflow-hidden">
-                        <img
+                        <Image
                             src={imageError ? '/api/placeholder/400/300' : mainImage}
                             alt={property.title}
-                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                            fill
+                            className="object-cover group-hover:scale-105 transition-transform duration-500"
                             onError={() => setImageError(true)}
                         />
                     </div>
-                    
+
                     {/* Overlay gradient */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
-                    
+
                     {/* Top badges */}
                     <div className="absolute top-4 left-4 flex gap-2">
                         <Badge variant="secondary" className="bg-white/90 text-slate-700 border-0 font-medium">
@@ -110,7 +112,7 @@ export function PropertyCard({ property, onToggleInterest }: PropertyCardProps) 
                         <h3 className="font-bold text-xl text-slate-900 line-clamp-1 group-hover:text-emerald-600 transition-colors">
                             {property.title}
                         </h3>
-                        
+
                         <div className="flex items-center text-slate-500">
                             <MapPin className="h-4 w-4 mr-2 text-emerald-500" />
                             <span className="text-sm font-medium">{property.location}</span>

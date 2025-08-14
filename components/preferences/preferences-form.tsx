@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -75,7 +75,7 @@ export function PreferencesForm({ onSubmit, initialData, isEditing = false, isLo
                     {isEditing ? "Editar Preferências" : "Suas Preferências"}
                 </CardTitle>
                 <CardDescription>
-                    {isEditing 
+                    {isEditing
                         ? "Atualize suas preferências para melhorar as recomendações de imóveis"
                         : "Configure suas preferências para receber recomendações personalizadas de imóveis na Itália"
                     }
@@ -205,35 +205,35 @@ export function PreferencesForm({ onSubmit, initialData, isEditing = false, isLo
                                     <FormControl>
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                                             {[
-                                                { 
-                                                    value: "short_rental", 
-                                                    label: "Aluguel por Temporada", 
-                                                    desc: "Airbnb, Booking.com - alta rentabilidade sazonal" 
+                                                {
+                                                    value: "short_rental",
+                                                    label: "Aluguel por Temporada",
+                                                    desc: "Airbnb, Booking.com - alta rentabilidade sazonal"
                                                 },
-                                                { 
-                                                    value: "personal_use", 
-                                                    label: "Casa de Férias Pessoal", 
-                                                    desc: "Refúgio particular para família e amigos" 
+                                                {
+                                                    value: "personal_use",
+                                                    label: "Casa de Férias Pessoal",
+                                                    desc: "Refúgio particular para família e amigos"
                                                 },
-                                                { 
-                                                    value: "long_rental", 
-                                                    label: "Investimento Longo Prazo", 
-                                                    desc: "Aluguel residencial + valorização patrimonial" 
+                                                {
+                                                    value: "long_rental",
+                                                    label: "Investimento Longo Prazo",
+                                                    desc: "Aluguel residencial + valorização patrimonial"
                                                 },
-                                                { 
-                                                    value: "relocation", 
-                                                    label: "Mudança Definitiva", 
-                                                    desc: "Morar na Itália com suporte completo" 
+                                                {
+                                                    value: "relocation",
+                                                    label: "Mudança Definitiva",
+                                                    desc: "Morar na Itália com suporte completo"
                                                 },
-                                                { 
-                                                    value: "mixed_use", 
-                                                    label: "Uso Misto", 
-                                                    desc: "Combinação de uso pessoal e rentabilização" 
+                                                {
+                                                    value: "mixed_use",
+                                                    label: "Uso Misto",
+                                                    desc: "Combinação de uso pessoal e rentabilização"
                                                 },
-                                                { 
-                                                    value: "family_legacy", 
-                                                    label: "Patrimônio Familiar", 
-                                                    desc: "Legado duradouro para próximas gerações" 
+                                                {
+                                                    value: "family_legacy",
+                                                    label: "Patrimônio Familiar",
+                                                    desc: "Legado duradouro para próximas gerações"
                                                 },
                                             ].map((option) => (
                                                 <div
@@ -360,10 +360,10 @@ export function PreferencesForm({ onSubmit, initialData, isEditing = false, isLo
                         />
 
                         <Button type="submit" className="w-full" size="lg" disabled={isLoading}>
-                            {isLoading 
-                                ? "Salvando..." 
-                                : isEditing 
-                                    ? "Atualizar Preferências" 
+                            {isLoading
+                                ? "Salvando..."
+                                : isEditing
+                                    ? "Atualizar Preferências"
                                     : "Salvar Preferências"
                             }
                         </Button>

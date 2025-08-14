@@ -1,0 +1,21 @@
+{
+    "name": "idealista-property-extractor",
+    "version": "1.0.0",
+    "description": "Scripts to extract property data from idealista.it HTML pages",
+    "main": "extract-property-nodejs.js",
+    "scripts": {
+        "test": "node test-extraction.js",
+        "extract": "node extract-property-nodejs.js"
+    },
+    "keywords": [
+        "property",
+        "scraping",
+        "idealista",
+        "real-estate"
+    ],
+    "author": "",
+    "license": "MIT",
+    "engines": {
+        "node": ">=14.0.0"
+    }
+}

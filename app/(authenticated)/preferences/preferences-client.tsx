@@ -6,11 +6,7 @@ import { PreferencesForm } from "@/components/preferences/preferences-form";
 import { UserProfile } from "@/lib/db/schema";
 import { PageLoading } from "@/components/ui/page-loading";
 
-interface PreferencesClientProps {
-    userId: string;
-}
-
-export function PreferencesClient({ userId }: PreferencesClientProps) {
+export function PreferencesClient() {
     const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [isSaving, setIsSaving] = useState(false);

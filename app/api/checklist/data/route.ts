@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { checklistCategories, checklistItems, userProfiles, userChecklistProgress } from "@/lib/db/schema";
+import { userProfiles, userChecklistProgress } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
 import { auth } from "@/lib/auth";
 
@@ -21,17 +21,17 @@ export async function GET() {
             db.query.checklistCategories.findMany({
                 orderBy: (categories, { asc }) => [asc(categories.order)]
             }),
-            
+
             // Buscar items
             db.query.checklistItems.findMany({
                 orderBy: (items, { asc }) => [asc(items.order)]
             }),
-            
+
             // Buscar perfil do usuário
             db.query.userProfiles.findFirst({
                 where: eq(userProfiles.userId, session.user.id)
             }),
-            
+
             // Buscar progresso do usuário
             db.query.userChecklistProgress.findMany({
                 where: eq(userChecklistProgress.userId, session.user.id)
