@@ -171,6 +171,33 @@ export function PreferencesForm({ onSubmit, availableRegions, initialData, isEdi
                                             </MultiSelectorContent>
                                         </MultiSelector>
                                     </FormControl>
+
+                                    {/* Links rápidos */}
+                                    <div className="flex gap-3 text-sm">
+                                        <button
+                                            type="button"
+                                            onClick={() => {
+                                                // Selecionar todas as regiões
+                                                const allRegionIds = availableRegions.map(region => region.value);
+                                                field.onChange(allRegionIds);
+                                            }}
+                                            className="text-primary hover:text-primary/80 underline"
+                                        >
+                                            Selecionar todas as regiões
+                                        </button>
+                                        <span className="text-muted-foreground">•</span>
+                                        <button
+                                            type="button"
+                                            onClick={() => {
+                                                // Limpar seleção
+                                                field.onChange([]);
+                                            }}
+                                            className="text-muted-foreground hover:text-foreground underline"
+                                        >
+                                            Limpar seleção
+                                        </button>
+                                    </div>
+
                                     <FormDescription>
                                         Selecione uma ou mais regiões da Itália onde deseja comprar propriedades
                                     </FormDescription>
