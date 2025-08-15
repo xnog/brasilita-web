@@ -1,4 +1,4 @@
-import { pgTable, text, timestamp, integer, primaryKey, boolean, unique } from "drizzle-orm/pg-core";
+import { pgTable, text, timestamp, integer, primaryKey, boolean, unique, jsonb } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 import type { AdapterAccountType } from "next-auth/adapters";
 
@@ -194,9 +194,10 @@ export const properties = pgTable("property", {
     bedrooms: integer("bedrooms"),
     bathrooms: integer("bathrooms"),
     area: integer("area"), // square meters
-    features: text("features"), // JSON array of features
-    images: text("images"), // JSON array of image URLs
+    features: jsonb("features"), // JSON array of features
+    images: jsonb("images"), // JSON array of image URLs
     isAvailable: boolean("isAvailable").default(true),
+    isRented: boolean("isRented").default(false),
     createdAt: timestamp("createdAt", { mode: "date" }).defaultNow(),
     updatedAt: timestamp("updatedAt", { mode: "date" }).defaultNow(),
 });
