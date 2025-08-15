@@ -9,10 +9,10 @@ import { PreferencesRequiredBanner } from "@/components/preferences/preferences-
 import type { ChecklistCategory, ChecklistItem } from "@/lib/db/schema";
 
 interface UserProfile {
-    propertyType: "residential" | "commercial" | "investment";
+    propertyType: "residential" | "investment";
     location?: string; // Deprecated
     regions?: string[];
-    buyerProfile: "resident" | "italian_citizen" | "foreign_non_resident";
+    buyerProfile: "resident" | "italian_citizen" | "foreign_non_resident" | "brazilian_abroad";
     usageType: "personal_use" | "long_rental" | "short_rental" | "relocation" | "mixed_use" | "family_legacy";
     investmentBudget: number;
     phone: string;

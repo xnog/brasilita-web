@@ -88,9 +88,9 @@ export const userProfiles = pgTable("user_profile", {
     userId: text("userId")
         .notNull()
         .references(() => users.id, { onDelete: "cascade" }),
-    propertyType: text("propertyType"), // residential, commercial, investment
+    propertyType: text("propertyType"), // residential, investment
     location: text("location"), // desired location in Italy
-    buyerProfile: text("buyerProfile"), // resident, italian_citizen, foreign_non_resident
+    buyerProfile: text("buyerProfile"), // resident, italian_citizen, foreign_non_resident, brazilian_abroad
     usageType: text("usageType"), // personal_use, long_rental, short_rental
     investmentBudget: integer("investmentBudget"), // budget in euros
     phone: text("phone"), // user's phone number
