@@ -1,0 +1,2 @@
+ALTER TABLE "user_profile_region" ADD CONSTRAINT "user_profile_region_unique" UNIQUE("userProfileId","regionId");--> statement-breakpoint
+ALTER TABLE "user_profile" ADD CONSTRAINT "user_profile_userId_unique" UNIQUE("userId");

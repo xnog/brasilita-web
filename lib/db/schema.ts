@@ -1,4 +1,4 @@
-import { pgTable, text, timestamp, integer, primaryKey, boolean } from "drizzle-orm/pg-core";
+import { pgTable, text, timestamp, integer, primaryKey, boolean, unique } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 import type { AdapterAccountType } from "next-auth/adapters";
 
@@ -97,7 +97,10 @@ export const userProfiles = pgTable("user_profile", {
     investmentGoal: text("investmentGoal"), // user's objective/intention for the property investment
     createdAt: timestamp("createdAt", { mode: "date" }).defaultNow(),
     updatedAt: timestamp("updatedAt", { mode: "date" }).defaultNow(),
-});
+}, (table) => ({
+    // Unique constraint to ensure one profile per user
+    uniqueUserProfile: unique("user_profile_userId_unique").on(table.userId),
+}));
 
 export const checklistCategories = pgTable("checklist_category", {
     id: text("id")
@@ -242,7 +245,10 @@ export const userProfileRegions = pgTable("user_profile_region", {
         .notNull()
         .references(() => regions.id, { onDelete: "cascade" }),
     createdAt: timestamp("createdAt", { mode: "date" }).defaultNow(),
-});
+}, (table) => ({
+    // Unique constraint to prevent duplicate user profile-region combinations
+    uniqueUserProfileRegion: unique("user_profile_region_unique").on(table.userProfileId, table.regionId),
+}));
 
 // Relations
 export const regionsRelations = relations(regions, ({ many }) => ({
