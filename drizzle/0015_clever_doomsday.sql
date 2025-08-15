@@ -1,0 +1,1 @@
+ALTER TABLE "user_property_interest" ADD COLUMN "wantsToProceed" boolean DEFAULT false;

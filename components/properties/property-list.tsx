@@ -1,38 +1,206 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { PropertyCard } from "./property-card";
+import { PropertyFilters, AvailableFilters } from "./property-filters";
 import { Property } from "@/lib/db/schema";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Home, Heart } from "lucide-react";
+
+import { Home, ChevronLeft, ChevronRight } from "lucide-react";
 import { PageLoading } from "@/components/ui/page-loading";
 
-type PropertyWithInterest = Property & { isInterested?: boolean };
+type PropertyWithInterest = Property & {
+    isInterested?: boolean;
+    interestNotes?: string | null;
+};
+
+interface PropertyListResponse {
+    properties: PropertyWithInterest[];
+    pagination: {
+        currentPage: number;
+        totalPages: number;
+        totalCount: number;
+        hasNextPage: boolean;
+        hasPrevPage: boolean;
+        limit: number;
+    };
+    appliedFilters: PropertyFilters;
+    availableFilters: AvailableFilters;
+}
 
 export function PropertyList() {
-    const [properties, setProperties] = useState<PropertyWithInterest[]>([]);
+    const router = useRouter();
+    const searchParams = useSearchParams();
+    const [data, setData] = useState<PropertyListResponse | null>(null);
     const [loading, setLoading] = useState(true);
-    const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
 
-    const fetchProperties = async () => {
+    // Initialize filters from URL
+    const getFiltersFromUrl = useCallback((): PropertyFilters => {
+        const urlFilters: PropertyFilters = {
+            page: parseInt(searchParams.get('page') || '1'),
+            limit: 20,
+            sortBy: (searchParams.get('sortBy') as 'price' | 'area' | 'createdAt') || 'createdAt',
+            sortOrder: (searchParams.get('sortOrder') as 'asc' | 'desc') || 'desc'
+        };
+
+        // Parse URL parameters
+        const regions = searchParams.get('regions');
+        if (regions) urlFilters.regions = regions.split(',');
+
+        const priceMin = searchParams.get('priceMin');
+        if (priceMin) urlFilters.priceMin = parseInt(priceMin);
+
+        const priceMax = searchParams.get('priceMax');
+        if (priceMax) urlFilters.priceMax = parseInt(priceMax);
+
+        const bedroomsMin = searchParams.get('bedroomsMin');
+        if (bedroomsMin) urlFilters.bedroomsMin = parseInt(bedroomsMin);
+
+        const bedroomsMax = searchParams.get('bedroomsMax');
+        if (bedroomsMax) urlFilters.bedroomsMax = parseInt(bedroomsMax);
+
+        const bathroomsMin = searchParams.get('bathroomsMin');
+        if (bathroomsMin) urlFilters.bathroomsMin = parseInt(bathroomsMin);
+
+        const bathroomsMax = searchParams.get('bathroomsMax');
+        if (bathroomsMax) urlFilters.bathroomsMax = parseInt(bathroomsMax);
+
+        const areaMin = searchParams.get('areaMin');
+        if (areaMin) urlFilters.areaMin = parseInt(areaMin);
+
+        const areaMax = searchParams.get('areaMax');
+        if (areaMax) urlFilters.areaMax = parseInt(areaMax);
+
+        const location = searchParams.get('location');
+        if (location) urlFilters.location = location;
+
+        const favoritesOnly = searchParams.get('favoritesOnly');
+        if (favoritesOnly) urlFilters.favoritesOnly = favoritesOnly === 'true';
+
+        return urlFilters;
+    }, [searchParams]);
+
+    const [filters, setFilters] = useState<PropertyFilters>(getFiltersFromUrl);
+
+    const buildQueryString = useCallback((filterParams: PropertyFilters) => {
+        const params = new URLSearchParams();
+
+        // Add user preferences flag for initial load
+        if (!filterParams.regions && !filterParams.priceMin && !filterParams.priceMax) {
+            params.set('userPreferences', 'true');
+        }
+
+        Object.entries(filterParams).forEach(([key, value]) => {
+            if (value !== undefined && value !== null && value !== '') {
+                if (key === 'regions' && Array.isArray(value)) {
+                    if (value.length > 0) {
+                        params.set(key, value.join(','));
+                    }
+                } else {
+                    params.set(key, value.toString());
+                }
+            }
+        });
+
+        return params.toString();
+    }, []);
+
+    const fetchProperties = useCallback(async (newFilters: PropertyFilters) => {
         try {
-            const response = await fetch("/api/properties");
-            const data = await response.json();
-            setProperties(data.properties || []);
+            setLoading(true);
+            const queryString = buildQueryString(newFilters);
+            const response = await fetch(`/api/properties?${queryString}`);
+            const responseData = await response.json();
+
+            if (response.ok) {
+                setData(responseData);
+            } else {
+                console.error("API Error:", responseData.error);
+                setData(null);
+            }
         } catch (error) {
             console.error("Error:", error);
+            setData(null);
         } finally {
             setLoading(false);
         }
-    };
+    }, [buildQueryString]);
+
+    const updateUrlWithFilters = useCallback((filters: PropertyFilters) => {
+        const params = new URLSearchParams();
+
+        // Add all filter parameters to URL
+        Object.entries(filters).forEach(([key, value]) => {
+            if (value !== undefined && value !== null && value !== '') {
+                if (key === 'regions' && Array.isArray(value)) {
+                    if (value.length > 0) {
+                        params.set(key, value.join(','));
+                    }
+                } else if (key !== 'limit') { // Don't include limit in URL
+                    params.set(key, value.toString());
+                }
+            }
+        });
+
+        // Update URL without page reload
+        const newUrl = `${window.location.pathname}?${params.toString()}`;
+        router.push(newUrl, { scroll: false });
+    }, [router]);
+
+    const handleFiltersChange = useCallback((newFilters: PropertyFilters) => {
+        // Reset to page 1 when filters change
+        const filtersWithPage = { ...newFilters, page: 1 };
+        setFilters(filtersWithPage);
+        updateUrlWithFilters(filtersWithPage);
+        fetchProperties(filtersWithPage);
+    }, [fetchProperties, updateUrlWithFilters]);
+
+    const handlePageChange = useCallback((page: number) => {
+        const newFilters = { ...filters, page };
+        setFilters(newFilters);
+        updateUrlWithFilters(newFilters);
+        fetchProperties(newFilters);
+    }, [filters, fetchProperties, updateUrlWithFilters]);
+
+    const handleClearFilters = useCallback(() => {
+        const clearedFilters: PropertyFilters = {
+            page: 1,
+            limit: 20,
+            sortBy: 'createdAt',
+            sortOrder: 'desc'
+        };
+        setFilters(clearedFilters);
+        updateUrlWithFilters(clearedFilters);
+        fetchProperties(clearedFilters);
+    }, [fetchProperties, updateUrlWithFilters]);
+
+    const handleApplyPreferences = useCallback(() => {
+        const preferencesFilters: PropertyFilters = {
+            page: 1,
+            limit: 20,
+            sortBy: 'createdAt',
+            sortOrder: 'desc'
+        };
+        setFilters(preferencesFilters);
+        updateUrlWithFilters(preferencesFilters);
+        // Add userPreferences flag to URL
+        const params = new URLSearchParams();
+        params.set('userPreferences', 'true');
+        const newUrl = `${window.location.pathname}?${params.toString()}`;
+        router.push(newUrl, { scroll: false });
+        fetchProperties(preferencesFilters);
+    }, [fetchProperties, updateUrlWithFilters, router]);
 
     const handleToggleInterest = async (propertyId: string, isInterested: boolean) => {
+        if (!data) return;
+
         // Optimistic update
-        setProperties(prev => prev.map(p =>
+        const updatedProperties = data.properties.map(p =>
             p.id === propertyId ? { ...p, isInterested } : p
-        ));
+        );
+        setData({ ...data, properties: updatedProperties });
 
         try {
             await fetch("/api/properties", {
@@ -42,71 +210,98 @@ export function PropertyList() {
             });
         } catch {
             // Revert on error
-            setProperties(prev => prev.map(p =>
+            const revertedProperties = data.properties.map(p =>
                 p.id === propertyId ? { ...p, isInterested: !isInterested } : p
-            ));
+            );
+            setData({ ...data, properties: revertedProperties });
         }
     };
 
+    // Initial load and URL changes
     useEffect(() => {
-        fetchProperties();
-    }, []);
+        const urlFilters = getFiltersFromUrl();
+        setFilters(urlFilters);
+        fetchProperties(urlFilters);
+    }, [searchParams, getFiltersFromUrl, fetchProperties]);
 
-    if (loading) {
+    if (loading && !data) {
         return <PageLoading />;
     }
 
-    const filteredProperties = showFavoritesOnly
-        ? properties.filter(p => p.isInterested)
-        : properties;
-
-    const interestedCount = properties.filter(p => p.isInterested).length;
-
-    if (filteredProperties.length === 0) {
+    if (!data) {
         return (
             <Card className="p-12 text-center">
                 <CardContent>
                     <Home className="h-16 w-16 mx-auto text-slate-300 mb-4" />
-                    <h3 className="text-xl font-semibold mb-2">
-                        {showFavoritesOnly ? "Nenhum favorito" : "Procurando imóveis para você"}
-                    </h3>
+                    <h3 className="text-xl font-semibold mb-2">Erro ao carregar propriedades</h3>
                     <p className="text-slate-600 mb-6">
-                        {showFavoritesOnly
-                            ? "Marque imóveis como interessante para vê-los aqui"
-                            : "Nossos especialistas procuram novos imóveis todos os dias que atendam ao seu perfil. Você será notificado por email assim que encontrarmos opções ideais para você."
-                        }
+                        Ocorreu um erro ao buscar as propriedades. Tente novamente.
                     </p>
-                    {showFavoritesOnly && (
-                        <Button onClick={() => setShowFavoritesOnly(false)}>
-                            Ver todos os imóveis
-                        </Button>
-                    )}
+                    <Button onClick={() => fetchProperties(filters)}>
+                        Tentar novamente
+                    </Button>
                 </CardContent>
             </Card>
         );
     }
 
+    const filteredProperties = data.properties;
+
+    if (filteredProperties.length === 0) {
+        return (
+            <div className="space-y-6">
+                <PropertyFilters
+                    filters={data.appliedFilters}
+                    availableFilters={data.availableFilters}
+                    onFiltersChange={handleFiltersChange}
+                    onClearFilters={handleClearFilters}
+                    onApplyPreferences={handleApplyPreferences}
+                    isLoading={loading}
+                />
+
+                <Card className="p-12 text-center">
+                    <CardContent>
+                        <Home className="h-16 w-16 mx-auto text-slate-300 mb-4" />
+                        <h3 className="text-xl font-semibold mb-2">
+                            Nenhuma propriedade encontrada
+                        </h3>
+                        <p className="text-slate-600 mb-6">
+                            Tente ajustar os filtros para encontrar propriedades que atendam aos seus critérios.
+                        </p>
+                        <Button onClick={handleClearFilters}>
+                            Limpar filtros
+                        </Button>
+                    </CardContent>
+                </Card>
+            </div>
+        );
+    }
+
     return (
         <div className="space-y-6">
+            <PropertyFilters
+                filters={data.appliedFilters}
+                availableFilters={data.availableFilters}
+                onFiltersChange={handleFiltersChange}
+                onClearFilters={handleClearFilters}
+                onApplyPreferences={handleApplyPreferences}
+                isLoading={loading}
+            />
+
             <div className="flex justify-between items-center">
-                <h2 className="text-xl font-semibold">
-                    {filteredProperties.length} imóveis
-                </h2>
-                <Button
-                    variant={showFavoritesOnly ? "default" : "outline"}
-                    onClick={() => setShowFavoritesOnly(!showFavoritesOnly)}
-                >
-                    <Heart className={showFavoritesOnly ? "h-4 w-4 mr-2 fill-current" : "h-4 w-4 mr-2"} />
-                    {showFavoritesOnly ? "Todos" : "Favoritos"}
-                    {interestedCount > 0 && !showFavoritesOnly && (
-                        <Badge variant="secondary" className="ml-2">
-                            {interestedCount}
-                        </Badge>
+                <div className="flex items-center gap-4">
+                    <h2 className="text-xl font-semibold">
+                        {data.pagination.totalCount.toLocaleString()} propriedades
+                    </h2>
+                    {data.pagination.totalCount > 0 && (
+                        <span className="text-sm text-slate-600">
+                            Página {data.pagination.currentPage} de {data.pagination.totalPages}
+                        </span>
                     )}
-                </Button>
+                </div>
             </div>
 
-            <div className="grid gap-6 grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
+            <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 {filteredProperties.map((property) => (
                     <PropertyCard
                         key={property.id}
@@ -115,6 +310,96 @@ export function PropertyList() {
                     />
                 ))}
             </div>
+
+            {/* Pagination */}
+            {data.pagination.totalPages > 1 && (
+                <div className="flex items-center justify-center gap-2">
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handlePageChange(data.pagination.currentPage - 1)}
+                        disabled={!data.pagination.hasPrevPage || loading}
+                    >
+                        <ChevronLeft className="h-4 w-4" />
+                        Anterior
+                    </Button>
+
+                    <div className="flex items-center gap-1">
+                        {/* Show first page */}
+                        {data.pagination.currentPage > 3 && (
+                            <>
+                                <Button
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={() => handlePageChange(1)}
+                                    disabled={loading}
+                                >
+                                    1
+                                </Button>
+                                {data.pagination.currentPage > 4 && (
+                                    <span className="px-2">...</span>
+                                )}
+                            </>
+                        )}
+
+                        {/* Show current page and neighbors */}
+                        {Array.from({ length: Math.min(5, data.pagination.totalPages) }, (_, i) => {
+                            const startPage = Math.max(1, Math.min(
+                                data.pagination.currentPage - 2,
+                                data.pagination.totalPages - 4
+                            ));
+                            const page = startPage + i;
+
+                            if (page > data.pagination.totalPages) return null;
+
+                            return (
+                                <Button
+                                    key={page}
+                                    variant={page === data.pagination.currentPage ? "default" : "outline"}
+                                    size="sm"
+                                    onClick={() => handlePageChange(page)}
+                                    disabled={loading}
+                                >
+                                    {page}
+                                </Button>
+                            );
+                        })}
+
+                        {/* Show last page */}
+                        {data.pagination.currentPage < data.pagination.totalPages - 2 && (
+                            <>
+                                {data.pagination.currentPage < data.pagination.totalPages - 3 && (
+                                    <span className="px-2">...</span>
+                                )}
+                                <Button
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={() => handlePageChange(data.pagination.totalPages)}
+                                    disabled={loading}
+                                >
+                                    {data.pagination.totalPages}
+                                </Button>
+                            </>
+                        )}
+                    </div>
+
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handlePageChange(data.pagination.currentPage + 1)}
+                        disabled={!data.pagination.hasNextPage || loading}
+                    >
+                        Próxima
+                        <ChevronRight className="h-4 w-4" />
+                    </Button>
+                </div>
+            )}
+
+            {loading && (
+                <div className="flex justify-center py-8">
+                    <PageLoading />
+                </div>
+            )}
         </div>
     );
 }

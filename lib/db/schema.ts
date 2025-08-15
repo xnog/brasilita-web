@@ -203,8 +203,8 @@ export const properties = pgTable("property", {
     updatedAt: timestamp("updatedAt", { mode: "date" }).defaultNow(),
 });
 
-// Property matching - links properties to users based on their profile
-export const propertyMatches = pgTable("property_match", {
+// User property interests - simple table to track user interest in properties
+export const userPropertyInterests = pgTable("user_property_interest", {
     id: text("id")
         .primaryKey()
         .$defaultFn(() => crypto.randomUUID()),
@@ -214,13 +214,15 @@ export const propertyMatches = pgTable("property_match", {
     propertyId: text("propertyId")
         .notNull()
         .references(() => properties.id, { onDelete: "cascade" }),
-    matchScore: integer("matchScore").default(0), // 0-100 matching score
-    matchReason: text("matchReason"), // JSON explaining why it matched
-    isActive: boolean("isActive").default(true),
-    isInterested: boolean("isInterested").default(false), // User marked as interested
+    isInterested: boolean("isInterested").default(true),
+    wantsToProceed: boolean("wantsToProceed").default(false), // User confirmed intent to proceed with negotiation
+    notes: text("notes"), // Optional user notes about the property
     createdAt: timestamp("createdAt", { mode: "date" }).defaultNow(),
     updatedAt: timestamp("updatedAt", { mode: "date" }).defaultNow(),
-});
+}, (table) => ({
+    // Unique constraint to prevent duplicate interests
+    uniqueUserPropertyInterest: unique("user_property_interest_unique").on(table.userId, table.propertyId),
+}));
 
 
 
@@ -282,16 +284,16 @@ export const propertiesRelations = relations(properties, ({ one, many }) => ({
         fields: [properties.regionId],
         references: [regions.id],
     }),
-    propertyMatches: many(propertyMatches),
+    userPropertyInterests: many(userPropertyInterests),
 }));
 
-export const propertyMatchesRelations = relations(propertyMatches, ({ one }) => ({
+export const userPropertyInterestsRelations = relations(userPropertyInterests, ({ one }) => ({
     user: one(users, {
-        fields: [propertyMatches.userId],
+        fields: [userPropertyInterests.userId],
         references: [users.id],
     }),
     property: one(properties, {
-        fields: [propertyMatches.propertyId],
+        fields: [userPropertyInterests.propertyId],
         references: [properties.id],
     }),
 }));
@@ -301,7 +303,7 @@ export const usersRelations = relations(users, ({ many }) => ({
     sessions: many(sessions),
     authenticators: many(authenticators),
     userProfiles: many(userProfiles),
-    propertyMatches: many(propertyMatches),
+    userPropertyInterests: many(userPropertyInterests),
     userChecklistProgress: many(userChecklistProgress),
 }));
 
@@ -311,5 +313,5 @@ export type UserProfileRegion = typeof userProfileRegions.$inferSelect;
 export type NewUserProfileRegion = typeof userProfileRegions.$inferInsert;
 export type Property = typeof properties.$inferSelect;
 export type NewProperty = typeof properties.$inferInsert;
-export type PropertyMatch = typeof propertyMatches.$inferSelect;
-export type NewPropertyMatch = typeof propertyMatches.$inferInsert;
+export type UserPropertyInterest = typeof userPropertyInterests.$inferSelect;
+export type NewUserPropertyInterest = typeof userPropertyInterests.$inferInsert;

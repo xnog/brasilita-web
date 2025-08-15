@@ -3,7 +3,6 @@ import { db } from "@/lib/db";
 import { userProfiles, userProfileRegions } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
-import { updateUserMatches } from "@/lib/services/property-matching-service";
 
 export async function GET() {
     try {
@@ -71,13 +70,7 @@ export async function POST(request: Request) {
             await db.insert(userProfileRegions).values(regionInserts);
         }
 
-        // Regenerar matches de propriedades
-        try {
-            await updateUserMatches(session.user.id);
-        } catch (matchError) {
-            console.error("Error updating matches:", matchError);
-            // Não falhar a criação do perfil por causa dos matches
-        }
+        // Matching automático foi removido - agora usa filtros dinâmicos
 
         return NextResponse.json({ ...profile[0], regions: data.regions || [] });
     } catch (error) {
@@ -128,13 +121,7 @@ export async function PUT(request: Request) {
             await db.insert(userProfileRegions).values(regionInserts);
         }
 
-        // Regenerar matches de propriedades
-        try {
-            await updateUserMatches(session.user.id);
-        } catch (matchError) {
-            console.error("Error updating matches:", matchError);
-            // Não falhar a atualização do perfil por causa dos matches
-        }
+        // Matching automático foi removido - agora usa filtros dinâmicos
 
         return NextResponse.json({ ...profile[0], regions: data.regions || [] });
     } catch (error) {
