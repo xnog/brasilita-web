@@ -21,14 +21,14 @@ import { convertEurToBrl, formatBrlCurrency, CURRENCY_CONFIG } from "@/lib/confi
 import { Building2, MapPin, User, Target, Euro, Phone, Goal } from "lucide-react";
 
 const formSchema = z.object({
-    propertyType: z.enum(["residential", "commercial", "investment"], {
+    propertyType: z.enum(["residential", "investment"], {
         message: "Selecione o tipo de imóvel.",
     }),
     regions: z.array(z.string()).min(1, {
         message: "Selecione pelo menos uma região.",
     }),
     location: z.string().optional(), // Mantido para compatibilidade, agora opcional
-    buyerProfile: z.enum(["resident", "italian_citizen", "foreign_non_resident"], {
+    buyerProfile: z.enum(["resident", "italian_citizen", "foreign_non_resident", "brazilian_abroad"], {
         message: "Selecione seu perfil como comprador.",
     }),
     usageType: z.enum(["personal_use", "long_rental", "short_rental", "relocation", "mixed_use", "family_legacy"], {
@@ -107,10 +107,9 @@ export function PreferencesForm({ onSubmit, availableRegions, initialData, isEdi
                                         Tipo de Imóvel
                                     </FormLabel>
                                     <FormControl>
-                                        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                                             {[
                                                 { value: "residential", label: "Residencial", desc: "Para moradia" },
-                                                { value: "commercial", label: "Comercial", desc: "Escritórios, lojas" },
                                                 { value: "investment", label: "Investimento", desc: "Para renda" },
                                             ].map((option) => (
                                                 <div
@@ -172,6 +171,33 @@ export function PreferencesForm({ onSubmit, availableRegions, initialData, isEdi
                                             </MultiSelectorContent>
                                         </MultiSelector>
                                     </FormControl>
+
+                                    {/* Links rápidos */}
+                                    <div className="flex gap-3 text-sm">
+                                        <button
+                                            type="button"
+                                            onClick={() => {
+                                                // Selecionar todas as regiões
+                                                const allRegionIds = availableRegions.map(region => region.value);
+                                                field.onChange(allRegionIds);
+                                            }}
+                                            className="text-primary hover:text-primary/80 underline"
+                                        >
+                                            Selecionar todas as regiões
+                                        </button>
+                                        <span className="text-muted-foreground">•</span>
+                                        <button
+                                            type="button"
+                                            onClick={() => {
+                                                // Limpar seleção
+                                                field.onChange([]);
+                                            }}
+                                            className="text-muted-foreground hover:text-foreground underline"
+                                        >
+                                            Limpar seleção
+                                        </button>
+                                    </div>
+
                                     <FormDescription>
                                         Selecione uma ou mais regiões da Itália onde deseja comprar propriedades
                                     </FormDescription>
@@ -215,12 +241,17 @@ export function PreferencesForm({ onSubmit, availableRegions, initialData, isEdi
                                         Seu Perfil como Comprador
                                     </FormLabel>
                                     <FormControl>
-                                        <div className="grid grid-cols-1 gap-3">
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                                             {[
                                                 {
                                                     value: "foreign_non_resident",
                                                     label: "Brasileiro não-residente",
                                                     desc: "Moro no Brasil e quero comprar na Itália",
+                                                },
+                                                {
+                                                    value: "brazilian_abroad",
+                                                    label: "Brasileiro no exterior",
+                                                    desc: "Moro em outro país (que não seja Brasil ou Itália)",
                                                 },
                                                 {
                                                     value: "italian_citizen",

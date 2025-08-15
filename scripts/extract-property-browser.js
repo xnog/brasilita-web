@@ -315,6 +315,7 @@
                 images: this.extractImages(),
                 isRented: this.extractIsRented(),
                 isAvailable: true,
+                originalUrl: window.location.href,
                 createdAt: now,
                 updatedAt: now
             };

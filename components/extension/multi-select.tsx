@@ -30,6 +30,7 @@ interface MultiSelectorProps
     values: MultiSelectValue[];
     onValuesChange: (value: MultiSelectValue[]) => void;
     loop?: boolean;
+    disabled?: boolean;
 }
 
 interface MultiSelectContextProps {
@@ -42,6 +43,7 @@ interface MultiSelectContextProps {
     activeIndex: number;
     setActiveIndex: React.Dispatch<React.SetStateAction<number>>;
     ref: React.RefObject<HTMLInputElement | null>;
+    disabled: boolean;
 }
 
 const MultiSelectContext = createContext<MultiSelectContextProps | null>(null);
@@ -73,6 +75,7 @@ const MultiSelector = ({
     values: value,
     onValuesChange: onValueChange,
     loop = false,
+    disabled = false,
     className,
     children,
     dir,
@@ -201,6 +204,7 @@ const MultiSelector = ({
                 activeIndex,
                 setActiveIndex,
                 ref: inputRef,
+                disabled,
             }}
         >
             <Command
@@ -222,7 +226,7 @@ const MultiSelectorTrigger = forwardRef<
     HTMLDivElement,
     React.HTMLAttributes<HTMLDivElement>
 >(({ className, children, ...props }, ref) => {
-    const { value, onValueChange, activeIndex } = useMultiSelect();
+    const { value, onValueChange, activeIndex, disabled } = useMultiSelect();
 
     const mousePreventDefault = useCallback((e: React.MouseEvent) => {
         e.preventDefault();
@@ -235,13 +239,14 @@ const MultiSelectorTrigger = forwardRef<
             className={cn(
                 "flex flex-wrap gap-1 px-3 py-1 border border-input rounded-md bg-transparent min-h-9 shadow-xs transition-[color,box-shadow]",
                 {
-                    "focus-within:border-ring focus-within:ring-ring/50 focus-within:ring-[3px]": activeIndex === -1,
+                    "focus-within:border-ring focus-within:ring-ring/50 focus-within:ring-[3px]": activeIndex === -1 && !disabled,
+                    "opacity-50 cursor-not-allowed": disabled,
                 },
                 className,
             )}
             {...props}
         >
-            {value.map((item, index) => (
+            {value.slice(0, 3).map((item, index) => (
                 <Badge
                     key={item.value}
                     className={cn(
@@ -256,13 +261,19 @@ const MultiSelectorTrigger = forwardRef<
                         aria-roledescription="button to remove option"
                         type="button"
                         onMouseDown={mousePreventDefault}
-                        onClick={() => onValueChange(item)}
+                        onClick={() => !disabled && onValueChange(item)}
+                        disabled={disabled}
                     >
                         <span className="sr-only">Remove {item.label} option</span>
                         <RemoveIcon className="h-4 w-4 hover:stroke-destructive" />
                     </button>
                 </Badge>
             ))}
+            {value.length > 3 && (
+                <Badge variant="outline" className="px-2 text-xs">
+                    +{value.length - 3} mais
+                </Badge>
+            )}
             {children}
         </div>
     );
@@ -281,25 +292,30 @@ const MultiSelectorInput = forwardRef<
         activeIndex,
         setActiveIndex,
         ref: inputRef,
+        disabled,
     } = useMultiSelect();
 
     return (
         <CommandPrimitive.Input
             {...props}
-            tabIndex={0}
+            tabIndex={disabled ? -1 : 0}
             ref={inputRef}
             value={inputValue}
-            onValueChange={activeIndex === -1 ? setInputValue : undefined}
+            onValueChange={activeIndex === -1 && !disabled ? setInputValue : undefined}
             onBlur={() => {
-                setInputValue("");
-                setOpen(false);
+                if (!disabled) {
+                    setInputValue("");
+                    setOpen(false);
+                }
             }}
-            onFocus={() => setOpen(true)}
-            onClick={() => setActiveIndex(-1)}
+            onFocus={() => !disabled && setOpen(true)}
+            onClick={() => !disabled && setActiveIndex(-1)}
+            disabled={disabled}
             className={cn(
                 "ml-1 bg-transparent outline-none placeholder:text-muted-foreground flex-1 text-sm",
                 className,
                 activeIndex !== -1 && "caret-transparent",
+                disabled && "cursor-not-allowed",
             )}
         />
     );

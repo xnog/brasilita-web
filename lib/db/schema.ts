@@ -1,4 +1,4 @@
-import { pgTable, text, timestamp, integer, primaryKey, boolean } from "drizzle-orm/pg-core";
+import { pgTable, text, timestamp, integer, primaryKey, boolean, unique, jsonb } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 import type { AdapterAccountType } from "next-auth/adapters";
 
@@ -88,16 +88,19 @@ export const userProfiles = pgTable("user_profile", {
     userId: text("userId")
         .notNull()
         .references(() => users.id, { onDelete: "cascade" }),
-    propertyType: text("propertyType"), // residential, commercial, investment
+    propertyType: text("propertyType"), // residential, investment
     location: text("location"), // desired location in Italy
-    buyerProfile: text("buyerProfile"), // resident, italian_citizen, foreign_non_resident
+    buyerProfile: text("buyerProfile"), // resident, italian_citizen, foreign_non_resident, brazilian_abroad
     usageType: text("usageType"), // personal_use, long_rental, short_rental
     investmentBudget: integer("investmentBudget"), // budget in euros
     phone: text("phone"), // user's phone number
     investmentGoal: text("investmentGoal"), // user's objective/intention for the property investment
     createdAt: timestamp("createdAt", { mode: "date" }).defaultNow(),
     updatedAt: timestamp("updatedAt", { mode: "date" }).defaultNow(),
-});
+}, (table) => ({
+    // Unique constraint to ensure one profile per user
+    uniqueUserProfile: unique("user_profile_userId_unique").on(table.userId),
+}));
 
 export const checklistCategories = pgTable("checklist_category", {
     id: text("id")
@@ -191,15 +194,17 @@ export const properties = pgTable("property", {
     bedrooms: integer("bedrooms"),
     bathrooms: integer("bathrooms"),
     area: integer("area"), // square meters
-    features: text("features"), // JSON array of features
-    images: text("images"), // JSON array of image URLs
+    features: jsonb("features"), // JSON array of features
+    images: jsonb("images"), // JSON array of image URLs
+    originalUrl: text("originalUrl").unique(), // URL of the original property listing
     isAvailable: boolean("isAvailable").default(true),
+    isRented: boolean("isRented").default(false),
     createdAt: timestamp("createdAt", { mode: "date" }).defaultNow(),
     updatedAt: timestamp("updatedAt", { mode: "date" }).defaultNow(),
 });
 
-// Property matching - links properties to users based on their profile
-export const propertyMatches = pgTable("property_match", {
+// User property interests - simple table to track user interest in properties
+export const userPropertyInterests = pgTable("user_property_interest", {
     id: text("id")
         .primaryKey()
         .$defaultFn(() => crypto.randomUUID()),
@@ -209,13 +214,15 @@ export const propertyMatches = pgTable("property_match", {
     propertyId: text("propertyId")
         .notNull()
         .references(() => properties.id, { onDelete: "cascade" }),
-    matchScore: integer("matchScore").default(0), // 0-100 matching score
-    matchReason: text("matchReason"), // JSON explaining why it matched
-    isActive: boolean("isActive").default(true),
-    isInterested: boolean("isInterested").default(false), // User marked as interested
+    isInterested: boolean("isInterested").default(true),
+    wantsToProceed: boolean("wantsToProceed").default(false), // User confirmed intent to proceed with negotiation
+    notes: text("notes"), // Optional user notes about the property
     createdAt: timestamp("createdAt", { mode: "date" }).defaultNow(),
     updatedAt: timestamp("updatedAt", { mode: "date" }).defaultNow(),
-});
+}, (table) => ({
+    // Unique constraint to prevent duplicate interests
+    uniqueUserPropertyInterest: unique("user_property_interest_unique").on(table.userId, table.propertyId),
+}));
 
 
 
@@ -242,7 +249,10 @@ export const userProfileRegions = pgTable("user_profile_region", {
         .notNull()
         .references(() => regions.id, { onDelete: "cascade" }),
     createdAt: timestamp("createdAt", { mode: "date" }).defaultNow(),
-});
+}, (table) => ({
+    // Unique constraint to prevent duplicate user profile-region combinations
+    uniqueUserProfileRegion: unique("user_profile_region_unique").on(table.userProfileId, table.regionId),
+}));
 
 // Relations
 export const regionsRelations = relations(regions, ({ many }) => ({
@@ -274,16 +284,16 @@ export const propertiesRelations = relations(properties, ({ one, many }) => ({
         fields: [properties.regionId],
         references: [regions.id],
     }),
-    propertyMatches: many(propertyMatches),
+    userPropertyInterests: many(userPropertyInterests),
 }));
 
-export const propertyMatchesRelations = relations(propertyMatches, ({ one }) => ({
+export const userPropertyInterestsRelations = relations(userPropertyInterests, ({ one }) => ({
     user: one(users, {
-        fields: [propertyMatches.userId],
+        fields: [userPropertyInterests.userId],
         references: [users.id],
     }),
     property: one(properties, {
-        fields: [propertyMatches.propertyId],
+        fields: [userPropertyInterests.propertyId],
         references: [properties.id],
     }),
 }));
@@ -293,7 +303,7 @@ export const usersRelations = relations(users, ({ many }) => ({
     sessions: many(sessions),
     authenticators: many(authenticators),
     userProfiles: many(userProfiles),
-    propertyMatches: many(propertyMatches),
+    userPropertyInterests: many(userPropertyInterests),
     userChecklistProgress: many(userChecklistProgress),
 }));
 
@@ -303,5 +313,5 @@ export type UserProfileRegion = typeof userProfileRegions.$inferSelect;
 export type NewUserProfileRegion = typeof userProfileRegions.$inferInsert;
 export type Property = typeof properties.$inferSelect;
 export type NewProperty = typeof properties.$inferInsert;
-export type PropertyMatch = typeof propertyMatches.$inferSelect;
-export type NewPropertyMatch = typeof propertyMatches.$inferInsert;
+export type UserPropertyInterest = typeof userPropertyInterests.$inferSelect;
+export type NewUserPropertyInterest = typeof userPropertyInterests.$inferInsert;

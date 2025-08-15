@@ -43,10 +43,10 @@ export function PreferencesClient() {
     }, []);
 
     const handleSubmit = async (data: {
-        propertyType: "residential" | "commercial" | "investment";
+        propertyType: "residential" | "investment";
         location?: string;
         regions: string[];
-        buyerProfile: "resident" | "italian_citizen" | "foreign_non_resident";
+        buyerProfile: "resident" | "italian_citizen" | "foreign_non_resident" | "brazilian_abroad";
         usageType: "personal_use" | "long_rental" | "short_rental" | "relocation" | "mixed_use" | "family_legacy";
         investmentBudget: number;
         phone: string;
@@ -98,10 +98,10 @@ export function PreferencesClient() {
                 onSubmit={handleSubmit}
                 availableRegions={availableRegions}
                 initialData={userProfile ? {
-                    propertyType: userProfile.propertyType as "residential" | "commercial" | "investment" | undefined,
+                    propertyType: userProfile.propertyType as "residential" | "investment" | undefined,
                     location: userProfile.location || "",
                     regions: (userProfile as UserProfile & { regions?: string[] }).regions || [], // Incluir regiões selecionadas
-                    buyerProfile: userProfile.buyerProfile as "resident" | "italian_citizen" | "foreign_non_resident" | undefined,
+                    buyerProfile: userProfile.buyerProfile as "resident" | "italian_citizen" | "foreign_non_resident" | "brazilian_abroad" | undefined,
                     usageType: userProfile.usageType as "personal_use" | "long_rental" | "short_rental" | "relocation" | "mixed_use" | "family_legacy" | undefined,
                     investmentBudget: userProfile.investmentBudget || undefined,
                     phone: userProfile.phone || "",

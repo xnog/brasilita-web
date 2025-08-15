@@ -36,7 +36,7 @@ export default async function PropertiesPage() {
 
     return (
         <div className="container mx-auto container-padding py-8">
-            <div className="max-w-4xl mx-auto">
+            <div className="w-full">
                 {!userProfile ? (
                     <PreferencesRequiredBanner
                         title="Imóveis"
@@ -48,11 +48,6 @@ export default async function PropertiesPage() {
                             <h1 className="text-3xl font-bold text-foreground mb-2">Imóveis Selecionados</h1>
                             <p className="text-muted-foreground mb-3">
                                 Lista curada por especialistas baseada no seu perfil
-                            </p>
-                            <p className="text-sm text-emerald-600 font-medium">
-                                {formattedRegions && `${formattedRegions}`}
-                                {formattedRegions && userProfile.investmentBudget && ` • `}
-                                {userProfile.investmentBudget && `Até €${userProfile.investmentBudget.toLocaleString()}`}
                             </p>
                         </div>
 
