@@ -1,0 +1,1 @@
+ALTER TABLE "property" ADD CONSTRAINT "property_originalUrl_unique" UNIQUE("originalUrl");
