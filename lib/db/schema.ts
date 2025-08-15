@@ -196,6 +196,7 @@ export const properties = pgTable("property", {
     area: integer("area"), // square meters
     features: jsonb("features"), // JSON array of features
     images: jsonb("images"), // JSON array of image URLs
+    originalUrl: text("originalUrl"), // URL of the original property listing
     isAvailable: boolean("isAvailable").default(true),
     isRented: boolean("isRented").default(false),
     createdAt: timestamp("createdAt", { mode: "date" }).defaultNow(),
