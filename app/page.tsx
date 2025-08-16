@@ -382,7 +382,7 @@ export default async function HomePage() {
             </div>
           </div>
 
-          <div className="text-center mt-12">
+          {/* <div className="text-center mt-12">
             <div className="bg-gradient-to-r from-primary/5 to-primary/10 rounded-xl p-6 max-w-3xl mx-auto">
               <h3 className="text-xl font-bold mb-3 text-foreground">
                 Não sabe qual opção é melhor para você?
@@ -394,7 +394,7 @@ export default async function HomePage() {
                 Consultoria Personalizada
               </a>
             </div>
-          </div>
+          </div> */}
         </div>
       </section>
 
@@ -639,7 +639,6 @@ export default async function HomePage() {
               <ul className="space-y-2 text-sm text-muted-foreground">
                 <li><a href="#servicos" className="hover:text-foreground transition-colors">Compra de Imóveis</a></li>
                 <li><a href="#servicos" className="hover:text-foreground transition-colors">Aluguel Longo Prazo</a></li>
-                <li><a href="#sobre" className="hover:text-foreground transition-colors">Consultoria</a></li>
               </ul>
             </div>
 

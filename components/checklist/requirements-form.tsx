@@ -51,9 +51,7 @@ const formSchema = z.object({
     propertyType: z.enum(["residential", "commercial", "investment"], {
         message: "Selecione o tipo de imóvel.",
     }),
-    regions: z.array(z.string()).min(1, {
-        message: "Selecione pelo menos uma região.",
-    }),
+    regions: z.array(z.string()).optional(),
     location: z.string().optional(), // Mantido para compatibilidade, agora opcional
     buyerProfile: z.enum(["resident", "italian_citizen", "foreign_non_resident"], {
         message: "Selecione seu perfil como comprador.",
@@ -160,7 +158,7 @@ export function RequirementsForm({ onSubmit, initialData }: RequirementsFormProp
                                 <FormItem>
                                     <FormLabel className="flex items-center gap-2">
                                         <MapPin className="h-4 w-4" />
-                                        Regiões de Interesse
+                                        Regiões de Interesse (opcional)
                                     </FormLabel>
                                     <FormControl>
                                         <MultiSelector
@@ -172,7 +170,7 @@ export function RequirementsForm({ onSubmit, initialData }: RequirementsFormProp
                                             }}
                                         >
                                             <MultiSelectorTrigger>
-                                                <MultiSelectorInput placeholder="Selecione as regiões desejadas..." />
+                                                <MultiSelectorInput placeholder="Todas as regiões..." />
                                             </MultiSelectorTrigger>
                                             <MultiSelectorContent>
                                                 <MultiSelectorList>
@@ -190,7 +188,7 @@ export function RequirementsForm({ onSubmit, initialData }: RequirementsFormProp
                                         </MultiSelector>
                                     </FormControl>
                                     <FormDescription>
-                                        Selecione uma ou mais regiões da Itália onde deseja comprar propriedades
+                                        Selecione uma ou mais regiões da Itália onde deseja comprar propriedades. Deixe vazio para todas as regiões.
                                     </FormDescription>
                                     <FormMessage />
                                 </FormItem>

@@ -14,7 +14,7 @@ export default async function DashboardPage() {
     let userProfile = null;
     let propertyInterests = 0;
     let propertiesToProceed = 0;
-    let formattedRegions = "";
+    let formattedRegions = "Todas as regiões";
     try {
         if (session?.user?.id) {
             userProfile = await db.query.userProfiles.findFirst({
@@ -50,6 +50,7 @@ export default async function DashboardPage() {
         }
     } catch (error) {
         console.log("Error fetching user data:", error);
+        formattedRegions = "Todas as regiões";
     }
 
     return (

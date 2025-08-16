@@ -24,9 +24,7 @@ const formSchema = z.object({
     propertyType: z.enum(["residential", "investment"], {
         message: "Selecione o tipo de imóvel.",
     }),
-    regions: z.array(z.string()).min(1, {
-        message: "Selecione pelo menos uma região.",
-    }),
+    regions: z.array(z.string()).optional(),
     location: z.string().optional(), // Mantido para compatibilidade, agora opcional
     buyerProfile: z.enum(["resident", "italian_citizen", "foreign_non_resident", "brazilian_abroad"], {
         message: "Selecione seu perfil como comprador.",
@@ -139,7 +137,7 @@ export function PreferencesForm({ onSubmit, availableRegions, initialData, isEdi
                                 <FormItem>
                                     <FormLabel className="flex items-center gap-2">
                                         <MapPin className="h-4 w-4" />
-                                        Regiões de Interesse
+                                        Regiões de Interesse (opcional)
                                     </FormLabel>
                                     <FormControl>
                                         <MultiSelector
@@ -152,7 +150,7 @@ export function PreferencesForm({ onSubmit, availableRegions, initialData, isEdi
                                         >
                                             <MultiSelectorTrigger>
                                                 <MultiSelectorInput
-                                                    placeholder="Selecione as regiões desejadas..."
+                                                    placeholder="Todas as regiões..."
                                                 />
                                             </MultiSelectorTrigger>
                                             <MultiSelectorContent>
@@ -171,35 +169,8 @@ export function PreferencesForm({ onSubmit, availableRegions, initialData, isEdi
                                             </MultiSelectorContent>
                                         </MultiSelector>
                                     </FormControl>
-
-                                    {/* Links rápidos */}
-                                    <div className="flex gap-3 text-sm">
-                                        <button
-                                            type="button"
-                                            onClick={() => {
-                                                // Selecionar todas as regiões
-                                                const allRegionIds = availableRegions.map(region => region.value);
-                                                field.onChange(allRegionIds);
-                                            }}
-                                            className="text-primary hover:text-primary/80 underline"
-                                        >
-                                            Selecionar todas as regiões
-                                        </button>
-                                        <span className="text-muted-foreground">•</span>
-                                        <button
-                                            type="button"
-                                            onClick={() => {
-                                                // Limpar seleção
-                                                field.onChange([]);
-                                            }}
-                                            className="text-muted-foreground hover:text-foreground underline"
-                                        >
-                                            Limpar seleção
-                                        </button>
-                                    </div>
-
                                     <FormDescription>
-                                        Selecione uma ou mais regiões da Itália onde deseja comprar propriedades
+                                        Selecione uma ou mais regiões da Itália onde deseja comprar propriedades. Deixe vazio para todas as regiões.
                                     </FormDescription>
                                     <FormMessage />
                                 </FormItem>

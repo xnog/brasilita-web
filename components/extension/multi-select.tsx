@@ -210,7 +210,7 @@ const MultiSelector = ({
             <Command
                 onKeyDown={handleKeyDown}
                 className={cn(
-                    "overflow-visible bg-transparent flex flex-col space-y-2",
+                    "overflow-visible bg-transparent flex flex-col",
                     className,
                 )}
                 dir={dir}
@@ -226,55 +226,90 @@ const MultiSelectorTrigger = forwardRef<
     HTMLDivElement,
     React.HTMLAttributes<HTMLDivElement>
 >(({ className, children, ...props }, ref) => {
-    const { value, onValueChange, activeIndex, disabled } = useMultiSelect();
+    const { value, onValueChange, activeIndex, disabled, open, setOpen, ref: inputRef } = useMultiSelect();
 
     const mousePreventDefault = useCallback((e: React.MouseEvent) => {
         e.preventDefault();
         e.stopPropagation();
     }, []);
 
+    const handleContainerClick = useCallback((e: React.MouseEvent) => {
+        if (!disabled && !open) {
+            e.preventDefault();
+            setOpen(true);
+            // Focar no input após um pequeno delay para garantir que ele esteja disponível
+            setTimeout(() => {
+                inputRef.current?.focus();
+            }, 0);
+        }
+    }, [disabled, open, setOpen, inputRef]);
+
     return (
         <div
             ref={ref}
+            onClick={handleContainerClick}
             className={cn(
-                "flex flex-wrap gap-1 px-3 py-1 border border-input rounded-md bg-transparent min-h-9 shadow-xs transition-[color,box-shadow]",
+                "transition-all duration-200 ease-in-out border border-input rounded-md bg-transparent shadow-xs",
+                "px-3 py-1",
                 {
+                    // Estado sem foco: altura fixa
+                    "h-9": !open && value.length > 0,
+                    "min-h-9": !open && value.length === 0,
+                    // Estado com foco: permite expansão vertical
+                    "min-h-9 py-2": open,
+                    // Estados visuais
                     "focus-within:border-ring focus-within:ring-ring/50 focus-within:ring-[3px]": activeIndex === -1 && !disabled,
                     "opacity-50 cursor-not-allowed": disabled,
+                    "cursor-pointer": !disabled && !open,
                 },
                 className,
             )}
             {...props}
         >
-            {value.slice(0, 3).map((item, index) => (
-                <Badge
-                    key={item.value}
-                    className={cn(
-                        "px-1.5 rounded-md flex items-center gap-1",
-                        activeIndex === index && "ring-2 ring-muted-foreground ",
-                    )}
-                    variant={"secondary"}
-                >
-                    <span className="text-xs">{item.label}</span>
-                    <button
-                        aria-label={`Remove ${item} option`}
-                        aria-roledescription="button to remove option"
-                        type="button"
-                        onMouseDown={mousePreventDefault}
-                        onClick={() => !disabled && onValueChange(item)}
-                        disabled={disabled}
+            <div className={cn(
+                "flex gap-1 h-full",
+                {
+                    // Estado sem foco: uma linha, overflow hidden
+                    "items-center overflow-hidden": !open,
+                    // Estado com foco: permite quebra
+                    "flex-wrap items-start": open,
+                }
+            )}>
+                {value.slice(0, 3).map((item, index) => (
+                    <Badge
+                        key={item.value}
+                        className={cn(
+                            "px-1.5 rounded-md flex items-center gap-1 flex-shrink-0",
+                            activeIndex === index && "ring-2 ring-muted-foreground ",
+                        )}
+                        variant={"secondary"}
                     >
-                        <span className="sr-only">Remove {item.label} option</span>
-                        <RemoveIcon className="h-4 w-4 hover:stroke-destructive" />
-                    </button>
-                </Badge>
-            ))}
-            {value.length > 3 && (
-                <Badge variant="outline" className="px-2 text-xs">
-                    +{value.length - 3} mais
-                </Badge>
-            )}
-            {children}
+                        <span className="text-xs">{item.label}</span>
+                        <button
+                            aria-label={`Remove ${item} option`}
+                            aria-roledescription="button to remove option"
+                            type="button"
+                            onMouseDown={mousePreventDefault}
+                            onClick={() => !disabled && onValueChange(item)}
+                            disabled={disabled}
+                        >
+                            <span className="sr-only">Remove {item.label} option</span>
+                            <RemoveIcon className="h-4 w-4 hover:stroke-destructive" />
+                        </button>
+                    </Badge>
+                ))}
+                {value.length > 3 && (
+                    <Badge variant="outline" className="px-2 text-xs flex-shrink-0">
+                        +{value.length - 3} mais
+                    </Badge>
+                )}
+                <div className={cn(
+                    "flex-1",
+                    open ? "min-w-16" : "min-w-8 truncate"
+                )}>
+                    {children}
+                </div>
+            </div>
         </div>
     );
 });
@@ -295,6 +330,8 @@ const MultiSelectorInput = forwardRef<
         disabled,
     } = useMultiSelect();
 
+    const { value } = useMultiSelect();
+    
     return (
         <CommandPrimitive.Input
             {...props}
@@ -311,6 +348,7 @@ const MultiSelectorInput = forwardRef<
             onFocus={() => !disabled && setOpen(true)}
             onClick={() => !disabled && setActiveIndex(-1)}
             disabled={disabled}
+            placeholder={value.length > 0 ? "" : props.placeholder}
             className={cn(
                 "ml-1 bg-transparent outline-none placeholder:text-muted-foreground flex-1 text-sm",
                 className,
