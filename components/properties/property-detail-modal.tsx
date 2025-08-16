@@ -384,13 +384,38 @@ export function PropertyDetailModal({
 
                                     {/* Success Message */}
                                     {wantsToProceed && (
-                                        <div className="p-4 bg-emerald-50 rounded-lg border border-emerald-200">
-                                            <div className="text-center">
-                                                <Check className="h-8 w-8 text-emerald-600 mx-auto mb-2" />
-                                                <h4 className="font-semibold text-emerald-900 mb-1">Interesse Confirmado!</h4>
-                                                <p className="text-sm text-emerald-700">
-                                                    Entraremos em contato em breve para iniciar a negociação.
-                                                </p>
+                                        <div className="p-6 bg-emerald-50 rounded-xl border border-emerald-200 shadow-sm">
+                                            <div className="text-center space-y-4">
+                                                <Check className="h-12 w-12 text-emerald-600 mx-auto" />
+                                                <div className="space-y-3">
+                                                    <h4 className="text-xl font-bold text-emerald-900">
+                                                        Interesse confirmado com sucesso!
+                                                    </h4>
+                                                    <div className="text-emerald-800 space-y-3 leading-relaxed">
+                                                        <p>
+                                                            Nas próximas horas, nossa equipe entrará em contato para confirmar 
+                                                            os detalhes e encaminhar seu perfil à imobiliária responsável pelo imóvel.
+                                                        </p>
+                                                        <p>
+                                                            Enquanto isso, você pode acompanhar o status da solicitação acessando{" "}
+                                                            <a 
+                                                                href="/dashboard" 
+                                                                className="font-semibold text-emerald-700 hover:text-emerald-900 underline decoration-emerald-300 hover:decoration-emerald-500 transition-colors"
+                                                            >
+                                                                dashboard
+                                                            </a>.
+                                                        </p>
+                                                        <p className="pt-2">
+                                                            A Brasilità segue ao seu lado para tornar o sonho do seu imóvel na Itália uma realidade.
+                                                        </p>
+                                                        <div className="pt-2 space-y-1">
+                                                            <p className="font-medium">Um abraço,</p>
+                                                            <p className="text-emerald-700 font-semibold">
+                                                                Equipe Brasilità - do sonho à chave.
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     )}
