@@ -20,7 +20,7 @@ export default async function HomePage() {
             <div className="mb-6">
               <span className="inline-flex items-center px-4 py-2 rounded-full bg-white/90 backdrop-blur-md text-gray-800 text-sm font-medium mb-4 shadow-xl border border-white/50">
                 <Award className="w-4 h-4 mr-2" />
-                Assessoria Especializada em Imóveis Italianos
+                O único marketplace de imóveis italianos
               </span>
             </div>
             <h1 className="text-4xl md:text-6xl font-bold mb-6 text-white leading-tight" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.8), 0px 0px 8px rgba(0,0,0,0.6)' }}>
