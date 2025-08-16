@@ -1,6 +1,6 @@
 import { auth } from "@/lib/auth";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { User, CheckSquare, ArrowRight, Home, Search, Settings } from "lucide-react";
+import { User, CheckSquare, ArrowRight, Home, Search, Settings, Handshake, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { db } from "@/lib/db";
 import { userProfiles, userPropertyInterests } from "@/lib/db/schema";
@@ -13,6 +13,7 @@ export default async function DashboardPage() {
     // Get user profile
     let userProfile = null;
     let propertyInterests = 0;
+    let propertiesToProceed = 0;
     let formattedRegions = "";
     try {
         if (session?.user?.id) {
@@ -34,6 +35,14 @@ export default async function DashboardPage() {
                         eq(userPropertyInterests.isInterested, true)
                     ));
                 propertyInterests = interests.length;
+
+                // Count properties user wants to proceed with negotiation
+                const proceedInterests = await db.select().from(userPropertyInterests)
+                    .where(and(
+                        eq(userPropertyInterests.userId, session.user.id),
+                        eq(userPropertyInterests.wantsToProceed, true)
+                    ));
+                propertiesToProceed = proceedInterests.length;
 
                 // Format regions
                 formattedRegions = await formatUserRegions(userProfile);
@@ -128,14 +137,31 @@ export default async function DashboardPage() {
 
                     <Card>
                         <CardHeader>
-                            <CardTitle>Imóveis de Interesse</CardTitle>
+                            <CardTitle className="flex items-center gap-2">
+                                <Home className="h-5 w-5" />
+                                Imóveis de Interesse
+                            </CardTitle>
                             <CardDescription>
-                                Imóveis que você marcou
+                                Seus imóveis marcados e negociações
                             </CardDescription>
                         </CardHeader>
                         <CardContent>
-                            <p className="text-2xl font-bold">{propertyInterests}</p>
-                            <p className="text-xs text-muted-foreground">imóveis de interesse</p>
+                            <div className="space-y-4">
+                                <div className="flex items-center gap-3">
+                                    <Heart className="h-5 w-5 text-blue-600" />
+                                    <div>
+                                        <p className="text-2xl font-bold">{propertyInterests}</p>
+                                        <p className="text-xs text-muted-foreground">imóveis de interesse</p>
+                                    </div>
+                                </div>
+                                <div className="flex items-center gap-3 pt-2 border-t">
+                                    <Handshake className="h-5 w-5 text-green-600" />
+                                    <div>
+                                        <p className="text-2xl font-bold text-green-600">{propertiesToProceed}</p>
+                                        <p className="text-xs text-muted-foreground">prontos para negociar</p>
+                                    </div>
+                                </div>
+                            </div>
                         </CardContent>
                     </Card>
                 </div>
