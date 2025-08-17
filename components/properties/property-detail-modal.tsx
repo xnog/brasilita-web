@@ -20,9 +20,7 @@ import {
     MessageCircle,
     Check,
     AlertTriangle,
-    Shield,
     Lock,
-    ArrowLeft,
     X
 } from "lucide-react";
 import { Property } from "@/lib/db/schema";

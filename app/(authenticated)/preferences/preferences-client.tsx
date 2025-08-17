@@ -7,6 +7,12 @@ import { UserProfile } from "@/lib/db/schema";
 import { PageLoading } from "@/components/ui/page-loading";
 import { MultiSelectValue } from "@/components/extension/multi-select";
 
+interface Region {
+    id: string;
+    name: string;
+    examples?: string;
+}
+
 export function PreferencesClient() {
     const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
     const [availableRegions, setAvailableRegions] = useState<MultiSelectValue[]>([]);
@@ -30,7 +36,7 @@ export function PreferencesClient() {
 
                 if (regionsResponse.ok) {
                     const regionsData = await regionsResponse.json();
-                    const regionsAsOptions = regionsData.regions.map((region: any) => ({
+                    const regionsAsOptions = regionsData.regions.map((region: Region) => ({
                         value: region.id,
                         label: region.name
                     }));
@@ -49,7 +55,7 @@ export function PreferencesClient() {
     const handleSubmit = async (data: {
         propertyType: "residential" | "investment";
         location?: string;
-        regions: string[];
+        regions?: string[];
         buyerProfile: "resident" | "italian_citizen" | "foreign_non_resident" | "brazilian_abroad";
         usageType: "personal_use" | "long_rental" | "short_rental" | "relocation" | "mixed_use" | "family_legacy";
         investmentBudget: number;

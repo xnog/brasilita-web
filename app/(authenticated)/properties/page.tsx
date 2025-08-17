@@ -4,14 +4,12 @@ import { db } from "@/lib/db";
 import { userProfiles } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
 import { PreferencesRequiredBanner } from "@/components/preferences/preferences-required-banner";
-import { formatUserRegions } from "@/lib/utils";
 
 export default async function PropertiesPage() {
     const session = await auth();
 
     // Try to get user profile for default filters
     let userProfile = null;
-    let formattedRegions = "";
     try {
         if (session?.user?.id) {
             userProfile = await db.query.userProfiles.findFirst({
@@ -25,9 +23,7 @@ export default async function PropertiesPage() {
                 }
             });
 
-            if (userProfile) {
-                formattedRegions = await formatUserRegions(userProfile);
-            }
+
         }
     } catch (error) {
         console.log("User profile not found or database not ready:", error);

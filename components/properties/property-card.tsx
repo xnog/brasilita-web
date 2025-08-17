@@ -62,14 +62,7 @@ export function PropertyCard({ property, onToggleInterest }: PropertyCardProps) 
         }).format(price);
     };
 
-    const getPropertyTypeLabel = (type: string) => {
-        const types = {
-            'residential': 'Residencial',
-            'commercial': 'Comercial',
-            'investment': 'Investimento'
-        };
-        return types[type as keyof typeof types] || type;
-    };
+
 
     const nextImage = (e: React.MouseEvent) => {
         e.stopPropagation();

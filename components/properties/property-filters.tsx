@@ -5,9 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
+
 import { MultiSelector, MultiSelectorContent, MultiSelectorInput, MultiSelectorItem, MultiSelectorList, MultiSelectorTrigger } from "@/components/extension/multi-select";
 import { Filter, X, ChevronDown, ChevronUp, Heart, RotateCcw } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
@@ -40,7 +38,6 @@ export interface AvailableFilters {
 
 interface PropertyFiltersProps {
     filters: PropertyFilters;
-    availableFilters: AvailableFilters;
     onFiltersChange: (filters: PropertyFilters) => void;
     onClearFilters: () => void;
     onApplyPreferences?: () => void;
@@ -49,7 +46,6 @@ interface PropertyFiltersProps {
 
 export function PropertyFilters({
     filters,
-    availableFilters,
     onFiltersChange,
     onClearFilters,
     onApplyPreferences,
@@ -114,17 +110,7 @@ export function PropertyFilters({
         handleFilterChange(key, numValue);
     };
 
-    const getActiveFilterCount = () => {
-        let count = 0;
-        if (localFilters.regions && localFilters.regions.length > 0) count++;
-        if (localFilters.priceMin || localFilters.priceMax) count++;
-        if (localFilters.bedroomsMin || localFilters.bedroomsMax) count++;
-        if (localFilters.bathroomsMin || localFilters.bathroomsMax) count++;
-        if (localFilters.areaMin || localFilters.areaMax) count++;
-        if (localFilters.location) count++;
-        if (localFilters.favoritesOnly) count++;
-        return count;
-    };
+
 
     const regionOptions = regions.map(region => ({
         value: region.id,

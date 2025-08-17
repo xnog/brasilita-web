@@ -19,19 +19,19 @@ export function PropertyDetailImage({ images, propertyTitle, className }: Proper
     // Touch/swipe states
     const [touchStart, setTouchStart] = useState<number | null>(null);
     const [touchEnd, setTouchEnd] = useState<number | null>(null);
-    const [isDragging, setIsDragging] = useState(false);
+
     const imageContainerRef = useRef<HTMLDivElement>(null);
 
     const validImages = images.length > 0 ? images : ['/api/placeholder/800/600'];
     const currentImage = validImages[currentImageIndex];
 
-    const nextImage = () => {
+    const nextImage = useCallback(() => {
         setCurrentImageIndex((prev) => (prev + 1) % validImages.length);
-    };
+    }, [validImages.length]);
 
-    const previousImage = () => {
+    const previousImage = useCallback(() => {
         setCurrentImageIndex((prev) => (prev - 1 + validImages.length) % validImages.length);
-    };
+    }, [validImages.length]);
 
     const handleImageError = (index: number) => {
         setImageError(prev => ({ ...prev, [index]: true }));
@@ -44,13 +44,11 @@ export function PropertyDetailImage({ images, propertyTitle, className }: Proper
         if (validImages.length <= 1) return;
         setTouchEnd(null);
         setTouchStart(e.targetTouches[0].clientX);
-        setIsDragging(false);
     }, [validImages.length]);
 
     const onTouchMove = useCallback((e: React.TouchEvent) => {
         if (validImages.length <= 1 || touchStart === null) return;
         setTouchEnd(e.targetTouches[0].clientX);
-        setIsDragging(true);
         // Prevent default to avoid scrolling while swiping images
         e.preventDefault();
     }, [validImages.length, touchStart]);
@@ -70,7 +68,6 @@ export function PropertyDetailImage({ images, propertyTitle, className }: Proper
         
         setTouchStart(null);
         setTouchEnd(null);
-        setIsDragging(false);
     }, [touchStart, touchEnd, validImages.length, minSwipeDistance]);
 
     // Keyboard navigation
@@ -94,7 +91,7 @@ export function PropertyDetailImage({ images, propertyTitle, className }: Proper
         return () => {
             document.removeEventListener('keydown', handleKeyDown);
         };
-    }, [validImages.length]);
+    }, [validImages.length, nextImage, previousImage]);
 
     return (
         <div className={cn("space-y-4 p-4", className)}>

@@ -27,7 +27,6 @@ interface PropertyListResponse {
         limit: number;
     };
     appliedFilters: PropertyFilters;
-    availableFilters: AvailableFilters;
 }
 
 export function PropertyList() {
@@ -165,13 +164,6 @@ export function PropertyList() {
     }, [filters, fetchProperties, updateUrlWithFilters]);
 
     const handleClearFilters = useCallback(() => {
-        const clearedFilters: PropertyFilters = {
-            page: 1,
-            limit: 20,
-            sortBy: 'createdAt',
-            sortOrder: 'desc'
-        };
-        
         // Update URL with cleared filters and add parameter to disable user preferences
         const params = new URLSearchParams();
         params.set('page', '1');
@@ -306,7 +298,6 @@ export function PropertyList() {
             <div className="space-y-6">
                 <PropertyFilters
                     filters={data.appliedFilters}
-                    availableFilters={data.availableFilters}
                     onFiltersChange={handleFiltersChange}
                     onClearFilters={handleClearFilters}
                     onApplyPreferences={handleApplyPreferences}
@@ -335,7 +326,6 @@ export function PropertyList() {
         <div className="space-y-6">
             <PropertyFilters
                 filters={data.appliedFilters}
-                availableFilters={data.availableFilters}
                 onFiltersChange={handleFiltersChange}
                 onClearFilters={handleClearFilters}
                 onApplyPreferences={handleApplyPreferences}
