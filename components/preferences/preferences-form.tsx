@@ -79,18 +79,6 @@ export function PreferencesForm({ onSubmit, availableRegions, initialData, isEdi
 
     return (
         <Card className="w-full">
-            <CardHeader className="text-center">
-                <CardTitle className="flex items-center justify-center gap-2 text-2xl">
-                    <Building2 className="h-6 w-6 text-primary" />
-                    {isEditing ? "Editar Preferências" : "Suas Preferências"}
-                </CardTitle>
-                <CardDescription>
-                    {isEditing
-                        ? "Atualize suas preferências para melhorar as recomendações de imóveis"
-                        : "Configure suas preferências para receber recomendações personalizadas de imóveis na Itália"
-                    }
-                </CardDescription>
-            </CardHeader>
             <CardContent>
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">

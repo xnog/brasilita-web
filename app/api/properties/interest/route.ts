@@ -31,7 +31,7 @@ export async function PATCH(request: NextRequest) {
         });
 
         if (!existingInterest) {
-            return NextResponse.json({ error: "Você deve expressar interesse na propriedade primeiro" }, { status: 400 });
+            return NextResponse.json({ error: "Você deve adicionar a propriedade aos favoritos primeiro" }, { status: 400 });
         }
 
         // Update the wantsToProceed field

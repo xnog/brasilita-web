@@ -158,31 +158,31 @@ export function PropertyDetailModal({
 
     return (
         <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-            <DialogContent 
-                className="max-w-none w-full h-full sm:max-w-7xl sm:w-[95vw] sm:h-[95vh] p-0 gap-0 flex flex-col [&>button]:hidden" 
+            <DialogContent
+                className="max-w-none w-full h-full sm:max-w-7xl sm:w-[95vw] sm:h-[95vh] p-0 gap-0 flex flex-col [&>button]:hidden"
             >
                 <VisuallyHidden>
                     <DialogTitle>{property.title}</DialogTitle>
                 </VisuallyHidden>
-                
+
                 <div className="flex-1 overflow-auto relative">
                     {/* Close Button */}
-                                        <Button
-                                            variant="ghost"
-                                            size="sm"
-                            onClick={onClose}
+                    <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={onClose}
                         className="absolute top-4 right-4 z-50 bg-white/90 backdrop-blur-sm hover:bg-white rounded-full w-10 h-10 p-0 shadow-lg border border-slate-200 cursor-pointer"
-                                        >
+                    >
                         <X className="h-5 w-5" />
-                                        </Button>
+                    </Button>
 
                     <div className="p-4 sm:p-6 pt-4 space-y-6">
                         {/* Image Gallery */}
                         <div className="space-y-4">
-                        <PropertyDetailImage 
-                            images={images}
-                            propertyTitle={property.title}
-                        />
+                            <PropertyDetailImage
+                                images={images}
+                                propertyTitle={property.title}
+                            />
                         </div>
 
                         {/* Property Info */}
@@ -268,94 +268,94 @@ export function PropertyDetailModal({
                             {/* Sidebar */}
                             <div className="space-y-4">
                                 <div className="bg-white rounded-xl p-6 shadow-sm">
-                                {/* Additional Info */}
-                                <div className="bg-slate-50 rounded-xl p-4 space-y-3">
-                                    <h4 className="font-semibold text-slate-900">Informações Adicionais</h4>
+                                    {/* Additional Info */}
+                                    <div className="bg-slate-50 rounded-xl p-4 space-y-3">
+                                        <h4 className="font-semibold text-slate-900">Informações Adicionais</h4>
 
-                                    <div className="space-y-2 text-sm">
-                                        <div className="flex items-center gap-2">
-                                            <Calendar className="h-4 w-4 text-slate-500" />
-                                            <span className="text-slate-600">
-                                                Anunciado em {formatDate(property.createdAt)}
-                                            </span>
-                                        </div>
-
-                                        {property.area && (
+                                        <div className="space-y-2 text-sm">
                                             <div className="flex items-center gap-2">
-                                                <Euro className="h-4 w-4 text-slate-500" />
+                                                <Calendar className="h-4 w-4 text-slate-500" />
                                                 <span className="text-slate-600">
-                                                    €{Math.round(property.price / property.area)}/m²
+                                                    Anunciado em {formatDate(property.createdAt)}
                                                 </span>
                                             </div>
-                                        )}
+
+                                            {property.area && (
+                                                <div className="flex items-center gap-2">
+                                                    <Euro className="h-4 w-4 text-slate-500" />
+                                                    <span className="text-slate-600">
+                                                        €{Math.round(property.price / property.area)}/m²
+                                                    </span>
+                                                </div>
+                                            )}
+                                        </div>
                                     </div>
-                                </div>
 
-                                {/* Action Buttons */}
-                                <div className="space-y-3">
-                                    <Button
-                                        onClick={handleToggleInterest}
-                                        disabled={loading}
-                                        className={property.isInterested
-                                            ? "w-full bg-emerald-500 hover:bg-emerald-600 text-white"
-                                            : "w-full bg-slate-100 text-slate-700 hover:bg-emerald-50"
-                                        }
-                                        size="lg"
-                                    >
-                                        <ThumbsUp className="h-5 w-5 mr-2" />
-                                        {property.isInterested ? "Interessado" : "Tenho interesse"}
-                                    </Button>
-
-                                    {/* Negotiation Flow */}
-                                    {property.isInterested && !wantsToProceed && (
+                                    {/* Action Buttons */}
+                                    <div className="space-y-3">
                                         <Button
-                                            onClick={handleProceedToNegotiation}
+                                            onClick={handleToggleInterest}
                                             disabled={loading}
-                                            className="w-full bg-blue-500 hover:bg-blue-600 text-white"
+                                            className={property.isInterested
+                                                ? "w-full bg-emerald-500 hover:bg-emerald-600 text-white"
+                                                : "w-full bg-slate-100 text-slate-700 hover:bg-emerald-50"
+                                            }
                                             size="lg"
                                         >
-                                            <MessageCircle className="h-5 w-5 mr-2" />
-                                            Prosseguir para Negociação
+                                            <ThumbsUp className="h-5 w-5 mr-2" />
+                                            {property.isInterested ? "Favoritado" : "Adicionar aos Favoritos"}
                                         </Button>
-                                    )}
 
-                                    {/* Success Message */}
-                                    {wantsToProceed && (
-                                        <div className="p-6 bg-emerald-50 rounded-xl border border-emerald-200 shadow-sm">
-                                            <div className="text-center space-y-4">
-                                                <Check className="h-12 w-12 text-emerald-600 mx-auto" />
-                                                <div className="space-y-3">
-                                                    <h4 className="text-xl font-bold text-emerald-900">
-                                                        Interesse confirmado com sucesso!
-                                                    </h4>
-                                                    <div className="text-emerald-800 space-y-3 leading-relaxed">
-                                                        <p>
-                                                            Nas próximas horas, nossa equipe entrará em contato para confirmar 
-                                                            os detalhes e encaminhar seu perfil à imobiliária responsável pelo imóvel.
-                                                        </p>
-                                                        <p>
-                                                            Enquanto isso, você pode acompanhar o status da solicitação acessando{" "}
-                                                            <a 
-                                                                href="/dashboard" 
-                                                                className="font-semibold text-emerald-700 hover:text-emerald-900 underline decoration-emerald-300 hover:decoration-emerald-500 transition-colors"
-                                                            >
-                                                                dashboard
-                                                            </a>.
-                                                        </p>
-                                                        <p className="pt-2">
-                                                            A Brasilità segue ao seu lado para tornar o sonho do seu imóvel na Itália uma realidade.
-                                                        </p>
-                                                        <div className="pt-2 space-y-1">
-                                                            <p className="font-medium">Um abraço,</p>
-                                                            <p className="text-emerald-700 font-semibold">
-                                                                Equipe Brasilità - do sonho à chave.
+                                        {/* Negotiation Flow */}
+                                        {!wantsToProceed && (
+                                            <Button
+                                                onClick={handleProceedToNegotiation}
+                                                disabled={loading}
+                                                className="w-full bg-blue-500 hover:bg-blue-600 text-white"
+                                                size="lg"
+                                            >
+                                                <MessageCircle className="h-5 w-5 mr-2" />
+                                                Prosseguir para Negociação
+                                            </Button>
+                                        )}
+
+                                        {/* Success Message */}
+                                        {wantsToProceed && (
+                                            <div className="p-6 bg-emerald-50 rounded-xl border border-emerald-200 shadow-sm">
+                                                <div className="text-center space-y-4">
+                                                    <Check className="h-12 w-12 text-emerald-600 mx-auto" />
+                                                    <div className="space-y-3">
+                                                        <h4 className="text-xl font-bold text-emerald-900">
+                                                            Interesse confirmado com sucesso!
+                                                        </h4>
+                                                        <div className="text-emerald-800 space-y-3 leading-relaxed">
+                                                            <p>
+                                                                Nas próximas horas, nossa equipe entrará em contato para confirmar
+                                                                os detalhes e encaminhar seu perfil à imobiliária responsável pelo imóvel.
                                                             </p>
+                                                            <p>
+                                                                Enquanto isso, você pode acompanhar o status da solicitação acessando{" "}
+                                                                <a
+                                                                    href="/dashboard"
+                                                                    className="font-semibold text-emerald-700 hover:text-emerald-900 underline decoration-emerald-300 hover:decoration-emerald-500 transition-colors"
+                                                                >
+                                                                    dashboard
+                                                                </a>.
+                                                            </p>
+                                                            <p className="pt-2">
+                                                                A Brasilità segue ao seu lado para tornar o sonho do seu imóvel na Itália uma realidade.
+                                                            </p>
+                                                            <div className="pt-2 space-y-1">
+                                                                <p className="font-medium">Um abraço,</p>
+                                                                <p className="text-emerald-700 font-semibold">
+                                                                    Equipe Brasilità - do sonho à chave.
+                                                                </p>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    )}
+                                        )}
                                     </div>
                                 </div>
                             </div>

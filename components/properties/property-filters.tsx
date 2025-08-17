@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 import { MultiSelector, MultiSelectorContent, MultiSelectorInput, MultiSelectorItem, MultiSelectorList, MultiSelectorTrigger } from "@/components/extension/multi-select";
-import { Filter, X, ChevronDown, ChevronUp, Heart, RotateCcw } from "lucide-react";
+import { Filter, X, ChevronDown, ChevronUp, Heart, RotateCcw, ThumbsUp } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Region } from "@/lib/db/schema";
 
@@ -111,7 +111,7 @@ export function PropertyFilters({
                     <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 flex-1 min-w-0">
                         {/* Regions - very compact */}
                         <div className="flex-1 min-w-0 min-w-[120px]">
-                            <Label className="text-xs font-medium text-slate-600 uppercase tracking-wide mb-1 block">Regiões</Label>
+                            <Label className="text-xs font-medium text-slate-600 tracking-wide mb-1 block">Regiões</Label>
                             <MultiSelector
                                 values={regionOptions.filter(option =>
                                     localFilters.regions?.includes(option.value)
@@ -145,7 +145,7 @@ export function PropertyFilters({
 
                         {/* Price Range - compact */}
                         <div className="flex-1 min-w-0 min-w-[160px]">
-                            <Label className="text-xs font-medium text-slate-600 uppercase tracking-wide mb-1 block">Preço (€)</Label>
+                            <Label className="text-xs font-medium text-slate-600 tracking-wide mb-1 block">Preço (€)</Label>
                             <div className="flex gap-1">
                                 <Input
                                     type="number"
@@ -168,7 +168,7 @@ export function PropertyFilters({
 
                         {/* Sort - compact */}
                         <div className="flex-1 min-w-0 min-w-[140px] sm:flex-1 w-full sm:w-auto">
-                            <Label className="text-xs font-medium text-slate-600 uppercase tracking-wide mb-1 block">Ordenar</Label>
+                            <Label className="text-xs font-medium text-slate-600 tracking-wide mb-1 block">Ordenar</Label>
                             <Select
                                 value={`${localFilters.sortBy || 'createdAt'}-${localFilters.sortOrder || 'desc'}`}
                                 onValueChange={(value) => {
@@ -255,7 +255,7 @@ export function PropertyFilters({
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
                         {/* Bedrooms Range */}
                         <div className="space-y-2">
-                            <Label className="text-sm font-medium text-slate-700">Quartos</Label>
+                            <Label className="text-xs font-medium text-slate-600 tracking-wide">Quartos</Label>
                             <div className="flex gap-2">
                                 <Input
                                     type="number"
@@ -280,7 +280,7 @@ export function PropertyFilters({
 
                         {/* Bathrooms Range */}
                         <div className="space-y-2">
-                            <Label className="text-sm font-medium text-slate-700">Banheiros</Label>
+                            <Label className="text-xs font-medium text-slate-600 tracking-wide">Banheiros</Label>
                             <div className="flex gap-2">
                                 <Input
                                     type="number"
@@ -305,7 +305,7 @@ export function PropertyFilters({
 
                         {/* Area Range */}
                         <div className="space-y-2">
-                            <Label className="text-sm font-medium text-slate-700">Área (m²)</Label>
+                            <Label className="text-xs font-medium text-slate-600 tracking-wide">Área (m²)</Label>
                             <div className="flex gap-2">
                                 <Input
                                     type="number"
@@ -328,14 +328,14 @@ export function PropertyFilters({
 
                         {/* Favorites Filter */}
                         <div className="space-y-2">
-                            <Label className="text-sm font-medium text-slate-700">Apenas Interessados</Label>
+                            <Label className="text-xs font-medium text-slate-600 tracking-wide">Apenas favoritos</Label>
                             <Button
                                 variant={localFilters.favoritesOnly ? "default" : "outline"}
                                 onClick={() => handleFilterChange('favoritesOnly', !localFilters.favoritesOnly)}
                                 disabled={isLoading}
                                 className="w-full h-9 justify-start"
                             >
-                                <Heart className={`h-4 w-4 mr-2 ${localFilters.favoritesOnly ? 'fill-current' : ''}`} />
+                                <ThumbsUp className={`h-4 w-4 mr-2 ${localFilters.favoritesOnly ? 'fill-current' : ''}`} />
                                 {localFilters.favoritesOnly ? "Sim" : "Não"}
                             </Button>
                         </div>

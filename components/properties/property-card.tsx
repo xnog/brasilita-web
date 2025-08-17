@@ -5,7 +5,7 @@ import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { MapPin, Bed, Bath, Square, Car, Wifi, Dumbbell, ChefHat, ThumbsUp, ChevronLeft, ChevronRight } from "lucide-react";
+import { MapPin, Bed, Bath, Square, Car, Wifi, Dumbbell, ChefHat, ChevronLeft, ChevronRight } from "lucide-react";
 import { Property } from "@/lib/db/schema";
 import { PropertyDetailModal } from "./property-detail-modal";
 
@@ -24,11 +24,10 @@ const getFeatureIcon = (feature: string) => {
 };
 
 export function PropertyCard({ property, onToggleInterest }: PropertyCardProps) {
-    const [loading, setLoading] = useState(false);
     const [showDetails, setShowDetails] = useState(false);
     const [imageError, setImageError] = useState(false);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
-    
+
     // Touch/swipe states
     const [touchStart, setTouchStart] = useState<number | null>(null);
     const [touchEnd, setTouchEnd] = useState<number | null>(null);
@@ -43,15 +42,7 @@ export function PropertyCard({ property, onToggleInterest }: PropertyCardProps) 
         : [];
     const currentImage = images[currentImageIndex] || '/api/placeholder/400/300';
 
-    const handleToggleInterest = async (e: React.MouseEvent) => {
-        e.stopPropagation();
-        setLoading(true);
-        try {
-            await onToggleInterest(property.id, !property.isInterested);
-        } finally {
-            setLoading(false);
-        }
-    };
+
 
     const formatPrice = (price: number) => {
         return new Intl.NumberFormat('pt-BR', {
@@ -94,7 +85,7 @@ export function PropertyCard({ property, onToggleInterest }: PropertyCardProps) 
 
     const onTouchEnd = useCallback((e: React.TouchEvent) => {
         if (!touchStart || !touchEnd || images.length <= 1) return;
-        
+
         const distance = touchStart - touchEnd;
         const isLeftSwipe = distance > minSwipeDistance;
         const isRightSwipe = distance < -minSwipeDistance;
@@ -106,7 +97,7 @@ export function PropertyCard({ property, onToggleInterest }: PropertyCardProps) 
             e.stopPropagation();
             setCurrentImageIndex((prev) => (prev - 1 + images.length) % images.length);
         }
-        
+
         setTouchStart(null);
         setTouchEnd(null);
         setIsDragging(false);
@@ -126,7 +117,7 @@ export function PropertyCard({ property, onToggleInterest }: PropertyCardProps) 
                 onClick={() => setShowDetails(true)}
             >
                 {/* Image Section */}
-                <div 
+                <div
                     ref={imageContainerRef}
                     className="relative overflow-hidden"
                     onTouchStart={onTouchStart}
@@ -284,20 +275,7 @@ export function PropertyCard({ property, onToggleInterest }: PropertyCardProps) 
                         )}
                     </div>
 
-                    {/* Action button - sempre na mesma posição */}
-                    <div className="mt-auto pt-3">
-                        <Button
-                            onClick={handleToggleInterest}
-                            disabled={loading}
-                            className={property.isInterested
-                                ? "w-full bg-emerald-500 hover:bg-emerald-600 text-white"
-                                : "w-full bg-slate-100 text-slate-700 hover:bg-emerald-50"
-                            }
-                        >
-                            <ThumbsUp className="h-4 w-4 mr-2" />
-                            {property.isInterested ? "Interessado" : "Tenho interesse"}
-                        </Button>
-                    </div>
+
                 </CardContent>
             </Card>
 

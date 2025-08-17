@@ -140,10 +140,10 @@ export default async function DashboardPage() {
                         <CardHeader>
                             <CardTitle className="flex items-center gap-2">
                                 <Home className="h-5 w-5" />
-                                Imóveis de Interesse
+                                Imóveis
                             </CardTitle>
                             <CardDescription>
-                                Seus imóveis marcados e negociações
+                                Seus imóveis favoritos e negociações
                             </CardDescription>
                         </CardHeader>
                         <CardContent>
@@ -152,14 +152,14 @@ export default async function DashboardPage() {
                                     <Heart className="h-5 w-5 text-blue-600" />
                                     <div>
                                         <p className="text-2xl font-bold">{propertyInterests}</p>
-                                        <p className="text-xs text-muted-foreground">imóveis de interesse</p>
+                                        <p className="text-xs text-muted-foreground">imóveis favoritos</p>
                                     </div>
                                 </div>
                                 <div className="flex items-center gap-3 pt-2 border-t">
                                     <Handshake className="h-5 w-5 text-green-600" />
                                     <div>
                                         <p className="text-2xl font-bold text-green-600">{propertiesToProceed}</p>
-                                        <p className="text-xs text-muted-foreground">prontos para negociar</p>
+                                        <p className="text-xs text-muted-foreground">imóveis em negociação</p>
                                     </div>
                                 </div>
                             </div>
