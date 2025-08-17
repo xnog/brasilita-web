@@ -1,22 +1,31 @@
 import { NextResponse } from "next/server";
+import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { asc, sql } from "drizzle-orm";
 
 export async function GET() {
     try {
-        const allRegions = await db.query.regions.findMany({
-            orderBy: (regions, { asc }) => [asc(regions.name)]
+        const session = await auth();
+        if (!session?.user?.id) {
+            return NextResponse.json({ error: "Não autenticado" }, { status: 401 });
+        }
+
+        // Get regions - this data changes rarely so it's cached by the browser
+        const regions = await db.query.regions.findMany({
+            orderBy: asc(sql`${sql.identifier('name')}`)
         });
 
-        // Formatar para o componente MultiSelect
-        const formattedRegions = allRegions.map(region => ({
-            value: region.id,
-            label: region.name,
-            description: region.examples || undefined // Para exibir na seleção
-        }));
+        return NextResponse.json({
+            regions
+        }, {
+            headers: {
+                // Cache for 1 hour since regions don't change often
+                'Cache-Control': 'public, max-age=3600'
+            }
+        });
 
-        return NextResponse.json(formattedRegions);
     } catch (error) {
         console.error("Error fetching regions:", error);
-        return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+        return NextResponse.json({ error: "Erro interno" }, { status: 500 });
     }
 }

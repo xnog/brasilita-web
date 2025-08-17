@@ -58,15 +58,17 @@ export function AuthenticatedHeader({ user }: AuthenticatedHeaderProps) {
                             <span className="sr-only">Toggle Menu</span>
                         </Button>
                     </SheetTrigger>
-                    <SheetContent side="left" className="pr-0">
-                        <Link
-                            href="/dashboard"
-                            className="flex items-center space-x-2"
-                        >
-                            <Logo className="h-6 w-6" size={24} />
-                            <span className="font-bold">Brasilità</span>
-                        </Link>
-                        <div className="my-4 h-[calc(100vh-8rem)] pb-10 pl-6">
+                    <SheetContent side="left" className="pr-0 pt-6">
+                        <div className="px-6 pb-4">
+                            <Link
+                                href="/dashboard"
+                                className="flex items-center space-x-2"
+                            >
+                                <Logo className="h-6 w-6" size={24} />
+                                <span className="font-bold">Brasilità</span>
+                            </Link>
+                        </div>
+                        <div className="px-6 pb-10">
                             <div className="flex flex-col space-y-3">
                                 {navigationItems.map((item) => {
                                     const isActive = pathname === item.href;

@@ -36,7 +36,6 @@ export interface AvailableFilters {
     areaRange: { min: number; max: number };
     bedroomOptions: number[];
     bathroomOptions: number[];
-    regions: Region[];
 }
 
 interface PropertyFiltersProps {
@@ -58,11 +57,29 @@ export function PropertyFilters({
 }: PropertyFiltersProps) {
     const [showAdvanced, setShowAdvanced] = useState(false);
     const [localFilters, setLocalFilters] = useState<PropertyFilters>(filters);
+    const [regions, setRegions] = useState<Region[]>([]);
 
     // Update local filters when props change
     useEffect(() => {
         setLocalFilters(filters);
     }, [filters]);
+
+    // Fetch regions once on component mount
+    useEffect(() => {
+        const fetchRegions = async () => {
+            try {
+                const response = await fetch('/api/regions');
+                if (response.ok) {
+                    const data = await response.json();
+                    setRegions(data.regions || []);
+                }
+            } catch (error) {
+                console.error('Error fetching regions:', error);
+            }
+        };
+
+        fetchRegions();
+    }, []);
 
     const handleFilterChange = (key: keyof PropertyFilters, value: string | number | string[] | boolean | undefined) => {
         const newFilters = { ...localFilters, [key]: value };
@@ -109,7 +126,7 @@ export function PropertyFilters({
         return count;
     };
 
-    const regionOptions = (availableFilters.regions || []).map(region => ({
+    const regionOptions = regions.map(region => ({
         value: region.id,
         label: region.name
     }));
@@ -117,13 +134,14 @@ export function PropertyFilters({
     return (
         <div className="bg-white border rounded-xl shadow-sm">
             {/* Header with quick filters */}
-            <div className="p-6 border-b bg-slate-50/50">
-                <div className="flex flex-col lg:flex-row lg:items-center gap-4">
-                    {/* Main filters row */}
-                    <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                        {/* Regions */}
-                        <div className="space-y-1">
-                            <Label className="text-xs font-medium text-slate-600 uppercase tracking-wide">Regiões</Label>
+            <div className="p-3 sm:p-4 md:p-6 border-b bg-slate-50/50">
+                {/* All filters and buttons in one row */}
+                <div className="flex flex-col lg:flex-row gap-3 lg:gap-4 lg:items-end">
+                    {/* Filters row */}
+                    <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 flex-1 min-w-0">
+                        {/* Regions - very compact */}
+                        <div className="flex-1 min-w-0 min-w-[120px]">
+                            <Label className="text-xs font-medium text-slate-600 uppercase tracking-wide mb-1 block">Regiões</Label>
                             <MultiSelector
                                 values={regionOptions.filter(option =>
                                     localFilters.regions?.includes(option.value)
@@ -133,8 +151,11 @@ export function PropertyFilters({
                                 }
                                 disabled={isLoading}
                             >
-                                <MultiSelectorTrigger className="min-h-10 h-auto">
-                                    <MultiSelectorInput placeholder="Todas as regiões" />
+                                <MultiSelectorTrigger className="h-10 min-w-0">
+                                    <MultiSelectorInput 
+                                        placeholder="Regiões" 
+                                        className="truncate text-sm"
+                                    />
                                 </MultiSelectorTrigger>
                                 <MultiSelectorContent>
                                     <MultiSelectorList>
@@ -152,9 +173,9 @@ export function PropertyFilters({
                             </MultiSelector>
                         </div>
 
-                        {/* Price Range */}
-                        <div className="space-y-1">
-                            <Label className="text-xs font-medium text-slate-600 uppercase tracking-wide">Preço (€)</Label>
+                        {/* Price Range - compact */}
+                        <div className="flex-1 min-w-0 min-w-[160px]">
+                            <Label className="text-xs font-medium text-slate-600 uppercase tracking-wide mb-1 block">Preço (€)</Label>
                             <div className="flex gap-1">
                                 <Input
                                     type="number"
@@ -162,7 +183,7 @@ export function PropertyFilters({
                                     value={localFilters.priceMin || ''}
                                     onChange={(e) => handlePriceChange('min', e.target.value)}
                                     disabled={isLoading}
-                                    className="h-10 text-sm"
+                                    className="h-10 text-sm min-w-0"
                                 />
                                 <Input
                                     type="number"
@@ -170,14 +191,14 @@ export function PropertyFilters({
                                     value={localFilters.priceMax || ''}
                                     onChange={(e) => handlePriceChange('max', e.target.value)}
                                     disabled={isLoading}
-                                    className="h-10 text-sm"
+                                    className="h-10 text-sm min-w-0"
                                 />
                             </div>
                         </div>
 
-                        {/* Sort */}
-                        <div className="space-y-1">
-                            <Label className="text-xs font-medium text-slate-600 uppercase tracking-wide">Ordenar</Label>
+                        {/* Sort - compact */}
+                        <div className="flex-1 min-w-0 min-w-[140px]">
+                            <Label className="text-xs font-medium text-slate-600 uppercase tracking-wide mb-1 block">Ordenar</Label>
                             <Select
                                 value={`${localFilters.sortBy || 'createdAt'}-${localFilters.sortOrder || 'desc'}`}
                                 onValueChange={(value) => {
@@ -191,70 +212,68 @@ export function PropertyFilters({
                                     <SelectValue />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="createdAt-desc">Mais recentes</SelectItem>
-                                    <SelectItem value="createdAt-asc">Mais antigos</SelectItem>
-                                    <SelectItem value="price-asc">Menor preço</SelectItem>
-                                    <SelectItem value="price-desc">Maior preço</SelectItem>
-                                    <SelectItem value="area-desc">Maior área</SelectItem>
-                                    <SelectItem value="area-asc">Menor área</SelectItem>
+                                    <SelectItem value="createdAt-desc">Recentes</SelectItem>
+                                    <SelectItem value="createdAt-asc">Antigos</SelectItem>
+                                    <SelectItem value="price-asc">↑ Preço</SelectItem>
+                                    <SelectItem value="price-desc">↓ Preço</SelectItem>
+                                    <SelectItem value="area-desc">↓ Área</SelectItem>
+                                    <SelectItem value="area-asc">↑ Área</SelectItem>
                                 </SelectContent>
                             </Select>
                         </div>
                     </div>
 
-                    {/* Action buttons */}
-                    <div className="flex items-center gap-2">
+                    {/* Action buttons in same row */}
+                    <div className="flex gap-2 lg:flex-shrink-0">
                         <Button
                             variant="ghost"
                             size="sm"
                             onClick={() => setShowAdvanced(!showAdvanced)}
-                            className="h-10 px-3 text-slate-600 hover:text-slate-900"
+                            className="h-10 px-2 lg:px-3 text-slate-600 hover:text-slate-900 flex-shrink-0"
                         >
-                            Mais filtros
+                            <span className="hidden sm:inline text-sm">Avançado</span>
+                            <span className="sm:hidden text-sm">+</span>
                             {showAdvanced ? (
-                                <ChevronUp className="h-4 w-4 ml-1" />
+                                <ChevronUp className="h-4 w-4 ml-0 sm:ml-1" />
                             ) : (
-                                <ChevronDown className="h-4 w-4 ml-1" />
+                                <ChevronDown className="h-4 w-4 ml-0 sm:ml-1" />
                             )}
                         </Button>
 
                         <Button
                             onClick={handleApplyFilters}
                             disabled={isLoading}
-                            className="h-10 px-6 bg-emerald-600 hover:bg-emerald-700"
+                            className="h-10 px-3 lg:px-4 bg-emerald-600 hover:bg-emerald-700 flex-shrink-0"
                         >
-                            <Filter className="h-4 w-4 mr-2" />
-                            Buscar
+                            <Filter className="h-4 w-4 mr-1" />
+                            <span className="text-sm">Buscar</span>
                         </Button>
 
-                        {getActiveFilterCount() > 0 && (
-                            <DropdownMenu>
-                                <DropdownMenuTrigger asChild>
-                                    <Button
-                                        variant="outline"
-                                        size="sm"
-                                        disabled={isLoading}
-                                        className="h-10 px-3"
-                                    >
-                                        <RotateCcw className="h-4 w-4 mr-1" />
-                                        Resetar
-                                        <ChevronDown className="h-3 w-3 ml-1" />
-                                    </Button>
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent align="end">
-                                    <DropdownMenuItem onClick={onClearFilters}>
-                                        <X className="h-4 w-4 mr-2" />
-                                        Limpar todos os filtros
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button
+                                    variant="outline"
+                                    size="sm"
+                                    disabled={isLoading}
+                                    className="h-10 px-2 flex-shrink-0"
+                                >
+                                    <RotateCcw className="h-4 w-4" />
+                                    <span className="hidden lg:inline ml-1 text-sm">Reset</span>
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end">
+                                <DropdownMenuItem onClick={onClearFilters}>
+                                    <X className="h-4 w-4 mr-2" />
+                                    Limpar todos os filtros
+                                </DropdownMenuItem>
+                                {onApplyPreferences && (
+                                    <DropdownMenuItem onClick={onApplyPreferences}>
+                                        <Heart className="h-4 w-4 mr-2" />
+                                        Ver baseado nas preferências
                                     </DropdownMenuItem>
-                                    {onApplyPreferences && (
-                                        <DropdownMenuItem onClick={onApplyPreferences}>
-                                            <Heart className="h-4 w-4 mr-2" />
-                                            Ver baseado nas preferências
-                                        </DropdownMenuItem>
-                                    )}
-                                </DropdownMenuContent>
-                            </DropdownMenu>
-                        )}
+                                )}
+                            </DropdownMenuContent>
+                        </DropdownMenu>
                     </div>
                 </div>
 
@@ -263,8 +282,8 @@ export function PropertyFilters({
 
             {/* Advanced Filters */}
             {showAdvanced && (
-                <div className="p-6 bg-white border-t space-y-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className="p-3 sm:p-4 md:p-6 bg-white border-t space-y-4 sm:space-y-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
                         {/* Bedrooms Range */}
                         <div className="space-y-2">
                             <Label className="text-sm font-medium text-slate-700">Quartos</Label>

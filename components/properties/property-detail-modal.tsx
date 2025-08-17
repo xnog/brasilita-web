@@ -1,19 +1,16 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Image from "next/image";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import {
     MapPin,
     Bed,
     Bath,
     Square,
     ThumbsUp,
-    ChevronLeft,
-    ChevronRight,
     Car,
     Wifi,
     Dumbbell,
@@ -24,13 +21,15 @@ import {
     Check,
     AlertTriangle,
     Shield,
-    Lock
+    Lock,
+    ArrowLeft,
+    X
 } from "lucide-react";
 import { Property } from "@/lib/db/schema";
-import { cn } from "@/lib/utils";
+import { PropertyDetailImage } from "./property-detail-image";
 
 interface PropertyDetailModalProps {
-    property: Property & { isInterested?: boolean };
+    property: Property & { isInterested?: boolean; region?: { id: string; name: string } | null };
     isOpen: boolean;
     onClose: () => void;
     onToggleInterest: (propertyId: string, isInterested: boolean) => void;
@@ -51,7 +50,6 @@ export function PropertyDetailModal({
     onClose,
     onToggleInterest
 }: PropertyDetailModalProps) {
-    const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [loading, setLoading] = useState(false);
     const [showConfirmationDialog, setShowConfirmationDialog] = useState(false);
     const [wantsToProceed, setWantsToProceed] = useState(false);
@@ -103,39 +101,7 @@ export function PropertyDetailModal({
         }
     };
 
-    const nextImage = () => {
-        setCurrentImageIndex((prev) => (prev + 1) % images.length);
-    };
 
-    const previousImage = () => {
-        setCurrentImageIndex((prev) => (prev - 1 + images.length) % images.length);
-    };
-
-    // Keyboard navigation
-    useEffect(() => {
-        const handleKeyDown = (event: KeyboardEvent) => {
-            if (!isOpen || images.length <= 1) return;
-
-            switch (event.key) {
-                case 'ArrowLeft':
-                    event.preventDefault();
-                    previousImage();
-                    break;
-                case 'ArrowRight':
-                    event.preventDefault();
-                    nextImage();
-                    break;
-            }
-        };
-
-        if (isOpen) {
-            document.addEventListener('keydown', handleKeyDown);
-        }
-
-        return () => {
-            document.removeEventListener('keydown', handleKeyDown);
-        };
-    }, [isOpen, images.length]);
 
     const formatPrice = (price: number) => {
         return new Intl.NumberFormat('pt-BR', {
@@ -172,85 +138,72 @@ export function PropertyDetailModal({
         return types[type as keyof typeof types] || type;
     };
 
+    // Handle browser back button
+    useEffect(() => {
+        const handleBackButton = (e: PopStateEvent) => {
+            if (isOpen) {
+                e.preventDefault();
+                onClose();
+            }
+        };
+
+        if (isOpen) {
+            // Push a new state when modal opens
+            window.history.pushState({ modalOpen: true }, '', window.location.href);
+            window.addEventListener('popstate', handleBackButton);
+        }
+
+        return () => {
+            window.removeEventListener('popstate', handleBackButton);
+        };
+    }, [isOpen, onClose]);
+
     return (
         <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-            <DialogContent className="max-w-7xl w-[95vw] h-[95vh] p-0 gap-0 flex flex-col sm:max-w-7xl" onPointerDownOutside={(e) => e.preventDefault()}>
-                <DialogHeader className="p-6 pb-0 flex-shrink-0">
-                    <DialogTitle className="text-2xl font-bold text-slate-900">
-                        {property.title}
-                    </DialogTitle>
-                </DialogHeader>
+            <DialogContent 
+                className="max-w-none w-full h-full sm:max-w-7xl sm:w-[95vw] sm:h-[95vh] p-0 gap-0 flex flex-col [&>button]:hidden" 
+            >
+                <VisuallyHidden>
+                    <DialogTitle>{property.title}</DialogTitle>
+                </VisuallyHidden>
+                
+                <div className="flex-1 overflow-auto relative">
+                    {/* Close Button */}
+                                        <Button
+                                            variant="ghost"
+                                            size="sm"
+                            onClick={onClose}
+                        className="absolute top-4 right-4 z-50 bg-white/90 backdrop-blur-sm hover:bg-white rounded-full w-10 h-10 p-0 shadow-lg border border-slate-200 cursor-pointer"
+                                        >
+                        <X className="h-5 w-5" />
+                                        </Button>
 
-                <div className="flex-1 overflow-auto">
-                    <div className="p-6 pt-4 space-y-6">
+                    <div className="p-4 sm:p-6 pt-4 space-y-6">
                         {/* Image Gallery */}
                         <div className="space-y-4">
-                            <div className="relative w-full h-[50vh] overflow-hidden rounded-xl bg-slate-100">
-                                <Image
-                                    src={images[currentImageIndex]}
-                                    alt={`${property.title} - Foto ${currentImageIndex + 1}`}
-                                    fill
-                                    className="object-cover"
-                                />
-
-                                {images.length > 1 && (
-                                    <>
-                                        <Button
-                                            variant="ghost"
-                                            size="sm"
-                                            className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 backdrop-blur-sm hover:bg-white rounded-full w-10 h-10 p-0 z-10"
-                                            onClick={previousImage}
-                                        >
-                                            <ChevronLeft className="h-5 w-5" />
-                                        </Button>
-                                        <Button
-                                            variant="ghost"
-                                            size="sm"
-                                            className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 backdrop-blur-sm hover:bg-white rounded-full w-10 h-10 p-0 z-10"
-                                            onClick={nextImage}
-                                        >
-                                            <ChevronRight className="h-5 w-5" />
-                                        </Button>
-
-                                        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-white/80 backdrop-blur-sm rounded-full px-3 py-1">
-                                            <span className="text-sm font-medium text-slate-700">
-                                                {currentImageIndex + 1} / {images.length}
-                                            </span>
-                                        </div>
-                                    </>
-                                )}
-                            </div>
-
-                            {/* Thumbnail gallery */}
-                            {images.length > 1 && (
-                                <div className="flex gap-2 overflow-x-auto pb-2">
-                                    {images.map((image: string, index: number) => (
-                                        <button
-                                            key={index}
-                                            onClick={() => setCurrentImageIndex(index)}
-                                            className={cn(
-                                                "relative aspect-[4/3] w-20 flex-shrink-0 overflow-hidden rounded-lg border-2 transition-all",
-                                                index === currentImageIndex
-                                                    ? "border-emerald-500"
-                                                    : "border-transparent hover:border-slate-300"
-                                            )}
-                                        >
-                                            <Image
-                                                src={image}
-                                                alt={`Thumbnail ${index + 1}`}
-                                                fill
-                                                className="object-cover"
-                                            />
-                                        </button>
-                                    ))}
-                                </div>
-                            )}
+                        <PropertyDetailImage 
+                            images={images}
+                            propertyTitle={property.title}
+                        />
                         </div>
 
                         {/* Property Info */}
                         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                             {/* Main Info */}
                             <div className="lg:col-span-2 space-y-6">
+                                {/* Title */}
+                                <div>
+                                    <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-2">
+                                        {property.title}
+                                    </h1>
+                                    <div className="flex items-center gap-2 text-slate-600">
+                                        <MapPin className="h-5 w-5 text-emerald-500" />
+                                        <span className="text-lg font-medium">
+                                            {property.location}{property.region?.name ? `, ${property.region.name}` : ''}
+                                        </span>
+                                    </div>
+                                </div>
+
                                 {/* Price and Type */}
                                 <div className="flex flex-wrap items-center justify-between gap-4">
                                     <div className="text-3xl font-bold text-emerald-600">
@@ -261,39 +214,24 @@ export function PropertyDetailModal({
                                     </Badge>
                                 </div>
 
-                                {/* Location */}
-                                <div className="flex items-center gap-2 text-slate-600">
-                                    <MapPin className="h-5 w-5 text-emerald-500" />
-                                    <span className="text-lg font-medium">{property.location}</span>
-                                </div>
-
                                 {/* Specs */}
                                 <div className="flex flex-wrap gap-6">
-                                    {property.bedrooms && (
+                                    {property.bedrooms != null && Number(property.bedrooms) > 0 && (
                                         <div className="flex items-center gap-2">
                                             <Bed className="h-5 w-5 text-emerald-500" />
-                                            <div>
-                                                <div className="font-semibold text-slate-900">{property.bedrooms}</div>
-                                                <div className="text-sm text-slate-500">Quartos</div>
-                                            </div>
+                                            <span className="font-semibold text-slate-900">{property.bedrooms} {Number(property.bedrooms) === 1 ? 'quarto' : 'quartos'}</span>
                                         </div>
                                     )}
-                                    {property.bathrooms && (
+                                    {property.bathrooms != null && Number(property.bathrooms) > 0 && (
                                         <div className="flex items-center gap-2">
                                             <Bath className="h-5 w-5 text-emerald-500" />
-                                            <div>
-                                                <div className="font-semibold text-slate-900">{property.bathrooms}</div>
-                                                <div className="text-sm text-slate-500">Banheiros</div>
-                                            </div>
+                                            <span className="font-semibold text-slate-900">{property.bathrooms} {Number(property.bathrooms) === 1 ? 'banheiro' : 'banheiros'}</span>
                                         </div>
                                     )}
-                                    {property.area && (
+                                    {property.area != null && Number(property.area) > 0 && (
                                         <div className="flex items-center gap-2">
                                             <Square className="h-5 w-5 text-emerald-500" />
-                                            <div>
-                                                <div className="font-semibold text-slate-900">{property.area}m²</div>
-                                                <div className="text-sm text-slate-500">Área</div>
-                                            </div>
+                                            <span className="font-semibold text-slate-900">{property.area}m²</span>
                                         </div>
                                     )}
                                 </div>
@@ -331,6 +269,7 @@ export function PropertyDetailModal({
 
                             {/* Sidebar */}
                             <div className="space-y-4">
+                                <div className="bg-white rounded-xl p-6 shadow-sm">
                                 {/* Additional Info */}
                                 <div className="bg-slate-50 rounded-xl p-4 space-y-3">
                                     <h4 className="font-semibold text-slate-900">Informações Adicionais</h4>
@@ -419,6 +358,7 @@ export function PropertyDetailModal({
                                             </div>
                                         </div>
                                     )}
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -426,44 +366,57 @@ export function PropertyDetailModal({
                 </div>
             </DialogContent>
 
-            {/* Confirmation Dialog - Centered */}
+            {/* Confirmation Dialog - Responsive */}
             <Dialog open={showConfirmationDialog} onOpenChange={setShowConfirmationDialog}>
-                <DialogContent className="max-w-2xl w-[90vw] max-h-[85vh] overflow-y-auto p-0">
-                    <div className="bg-gradient-to-br from-amber-50 to-orange-50">
+                <DialogContent className="max-w-lg w-[95vw] max-h-[90vh] overflow-y-auto p-0 sm:max-w-2xl sm:w-[90vw] sm:max-h-[85vh] [&>button]:hidden">
+                    <VisuallyHidden>
+                        <DialogTitle>Atenção antes de confirmar seu interesse</DialogTitle>
+                    </VisuallyHidden>
+                    <div className="bg-white relative">
+                        {/* Close Button */}
+                        <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => setShowConfirmationDialog(false)}
+                            className="absolute top-4 right-4 z-50 bg-white/90 backdrop-blur-sm hover:bg-white rounded-full w-10 h-10 p-0 shadow-lg border border-slate-200 cursor-pointer"
+                        >
+                            <X className="h-5 w-5" />
+                        </Button>
+
                         {/* Header with Icon */}
-                        <div className="flex items-center gap-4 p-6 pb-4">
-                            <div className="flex-shrink-0 w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center">
-                                <AlertTriangle className="h-7 w-7 text-amber-600" />
+                        <div className="flex items-center gap-3 p-4 pb-3 sm:gap-4 sm:p-6 sm:pb-4 border-b border-slate-200">
+                            <div className="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                                <AlertTriangle className="h-5 w-5 sm:h-7 sm:w-7 text-blue-600" />
                             </div>
-                            <div>
-                                <DialogTitle className="text-xl font-bold text-amber-900 mb-1">
+                            <div className="min-w-0 flex-1">
+                                <h3 className="text-lg sm:text-xl font-bold text-slate-900 mb-1">
                                     Atenção antes de confirmar seu interesse
-                                </DialogTitle>
-                                <p className="text-amber-800 text-sm">
+                                </h3>
+                                <p className="text-slate-600 text-xs sm:text-sm">
                                     Leia atentamente as informações abaixo
                                 </p>
                             </div>
                         </div>
 
                         {/* Content */}
-                        <div className="px-6 space-y-5">
+                        <div className="px-4 py-4 space-y-4 sm:px-6 sm:py-5 sm:space-y-5">
                             {/* Main Warning */}
-                            <div className="bg-white rounded-lg p-4 border border-amber-200 shadow-sm">
-                                <p className="text-slate-700 text-sm leading-relaxed">
+                            <div className="bg-slate-50 rounded-lg p-3 sm:p-4 border border-slate-200 shadow-sm">
+                                <p className="text-slate-700 text-xs sm:text-sm leading-relaxed">
                                     A seleção de um imóvel é o primeiro passo real rumo à compra, por isso, antes de prosseguir,
                                     é importante estar ciente dos custos envolvidos na negociação além do valor do imóvel:
                                 </p>
                             </div>
 
                             {/* Costs Section */}
-                            <div className="bg-white rounded-lg p-5 border border-amber-200 shadow-sm">
+                            <div className="bg-slate-50 rounded-lg p-4 sm:p-5 border border-slate-200 shadow-sm">
                                 <h4 className="font-semibold text-slate-800 mb-3 flex items-center gap-2">
-                                    <Euro className="h-4 w-4 text-amber-600" />
+                                    <Euro className="h-4 w-4 text-blue-600" />
                                     Custos Adicionais
                                 </h4>
                                 <ul className="space-y-3">
                                     <li className="flex items-start gap-3">
-                                        <div className="w-2 h-2 bg-amber-500 rounded-full mt-2 flex-shrink-0"></div>
+                                        <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
                                         <div>
                                             <span className="font-medium text-slate-700">Taxas e comissões imobiliárias:</span>
                                             <br />
@@ -471,7 +424,7 @@ export function PropertyDetailModal({
                                         </div>
                                     </li>
                                     <li className="flex items-start gap-3">
-                                        <div className="w-2 h-2 bg-amber-500 rounded-full mt-2 flex-shrink-0"></div>
+                                        <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
                                         <div>
                                             <span className="font-medium text-slate-700">Imposto de registro:</span>
                                             <br />
@@ -479,7 +432,7 @@ export function PropertyDetailModal({
                                         </div>
                                     </li>
                                     <li className="flex items-start gap-3">
-                                        <div className="w-2 h-2 bg-amber-500 rounded-full mt-2 flex-shrink-0"></div>
+                                        <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
                                         <div>
                                             <span className="font-medium text-slate-700">Honorários do notário (cartório):</span>
                                             <br />
@@ -502,10 +455,10 @@ export function PropertyDetailModal({
                             </div>
 
                             {/* Responsibility Warning */}
-                            <div className="bg-amber-50 rounded-lg p-4 border border-amber-300">
+                            <div className="bg-orange-50 rounded-lg p-4 border border-orange-200">
                                 <div className="flex items-start gap-3 mb-3">
-                                    <AlertTriangle className="h-5 w-5 text-amber-600 flex-shrink-0 mt-0.5" />
-                                    <p className="text-amber-800 font-medium text-sm">
+                                    <AlertTriangle className="h-5 w-5 text-orange-600 flex-shrink-0 mt-0.5" />
+                                    <p className="text-orange-800 font-medium text-sm">
                                         Só confirme o interesse se você realmente pretende avançar para uma possível negociação.
                                     </p>
                                 </div>
@@ -527,21 +480,21 @@ export function PropertyDetailModal({
                         </div>
 
                         {/* Final Question and Actions */}
-                        <div className="p-6 pt-4 border-t border-amber-200 bg-gradient-to-br from-amber-50 to-orange-50">
-                            <div className="text-center mb-5">
-                                <p className="text-slate-800 font-semibold text-lg mb-2">Deseja confirmar seu interesse?</p>
-                                <p className="text-slate-600 text-sm">Esta ação iniciará o processo de negociação</p>
+                        <div className="p-4 pt-3 sm:p-6 sm:pt-4 border-t border-slate-200 bg-slate-50">
+                            <div className="text-center mb-4 sm:mb-5">
+                                <p className="text-slate-800 font-semibold text-base sm:text-lg mb-2">Deseja confirmar seu interesse?</p>
+                                <p className="text-slate-600 text-xs sm:text-sm">Esta ação iniciará o processo de negociação</p>
                             </div>
 
-                            <div className="flex gap-3">
+                            <div className="flex flex-col sm:flex-row gap-3">
                                 <Button
                                     onClick={handleConfirmProceed}
                                     disabled={loading}
                                     className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-3"
                                     size="lg"
                                 >
-                                    <Check className="h-5 w-5 mr-2" />
-                                    Sim, confirmo meu interesse
+                                    <Check className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
+                                    <span className="text-sm sm:text-base">Sim, confirmo meu interesse</span>
                                 </Button>
                                 <Button
                                     onClick={() => setShowConfirmationDialog(false)}
@@ -550,7 +503,7 @@ export function PropertyDetailModal({
                                     className="flex-1 border-slate-300 hover:bg-slate-50 py-3"
                                     size="lg"
                                 >
-                                    Cancelar
+                                    <span className="text-sm sm:text-base">Cancelar</span>
                                 </Button>
                             </div>
                         </div>

@@ -50,9 +50,10 @@ export async function GET(request: NextRequest) {
             sortOrder: (searchParams.get('sortOrder') as 'asc' | 'desc') || 'desc'
         };
 
-        // If no filters provided, apply user preferences as default
-        const useUserPreferences = searchParams.get('userPreferences') === 'true' ||
-            (!filters.regions && !filters.priceMin && !filters.priceMax);
+        // Apply user preferences based on explicit parameter or default behavior
+        const userPreferencesParam = searchParams.get('userPreferences');
+        const useUserPreferences = userPreferencesParam === 'true' || 
+            (userPreferencesParam !== 'false' && !filters.regions && !filters.priceMin && !filters.priceMax);
 
         let appliedFilters = { ...filters };
 
@@ -308,7 +309,7 @@ export async function POST(request: NextRequest) {
     }
 }
 
-// Helper function to get available filter options
+// Helper function to get available filter options (without regions)
 async function getAvailableFilters() {
     try {
         // Get price range
@@ -352,11 +353,6 @@ async function getAvailableFilters() {
                 sql`${properties.area} IS NOT NULL`
             ));
 
-        // Get regions
-        const regions = await db.query.regions.findMany({
-            orderBy: asc(sql`${sql.identifier('name')}`)
-        });
-
         return {
             priceRange: {
                 min: priceRange?.min || 0,
@@ -367,8 +363,7 @@ async function getAvailableFilters() {
                 max: areaRange?.max || 1000
             },
             bedroomOptions: bedroomOptions.map(b => b.bedrooms).filter(b => b !== null),
-            bathroomOptions: bathroomOptions.map(b => b.bathrooms).filter(b => b !== null),
-            regions: regions
+            bathroomOptions: bathroomOptions.map(b => b.bathrooms).filter(b => b !== null)
         };
 
     } catch (error) {
@@ -377,8 +372,7 @@ async function getAvailableFilters() {
             priceRange: { min: 0, max: 1000000 },
             areaRange: { min: 0, max: 1000 },
             bedroomOptions: [1, 2, 3, 4, 5],
-            bathroomOptions: [1, 2, 3, 4],
-            regions: []
+            bathroomOptions: [1, 2, 3, 4]
         };
     }
 }

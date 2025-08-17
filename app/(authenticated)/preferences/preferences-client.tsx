@@ -29,8 +29,12 @@ export function PreferencesClient() {
                 }
 
                 if (regionsResponse.ok) {
-                    const regions = await regionsResponse.json();
-                    setAvailableRegions(regions);
+                    const regionsData = await regionsResponse.json();
+                    const regionsAsOptions = regionsData.regions.map((region: any) => ({
+                        value: region.id,
+                        label: region.name
+                    }));
+                    setAvailableRegions(regionsAsOptions);
                 }
             } catch (error) {
                 console.error("Erro ao buscar dados:", error);
