@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/ui/logo";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
 import { LogOut, User, Menu } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { signOut } from "next-auth/react";
@@ -59,6 +59,7 @@ export function AuthenticatedHeader({ user }: AuthenticatedHeaderProps) {
                         </Button>
                     </SheetTrigger>
                     <SheetContent side="left" className="pr-0 pt-6">
+                        <SheetTitle className="sr-only">Menu de navegação</SheetTitle>
                         <div className="px-6 pb-4">
                             <Link
                                 href="/dashboard"
