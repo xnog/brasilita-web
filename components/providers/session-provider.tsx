@@ -8,5 +8,14 @@ interface Props {
 }
 
 export function AuthProvider({ children }: Props) {
-    return <SessionProvider>{children}</SessionProvider>;
+    return (
+        <SessionProvider
+            // Não fazer refetch automático da sessão
+            refetchInterval={0}
+            // Não fazer refetch quando a janela ganha foco
+            refetchOnWindowFocus={false}
+        >
+            {children}
+        </SessionProvider>
+    );
 }

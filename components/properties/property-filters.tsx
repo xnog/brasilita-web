@@ -42,6 +42,7 @@ interface PropertyFiltersProps {
     onClearFilters: () => void;
     onApplyPreferences?: () => void;
     isLoading?: boolean;
+    regions: Region[];
 }
 
 export function PropertyFilters({
@@ -49,33 +50,16 @@ export function PropertyFilters({
     onFiltersChange,
     onClearFilters,
     onApplyPreferences,
-    isLoading = false
+    isLoading = false,
+    regions
 }: PropertyFiltersProps) {
     const [showAdvanced, setShowAdvanced] = useState(false);
     const [localFilters, setLocalFilters] = useState<PropertyFilters>(filters);
-    const [regions, setRegions] = useState<Region[]>([]);
 
     // Update local filters when props change
     useEffect(() => {
         setLocalFilters(filters);
     }, [filters]);
-
-    // Fetch regions once on component mount
-    useEffect(() => {
-        const fetchRegions = async () => {
-            try {
-                const response = await fetch('/api/regions');
-                if (response.ok) {
-                    const data = await response.json();
-                    setRegions(data.regions || []);
-                }
-            } catch (error) {
-                console.error('Error fetching regions:', error);
-            }
-        };
-
-        fetchRegions();
-    }, []);
 
     const handleFilterChange = (key: keyof PropertyFilters, value: string | number | string[] | boolean | undefined) => {
         const newFilters = { ...localFilters, [key]: value };
@@ -138,8 +122,8 @@ export function PropertyFilters({
                                 disabled={isLoading}
                             >
                                 <MultiSelectorTrigger className="h-10 min-w-0">
-                                    <MultiSelectorInput 
-                                        placeholder="Regiões" 
+                                    <MultiSelectorInput
+                                        placeholder="Regiões"
                                         className="truncate text-sm"
                                     />
                                 </MultiSelectorTrigger>
@@ -183,7 +167,7 @@ export function PropertyFilters({
                         </div>
 
                         {/* Sort - compact */}
-                        <div className="flex-1 min-w-0 min-w-[140px]">
+                        <div className="flex-1 min-w-0 min-w-[140px] sm:flex-1 w-full sm:w-auto">
                             <Label className="text-xs font-medium text-slate-600 uppercase tracking-wide mb-1 block">Ordenar</Label>
                             <Select
                                 value={`${localFilters.sortBy || 'createdAt'}-${localFilters.sortOrder || 'desc'}`}
@@ -194,7 +178,7 @@ export function PropertyFilters({
                                 }}
                                 disabled={isLoading}
                             >
-                                <SelectTrigger className="h-10">
+                                <SelectTrigger className="h-10 w-full">
                                     <SelectValue />
                                 </SelectTrigger>
                                 <SelectContent>
@@ -210,26 +194,25 @@ export function PropertyFilters({
                     </div>
 
                     {/* Action buttons in same row */}
-                    <div className="flex gap-2 lg:flex-shrink-0">
+                    <div className="flex flex-col sm:flex-row gap-2 lg:flex-shrink-0 w-full sm:w-auto">
                         <Button
                             variant="ghost"
                             size="sm"
                             onClick={() => setShowAdvanced(!showAdvanced)}
-                            className="h-10 px-2 lg:px-3 text-slate-600 hover:text-slate-900 flex-shrink-0"
+                            className="h-10 px-2 lg:px-3 text-slate-600 hover:text-slate-900 w-full sm:w-auto sm:flex-shrink-0"
                         >
-                            <span className="hidden sm:inline text-sm">Avançado</span>
-                            <span className="sm:hidden text-sm">+</span>
+                            <span className="text-sm">Avançados</span>
                             {showAdvanced ? (
-                                <ChevronUp className="h-4 w-4 ml-0 sm:ml-1" />
+                                <ChevronUp className="h-4 w-4 ml-1" />
                             ) : (
-                                <ChevronDown className="h-4 w-4 ml-0 sm:ml-1" />
+                                <ChevronDown className="h-4 w-4 ml-1" />
                             )}
                         </Button>
 
                         <Button
                             onClick={handleApplyFilters}
                             disabled={isLoading}
-                            className="h-10 px-3 lg:px-4 bg-emerald-600 hover:bg-emerald-700 flex-shrink-0"
+                            className="h-10 px-3 lg:px-4 bg-emerald-600 hover:bg-emerald-700 w-full sm:w-auto sm:flex-shrink-0"
                         >
                             <Filter className="h-4 w-4 mr-1" />
                             <span className="text-sm">Buscar</span>
@@ -241,10 +224,10 @@ export function PropertyFilters({
                                     variant="outline"
                                     size="sm"
                                     disabled={isLoading}
-                                    className="h-10 px-2 flex-shrink-0"
+                                    className="h-10 px-2 w-full sm:w-auto sm:flex-shrink-0"
                                 >
-                                    <RotateCcw className="h-4 w-4" />
-                                    <span className="hidden lg:inline ml-1 text-sm">Reset</span>
+                                    <RotateCcw className="h-4 w-4 mr-1" />
+                                    <span className="text-sm">Limpar</span>
                                 </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end">

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { properties, userProfiles, userPropertyInterests } from "@/lib/db/schema";
+import { properties, userPropertyInterests } from "@/lib/db/schema";
 import { eq, and, inArray, gte, lte, ilike, desc, asc, sql, count } from "drizzle-orm";
 
 interface PropertyFilters {
@@ -50,42 +50,7 @@ export async function GET(request: NextRequest) {
             sortOrder: (searchParams.get('sortOrder') as 'asc' | 'desc') || 'desc'
         };
 
-        // Apply user preferences based on explicit parameter or default behavior
-        const userPreferencesParam = searchParams.get('userPreferences');
-        const useUserPreferences = userPreferencesParam === 'true' || 
-            (userPreferencesParam !== 'false' && !filters.regions && !filters.priceMin && !filters.priceMax);
-
-        let appliedFilters = { ...filters };
-
-        if (useUserPreferences) {
-            // Get user profile with regions for default filters
-            const userProfile = await db.query.userProfiles.findFirst({
-                where: eq(userProfiles.userId, session.user.id),
-                with: {
-                    userProfileRegions: {
-                        with: {
-                            region: true
-                        }
-                    }
-                }
-            });
-
-            if (userProfile) {
-                // Apply user preferences as default filters if not overridden
-                if (!filters.regions && userProfile.userProfileRegions.length > 0) {
-                    appliedFilters = {
-                        ...appliedFilters,
-                        regions: userProfile.userProfileRegions.map(upr => upr.regionId)
-                    };
-                }
-                if (!filters.priceMax && userProfile.investmentBudget) {
-                    appliedFilters = {
-                        ...appliedFilters,
-                        priceMax: userProfile.investmentBudget
-                    };
-                }
-            }
-        }
+        const appliedFilters = { ...filters };
 
         // Build where conditions
         const whereConditions = [

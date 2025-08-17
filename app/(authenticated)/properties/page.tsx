@@ -1,18 +1,21 @@
 import { auth } from "@/lib/auth";
 import { PropertiesClient } from "./properties-client";
 import { db } from "@/lib/db";
-import { userProfiles } from "@/lib/db/schema";
-import { eq } from "drizzle-orm";
+import { userProfiles, Region } from "@/lib/db/schema";
+import { eq, asc, sql } from "drizzle-orm";
 import { PreferencesRequiredBanner } from "@/components/preferences/preferences-required-banner";
 
 export default async function PropertiesPage() {
     const session = await auth();
 
-    // Try to get user profile for default filters
+    // Load both user profile and regions in parallel
     let userProfile = null;
+    let userPreferences = null;
+    let regions: Region[] = [];
+
     try {
-        if (session?.user?.id) {
-            userProfile = await db.query.userProfiles.findFirst({
+        const [profileResult, regionsResult] = await Promise.all([
+            session?.user?.id ? db.query.userProfiles.findFirst({
                 where: eq(userProfiles.userId, session.user.id),
                 with: {
                     userProfileRegions: {
@@ -21,12 +24,32 @@ export default async function PropertiesPage() {
                         }
                     }
                 }
-            });
+            }) : Promise.resolve(null),
+            db.query.regions.findMany({
+                orderBy: asc(sql`${sql.identifier('name')}`)
+            })
+        ]);
 
+        userProfile = profileResult;
+        regions = regionsResult || [];
 
+        // Prepare preferences for PropertyList if profile exists
+        if (userProfile) {
+            userPreferences = {
+                page: 1,
+                limit: 20,
+                sortBy: 'createdAt' as const,
+                sortOrder: 'desc' as const,
+                ...(userProfile.userProfileRegions.length > 0 && {
+                    regions: userProfile.userProfileRegions.map(upr => upr.regionId)
+                }),
+                ...(userProfile.investmentBudget && {
+                    priceMax: userProfile.investmentBudget
+                })
+            };
         }
     } catch (error) {
-        console.log("User profile not found or database not ready:", error);
+        console.log("Error loading data:", error);
         // Continue without profile - user can still use the page
     }
 
@@ -47,7 +70,7 @@ export default async function PropertiesPage() {
                             </p>
                         </div>
 
-                        <PropertiesClient />
+                        <PropertiesClient userPreferences={userPreferences} regions={regions} />
                     </>
                 )}
             </div>

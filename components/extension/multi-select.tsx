@@ -16,6 +16,8 @@ import React, {
     forwardRef,
     useCallback,
     useContext,
+    useEffect,
+    useRef,
     useState,
 } from "react";
 
@@ -227,6 +229,94 @@ const MultiSelectorTrigger = forwardRef<
     React.HTMLAttributes<HTMLDivElement>
 >(({ className, children, ...props }, ref) => {
     const { value, onValueChange, activeIndex, disabled, open, setOpen, ref: inputRef } = useMultiSelect();
+    const [visibleBadgeCount, setVisibleBadgeCount] = useState(3);
+    const containerRef = useRef<HTMLDivElement>(null);
+    const badgeRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+    // Função para estimar largura do badge baseado no texto
+    const estimateBadgeWidth = useCallback((text: string) => {
+        // Estimativa baseada em: padding (12px) + texto + botão (16px) + gaps (4px)
+        const charWidth = 7; // aproximadamente 7px por caractere em text-xs
+        const baseWidth = 32; // padding + botão + gaps
+        const textWidth = Math.min(text.length * charWidth, 128); // max-w-32 = 128px
+        return baseWidth + textWidth;
+    }, []);
+
+    // Função para calcular quantos badges cabem no espaço disponível
+    const calculateVisibleBadges = useCallback(() => {
+        if (!containerRef.current || value.length === 0) {
+            setVisibleBadgeCount(0);
+            return;
+        }
+
+        const container = containerRef.current;
+        const containerWidth = container.clientWidth;
+        const padding = 24; // px-3 = 12px cada lado
+        const inputMinWidth = 32; // min-w-8 = 32px
+        const gap = 4; // gap-1 = 4px
+
+        let availableWidth = containerWidth - padding - inputMinWidth;
+        let visibleCount = 0;
+
+        console.log('🔍 Debug MultiSelector:', {
+            containerWidth,
+            availableWidth,
+            valueLength: value.length,
+            labels: value.map(v => v.label)
+        });
+
+        // Primeiro, calcular quantos badges cabem sem considerar contador
+        for (let i = 0; i < value.length; i++) {
+            const estimatedWidth = estimateBadgeWidth(value[i].label) + gap;
+
+            console.log(`Badge ${i} (${value[i].label}):`, {
+                estimatedWidth,
+                availableWidth,
+                fits: availableWidth >= estimatedWidth
+            });
+
+            if (availableWidth >= estimatedWidth) {
+                availableWidth -= estimatedWidth;
+                visibleCount++;
+            } else {
+                break;
+            }
+        }
+
+        // Se há mais itens que cabem, ajustar para dar espaço ao contador
+        if (visibleCount < value.length && visibleCount > 1) {
+            const counterWidth = 60;
+            // Se não há espaço suficiente para o contador, reduzir um badge
+            if (availableWidth < counterWidth) {
+                visibleCount = Math.max(1, visibleCount - 1);
+            }
+        }
+
+        const finalCount = Math.max(1, Math.min(visibleCount, value.length));
+        console.log('📊 Final result:', { visibleCount, finalCount });
+        setVisibleBadgeCount(finalCount);
+    }, [value, estimateBadgeWidth]);
+
+    // Recalcular quando valor muda ou componente é redimensionado
+    useEffect(() => {
+        // Pequeno delay para garantir que o DOM foi atualizado
+        const timer = setTimeout(() => {
+            calculateVisibleBadges();
+        }, 0);
+
+        const handleResize = () => {
+            setTimeout(() => {
+                calculateVisibleBadges();
+            }, 0);
+        };
+
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            clearTimeout(timer);
+            window.removeEventListener('resize', handleResize);
+        };
+    }, [calculateVisibleBadges]);
 
     const mousePreventDefault = useCallback((e: React.MouseEvent) => {
         e.preventDefault();
@@ -246,17 +336,21 @@ const MultiSelectorTrigger = forwardRef<
 
     return (
         <div
-            ref={ref}
+            ref={(el) => {
+                containerRef.current = el;
+                if (typeof ref === 'function') {
+                    ref(el);
+                } else if (ref) {
+                    ref.current = el;
+                }
+            }}
             onClick={handleContainerClick}
             className={cn(
                 "transition-all duration-200 ease-in-out border border-input rounded-md bg-transparent shadow-xs",
                 "px-3 py-1",
+                // Altura sempre fixa para evitar expansão
+                "h-9",
                 {
-                    // Estado sem foco: altura fixa
-                    "h-9": !open && value.length > 0,
-                    "min-h-9": !open && value.length === 0,
-                    // Estado com foco: permite expansão vertical
-                    "min-h-9 py-2": open,
                     // Estados visuais
                     "focus-within:border-ring focus-within:ring-ring/50 focus-within:ring-[3px]": activeIndex === -1 && !disabled,
                     "opacity-50 cursor-not-allowed": disabled,
@@ -267,45 +361,46 @@ const MultiSelectorTrigger = forwardRef<
             {...props}
         >
             <div className={cn(
-                "flex gap-1 h-full",
-                {
-                    // Estado sem foco: uma linha, overflow hidden
-                    "items-center overflow-hidden": !open,
-                    // Estado com foco: permite quebra
-                    "flex-wrap items-start": open,
-                }
+                "flex gap-1 h-full items-center overflow-hidden"
             )}>
-                {value.slice(0, 3).map((item, index) => (
-                    <Badge
+                {/* Badges calculados dinamicamente */}
+                {value.slice(0, visibleBadgeCount).map((item, index) => (
+                    <div
                         key={item.value}
-                        className={cn(
-                            "px-1.5 rounded-md flex items-center gap-1 flex-shrink-0",
-                            activeIndex === index && "ring-2 ring-muted-foreground ",
-                        )}
-                        variant={"secondary"}
+                        ref={(el: HTMLDivElement | null) => {
+                            badgeRefs.current[index] = el;
+                        }}
                     >
-                        <span className="text-xs">{item.label}</span>
-                        <button
-                            aria-label={`Remove ${item} option`}
-                            aria-roledescription="button to remove option"
-                            type="button"
-                            onMouseDown={mousePreventDefault}
-                            onClick={() => !disabled && onValueChange(item)}
-                            disabled={disabled}
+                        <Badge
+                            className={cn(
+                                "px-1.5 rounded-md flex items-center gap-1 min-w-0 max-w-32",
+                                activeIndex === index && "ring-2 ring-muted-foreground ",
+                            )}
+                            variant={"secondary"}
                         >
-                            <span className="sr-only">Remove {item.label} option</span>
-                            <RemoveIcon className="h-4 w-4 hover:stroke-destructive" />
-                        </button>
-                    </Badge>
+                            <span className="text-xs truncate">{item.label}</span>
+                            <button
+                                aria-label={`Remove ${item} option`}
+                                aria-roledescription="button to remove option"
+                                type="button"
+                                onMouseDown={mousePreventDefault}
+                                onClick={() => !disabled && onValueChange(item)}
+                                disabled={disabled}
+                                className="flex-shrink-0"
+                            >
+                                <span className="sr-only">Remove {item.label} option</span>
+                                <RemoveIcon className="h-4 w-4 hover:stroke-destructive" />
+                            </button>
+                        </Badge>
+                    </div>
                 ))}
-                {value.length > 3 && (
-                    <Badge variant="outline" className="px-2 text-xs flex-shrink-0">
-                        +{value.length - 3} mais
+                {value.length > visibleBadgeCount && (
+                    <Badge variant="outline" className="px-2 text-xs flex-shrink-0 max-w-20">
+                        <span className="truncate">+{value.length - visibleBadgeCount} mais</span>
                     </Badge>
                 )}
                 <div className={cn(
-                    "flex-1",
-                    open ? "min-w-16" : "min-w-8 truncate"
+                    "flex-1 min-w-8 truncate"
                 )}>
                     {children}
                 </div>
@@ -331,7 +426,7 @@ const MultiSelectorInput = forwardRef<
     } = useMultiSelect();
 
     const { value } = useMultiSelect();
-    
+
     return (
         <CommandPrimitive.Input
             {...props}
@@ -383,7 +478,11 @@ const MultiSelectorList = forwardRef<
         <CommandList
             ref={ref}
             className={cn(
-                "p-2 flex flex-col gap-2 rounded-md scrollbar-thin scrollbar-track-transparent transition-colors scrollbar-thumb-muted-foreground dark:scrollbar-thumb-muted scrollbar-thumb-rounded-lg w-full absolute bg-background shadow-md z-10 border border-muted top-0",
+                "p-2 flex flex-col gap-2 rounded-md scrollbar-thin scrollbar-track-transparent transition-colors scrollbar-thumb-muted-foreground dark:scrollbar-thumb-muted scrollbar-thumb-rounded-lg min-w-full max-w-[calc(100vw-2rem)] absolute bg-background shadow-md z-50 border border-muted top-0 max-h-60 overflow-y-auto",
+                // Responsive positioning
+                "sm:left-0 sm:right-auto sm:max-w-sm",
+                // Ensure it doesn't overflow on mobile
+                "left-0 right-0 mx-2 sm:mx-0",
                 className,
             )}
         >

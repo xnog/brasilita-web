@@ -1,10 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { PreferencesForm } from "@/components/preferences/preferences-form";
 import { UserProfile } from "@/lib/db/schema";
-import { PageLoading } from "@/components/ui/page-loading";
 import { MultiSelectValue } from "@/components/extension/multi-select";
 
 interface Region {
@@ -13,44 +12,17 @@ interface Region {
     examples?: string;
 }
 
-export function PreferencesClient() {
-    const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
-    const [availableRegions, setAvailableRegions] = useState<MultiSelectValue[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
+interface PreferencesClientProps {
+    initialUserProfile: UserProfile | null;
+    availableRegions: MultiSelectValue[];
+}
+
+export function PreferencesClient({ initialUserProfile, availableRegions }: PreferencesClientProps) {
+    const [userProfile, setUserProfile] = useState<UserProfile | null>(initialUserProfile);
     const [isSaving, setIsSaving] = useState(false);
     const router = useRouter();
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                // Carregar perfil e regiões em paralelo
-                const [profileResponse, regionsResponse] = await Promise.all([
-                    fetch("/api/preferences"),
-                    fetch("/api/regions")
-                ]);
 
-                if (profileResponse.ok) {
-                    const profile = await profileResponse.json();
-                    setUserProfile(profile);
-                }
-
-                if (regionsResponse.ok) {
-                    const regionsData = await regionsResponse.json();
-                    const regionsAsOptions = regionsData.regions.map((region: Region) => ({
-                        value: region.id,
-                        label: region.name
-                    }));
-                    setAvailableRegions(regionsAsOptions);
-                }
-            } catch (error) {
-                console.error("Erro ao buscar dados:", error);
-            } finally {
-                setIsLoading(false);
-            }
-        };
-
-        fetchData();
-    }, []);
 
     const handleSubmit = async (data: {
         propertyType: "residential" | "investment";
@@ -85,10 +57,6 @@ export function PreferencesClient() {
             setIsSaving(false);
         }
     };
-
-    if (isLoading) {
-        return <PageLoading message="Carregando suas preferências..." />;
-    }
 
     return (
         <div className="max-w-4xl mx-auto">

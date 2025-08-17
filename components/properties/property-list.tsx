@@ -1,10 +1,9 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
 import { PropertyCard } from "./property-card";
 import { PropertyFilters, AvailableFilters } from "./property-filters";
-import { Property } from "@/lib/db/schema";
+import { Property, Region } from "@/lib/db/schema";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
@@ -29,67 +28,29 @@ interface PropertyListResponse {
     appliedFilters: PropertyFilters;
 }
 
-export function PropertyList() {
-    const router = useRouter();
-    const searchParams = useSearchParams();
+interface PropertyListProps {
+    userPreferences?: PropertyFilters | null;
+    regions: Region[];
+}
+
+const defaultFilters: PropertyFilters = {
+    page: 1,
+    limit: 20,
+    sortBy: 'createdAt',
+    sortOrder: 'desc'
+};
+
+export function PropertyList({ userPreferences: initialUserPreferences, regions }: PropertyListProps) {
     const [data, setData] = useState<PropertyListResponse | null>(null);
     const [loading, setLoading] = useState(true);
+    const [userPreferences] = useState<PropertyFilters | null>(initialUserPreferences || null);
 
-    // Initialize filters from URL
-    const getFiltersFromUrl = useCallback((): PropertyFilters => {
-        const urlFilters: PropertyFilters = {
-            page: parseInt(searchParams.get('page') || '1'),
-            limit: 20,
-            sortBy: (searchParams.get('sortBy') as 'price' | 'area' | 'createdAt') || 'createdAt',
-            sortOrder: (searchParams.get('sortOrder') as 'asc' | 'desc') || 'desc'
-        };
-
-        // Parse URL parameters
-        const regions = searchParams.get('regions');
-        if (regions) urlFilters.regions = regions.split(',');
-
-        const priceMin = searchParams.get('priceMin');
-        if (priceMin) urlFilters.priceMin = parseInt(priceMin);
-
-        const priceMax = searchParams.get('priceMax');
-        if (priceMax) urlFilters.priceMax = parseInt(priceMax);
-
-        const bedroomsMin = searchParams.get('bedroomsMin');
-        if (bedroomsMin) urlFilters.bedroomsMin = parseInt(bedroomsMin);
-
-        const bedroomsMax = searchParams.get('bedroomsMax');
-        if (bedroomsMax) urlFilters.bedroomsMax = parseInt(bedroomsMax);
-
-        const bathroomsMin = searchParams.get('bathroomsMin');
-        if (bathroomsMin) urlFilters.bathroomsMin = parseInt(bathroomsMin);
-
-        const bathroomsMax = searchParams.get('bathroomsMax');
-        if (bathroomsMax) urlFilters.bathroomsMax = parseInt(bathroomsMax);
-
-        const areaMin = searchParams.get('areaMin');
-        if (areaMin) urlFilters.areaMin = parseInt(areaMin);
-
-        const areaMax = searchParams.get('areaMax');
-        if (areaMax) urlFilters.areaMax = parseInt(areaMax);
-
-        const location = searchParams.get('location');
-        if (location) urlFilters.location = location;
-
-        const favoritesOnly = searchParams.get('favoritesOnly');
-        if (favoritesOnly) urlFilters.favoritesOnly = favoritesOnly === 'true';
-
-        return urlFilters;
-    }, [searchParams]);
-
-    const [filters, setFilters] = useState<PropertyFilters>(getFiltersFromUrl);
+    const [filters, setFilters] = useState<PropertyFilters>(
+        initialUserPreferences || defaultFilters
+    );
 
     const buildQueryString = useCallback((filterParams: PropertyFilters) => {
         const params = new URLSearchParams();
-
-        // Add user preferences flag for initial load
-        if (!filterParams.regions && !filterParams.priceMin && !filterParams.priceMax) {
-            params.set('userPreferences', 'true');
-        }
 
         Object.entries(filterParams).forEach(([key, value]) => {
             if (value !== undefined && value !== null && value !== '') {
@@ -127,72 +88,38 @@ export function PropertyList() {
         }
     }, [buildQueryString]);
 
-    const updateUrlWithFilters = useCallback((filters: PropertyFilters) => {
-        const params = new URLSearchParams();
-
-        // Add all filter parameters to URL
-        Object.entries(filters).forEach(([key, value]) => {
-            if (value !== undefined && value !== null && value !== '') {
-                if (key === 'regions' && Array.isArray(value)) {
-                    if (value.length > 0) {
-                        params.set(key, value.join(','));
-                    }
-                } else if (key !== 'limit') { // Don't include limit in URL
-                    params.set(key, value.toString());
-                }
-            }
-        });
-
-        // Update URL without page reload
-        const newUrl = `${window.location.pathname}?${params.toString()}`;
-        router.push(newUrl, { scroll: false });
-    }, [router]);
-
     const handleFiltersChange = useCallback((newFilters: PropertyFilters) => {
-        // Reset to page 1 when filters change
+        // Reset to page 1 when filters change and show loading immediately
         const filtersWithPage = { ...newFilters, page: 1 };
+        setLoading(true);
         setFilters(filtersWithPage);
-        updateUrlWithFilters(filtersWithPage);
         fetchProperties(filtersWithPage);
-    }, [fetchProperties, updateUrlWithFilters]);
+    }, [fetchProperties]);
 
     const handlePageChange = useCallback((page: number) => {
         const newFilters = { ...filters, page };
+        setLoading(true);
         setFilters(newFilters);
-        updateUrlWithFilters(newFilters);
         fetchProperties(newFilters);
-    }, [filters, fetchProperties, updateUrlWithFilters]);
+    }, [filters, fetchProperties]);
 
     const handleClearFilters = useCallback(() => {
-        // Update URL with cleared filters and add parameter to disable user preferences
-        const params = new URLSearchParams();
-        params.set('page', '1');
-        params.set('sortBy', 'createdAt');
-        params.set('sortOrder', 'desc');
-        params.set('userPreferences', 'false'); // Explicitly disable user preferences
-        
-        const newUrl = `${window.location.pathname}?${params.toString()}`;
-        router.push(newUrl, { scroll: false });
-        
-        // No need to fetch here - useEffect will handle it when URL changes
-    }, [router]);
+        setLoading(true);
+        setFilters(defaultFilters);
+        fetchProperties(defaultFilters);
+    }, [fetchProperties, defaultFilters]);
 
     const handleApplyPreferences = useCallback(() => {
-        const preferencesFilters: PropertyFilters = {
-            page: 1,
-            limit: 20,
-            sortBy: 'createdAt',
-            sortOrder: 'desc'
-        };
-        setFilters(preferencesFilters);
-        updateUrlWithFilters(preferencesFilters);
-        // Add userPreferences flag to URL
-        const params = new URLSearchParams();
-        params.set('userPreferences', 'true');
-        const newUrl = `${window.location.pathname}?${params.toString()}`;
-        router.push(newUrl, { scroll: false });
-        fetchProperties(preferencesFilters);
-    }, [fetchProperties, updateUrlWithFilters, router]);
+        if (userPreferences) {
+            const preferencesWithPage = { ...userPreferences, page: 1 };
+            setLoading(true);
+            setFilters(preferencesWithPage);
+            fetchProperties(preferencesWithPage);
+        } else {
+            // If no preferences saved, just clear filters
+            handleClearFilters();
+        }
+    }, [userPreferences, fetchProperties, handleClearFilters]);
 
     const handleToggleInterest = async (propertyId: string, isInterested: boolean) => {
         if (!data) return;
@@ -218,57 +145,10 @@ export function PropertyList() {
         }
     };
 
-    // Initial load and URL changes
+    // Initial load
     useEffect(() => {
-        const urlFilters = getFiltersFromUrl();
-        setFilters(urlFilters);
-        
-        // Check if userPreferences parameter is explicitly set in URL
-        const userPreferencesParam = searchParams.get('userPreferences');
-        if (userPreferencesParam === 'false') {
-            // If userPreferences=false in URL, make explicit API call to preserve this
-            const fetchParams = new URLSearchParams();
-            
-            // Add all filter parameters
-            Object.entries(urlFilters).forEach(([key, value]) => {
-                if (value !== undefined && value !== null && value !== '') {
-                    if (key === 'regions' && Array.isArray(value)) {
-                        if (value.length > 0) {
-                            fetchParams.set(key, value.join(','));
-                        }
-                    } else {
-                        fetchParams.set(key, value.toString());
-                    }
-                }
-            });
-            
-            fetchParams.set('userPreferences', 'false');
-            
-            // Use the same fetchProperties logic but with explicit userPreferences=false
-            setLoading(true);
-            fetch(`/api/properties?${fetchParams.toString()}`)
-                .then(response => {
-                    if (response.ok) {
-                        return response.json();
-                    } else {
-                        throw new Error(`API Error: ${response.status}`);
-                    }
-                })
-                .then(responseData => {
-                    setData(responseData);
-                })
-                .catch(error => {
-                    console.error("Error fetching properties:", error);
-                    setData(null);
-                })
-                .finally(() => {
-                    setLoading(false);
-                });
-        } else {
-            // Normal fetch for other cases
-            fetchProperties(urlFilters);
-        }
-    }, [searchParams, getFiltersFromUrl, fetchProperties]);
+        fetchProperties(filters);
+    }, []); // Only run once on mount
 
     if (loading && !data) {
         return <PageLoading />;
@@ -302,6 +182,7 @@ export function PropertyList() {
                     onClearFilters={handleClearFilters}
                     onApplyPreferences={handleApplyPreferences}
                     isLoading={loading}
+                    regions={regions}
                 />
 
                 <Card className="p-12 text-center">
@@ -314,7 +195,7 @@ export function PropertyList() {
                             Tente ajustar os filtros para encontrar propriedades que atendam aos seus critérios.
                         </p>
                         <Button onClick={handleClearFilters}>
-                            Limpar filtros
+                            Visualizar todos os imóveis
                         </Button>
                     </CardContent>
                 </Card>
@@ -330,6 +211,7 @@ export function PropertyList() {
                 onClearFilters={handleClearFilters}
                 onApplyPreferences={handleApplyPreferences}
                 isLoading={loading}
+                regions={regions}
             />
 
             <div className="flex justify-between items-center">

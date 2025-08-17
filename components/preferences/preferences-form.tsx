@@ -140,34 +140,36 @@ export function PreferencesForm({ onSubmit, availableRegions, initialData, isEdi
                                         Regiões de Interesse (opcional)
                                     </FormLabel>
                                     <FormControl>
-                                        <MultiSelector
-                                            values={field.value?.map(regionId =>
-                                                availableRegions.find(region => region.value === regionId)
-                                            ).filter((region): region is MultiSelectValue => region !== undefined) || []}
-                                            onValuesChange={(selected) => {
-                                                field.onChange(selected.map(option => option.value));
-                                            }}
-                                        >
-                                            <MultiSelectorTrigger>
-                                                <MultiSelectorInput
-                                                    placeholder="Todas as regiões..."
-                                                />
-                                            </MultiSelectorTrigger>
-                                            <MultiSelectorContent>
-                                                <MultiSelectorList>
-                                                    {availableRegions.map((region) => (
-                                                        <MultiSelectorItem
-                                                            key={region.value}
-                                                            value={region.value}
-                                                            label={region.label}
-                                                            description={region.description}
-                                                        >
-                                                            {region.label}
-                                                        </MultiSelectorItem>
-                                                    ))}
-                                                </MultiSelectorList>
-                                            </MultiSelectorContent>
-                                        </MultiSelector>
+                                        <div className="min-w-0">
+                                            <MultiSelector
+                                                values={field.value?.map(regionId =>
+                                                    availableRegions.find(region => region.value === regionId)
+                                                ).filter((region): region is MultiSelectValue => region !== undefined) || []}
+                                                onValuesChange={(selected) => {
+                                                    field.onChange(selected.map(option => option.value));
+                                                }}
+                                            >
+                                                <MultiSelectorTrigger className="min-w-0">
+                                                    <MultiSelectorInput
+                                                        placeholder="Todas as regiões..."
+                                                    />
+                                                </MultiSelectorTrigger>
+                                                <MultiSelectorContent>
+                                                    <MultiSelectorList>
+                                                        {availableRegions.map((region) => (
+                                                            <MultiSelectorItem
+                                                                key={region.value}
+                                                                value={region.value}
+                                                                label={region.label}
+                                                                description={region.description}
+                                                            >
+                                                                {region.label}
+                                                            </MultiSelectorItem>
+                                                        ))}
+                                                    </MultiSelectorList>
+                                                </MultiSelectorContent>
+                                            </MultiSelector>
+                                        </div>
                                     </FormControl>
                                     <FormDescription>
                                         Selecione uma ou mais regiões da Itália onde deseja comprar propriedades. Deixe vazio para todas as regiões.
