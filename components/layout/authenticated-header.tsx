@@ -24,6 +24,10 @@ const navigationItems = [
         name: "Imóveis",
         href: "/properties",
     },
+    {
+        name: "FAQ",
+        href: "/faq",
+    },
     // {
     //     name: "Checklist",
     //     href: "/checklist",

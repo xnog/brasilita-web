@@ -1,6 +1,6 @@
 import { auth } from "@/lib/auth";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { User, CheckSquare, ArrowRight, Home, Search, Settings, Handshake, Heart } from "lucide-react";
+import { User, CheckSquare, ArrowRight, Home, Search, Settings, Handshake, Heart, HelpCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { db } from "@/lib/db";
 import { userProfiles, userPropertyInterests } from "@/lib/db/schema";
@@ -246,6 +246,46 @@ export default async function DashboardPage() {
                         </div>
                     </CardContent>
                 </Card> */}
+
+                {/* Featured Section - FAQ */}
+                <Card className="mb-8 bg-gradient-to-r from-blue-500/10 to-blue-500/5 border-blue-500/20">
+                    <CardHeader>
+                        <CardTitle className="flex items-center gap-3 text-xl">
+                            <HelpCircle className="h-6 w-6 text-blue-600" />
+                            Perguntas Frequentes
+                        </CardTitle>
+                        <CardDescription className="text-base">
+                            Tire suas dúvidas sobre compra de imóveis na Itália com nosso guia completo.
+                        </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
+                            <div className="space-y-2">
+                                <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-sm">
+                                    <span className="flex items-center gap-1">
+                                        📋 <strong>15</strong> perguntas essenciais
+                                    </span>
+                                    <span className="flex items-center gap-1">
+                                        🔍 <strong>Busca</strong> inteligente
+                                    </span>
+                                    <span className="flex items-center gap-1">
+                                        🏷️ <strong>Categorias</strong> organizadas
+                                    </span>
+                                </div>
+                                <p className="text-sm text-muted-foreground">
+                                    Documentação, financiamento, impostos, processo de compra e muito mais
+                                </p>
+                            </div>
+                            <Button size="lg" className="shrink-0 bg-blue-600 hover:bg-blue-700" asChild>
+                                <a href="/faq">
+                                    <HelpCircle className="h-4 w-4 mr-2" />
+                                    Ver FAQ
+                                    <ArrowRight className="h-4 w-4 ml-2" />
+                                </a>
+                            </Button>
+                        </div>
+                    </CardContent>
+                </Card>
 
             </div>
         </div>
