@@ -247,7 +247,7 @@ export function PropertyList({ userPreferences: initialUserPreferences, regions 
                             size="sm"
                             onClick={() => handlePageChange(data.pagination.currentPage - 1)}
                             disabled={!data.pagination.hasPrevPage || loading}
-                            className="flex-1 max-w-[100px]"
+                            className={`flex-1 max-w-[100px] ${!data.pagination.hasPrevPage || loading ? '' : 'cursor-pointer'}`}
                         >
                             <ChevronLeft className="h-4 w-4" />
                             <span className="hidden xs:inline ml-1">Anterior</span>
@@ -264,7 +264,7 @@ export function PropertyList({ userPreferences: initialUserPreferences, regions 
                             size="sm"
                             onClick={() => handlePageChange(data.pagination.currentPage + 1)}
                             disabled={!data.pagination.hasNextPage || loading}
-                            className="flex-1 max-w-[100px]"
+                            className={`flex-1 max-w-[100px] ${!data.pagination.hasNextPage || loading ? '' : 'cursor-pointer'}`}
                         >
                             <span className="hidden xs:inline mr-1">Próxima</span>
                             <ChevronRight className="h-4 w-4" />
@@ -278,6 +278,7 @@ export function PropertyList({ userPreferences: initialUserPreferences, regions 
                             size="sm"
                             onClick={() => handlePageChange(data.pagination.currentPage - 1)}
                             disabled={!data.pagination.hasPrevPage || loading}
+                            className={!data.pagination.hasPrevPage || loading ? '' : 'cursor-pointer'}
                         >
                             <ChevronLeft className="h-4 w-4" />
                             Anterior
@@ -292,6 +293,7 @@ export function PropertyList({ userPreferences: initialUserPreferences, regions 
                                         size="sm"
                                         onClick={() => handlePageChange(1)}
                                         disabled={loading}
+                                        className={loading ? '' : 'cursor-pointer'}
                                     >
                                         1
                                     </Button>
@@ -318,6 +320,7 @@ export function PropertyList({ userPreferences: initialUserPreferences, regions 
                                         size="sm"
                                         onClick={() => handlePageChange(page)}
                                         disabled={loading}
+                                        className={loading ? '' : 'cursor-pointer'}
                                     >
                                         {page}
                                     </Button>
@@ -335,6 +338,7 @@ export function PropertyList({ userPreferences: initialUserPreferences, regions 
                                         size="sm"
                                         onClick={() => handlePageChange(data.pagination.totalPages)}
                                         disabled={loading}
+                                        className={loading ? '' : 'cursor-pointer'}
                                     >
                                         {data.pagination.totalPages}
                                     </Button>
@@ -347,6 +351,7 @@ export function PropertyList({ userPreferences: initialUserPreferences, regions 
                             size="sm"
                             onClick={() => handlePageChange(data.pagination.currentPage + 1)}
                             disabled={!data.pagination.hasNextPage || loading}
+                            className={!data.pagination.hasNextPage || loading ? '' : 'cursor-pointer'}
                         >
                             Próxima
                             <ChevronRight className="h-4 w-4" />
