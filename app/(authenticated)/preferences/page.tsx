@@ -1,7 +1,7 @@
 import { auth } from "@/lib/auth";
 import { PreferencesClient } from "./preferences-client";
 import { db } from "@/lib/db";
-import { userProfiles } from "@/lib/db/schema";
+import { userProfiles, UserProfile } from "@/lib/db/schema";
 import { eq, asc, sql } from "drizzle-orm";
 
 export default async function PreferencesPage() {
@@ -9,7 +9,7 @@ export default async function PreferencesPage() {
 
     // Load user profile and regions in parallel via SSR
     let userProfile = null;
-    let availableRegions = [];
+    let availableRegions: { value: string; label: string; }[] = [];
 
     try {
         const [profileResult, regionsResult] = await Promise.all([
@@ -28,18 +28,15 @@ export default async function PreferencesPage() {
             })
         ]);
 
-        userProfile = profileResult;
+        userProfile = profileResult || null;
         availableRegions = regionsResult?.map(region => ({
             value: region.id,
             label: region.name
         })) || [];
 
-        // If profile exists, format it with regions
+        // If profile exists, add regions as a temporary property for the client
         if (userProfile && userProfile.userProfileRegions) {
-            userProfile = {
-                ...userProfile,
-                regions: userProfile.userProfileRegions.map(upr => upr.regionId)
-            };
+            (userProfile as UserProfile & { regions?: string[] }).regions = userProfile.userProfileRegions.map(upr => upr.regionId);
         }
     } catch (error) {
         console.log("Error loading preferences data:", error);

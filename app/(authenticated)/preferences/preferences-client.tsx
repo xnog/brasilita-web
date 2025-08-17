@@ -6,11 +6,7 @@ import { PreferencesForm } from "@/components/preferences/preferences-form";
 import { UserProfile } from "@/lib/db/schema";
 import { MultiSelectValue } from "@/components/extension/multi-select";
 
-interface Region {
-    id: string;
-    name: string;
-    examples?: string;
-}
+
 
 interface PreferencesClientProps {
     initialUserProfile: UserProfile | null;
@@ -18,7 +14,7 @@ interface PreferencesClientProps {
 }
 
 export function PreferencesClient({ initialUserProfile, availableRegions }: PreferencesClientProps) {
-    const [userProfile, setUserProfile] = useState<UserProfile | null>(initialUserProfile);
+    const [userProfile] = useState<UserProfile | null>(initialUserProfile);
     const [isSaving, setIsSaving] = useState(false);
     const router = useRouter();
 
