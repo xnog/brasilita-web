@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { PropertyCard } from "./property-card";
-import { PropertyFilters, AvailableFilters } from "./property-filters";
+import { PropertyFilters } from "./property-filters";
 import { Property, Region } from "@/lib/db/schema";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";

@@ -17,7 +17,7 @@ import {
     ChefHat,
     Calendar,
     Euro,
-    MessageCircle,
+
     Check,
     X,
     Phone

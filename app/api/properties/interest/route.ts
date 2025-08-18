@@ -23,7 +23,7 @@ export async function PATCH(request: NextRequest) {
         }
 
         // Check if user has already expressed interest in this property
-        let existingInterest = await db.query.userPropertyInterests.findFirst({
+        const existingInterest = await db.query.userPropertyInterests.findFirst({
             where: and(
                 eq(userPropertyInterests.userId, session.user.id),
                 eq(userPropertyInterests.propertyId, propertyId)
