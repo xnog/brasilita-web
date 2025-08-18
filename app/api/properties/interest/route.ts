@@ -23,12 +23,26 @@ export async function PATCH(request: NextRequest) {
         }
 
         // Check if user has already expressed interest in this property
-        const existingInterest = await db.query.userPropertyInterests.findFirst({
+        let existingInterest = await db.query.userPropertyInterests.findFirst({
             where: and(
                 eq(userPropertyInterests.userId, session.user.id),
                 eq(userPropertyInterests.propertyId, propertyId)
             )
         });
+
+        // If no existing interest and user wants to proceed, create a new record
+        if (!existingInterest && wantsToProceed) {
+            await db.insert(userPropertyInterests)
+                .values({
+                    userId: session.user.id,
+                    propertyId,
+                    isInterested: true,
+                    wantsToProceed: true,
+                    notes: null
+                });
+
+            return NextResponse.json({ success: true, wantsToProceed: true });
+        }
 
         if (!existingInterest) {
             return NextResponse.json({ error: "Você deve adicionar a propriedade aos favoritos primeiro" }, { status: 400 });
