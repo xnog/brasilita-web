@@ -28,12 +28,30 @@ export function LandingHeader({ session }: LandingHeaderProps) {
                 {/* Right side - Navigation and auth buttons */}
                 <div className="flex flex-1 items-center justify-end">
                     {/* Navigation - Same style as authenticated header */}
-                    <nav className="hidden md:flex items-center space-x-6 text-sm font-medium mr-6">
+                    <nav className="hidden lg:flex items-center space-x-5 text-sm font-medium mr-6">
+                        <a
+                            href="#diferenciais"
+                            className="transition-colors hover:text-foreground/80 text-foreground/60"
+                        >
+                            Diferenciais
+                        </a>
                         <a
                             href="#servicos"
                             className="transition-colors hover:text-foreground/80 text-foreground/60"
                         >
                             Serviços
+                        </a>
+                        <a
+                            href="#como-funciona"
+                            className="transition-colors hover:text-foreground/80 text-foreground/60"
+                        >
+                            Como Funciona
+                        </a>
+                        <a
+                            href="#possibilidades"
+                            className="transition-colors hover:text-foreground/80 text-foreground/60"
+                        >
+                            Possibilidades
                         </a>
                         <a
                             href="#sobre"

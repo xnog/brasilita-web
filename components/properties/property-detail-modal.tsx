@@ -19,9 +19,8 @@ import {
     Euro,
     MessageCircle,
     Check,
-    AlertTriangle,
-    Lock,
-    X
+    X,
+    Phone
 } from "lucide-react";
 import { Property } from "@/lib/db/schema";
 import { PropertyDetailImage } from "./property-detail-image";
@@ -49,7 +48,6 @@ export function PropertyDetailModal({
     onToggleInterest
 }: PropertyDetailModalProps) {
     const [loading, setLoading] = useState(false);
-    const [showConfirmationDialog, setShowConfirmationDialog] = useState(false);
     const [wantsToProceed, setWantsToProceed] = useState(false);
 
     const images = property.images
@@ -68,36 +66,56 @@ export function PropertyDetailModal({
         }
     };
 
-    const handleProceedToNegotiation = () => {
-        setShowConfirmationDialog(true);
-    };
-
-    const handleConfirmProceed = async () => {
+    const handleProceedToNegotiation = async () => {
         setLoading(true);
         try {
+            // Registrar o interesse em prosseguir no banco de dados
             const response = await fetch('/api/properties/interest', {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ propertyId: property.id, wantsToProceed: true })
+                body: JSON.stringify({
+                    propertyId: property.id,
+                    wantsToProceed: true
+                })
             });
 
-            if (response.ok) {
-                setWantsToProceed(true);
-                setShowConfirmationDialog(false);
+            if (!response.ok) {
+                console.error('Erro ao registrar interesse em prosseguir');
+                // Continue mesmo se houver erro no registro, não queremos bloquear o usuário
             } else {
-                const errorData = await response.json();
-                console.error('Erro ao confirmar interesse:', errorData.error);
-                alert('Erro ao confirmar interesse. Tente novamente.');
+                // Atualizar o estado local se o registro foi bem-sucedido
+                setWantsToProceed(true);
             }
+
+            // Criar mensagem pré-preenchida para WhatsApp
+            const propertyCode = property.id.slice(-8).toUpperCase(); // Últimos 8 caracteres como código
+            const message = `Olá! Tenho interesse no imóvel código ${propertyCode} - ${property.title}. Gostaria de receber mais informações e agendar uma visita. Obrigado!`;
+
+            // URL do WhatsApp com mensagem pré-preenchida
+            const phoneNumber = "5548988452578";
+            const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+
+            // Abrir WhatsApp em nova aba
+            window.open(whatsappUrl, '_blank');
+
         } catch (error) {
-            console.error('Erro ao confirmar interesse:', error);
-            alert('Erro ao confirmar interesse. Tente novamente.');
+            console.error('Erro ao registrar interesse:', error);
+            // Continue mesmo se houver erro, não queremos bloquear o usuário
+
+            // Criar mensagem pré-preenchida para WhatsApp mesmo com erro
+            const propertyCode = property.id.slice(-8).toUpperCase();
+            const message = `Olá! Tenho interesse no imóvel código ${propertyCode} - ${property.title}. Gostaria de receber mais informações e agendar uma visita. Obrigado!`;
+            const phoneNumber = "5548988452578";
+            const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
         } finally {
             setLoading(false);
         }
     };
+
+
 
 
 
@@ -307,17 +325,20 @@ export function PropertyDetailModal({
                                         </Button>
 
                                         {/* Negotiation Flow */}
-                                        {!wantsToProceed && (
+                                        <div className="space-y-2">
                                             <Button
                                                 onClick={handleProceedToNegotiation}
                                                 disabled={loading}
-                                                className="w-full bg-blue-500 hover:bg-blue-600 text-white"
+                                                className="w-full bg-green-500 hover:bg-green-600 text-white"
                                                 size="lg"
                                             >
-                                                <MessageCircle className="h-5 w-5 mr-2" />
-                                                Prosseguir para Negociação
+                                                <Phone className="h-5 w-5 mr-2" />
+                                                Negociar via WhatsApp
                                             </Button>
-                                        )}
+                                            <p className="text-xs text-center text-slate-500">
+                                                Conecte-se diretamente com nossa equipe
+                                            </p>
+                                        </div>
 
                                         {/* Success Message */}
                                         {wantsToProceed && (
@@ -326,15 +347,16 @@ export function PropertyDetailModal({
                                                     <Check className="h-12 w-12 text-emerald-600 mx-auto" />
                                                     <div className="space-y-3">
                                                         <h4 className="text-xl font-bold text-emerald-900">
-                                                            Interesse confirmado com sucesso!
+                                                            Contato iniciado com sucesso!
                                                         </h4>
                                                         <div className="text-emerald-800 space-y-3 leading-relaxed">
                                                             <p>
-                                                                Nas próximas horas, nossa equipe entrará em contato para confirmar
-                                                                os detalhes e encaminhar seu perfil à imobiliária responsável pelo imóvel.
+                                                                Você foi redirecionado para o WhatsApp da nossa equipe.
+                                                                Continue a conversa por lá para receber todas as informações
+                                                                sobre este imóvel e dar os próximos passos.
                                                             </p>
                                                             <p>
-                                                                Enquanto isso, você pode acompanhar o status da solicitação acessando{" "}
+                                                                Você pode acompanhar seus imóveis de interesse acessando o{" "}
                                                                 <a
                                                                     href="/dashboard"
                                                                     className="font-semibold text-emerald-700 hover:text-emerald-900 underline decoration-emerald-300 hover:decoration-emerald-500 transition-colors"
@@ -343,10 +365,10 @@ export function PropertyDetailModal({
                                                                 </a>.
                                                             </p>
                                                             <p className="pt-2">
-                                                                A Brasilità segue ao seu lado para tornar o sonho do seu imóvel na Itália uma realidade.
+                                                                A Brasilità está aqui para tornar o sonho do seu imóvel na Itália uma realidade.
                                                             </p>
                                                             <div className="pt-2 space-y-1">
-                                                                <p className="font-medium">Um abraço,</p>
+                                                                <p className="font-medium">Boa sorte na sua jornada!</p>
                                                                 <p className="text-emerald-700 font-semibold">
                                                                     Equipe Brasilità - do sonho à chave.
                                                                 </p>
@@ -364,150 +386,7 @@ export function PropertyDetailModal({
                 </div>
             </DialogContent>
 
-            {/* Confirmation Dialog - Responsive */}
-            <Dialog open={showConfirmationDialog} onOpenChange={setShowConfirmationDialog}>
-                <DialogContent className="max-w-lg w-[95vw] max-h-[90vh] overflow-y-auto p-0 sm:max-w-2xl sm:w-[90vw] sm:max-h-[85vh] [&>button]:hidden">
-                    <VisuallyHidden>
-                        <DialogTitle>Atenção antes de confirmar seu interesse</DialogTitle>
-                    </VisuallyHidden>
-                    <div className="bg-white relative">
-                        {/* Close Button */}
-                        <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => setShowConfirmationDialog(false)}
-                            className="absolute top-4 right-4 z-50 bg-white/90 backdrop-blur-sm hover:bg-white rounded-full w-10 h-10 p-0 shadow-lg border border-slate-200 cursor-pointer"
-                        >
-                            <X className="h-5 w-5" />
-                        </Button>
 
-                        {/* Header with Icon */}
-                        <div className="flex items-center gap-3 p-4 pb-3 sm:gap-4 sm:p-6 sm:pb-4 border-b border-slate-200">
-                            <div className="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                                <AlertTriangle className="h-5 w-5 sm:h-7 sm:w-7 text-blue-600" />
-                            </div>
-                            <div className="min-w-0 flex-1">
-                                <h3 className="text-lg sm:text-xl font-bold text-slate-900 mb-1">
-                                    Atenção antes de confirmar seu interesse
-                                </h3>
-                                <p className="text-slate-600 text-xs sm:text-sm">
-                                    Leia atentamente as informações abaixo
-                                </p>
-                            </div>
-                        </div>
-
-                        {/* Content */}
-                        <div className="px-4 py-4 space-y-4 sm:px-6 sm:py-5 sm:space-y-5">
-                            {/* Main Warning */}
-                            <div className="bg-slate-50 rounded-lg p-3 sm:p-4 border border-slate-200 shadow-sm">
-                                <p className="text-slate-700 text-xs sm:text-sm leading-relaxed">
-                                    A seleção de um imóvel é o primeiro passo real rumo à compra, por isso, antes de prosseguir,
-                                    é importante estar ciente dos custos envolvidos na negociação além do valor do imóvel:
-                                </p>
-                            </div>
-
-                            {/* Costs Section */}
-                            <div className="bg-slate-50 rounded-lg p-4 sm:p-5 border border-slate-200 shadow-sm">
-                                <h4 className="font-semibold text-slate-800 mb-3 flex items-center gap-2">
-                                    <Euro className="h-4 w-4 text-blue-600" />
-                                    Custos Adicionais
-                                </h4>
-                                <ul className="space-y-3">
-                                    <li className="flex items-start gap-3">
-                                        <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
-                                        <div>
-                                            <span className="font-medium text-slate-700">Taxas e comissões imobiliárias:</span>
-                                            <br />
-                                            <span className="text-slate-600 text-sm">entre €3.000 e €7.000</span>
-                                        </div>
-                                    </li>
-                                    <li className="flex items-start gap-3">
-                                        <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
-                                        <div>
-                                            <span className="font-medium text-slate-700">Imposto de registro:</span>
-                                            <br />
-                                            <span className="text-slate-600 text-sm">9% sobre o valor declarado do imóvel</span>
-                                        </div>
-                                    </li>
-                                    <li className="flex items-start gap-3">
-                                        <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
-                                        <div>
-                                            <span className="font-medium text-slate-700">Honorários do notário (cartório):</span>
-                                            <br />
-                                            <span className="text-slate-600 text-sm">entre €2.000 e €3.000</span>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-
-                            {/* Important Note */}
-                            <div className="bg-blue-50 rounded-lg p-4 border border-blue-200">
-                                <div className="flex items-start gap-3">
-                                    <MessageCircle className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
-                                    <p className="text-blue-800 text-sm leading-relaxed">
-                                        <span className="font-medium">Esses valores são pagos diretamente às partes envolvidas na Itália</span>
-                                        <br />
-                                        (proprietário do imóvel, imobiliária, notário), a Brasilità atua apenas como plataforma de conexão e organização do processo.
-                                    </p>
-                                </div>
-                            </div>
-
-                            {/* Responsibility Warning */}
-                            <div className="bg-orange-50 rounded-lg p-4 border border-orange-200">
-                                <div className="flex items-start gap-3 mb-3">
-                                    <AlertTriangle className="h-5 w-5 text-orange-600 flex-shrink-0 mt-0.5" />
-                                    <p className="text-orange-800 font-medium text-sm">
-                                        Só confirme o interesse se você realmente pretende avançar para uma possível negociação.
-                                    </p>
-                                </div>
-                                <p className="text-slate-700 text-sm leading-relaxed ml-8">
-                                    Essa etapa envolve contato com a imobiliária licenciada e movimentações práticas.
-                                    Pedimos responsabilidade para evitar o bloqueio de sua conta sem intenção real de compra.
-                                </p>
-                            </div>
-
-                            {/* Legal Note */}
-                            <div className="bg-slate-50 rounded-lg p-4 border border-slate-200">
-                                <div className="flex items-start gap-3">
-                                    <Lock className="h-5 w-5 text-slate-600 flex-shrink-0 mt-0.5" />
-                                    <p className="text-slate-700 text-sm leading-relaxed">
-                                        <span className="font-medium">Sua seleção não gera nenhum compromisso legal,</span> mas sinaliza intenção séria de avaliar o imóvel.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Final Question and Actions */}
-                        <div className="p-4 pt-3 sm:p-6 sm:pt-4 border-t border-slate-200 bg-slate-50">
-                            <div className="text-center mb-4 sm:mb-5">
-                                <p className="text-slate-800 font-semibold text-base sm:text-lg mb-2">Deseja confirmar seu interesse?</p>
-                                <p className="text-slate-600 text-xs sm:text-sm">Esta ação iniciará o processo de negociação</p>
-                            </div>
-
-                            <div className="flex flex-col sm:flex-row gap-3">
-                                <Button
-                                    onClick={handleConfirmProceed}
-                                    disabled={loading}
-                                    className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-3"
-                                    size="lg"
-                                >
-                                    <Check className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
-                                    <span className="text-sm sm:text-base">Sim, confirmo meu interesse</span>
-                                </Button>
-                                <Button
-                                    onClick={() => setShowConfirmationDialog(false)}
-                                    disabled={loading}
-                                    variant="outline"
-                                    className="flex-1 border-slate-300 hover:bg-slate-50 py-3"
-                                    size="lg"
-                                >
-                                    <span className="text-sm sm:text-base">Cancelar</span>
-                                </Button>
-                            </div>
-                        </div>
-                    </div>
-                </DialogContent>
-            </Dialog>
         </Dialog >
     );
 }
