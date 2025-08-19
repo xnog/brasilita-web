@@ -91,7 +91,7 @@ export function PropertyDetailModal({
 
             // Criar mensagem pré-preenchida para WhatsApp
             const propertyCode = property.id.slice(-8).toUpperCase(); // Últimos 8 caracteres como código
-            const message = `Olá! Tenho interesse no imóvel código ${propertyCode} - ${property.title}. Gostaria de receber mais informações e agendar uma visita. Obrigado!`;
+            const message = `Olá! Tenho interesse no imóvel código ${propertyCode} - ${property.title}. Gostaria de receber mais informações. Obrigado!`;
 
             // URL do WhatsApp com mensagem pré-preenchida
             const phoneNumber = "5548988452578";
@@ -106,7 +106,7 @@ export function PropertyDetailModal({
 
             // Criar mensagem pré-preenchida para WhatsApp mesmo com erro
             const propertyCode = property.id.slice(-8).toUpperCase();
-            const message = `Olá! Tenho interesse no imóvel código ${propertyCode} - ${property.title}. Gostaria de receber mais informações e agendar uma visita. Obrigado!`;
+            const message = `Olá! Tenho interesse no imóvel código ${propertyCode} - ${property.title}. Gostaria de receber mais informações. Obrigado!`;
             const phoneNumber = "5548988452578";
             const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
             window.open(whatsappUrl, '_blank');
