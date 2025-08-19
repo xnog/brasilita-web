@@ -1,27 +1,169 @@
 "use client";
 
 import { useState } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { ChevronDown, ChevronUp, Search, HelpCircle, FileText, MapPin, DollarSign, Home, Shield, Calendar, User } from "lucide-react";
-import { cn } from "@/lib/utils";
-import faqData from "@/lib/data/faq-data.json";
 
-interface FAQItem {
-    id: string;
-    question: string;
-    answer: string;
-    category: string;
-    tags: string[];
-}
+// Removed JSON import - data is now inline
 
-interface FAQCategory {
-    name: string;
-    value: string;
-}
+
+
+
+
+// FAQ Data inline
+const faqData = {
+    questions: [
+        {
+            id: "comprar-sem-morar",
+            question: "1. Posso comprar um imóvel na Itália mesmo sem morar lá?",
+            answer: "Sim. Qualquer estrangeiro pode adquirir imóveis na Itália, mesmo sem residência fixa no país. O processo é formalizado em cartório por um notaio, que garante a validade da compra.",
+            category: "Processo de Compra",
+            tags: ["estrangeiro", "residência", "notaio", "cartório"]
+        },
+        {
+            id: "custos-adicionais",
+            question: "2. Quais são os custos além do valor do imóvel?",
+            answer: (
+                <div>
+                    <p className="mb-3">Além do preço do imóvel, você deve considerar:</p>
+                    <ul className="list-disc list-inside space-y-1 ml-4">
+                        <li>Impostos de registro (normalmente 9% do valor declarado);</li>
+                        <li>Taxas imobiliárias, que giram em torno de €5.000 a €6.000;</li>
+                        <li>Honorários do notaio, em média €3.000;</li>
+                        <li>Custos de traduções juramentadas e legalizações, se necessário.</li>
+                    </ul>
+                </div>
+            ),
+            category: "Custos e Taxas",
+            tags: ["impostos", "registro", "taxas", "notaio", "traduções"]
+        },
+        {
+            id: "impostos-anuais",
+            question: "3. Quais são os impostos anuais que vou pagar como proprietário?",
+            answer: (
+                <ul className="list-disc list-inside space-y-1 ml-4">
+                    <li><strong>IMU:</strong> imposto municipal sobre propriedade (obrigatório para quem não reside na Itália);</li>
+                    <li><strong>TARI:</strong> taxa de lixo e coleta;</li>
+                    <li><strong>IRPEF:</strong> imposto de renda sobre lucros de aluguel (se houver);</li>
+                    <li><strong>Cedolare Secca:</strong> opção simplificada de tributação sobre aluguel, de 21%, pagos uma vez ao ano, que substitui outros impostos.</li>
+                </ul>
+            ),
+            category: "Impostos e Taxas",
+            tags: ["IMU", "TARI", "IRPEF", "Cedolare Secca", "propriedade"]
+        },
+        {
+            id: "presenca-fisica",
+            question: "4. Preciso ir até a Itália para concluir a compra?",
+            answer: "Não necessariamente. Se não puder comparecer pessoalmente, você pode nomear um procurador para representá-lo perante o notaio.",
+            category: "Processo de Compra",
+            tags: ["procuração", "presença", "notaio", "representação"]
+        },
+        {
+            id: "financiamento-estrangeiro",
+            question: "5. Posso financiar um imóvel na Itália sendo estrangeiro?",
+            answer: "É raro. Bancos italianos dificilmente oferecem crédito imobiliário para estrangeiros sem residência. A maioria das compras é feita à vista.",
+            category: "Financiamento",
+            tags: ["financiamento", "banco", "estrangeiro", "crédito", "à vista"]
+        },
+        {
+            id: "cidadania-residencia",
+            question: "6. Comprar um imóvel me dá direito à cidadania ou residência?",
+            answer: "Não. A compra de um imóvel não concede cidadania nem residência automática. Porém, ter um endereço fixo pode facilitar processos de residência para quem deseja viver na Itália.",
+            category: "Cidadania e Residência",
+            tags: ["cidadania", "residência", "endereço", "direitos"]
+        },
+        {
+            id: "documentacao-necessaria",
+            question: "7. Qual a documentação necessária para comprar?",
+            answer: (
+                <ul className="list-disc list-inside space-y-1 ml-4">
+                    <li>Passaporte válido;</li>
+                    <li>Codice Fiscale (como se fosse um CPF italiano);</li>
+                    <li>Em alguns casos, comprovantes de renda ou documentos adicionais (principalmente para abrir conta ou alugar).</li>
+                </ul>
+            ),
+            category: "Documentação",
+            tags: ["passaporte", "codice fiscale", "renda", "documentos"]
+        },
+        {
+            id: "conta-bancaria",
+            question: "8. Preciso abrir conta bancária na Itália?",
+            answer: "Não é obrigatório, mas é recomendado para facilitar pagamentos e recebimentos de aluguel. Cidadãos italianos conseguem abrir conta com SPID. Estrangeiros também podem, mas o processo pode exigir documentação extra.",
+            category: "Serviços Bancários",
+            tags: ["conta bancária", "SPID", "pagamentos", "aluguel"]
+        },
+        {
+            id: "beneficios-investimento",
+            question: "9. Quais os principais benefícios de investir em um imóvel na Itália?",
+            answer: (
+                <ul className="list-disc list-inside space-y-1 ml-4">
+                    <li>Valores acessíveis em cidades pequenas (a partir de €15.000 – €30.000);</li>
+                    <li>Rentabilidade atrativa com aluguel, chegando a 8–12% ao ano em algumas regiões;</li>
+                    <li>Segurança jurídica, já que todo processo é registrado oficialmente;</li>
+                    <li>Possibilidade de valorização, especialmente em imóveis em reforma ou regiões em crescimento.</li>
+                </ul>
+            ),
+            category: "Investimento",
+            tags: ["valores", "rentabilidade", "segurança", "valorização"]
+        },
+        {
+            id: "custos-manutencao",
+            question: "10. Existem custos de manutenção?",
+            answer: "Sim. Além dos impostos anuais, há despesas de condomínio (quando aplicável), contas de luz, água e gás, além de eventuais reformas. No caso de imóveis alugados, o inquilino é responsável pelo pagamento de condomínio.",
+            category: "Custos e Taxas",
+            tags: ["manutenção", "condomínio", "utilidades", "reformas", "inquilino"]
+        },
+        {
+            id: "aluguel-funcionamento",
+            question: "11. Como funciona o aluguel do imóvel?",
+            answer: "Você pode optar por contratos tradicionais de longo prazo ou por aluguel de curta temporada (turístico). Cada modelo tem regras e tributações diferentes, mas ambos podem ser geridos mesmo à distância com apoio de imobiliárias locais.",
+            category: "Aluguel",
+            tags: ["contratos", "longo prazo", "curta temporada", "gestão", "imobiliárias"]
+        },
+        {
+            id: "declaracao-brasil",
+            question: "12. Preciso declarar o imóvel no Brasil?",
+            answer: "Sim. Se você for residente fiscal no Brasil, deve declarar o imóvel no Imposto de Renda pelo valor de aquisição em euros, convertido para reais na data da compra.",
+            category: "Obrigações Fiscais",
+            tags: ["declaração", "imposto de renda", "Brasil", "conversão", "euros"]
+        },
+        {
+            id: "processo-compra-detalhado",
+            question: "13. Como funciona o processo de compra na Brasilità?",
+            answer: (
+                <ol className="list-decimal list-inside space-y-1 ml-4">
+                    <li>Escolha do imóvel</li>
+                    <li>Visita por correspondente (vídeos e fotos)</li>
+                    <li>Oferta de compra aceita pelo vendedor;</li>
+                    <li>Assinatura do Compromesso (contrato preliminar) com pagamento de sinal;</li>
+                    <li>Procuração via cartório no Brasil</li>
+                    <li>Escritura definitiva no notaio;</li>
+                    <li>Registro na Agenzia Dell Entrate, oficializando a propriedade.</li>
+                </ol>
+            ),
+            category: "Processo de Compra",
+            tags: ["escolha", "oferta", "compromesso", "escritura", "agenzia", "procuração"]
+        },
+        {
+            id: "cidadania-necessaria",
+            question: "14. Preciso de cidadania italiana para comprar?",
+            answer: "Não. A cidadania facilita alguns processos (como abertura de conta), mas não é requisito para adquirir um imóvel.",
+            category: "Cidadania e Residência",
+            tags: ["cidadania", "requisito", "facilitação", "compra"]
+        },
+        {
+            id: "sobre-brasilita",
+            question: "15. A Brasilità é uma imobiliária?",
+            answer: "Não. A Brasilità é uma plataforma de conexão que aproxima brasileiros interessados em investir na Itália com imobiliárias e empresas locais parceiras. Não atuamos como corretores nem como assessoria jurídica.",
+            category: "Sobre a Brasilità",
+            tags: ["plataforma", "conexão", "parceiros", "corretores", "assessoria"]
+        }
+    ]
+};
 
 const categories = [
     { name: "Todos", icon: HelpCircle, value: "all" },
@@ -29,8 +171,12 @@ const categories = [
     { name: "Custos e Taxas", icon: Shield, value: "Custos e Taxas" },
     { name: "Impostos e Taxas", icon: DollarSign, value: "Impostos e Taxas" },
     { name: "Documentação", icon: FileText, value: "Documentação" },
+    { name: "Financiamento", icon: DollarSign, value: "Financiamento" },
     { name: "Investimento", icon: Home, value: "Investimento" },
     { name: "Cidadania e Residência", icon: MapPin, value: "Cidadania e Residência" },
+    { name: "Serviços Bancários", icon: DollarSign, value: "Serviços Bancários" },
+    { name: "Aluguel", icon: Home, value: "Aluguel" },
+    { name: "Obrigações Fiscais", icon: FileText, value: "Obrigações Fiscais" },
     { name: "Sobre a Brasilità", icon: User, value: "Sobre a Brasilità" },
 ];
 
@@ -40,9 +186,12 @@ export function FAQClient() {
     const [expandedItems, setExpandedItems] = useState<Set<string>>(new Set());
 
     const filteredFAQs = faqData.questions.filter((faq) => {
+        // Convert answer to string for searching if it's JSX
+        const answerText = typeof faq.answer === 'string' ? faq.answer : '';
+
         const matchesSearch =
             faq.question.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            faq.answer.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            answerText.toLowerCase().includes(searchTerm.toLowerCase()) ||
             faq.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()));
 
         const matchesCategory = selectedCategory === "all" || faq.category === selectedCategory;
@@ -134,9 +283,9 @@ export function FAQClient() {
                         filteredFAQs.map((faq) => {
                             const isExpanded = expandedItems.has(faq.id);
                             return (
-                                <Card key={faq.id} className="overflow-hidden">
+                                <Card key={faq.id} className="overflow-hidden hover:shadow-md transition-shadow duration-200">
                                     <CardHeader
-                                        className="pb-3 cursor-pointer hover:bg-muted/50 transition-colors"
+                                        className="pb-3 cursor-pointer hover:bg-muted/30 transition-colors duration-200"
                                         onClick={() => toggleExpanded(faq.id)}
                                     >
                                         <div className="flex items-start justify-between">
@@ -163,9 +312,9 @@ export function FAQClient() {
                                         <>
                                             <Separator />
                                             <CardContent className="pt-4">
-                                                <p className="text-foreground leading-relaxed mb-4">
-                                                    {faq.answer}
-                                                </p>
+                                                <div className="faq-content text-foreground leading-relaxed mb-4">
+                                                    {typeof faq.answer === 'string' ? faq.answer : faq.answer}
+                                                </div>
                                                 <div className="flex flex-wrap gap-1">
                                                     {faq.tags.map((tag) => (
                                                         <Badge
