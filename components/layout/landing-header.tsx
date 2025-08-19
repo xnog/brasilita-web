@@ -60,6 +60,12 @@ export function LandingHeader({ session }: LandingHeaderProps) {
                             Sobre
                         </a>
                         <a
+                            href="#parceiros"
+                            className="transition-colors hover:text-foreground/80 text-foreground/60"
+                        >
+                            Parceiros
+                        </a>
+                        <a
                             href="#contato"
                             className="transition-colors hover:text-foreground/80 text-foreground/60"
                         >

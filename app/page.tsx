@@ -509,6 +509,106 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* Partners Section */}
+      <section id="parceiros" className="section-padding">
+        <div className="container mx-auto container-padding">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-16">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">
+                Seja um Parceiro Brasilità
+              </h2>
+              <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+                Conectamos brasileiros ao sonho de comprar imóveis na Itália. Buscamos parceiros locais de confiança para realizar visitas, registrar imóveis e apoiar nossos clientes em cada etapa do processo.
+              </p>
+            </div>
+
+            <div className="grid lg:grid-cols-2 gap-8 mb-12">
+              {/* Partner Benefits */}
+              <div className="professional-card">
+                <div className="flex items-start space-x-4 mb-6">
+                  <div className="w-12 h-12 bg-green-500/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                    <Users className="w-6 h-6 text-green-600" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold text-foreground mb-2">Para Profissionais Locais</h3>
+                    <p className="text-muted-foreground leading-relaxed">
+                      Amplie sua rede de clientes e trabalhe com brasileiros interessados em investir no mercado italiano.
+                    </p>
+                  </div>
+                </div>
+                <div className="space-y-3">
+                  <div className="flex items-center space-x-3">
+                    <CheckCircle className="feature-icon" />
+                    <span className="text-sm font-medium">Clientes pré-qualificados</span>
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    <CheckCircle className="feature-icon" />
+                    <span className="text-sm font-medium">Suporte na comunicação</span>
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    <CheckCircle className="feature-icon" />
+                    <span className="text-sm font-medium">Processos organizados</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* What We Look For */}
+              <div className="professional-card">
+                <div className="flex items-start space-x-4 mb-6">
+                  <div className="w-12 h-12 bg-blue-500/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                    <Shield className="w-6 h-6 text-blue-600" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold text-foreground mb-2">O que Procuramos</h3>
+                    <p className="text-muted-foreground leading-relaxed">
+                      Profissionais comprometidos com excelência no atendimento e conhecimento do mercado local.
+                    </p>
+                  </div>
+                </div>
+                <div className="space-y-3">
+                  <div className="flex items-center space-x-3">
+                    <CheckCircle className="feature-icon" />
+                    <span className="text-sm font-medium">Cidadania italiana ou permesso di soggiorno</span>
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    <CheckCircle className="feature-icon" />
+                    <span className="text-sm font-medium">Experiência no mercado imobiliário</span>
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    <CheckCircle className="feature-icon" />
+                    <span className="text-sm font-medium">Comprometimento e confiabilidade</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* CTA */}
+            <div className="text-center bg-gradient-to-r from-primary/5 via-primary/10 to-primary/5 rounded-xl p-8">
+              <div className="max-w-3xl mx-auto">
+                <h3 className="text-2xl font-bold mb-4 text-foreground">Cadastre-se como Parceiro</h3>
+                <p className="text-lg text-muted-foreground leading-relaxed mb-6">
+                  Faça parte da nossa rede de parceiros e ajude brasileiros a realizarem o sonho de ter um imóvel na Itália.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  <a
+                    href="https://forms.gle/sZT1iTmyxWU19wr48"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center px-8 py-3 rounded-lg bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105"
+                  >
+                    <Users className="w-4 h-4 mr-2" />
+                    Tornar-se Parceiro
+                  </a>
+                </div>
+                <p className="text-sm text-muted-foreground mt-4">
+                  Preencha nosso formulário e conte sobre você e seus serviços
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* CTA Section */}
       <section className="bg-gradient-to-r from-primary/5 via-primary/10 to-primary/5 section-padding">
         <div className="container mx-auto container-padding text-center">
