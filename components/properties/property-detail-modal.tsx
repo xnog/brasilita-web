@@ -17,13 +17,14 @@ import {
     ChefHat,
     Calendar,
     Euro,
-
+    Hash,
     Check,
     X,
     Phone
 } from "lucide-react";
 import { Property } from "@/lib/db/schema";
 import { PropertyDetailImage } from "./property-detail-image";
+import { getPropertyCode } from "@/lib/utils";
 
 interface PropertyDetailModalProps {
     property: Property & { isInterested?: boolean; region?: { id: string; name: string } | null };
@@ -90,7 +91,7 @@ export function PropertyDetailModal({
             }
 
             // Criar mensagem pré-preenchida para WhatsApp
-            const propertyCode = property.id.slice(-8).toUpperCase(); // Últimos 8 caracteres como código
+            const propertyCode = getPropertyCode(property.id);
             const message = `Olá! Tenho interesse no imóvel código ${propertyCode} - ${property.title}. Gostaria de receber mais informações. Obrigado!`;
 
             // URL do WhatsApp com mensagem pré-preenchida
@@ -105,7 +106,7 @@ export function PropertyDetailModal({
             // Continue mesmo se houver erro, não queremos bloquear o usuário
 
             // Criar mensagem pré-preenchida para WhatsApp mesmo com erro
-            const propertyCode = property.id.slice(-8).toUpperCase();
+            const propertyCode = getPropertyCode(property.id);
             const message = `Olá! Tenho interesse no imóvel código ${propertyCode} - ${property.title}. Gostaria de receber mais informações. Obrigado!`;
             const phoneNumber = "5548988452578";
             const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
@@ -291,6 +292,13 @@ export function PropertyDetailModal({
                                         <h4 className="font-semibold text-slate-900">Informações Adicionais</h4>
 
                                         <div className="space-y-2 text-sm">
+                                            <div className="flex items-center gap-2">
+                                                <Hash className="h-4 w-4 text-slate-500" />
+                                                <span className="text-slate-600">
+                                                    Código: <span className="font-mono font-semibold text-slate-800">{getPropertyCode(property.id)}</span>
+                                                </span>
+                                            </div>
+
                                             <div className="flex items-center gap-2">
                                                 <Calendar className="h-4 w-4 text-slate-500" />
                                                 <span className="text-slate-600">

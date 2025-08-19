@@ -61,3 +61,12 @@ export async function formatRegionsByIds(regionIds: string[]): Promise<string> {
     return "Todas as regiões";
   }
 }
+
+/**
+ * Gera um código de 8 caracteres a partir do ID do imóvel
+ * @param propertyId - ID completo do imóvel
+ * @returns Código de 8 caracteres em maiúsculas
+ */
+export function getPropertyCode(propertyId: string): string {
+  return propertyId.slice(-8).toUpperCase();
+}
