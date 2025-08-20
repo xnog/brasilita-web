@@ -42,11 +42,11 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Why Choose Us */}
+      {/* Why Choose Us - Diferenciais */}
       <section id="diferenciais" className="bg-muted/30 section-padding">
         <div className="container mx-auto container-padding">
           <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-16">
+            <div className="text-center mb-12">
               <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">
                 Por que escolher a Brasilità?
               </h2>
@@ -76,7 +76,7 @@ export default async function HomePage() {
       </section>
 
       {/* Services Section */}
-      <section id="servicos" className="bg-muted/30 section-padding">
+      <section id="servicos" className="section-padding">
         <div className="container mx-auto container-padding">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">
@@ -160,10 +160,10 @@ export default async function HomePage() {
       </section>
 
       {/* How We Work Section */}
-      <section id="como-funciona" className="section-padding">
+      <section id="como-funciona" className="bg-muted/30 section-padding">
         <div className="container mx-auto container-padding">
           <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-16">
+            <div className="text-center mb-12">
               <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">
                 Como Funciona Nosso Processo
               </h2>
@@ -172,7 +172,7 @@ export default async function HomePage() {
               </p>
             </div>
 
-            <div className="grid lg:grid-cols-3 gap-8 mb-12">
+            <div className="grid lg:grid-cols-3 gap-8 mb-16">
               {/* Step 1 */}
               <div className="professional-card text-center">
                 <div className="w-16 h-16 bg-gradient-to-br from-blue-500/10 to-blue-600/10 rounded-xl flex items-center justify-center mx-auto mb-4">
@@ -211,7 +211,7 @@ export default async function HomePage() {
             </div>
 
             {/* Transparency and Responsibilities */}
-            <div className="grid lg:grid-cols-2 gap-8 mb-8">
+            <div className="grid lg:grid-cols-2 gap-8 mb-12">
               <div className="bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-xl p-6">
                 <div className="flex items-start space-x-3 mb-4">
                   <div className="w-8 h-8 bg-amber-500/10 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
@@ -271,339 +271,52 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Property Possibilities Section */}
-      <section id="possibilidades" className="bg-muted/30 section-padding">
-        <div className="container mx-auto container-padding">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">
-              Possibilidades do Seu Imóvel
-            </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Descubra as diferentes formas de aproveitar e monetizar seu investimento imobiliário na Itália
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-            {/* Airbnb / Short-term Rental */}
-            <div className="professional-card text-center">
-              <div className="w-16 h-16 bg-gradient-to-br from-pink-500/10 to-red-500/10 rounded-xl flex items-center justify-center mx-auto mb-4">
-                <Key className="w-8 h-8 text-pink-600" />
-              </div>
-              <h3 className="text-lg font-semibold mb-3">Aluguel por Temporada</h3>
-              <p className="text-sm text-muted-foreground mb-4">
-                Monetize seu imóvel com aluguéis de curta duração através de plataformas como Airbnb e Booking.com
-              </p>
-              <ul className="text-xs text-muted-foreground space-y-1">
-                <li>• Alta rentabilidade sazonal</li>
-                <li>• Gestão de reservas</li>
-                <li>• Marketing digital</li>
-              </ul>
-            </div>
-
-            {/* Holiday Home */}
-            <div className="professional-card text-center">
-              <div className="w-16 h-16 bg-gradient-to-br from-blue-500/10 to-cyan-500/10 rounded-xl flex items-center justify-center mx-auto mb-4">
-                <Home className="w-8 h-8 text-blue-600" />
-              </div>
-              <h3 className="text-lg font-semibold mb-3">Casa de Férias Pessoal</h3>
-              <p className="text-sm text-muted-foreground mb-4">
-                Tenha seu refúgio particular na Itália para desfrutar com família e amigos
-              </p>
-              <ul className="text-xs text-muted-foreground space-y-1">
-                <li>• Uso exclusivo quando desejar</li>
-                <li>• Manutenção preventiva</li>
-                <li>• Segurança patrimonial</li>
-              </ul>
-            </div>
-
-            {/* Long-term Investment */}
-            <div className="professional-card text-center">
-              <div className="w-16 h-16 bg-gradient-to-br from-green-500/10 to-emerald-500/10 rounded-xl flex items-center justify-center mx-auto mb-4">
-                <TrendingUp className="w-8 h-8 text-green-600" />
-              </div>
-              <h3 className="text-lg font-semibold mb-3">Investimento Longo Prazo</h3>
-              <p className="text-sm text-muted-foreground mb-4">
-                Valorização patrimonial consistente no mercado imobiliário italiano
-              </p>
-              <ul className="text-xs text-muted-foreground space-y-1">
-                <li>• Valorização histórica estável</li>
-                <li>• Diversificação de portfólio</li>
-                <li>• Proteção contra inflação</li>
-              </ul>
-            </div>
-
-            {/* Relocation/Living */}
-            <div className="professional-card text-center">
-              <div className="w-16 h-16 bg-gradient-to-br from-purple-500/10 to-violet-500/10 rounded-xl flex items-center justify-center mx-auto mb-4">
-                <MapPin className="w-8 h-8 text-purple-600" />
-              </div>
-              <h3 className="text-lg font-semibold mb-3">Mudança Definitiva</h3>
-              <p className="text-sm text-muted-foreground mb-4">
-                Realize o sonho de morar na Itália com toda segurança e suporte necessário
-              </p>
-              <ul className="text-xs text-muted-foreground space-y-1">
-                <li>• Assessoria para residência</li>
-                <li>• Suporte com documentação</li>
-                <li>• Integração local</li>
-              </ul>
-            </div>
-
-            {/* Mixed Use */}
-            <div className="professional-card text-center">
-              <div className="w-16 h-16 bg-gradient-to-br from-orange-500/10 to-yellow-500/10 rounded-xl flex items-center justify-center mx-auto mb-4">
-                <Clock className="w-8 h-8 text-orange-600" />
-              </div>
-              <h3 className="text-lg font-semibold mb-3">Uso Misto</h3>
-              <p className="text-sm text-muted-foreground mb-4">
-                Combine uso pessoal com rentabilização nos períodos que não estiver utilizando
-              </p>
-              <ul className="text-xs text-muted-foreground space-y-1">
-                <li>• Flexibilidade total</li>
-                <li>• Otimização de receita</li>
-                <li>• Controle personalizado</li>
-              </ul>
-            </div>
-
-            {/* Legacy/Heritage */}
-            <div className="professional-card text-center">
-              <div className="w-16 h-16 bg-gradient-to-br from-amber-500/10 to-orange-500/10 rounded-xl flex items-center justify-center mx-auto mb-4">
-                <Award className="w-8 h-8 text-amber-600" />
-              </div>
-              <h3 className="text-lg font-semibold mb-3">Patrimônio Familiar</h3>
-              <p className="text-sm text-muted-foreground mb-4">
-                Construa um legado duradouro para as próximas gerações da sua família
-              </p>
-              <ul className="text-xs text-muted-foreground space-y-1">
-                <li>• Herança de valor</li>
-                <li>• Tradição familiar</li>
-                <li>• Cidadania italiana</li>
-              </ul>
-            </div>
-          </div>
-
-
-        </div>
-      </section>
-
-      {/* About Section */}
-      <section id="sobre" className="section-padding">
+      {/* Navigation Cards Section */}
+      <section className="section-padding">
         <div className="container mx-auto container-padding">
           <div className="max-w-6xl mx-auto">
-            {/* Header */}
-            <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-foreground">
-                Sobre a Brasilità
-              </h2>
-              <p className="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-                A ponte entre o sonho brasileiro e a realidade italiana
-              </p>
-            </div>
-
-            {/* Main Story */}
-            <div className="bg-gradient-to-r from-primary/5 via-primary/10 to-primary/5 rounded-2xl p-8 md:p-12 mb-12">
-              <div className="max-w-4xl mx-auto text-center">
-                <div className="w-16 h-16 bg-gradient-to-br from-primary/20 to-primary/30 rounded-xl flex items-center justify-center mx-auto mb-6">
-                  <Award className="w-8 h-8 text-primary" />
-                </div>
-                <h3 className="text-2xl md:text-3xl font-bold mb-6 text-foreground">
-                  Como Nascemos
-                </h3>
-                <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-                  A Brasilità nasceu de um sonho simples, mas desafiador: tornar possível para brasileiros
-                  realizarem o desejo de ter um imóvel na Itália, de forma clara, segura e acessível.
-                </p>
-                <p className="text-muted-foreground leading-relaxed">
-                  Percebemos que muitos desistiam no meio do caminho diante da burocracia, da falta de
-                  informações confiáveis e das diferenças culturais. Foi aí que surgiu a ideia de criar
-                  uma ponte entre o Brasil e a Itália, conectando pessoas que sonham em investir ou morar
-                  no país com quem conhece o mercado local.
-                </p>
-              </div>
-            </div>
-
-            {/* Mission Cards */}
-            <div className="grid md:grid-cols-2 gap-8 mb-12">
-              <div className="professional-card">
-                <div className="flex items-start space-x-4 mb-6">
-                  <div className="w-12 h-12 bg-blue-500/10 rounded-xl flex items-center justify-center flex-shrink-0">
-                    <Users className="w-6 h-6 text-blue-600" />
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-bold text-foreground mb-2">Nossa Missão</h3>
-                    <p className="text-muted-foreground leading-relaxed">
-                      Acompanhar você do início ao fim: desde a busca pelo imóvel até o momento
-                      de receber as chaves, oferecendo suporte completo em todas as etapas.
-                    </p>
-                  </div>
-                </div>
-                <div className="space-y-3">
-                  <div className="flex items-center space-x-3">
-                    <CheckCircle className="feature-icon" />
-                    <span className="text-sm font-medium">Acompanhamento integral</span>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <CheckCircle className="feature-icon" />
-                    <span className="text-sm font-medium">Suporte jurídico especializado</span>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <CheckCircle className="feature-icon" />
-                    <span className="text-sm font-medium">Experiência personalizada</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="professional-card">
-                <div className="flex items-start space-x-4 mb-6">
-                  <div className="w-12 h-12 bg-green-500/10 rounded-xl flex items-center justify-center flex-shrink-0">
-                    <Shield className="w-6 h-6 text-green-600" />
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-bold text-foreground mb-2">Nossos Valores</h3>
-                    <p className="text-muted-foreground leading-relaxed">
-                      Somos mais que uma plataforma: oferecemos confiança, proximidade e dedicação
-                      para que você realize seu sonho sem inseguranças ou burocracias.
-                    </p>
-                  </div>
-                </div>
-                <div className="space-y-3">
-                  <div className="flex items-center space-x-3">
-                    <CheckCircle className="feature-icon" />
-                    <span className="text-sm font-medium">Transparência total</span>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <CheckCircle className="feature-icon" />
-                    <span className="text-sm font-medium">Proximidade e cuidado</span>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <CheckCircle className="feature-icon" />
-                    <span className="text-sm font-medium">Segurança em cada etapa</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Legacy Section */}
-            <div className="text-center bg-muted/30 rounded-xl p-8">
-              <div className="max-w-3xl mx-auto">
-                <h3 className="text-2xl font-bold mb-4 text-foreground">Nosso Legado</h3>
-                <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-                  Nossa essência vem do amor por propriedades que contam histórias e pela honra em fazer parte
-                  da jornada de diversas famílias brasileiras que realizaram o sonho de ter uma casa na Itália.
-                </p>
-                <p className="text-muted-foreground leading-relaxed mb-8">
-                  A Itália é um lugar especial que nos encanta a cada dia. A arte, a culinária, as pessoas,
-                  a música, as paisagens — são muitos os motivos que fizeram da Itália nossa especialidade e paixão.
-                </p>
-                <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <a href="/auth/signin?callbackUrl=/dashboard" className="btn-primary">
-                    Conhecer a Brasilità
-                  </a>
-                  <div className="text-sm text-muted-foreground sm:text-left text-center">
-                    <p className="font-semibold">Atendimento Especializado</p>
-                    <p>Sua jornada italiana começa aqui</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Partners Section */}
-      <section id="parceiros" className="section-padding">
-        <div className="container mx-auto container-padding">
-          <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-16">
+            <div className="text-center mb-12">
               <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">
-                Seja um Parceiro Brasilità
+                Explore Mais
               </h2>
-              <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-                Conectamos brasileiros ao sonho de comprar imóveis na Itália. Buscamos parceiros locais de confiança para realizar visitas, registrar imóveis e apoiar nossos clientes em cada etapa do processo.
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                Descubra tudo sobre nossos serviços e como podemos ajudá-lo
               </p>
             </div>
 
-            <div className="grid lg:grid-cols-2 gap-8 mb-12">
-              {/* Partner Benefits */}
-              <div className="professional-card">
-                <div className="flex items-start space-x-4 mb-6">
-                  <div className="w-12 h-12 bg-green-500/10 rounded-xl flex items-center justify-center flex-shrink-0">
-                    <Users className="w-6 h-6 text-green-600" />
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-bold text-foreground mb-2">Para Profissionais Locais</h3>
-                    <p className="text-muted-foreground leading-relaxed">
-                      Amplie sua rede de clientes e trabalhe com brasileiros interessados em investir no mercado italiano.
-                    </p>
-                  </div>
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {/* Possibilities Card */}
+              <a href="/possibilities" className="professional-card text-center hover:scale-105 transition-transform">
+                <div className="w-16 h-16 bg-gradient-to-br from-pink-500/10 to-red-500/10 rounded-xl flex items-center justify-center mx-auto mb-4">
+                  <Key className="w-8 h-8 text-pink-600" />
                 </div>
-                <div className="space-y-3">
-                  <div className="flex items-center space-x-3">
-                    <CheckCircle className="feature-icon" />
-                    <span className="text-sm font-medium">Clientes pré-qualificados</span>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <CheckCircle className="feature-icon" />
-                    <span className="text-sm font-medium">Suporte na comunicação</span>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <CheckCircle className="feature-icon" />
-                    <span className="text-sm font-medium">Processos organizados</span>
-                  </div>
-                </div>
-              </div>
+                <h3 className="text-lg font-semibold mb-2">Possibilidades</h3>
+                <p className="text-sm text-muted-foreground">Descubra as diferentes formas de aproveitar seu imóvel</p>
+              </a>
 
-              {/* What We Look For */}
-              <div className="professional-card">
-                <div className="flex items-start space-x-4 mb-6">
-                  <div className="w-12 h-12 bg-blue-500/10 rounded-xl flex items-center justify-center flex-shrink-0">
-                    <Shield className="w-6 h-6 text-blue-600" />
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-bold text-foreground mb-2">O que Procuramos</h3>
-                    <p className="text-muted-foreground leading-relaxed">
-                      Profissionais comprometidos com excelência no atendimento e conhecimento do mercado local.
-                    </p>
-                  </div>
+              <a href="/about" className="professional-card text-center hover:scale-105 transition-transform">
+                <div className="w-16 h-16 bg-gradient-to-br from-blue-500/10 to-blue-600/10 rounded-xl flex items-center justify-center mx-auto mb-4">
+                  <Award className="w-8 h-8 text-blue-600" />
                 </div>
-                <div className="space-y-3">
-                  <div className="flex items-center space-x-3">
-                    <CheckCircle className="feature-icon" />
-                    <span className="text-sm font-medium">Cidadania italiana ou permesso di soggiorno</span>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <CheckCircle className="feature-icon" />
-                    <span className="text-sm font-medium">Experiência no mercado imobiliário</span>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <CheckCircle className="feature-icon" />
-                    <span className="text-sm font-medium">Comprometimento e confiabilidade</span>
-                  </div>
-                </div>
-              </div>
-            </div>
+                <h3 className="text-lg font-semibold mb-2">Sobre Nós</h3>
+                <p className="text-sm text-muted-foreground">Nossa história e equipe especializada</p>
+              </a>
 
-            {/* CTA */}
-            <div className="text-center bg-gradient-to-r from-primary/5 via-primary/10 to-primary/5 rounded-xl p-8">
-              <div className="max-w-3xl mx-auto">
-                <h3 className="text-2xl font-bold mb-4 text-foreground">Cadastre-se como Parceiro</h3>
-                <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-                  Faça parte da nossa rede de parceiros e ajude brasileiros a realizarem o sonho de ter um imóvel na Itália.
-                </p>
-                <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <a
-                    href="https://forms.gle/sZT1iTmyxWU19wr48"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center px-8 py-3 rounded-lg bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105"
-                  >
-                    <Users className="w-4 h-4 mr-2" />
-                    Tornar-se Parceiro
-                  </a>
+              <a href="/partners" className="professional-card text-center hover:scale-105 transition-transform">
+                <div className="w-16 h-16 bg-gradient-to-br from-green-500/10 to-green-600/10 rounded-xl flex items-center justify-center mx-auto mb-4">
+                  <Users className="w-8 h-8 text-green-600" />
                 </div>
-                <p className="text-sm text-muted-foreground mt-4">
-                  Preencha nosso formulário e conte sobre você e seus serviços
-                </p>
-              </div>
+                <h3 className="text-lg font-semibold mb-2">Parceiros</h3>
+                <p className="text-sm text-muted-foreground">Faça parte da nossa rede de profissionais</p>
+              </a>
+
+              <a href="/contact" className="professional-card text-center hover:scale-105 transition-transform">
+                <div className="w-16 h-16 bg-gradient-to-br from-purple-500/10 to-purple-600/10 rounded-xl flex items-center justify-center mx-auto mb-4">
+                  <Mail className="w-8 h-8 text-purple-600" />
+                </div>
+                <h3 className="text-lg font-semibold mb-2">Fale Conosco</h3>
+                <p className="text-sm text-muted-foreground">Tire suas dúvidas e comece agora</p>
+              </a>
             </div>
           </div>
         </div>
@@ -617,68 +330,15 @@ export default async function HomePage() {
               Pronto para realizar seu sonho italiano?
             </h2>
             <p className="text-lg text-muted-foreground mb-8">
-              Agende uma consulta gratuita e descubra como podemos ajudá-lo a investir no mercado imobiliário italiano
+              Entre em contato conosco e descubra como podemos ajudá-lo a investir no mercado imobiliário italiano
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a href="/auth/signin?callbackUrl=/dashboard" className="btn-primary">
-                Consulta Gratuita
+                Começar Agora
               </a>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Contact Section */}
-      <section id="contato" className="section-padding">
-        <div className="container mx-auto container-padding">
-          <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">
-                Entre em Contato
-              </h2>
-              <p className="text-lg text-muted-foreground">
-                Estamos aqui para responder suas dúvidas e ajudá-lo em cada etapa
-              </p>
-            </div>
-
-            <div className="grid lg:grid-cols-2 gap-8">
-              <div className="professional-card text-center">
-                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Mail className="h-8 w-8 text-primary" />
-                </div>
-                <h3 className="text-xl font-semibold mb-2">Email</h3>
-                <p className="text-muted-foreground mb-4">Envie sua dúvida ou solicitação</p>
-                <a href="mailto:contato@brasilita.com" className="text-primary font-medium hover:underline">
-                  contato@brasilita.com
-                </a>
-              </div>
-
-              <div className="professional-card text-center">
-                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <MapPin className="h-8 w-8 text-primary" />
-                </div>
-                <h3 className="text-xl font-semibold mb-2">Experiência</h3>
-                <p className="text-muted-foreground mb-4">Profundo conhecimento do mercado</p>
-                <p className="text-primary font-medium">
-                  Assessoria especializada
-                </p>
-              </div>
-            </div>
-
-            <div className="mt-16 text-center">
-              <div className="bg-muted/30 rounded-xl p-8 max-w-2xl mx-auto">
-                <h3 className="text-xl font-bold mb-4 text-foreground">Horário de Atendimento</h3>
-                <div className="grid md:grid-cols-2 gap-4 text-sm">
-                  <div>
-                    <p className="font-medium">Segunda a Sexta</p>
-                    <p className="text-muted-foreground">09:00 - 18:00 (CET)</p>
-                  </div>
-                  <div>
-                    <p className="font-medium">Sábados</p>
-                    <p className="text-muted-foreground">09:00 - 13:00 (CET)</p>
-                  </div>
-                </div>
-              </div>
+              <a href="/contact" className="btn-secondary">
+                Fale Conosco
+              </a>
             </div>
           </div>
         </div>
@@ -708,10 +368,12 @@ export default async function HomePage() {
             </div>
 
             <div>
-              <h4 className="font-semibold mb-4 text-foreground">Serviços</h4>
+              <h4 className="font-semibold mb-4 text-foreground">Navegação</h4>
               <ul className="space-y-2 text-sm text-muted-foreground">
-                <li><a href="#servicos" className="hover:text-foreground transition-colors">Compra de Imóveis</a></li>
-                <li><a href="#servicos" className="hover:text-foreground transition-colors">Aluguel Longo Prazo</a></li>
+                <li><a href="/possibilities" className="hover:text-foreground transition-colors">Possibilidades</a></li>
+                <li><a href="/about" className="hover:text-foreground transition-colors">Sobre</a></li>
+                <li><a href="/partners" className="hover:text-foreground transition-colors">Parceiros</a></li>
+                <li><a href="/contact" className="hover:text-foreground transition-colors">Contato</a></li>
               </ul>
             </div>
 
@@ -723,8 +385,8 @@ export default async function HomePage() {
                     contato@brasilita.com
                   </a>
                 </li>
+                <li><a href="/contact" className="hover:text-foreground transition-colors">Página de Contato</a></li>
                 <li>Segunda a Sexta: 09:00 - 18:00 CET</li>
-                <li>Sábado: 09:00 - 13:00 CET</li>
               </ul>
             </div>
 

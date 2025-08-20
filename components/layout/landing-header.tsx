@@ -1,5 +1,12 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/ui/logo";
+import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
+import { Menu } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface LandingHeaderProps {
     session?: {
@@ -11,67 +18,135 @@ interface LandingHeaderProps {
     } | null;
 }
 
+const navigationItems = [
+    {
+        name: "Possibilidades",
+        href: "/possibilities",
+    },
+    {
+        name: "Sobre",
+        href: "/about",
+    },
+    {
+        name: "Parceiros",
+        href: "/partners",
+    },
+    {
+        name: "Contato",
+        href: "/contact",
+    },
+];
+
 export function LandingHeader({ session }: LandingHeaderProps) {
+    const pathname = usePathname();
+
     return (
         <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
             <div className="w-full container-padding flex h-14 items-center">
-                {/* Logo Section - Same style as authenticated header */}
-                <div className="mr-6 flex">
-                    <Link href="/" className="flex items-center space-x-2">
-                        <Logo className="h-6 w-6" size={24} />
-                        <span className="hidden font-bold sm:inline-block">
-                            Brasilità
-                        </span>
-                    </Link>
+                {/* Mobile Menu */}
+                <Sheet>
+                    <SheetTrigger asChild>
+                        <Button
+                            variant="ghost"
+                            className="mr-2 px-0 text-base hover:bg-transparent focus-visible:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 lg:hidden"
+                        >
+                            <Menu className="h-5 w-5" />
+                            <span className="sr-only">Toggle Menu</span>
+                        </Button>
+                    </SheetTrigger>
+                    <SheetContent side="left" className="pr-0 pt-6">
+                        <SheetTitle className="sr-only">Menu de navegação</SheetTitle>
+                        <div className="px-6 pb-4">
+                            <Link
+                                href="/"
+                                className="flex items-center space-x-2"
+                            >
+                                <Logo className="h-6 w-6" size={24} />
+                                <span className="font-bold">Brasilità</span>
+                            </Link>
+                        </div>
+                        <div className="px-6 pb-10">
+                            <div className="flex flex-col space-y-3">
+                                <Link
+                                    href="/"
+                                    className={cn(
+                                        "transition-colors hover:text-foreground/80",
+                                        pathname === "/" ? "text-foreground" : "text-foreground/60"
+                                    )}
+                                >
+                                    Início
+                                </Link>
+                                {navigationItems.map((item) => {
+                                    const isActive = pathname === item.href;
+                                    return (
+                                        <Link
+                                            key={item.href}
+                                            href={item.href}
+                                            className={cn(
+                                                "transition-colors hover:text-foreground/80",
+                                                isActive ? "text-foreground" : "text-foreground/60"
+                                            )}
+                                        >
+                                            {item.name}
+                                        </Link>
+                                    );
+                                })}
+                                {!session && (
+                                    <Link
+                                        href="/auth/signin"
+                                        className="transition-colors hover:text-foreground/80 text-foreground/60"
+                                    >
+                                        Entrar
+                                    </Link>
+                                )}
+                            </div>
+                        </div>
+                    </SheetContent>
+                </Sheet>
+
+                {/* Left side - Logo and Navigation */}
+                <div className="hidden lg:flex items-center">
+                    {/* Logo */}
+                    <div className="mr-6">
+                        <Link href="/" className="flex items-center space-x-2">
+                            <Logo className="h-6 w-6" size={24} />
+                            <span className="hidden font-bold sm:inline-block">
+                                Brasilità
+                            </span>
+                        </Link>
+                    </div>
+
+                    {/* Navigation */}
+                    <nav className="flex items-center space-x-5 text-sm font-medium">
+                        <Link
+                            href="/"
+                            className={cn(
+                                "transition-colors hover:text-foreground/80",
+                                pathname === "/" ? "text-foreground" : "text-foreground/60"
+                            )}
+                        >
+                            Início
+                        </Link>
+                        {navigationItems.map((item) => {
+                            const isActive = pathname === item.href;
+                            return (
+                                <Link
+                                    key={item.href}
+                                    href={item.href}
+                                    className={cn(
+                                        "transition-colors hover:text-foreground/80",
+                                        isActive ? "text-foreground" : "text-foreground/60"
+                                    )}
+                                >
+                                    {item.name}
+                                </Link>
+                            );
+                        })}
+                    </nav>
                 </div>
 
-                {/* Right side - Navigation and auth buttons */}
+                {/* Right side - Auth buttons only */}
                 <div className="flex flex-1 items-center justify-end">
-                    {/* Navigation - Same style as authenticated header */}
-                    <nav className="hidden lg:flex items-center space-x-5 text-sm font-medium mr-6">
-                        <a
-                            href="#diferenciais"
-                            className="transition-colors hover:text-foreground/80 text-foreground/60"
-                        >
-                            Diferenciais
-                        </a>
-                        <a
-                            href="#servicos"
-                            className="transition-colors hover:text-foreground/80 text-foreground/60"
-                        >
-                            Serviços
-                        </a>
-                        <a
-                            href="#como-funciona"
-                            className="transition-colors hover:text-foreground/80 text-foreground/60"
-                        >
-                            Como Funciona
-                        </a>
-                        <a
-                            href="#possibilidades"
-                            className="transition-colors hover:text-foreground/80 text-foreground/60"
-                        >
-                            Possibilidades
-                        </a>
-                        <a
-                            href="#sobre"
-                            className="transition-colors hover:text-foreground/80 text-foreground/60"
-                        >
-                            Sobre
-                        </a>
-                        <a
-                            href="#parceiros"
-                            className="transition-colors hover:text-foreground/80 text-foreground/60"
-                        >
-                            Parceiros
-                        </a>
-                        <a
-                            href="#contato"
-                            className="transition-colors hover:text-foreground/80 text-foreground/60"
-                        >
-                            Contato
-                        </a>
-                    </nav>
 
                     {/* Auth buttons - Same spacing as navigation items */}
                     {session ? (
