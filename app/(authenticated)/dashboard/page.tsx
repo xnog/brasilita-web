@@ -1,4 +1,5 @@
 import { auth } from "@/lib/auth";
+import Link from "next/link";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { User, CheckSquare, ArrowRight, Home, Search, Settings, Handshake, Heart, HelpCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -151,7 +152,7 @@ export default async function DashboardPage() {
                                 <div className="flex items-center gap-3">
                                     <Heart className="h-5 w-5 text-blue-600" />
                                     <div>
-                                        <p className="text-2xl font-bold">{propertyInterests}</p>
+                                        <p className="text-2xl font-bold text-blue-600">{propertyInterests}</p>
                                         <p className="text-xs text-muted-foreground">imóveis favoritos</p>
                                     </div>
                                 </div>
@@ -197,11 +198,11 @@ export default async function DashboardPage() {
                                 </p>
                             </div>
                             <Button size="lg" className="shrink-0 bg-green-600 hover:bg-green-700" asChild>
-                                <a href="/properties">
+                                <Link href="/properties">
                                     <Search className="h-4 w-4 mr-2" />
                                     Ver Imóveis
                                     <ArrowRight className="h-4 w-4 ml-2" />
-                                </a>
+                                </Link>
                             </Button>
                         </div>
                     </CardContent>

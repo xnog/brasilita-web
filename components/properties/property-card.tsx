@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useMemo } from "react";
 import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -34,24 +34,31 @@ export function PropertyCard({ property, onToggleInterest }: PropertyCardProps) 
     const [isDragging, setIsDragging] = useState(false);
     const imageContainerRef = useRef<HTMLDivElement>(null);
 
-    const images = property.images
-        ? (typeof property.images === 'string' ? JSON.parse(property.images) : property.images)
-        : [];
-    const features = property.features
-        ? (typeof property.features === 'string' ? JSON.parse(property.features) : property.features)
-        : [];
-    const currentImage = images[currentImageIndex] || '/api/placeholder/400/300';
+    // Memoizar parsing de JSON para evitar re-processing
+    const images = useMemo(() => {
+        if (!property.images) return [];
+        return typeof property.images === 'string' ? JSON.parse(property.images) : property.images;
+    }, [property.images]);
+
+    const features = useMemo(() => {
+        if (!property.features) return [];
+        return typeof property.features === 'string' ? JSON.parse(property.features) : property.features;
+    }, [property.features]);
+
+    const currentImage = useMemo(() => {
+        return images[currentImageIndex] || '/api/placeholder/400/300';
+    }, [images, currentImageIndex]);
 
 
 
-    const formatPrice = (price: number) => {
+    const formattedPrice = useMemo(() => {
         return new Intl.NumberFormat('pt-BR', {
             style: 'currency',
             currency: 'EUR',
             minimumFractionDigits: 0,
             maximumFractionDigits: 0,
-        }).format(price);
-    };
+        }).format(property.price);
+    }, [property.price]);
 
 
 
@@ -181,7 +188,7 @@ export function PropertyCard({ property, onToggleInterest }: PropertyCardProps) 
                     <div className="absolute bottom-4 left-4">
                         <div className="bg-white/95 backdrop-blur-sm rounded-lg px-3 py-2">
                             <div className="text-2xl font-bold text-emerald-600">
-                                {formatPrice(property.price)}
+                                {formattedPrice}
                             </div>
                         </div>
                     </div>
