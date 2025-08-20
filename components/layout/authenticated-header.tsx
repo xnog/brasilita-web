@@ -13,7 +13,7 @@ import { signOut } from "next-auth/react";
 
 const navigationItems = [
     {
-        name: "Dashboard",
+        name: "Minha Área",
         href: "/dashboard",
     },
     {
