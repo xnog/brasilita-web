@@ -56,17 +56,23 @@ export default async function HomePage() {
             </div>
             <div className="grid md:grid-cols-3 gap-6">
               <div className="professional-card text-center">
-                <Globe className="w-12 h-12 text-primary mx-auto mb-4" />
+                <div className="w-16 h-16 bg-gradient-to-br from-blue-500/10 to-blue-600/10 rounded-xl flex items-center justify-center mx-auto mb-4">
+                  <Globe className="w-8 h-8 text-blue-600" />
+                </div>
                 <h3 className="text-lg font-semibold mb-2">Expertise Local</h3>
                 <p className="text-sm text-muted-foreground">Profundo conhecimento do mercado e assessoria especializada</p>
               </div>
               <div className="professional-card text-center">
-                <Users className="w-12 h-12 text-primary mx-auto mb-4" />
+                <div className="w-16 h-16 bg-gradient-to-br from-green-500/10 to-green-600/10 rounded-xl flex items-center justify-center mx-auto mb-4">
+                  <Users className="w-8 h-8 text-green-600" />
+                </div>
                 <h3 className="text-lg font-semibold mb-2">Em Português</h3>
                 <p className="text-sm text-muted-foreground">Atendimento personalizado e discreto em português brasileiro</p>
               </div>
               <div className="professional-card text-center">
-                <TrendingUp className="w-12 h-12 text-primary mx-auto mb-4" />
+                <div className="w-16 h-16 bg-gradient-to-br from-purple-500/10 to-purple-600/10 rounded-xl flex items-center justify-center mx-auto mb-4">
+                  <TrendingUp className="w-8 h-8 text-purple-600" />
+                </div>
                 <h3 className="text-lg font-semibold mb-2">ROI Otimizado</h3>
                 <p className="text-sm text-muted-foreground">Estratégias personalizadas para maximizar seu retorno</p>
               </div>
@@ -212,14 +218,14 @@ export default async function HomePage() {
 
             {/* Transparency and Responsibilities */}
             <div className="grid lg:grid-cols-2 gap-8 mb-12">
-              <div className="bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-xl p-6">
+              <div className="professional-card">
                 <div className="flex items-start space-x-3 mb-4">
-                  <div className="w-8 h-8 bg-amber-500/10 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
-                    <Shield className="w-5 h-5 text-amber-600" />
+                  <div className="w-12 h-12 bg-gradient-to-br from-amber-500/10 to-amber-600/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                    <Shield className="w-6 h-6 text-amber-600" />
                   </div>
-                  <h3 className="text-lg font-bold text-amber-900">Transparência e Responsabilidades</h3>
+                  <h3 className="text-lg font-bold text-foreground">Transparência e Responsabilidades</h3>
                 </div>
-                <div className="space-y-3 text-amber-800 text-sm">
+                <div className="space-y-3 text-muted-foreground text-sm">
                   <p className="leading-relaxed">
                     • A Brasilità não realiza transações financeiras, não retém valores e não intermedia juridicamente compra e venda.
                   </p>
@@ -232,14 +238,14 @@ export default async function HomePage() {
                 </div>
               </div>
 
-              <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-xl p-6">
+              <div className="professional-card">
                 <div className="flex items-start space-x-3 mb-4">
-                  <div className="w-8 h-8 bg-blue-500/10 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
-                    <Clock className="w-5 h-5 text-blue-600" />
+                  <div className="w-12 h-12 bg-gradient-to-br from-blue-500/10 to-blue-600/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                    <Clock className="w-6 h-6 text-blue-600" />
                   </div>
-                  <h3 className="text-lg font-bold text-blue-900">Prazos e Dinâmica de Mercado</h3>
+                  <h3 className="text-lg font-bold text-foreground">Prazos e Dinâmica de Mercado</h3>
                 </div>
-                <div className="space-y-3 text-blue-800 text-sm">
+                <div className="space-y-3 text-muted-foreground text-sm">
                   <p className="leading-relaxed">
                     • Encontrar e concluir a compra pode levar de 3 meses a 1 ano.
                   </p>

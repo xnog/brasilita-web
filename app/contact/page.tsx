@@ -31,8 +31,8 @@ export default async function ContactPage() {
                     <div className="max-w-6xl mx-auto">
                         <div className="grid lg:grid-cols-2 gap-8 mb-16">
                             <div className="professional-card text-center">
-                                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                                    <Mail className="h-8 w-8 text-primary" />
+                                <div className="w-16 h-16 bg-gradient-to-br from-blue-500/10 to-blue-600/10 rounded-xl flex items-center justify-center mx-auto mb-4">
+                                    <Mail className="h-8 w-8 text-blue-600" />
                                 </div>
                                 <h3 className="text-xl font-semibold mb-2">Email</h3>
                                 <p className="text-muted-foreground mb-4">Envie sua dúvida ou solicitação</p>
@@ -42,8 +42,8 @@ export default async function ContactPage() {
                             </div>
 
                             <div className="professional-card text-center">
-                                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                                    <MapPin className="h-8 w-8 text-primary" />
+                                <div className="w-16 h-16 bg-gradient-to-br from-green-500/10 to-green-600/10 rounded-xl flex items-center justify-center mx-auto mb-4">
+                                    <MapPin className="h-8 w-8 text-green-600" />
                                 </div>
                                 <h3 className="text-xl font-semibold mb-2">Experiência</h3>
                                 <p className="text-muted-foreground mb-4">Profundo conhecimento do mercado</p>
