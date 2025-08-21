@@ -73,6 +73,19 @@ export function PropertyDetailContent({
         }
     };
 
+    const openWhatsApp = (propertyCode: string, message: string) => {
+        const phoneNumber = "5548988452578";
+        const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+
+        // Tentar abrir em nova aba primeiro
+        const newWindow = window.open(whatsappUrl, '_blank');
+
+        // Se o popup foi bloqueado, usar redirecionamento direto
+        if (!newWindow || newWindow.closed || typeof newWindow.closed === 'undefined') {
+            window.location.href = whatsappUrl;
+        }
+    };
+
     const handleProceedToNegotiation = async () => {
         setLoading(true);
         try {
@@ -100,12 +113,8 @@ export function PropertyDetailContent({
             const propertyCode = getPropertyCode(property.id);
             const message = `Olá! Tenho interesse no imóvel código ${propertyCode} - ${property.title}. Gostaria de receber mais informações. Obrigado!`;
 
-            // URL do WhatsApp com mensagem pré-preenchida
-            const phoneNumber = "5548988452578";
-            const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-
-            // Abrir WhatsApp em nova aba
-            window.open(whatsappUrl, '_blank');
+            // Abrir WhatsApp com fallback para bloqueio de popup
+            openWhatsApp(propertyCode, message);
 
         } catch (error) {
             console.error('Erro ao registrar interesse:', error);
@@ -114,9 +123,9 @@ export function PropertyDetailContent({
             // Criar mensagem pré-preenchida para WhatsApp mesmo com erro
             const propertyCode = getPropertyCode(property.id);
             const message = `Olá! Tenho interesse no imóvel código ${propertyCode} - ${property.title}. Gostaria de receber mais informações. Obrigado!`;
-            const phoneNumber = "5548988452578";
-            const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-            window.open(whatsappUrl, '_blank');
+
+            // Abrir WhatsApp com fallback para bloqueio de popup
+            openWhatsApp(propertyCode, message);
         } finally {
             setLoading(false);
         }
@@ -345,6 +354,25 @@ export function PropertyDetailContent({
                                                         Continue a conversa por lá para receber todas as informações
                                                         sobre este imóvel e dar os próximos passos.
                                                     </p>
+
+                                                    <div className="p-4 bg-emerald-100 rounded-lg border border-emerald-300">
+                                                        <p className="text-sm font-medium text-emerald-800 mb-2">
+                                                            📱 Se o WhatsApp não abrir automaticamente:
+                                                        </p>
+                                                        <div className="flex items-center justify-center gap-2">
+                                                            <span className="text-emerald-700 font-semibold">
+                                                                +55 48 98845-2578
+                                                            </span>
+                                                            <button
+                                                                onClick={() => navigator.clipboard.writeText('+5548988452578')}
+                                                                className="text-xs bg-emerald-200 hover:bg-emerald-300 text-emerald-800 px-2 py-1 rounded transition-colors"
+                                                                title="Copiar número"
+                                                            >
+                                                                Copiar
+                                                            </button>
+                                                        </div>
+                                                    </div>
+
                                                     <p>
                                                         Você pode acompanhar seus imóveis de interesse acessando o{" "}
                                                         <a

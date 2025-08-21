@@ -20,8 +20,23 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Brasilità - Seu imóvel na Itália",
     description: "Assessoria completa para brasileiros que desejam investir no mercado imobiliário italiano",
-    images: ["/logo.svg"],
+    siteName: "Brasilità",
+    type: "website",
+    images: [
+      {
+        url: "/logo.svg",
+        width: 800,
+        height: 600,
+        alt: "Brasilità - Seu imóvel na Itália"
+      }
+    ],
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "Brasilità - Seu imóvel na Itália",
+    description: "Assessoria completa para brasileiros que desejam investir no mercado imobiliário italiano",
+    images: ["/logo.svg"]
+  }
 };
 
 export default function RootLayout({

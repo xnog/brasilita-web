@@ -75,15 +75,35 @@ export async function generateMetadata({ params }: PropertyDetailPageProps) {
         };
     }
 
+    const propertyImages = property.images
+        ? (typeof property.images === 'string' ? JSON.parse(property.images) : property.images)
+        : [];
+
     return {
-        title: `${property.title} - Brasilita`,
+        title: `${property.title} - Brasilità`,
         description: property.description || `${property.title} em ${property.location}, ${property.region?.name || 'Itália'}. €${property.price.toLocaleString()}.`,
         openGraph: {
-            title: property.title,
+            title: `${property.title} - Brasilità`,
+            description: property.description || `Propriedade em ${property.location}, ${property.region?.name || 'Itália'}. €${property.price.toLocaleString()}.`,
+            siteName: "Brasilità",
+            type: "website",
+            images: [
+                // Primeira imagem do imóvel se disponível
+                ...(propertyImages.length > 0 ? [propertyImages[0]] : []),
+                // Logo da Brasilità como fallback
+                {
+                    url: "/logo.svg",
+                    width: 800,
+                    height: 600,
+                    alt: "Brasilità - Seu imóvel na Itália"
+                }
+            ]
+        },
+        twitter: {
+            card: "summary_large_image",
+            title: `${property.title} - Brasilità`,
             description: property.description || `Propriedade em ${property.location}`,
-            images: property.images
-                ? (typeof property.images === 'string' ? JSON.parse(property.images) : property.images).slice(0, 1)
-                : []
+            images: propertyImages.length > 0 ? [propertyImages[0]] : ["/logo.svg"]
         }
     };
 }
