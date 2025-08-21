@@ -5,9 +5,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
 
 import { MultiSelector, MultiSelectorContent, MultiSelectorInput, MultiSelectorItem, MultiSelectorList, MultiSelectorTrigger } from "@/components/extension/multi-select";
-import { Filter, X, ChevronDown, ChevronUp, Heart, RotateCcw, ThumbsUp } from "lucide-react";
+import { Filter, X, ChevronDown, ChevronUp, Heart, RotateCcw, ThumbsUp, Home } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Region } from "@/lib/db/schema";
 
@@ -23,6 +24,7 @@ export interface PropertyFilters {
     areaMax?: number;
     location?: string;
     favoritesOnly?: boolean;
+    isRented?: boolean;
     page?: number;
     limit?: number;
     sortBy?: 'price' | 'area' | 'createdAt';
@@ -326,18 +328,31 @@ export function PropertyFilters({
                             </div>
                         </div>
 
-                        {/* Favorites Filter */}
-                        <div className="space-y-2">
-                            <Label className="text-xs font-medium text-slate-600 tracking-wide">Apenas favoritos</Label>
-                            <Button
-                                variant={localFilters.favoritesOnly ? "default" : "outline"}
-                                onClick={() => handleFilterChange('favoritesOnly', !localFilters.favoritesOnly)}
-                                disabled={isLoading}
-                                className="w-full h-9 justify-start"
-                            >
-                                <ThumbsUp className={`h-4 w-4 mr-2 ${localFilters.favoritesOnly ? 'fill-current' : ''}`} />
-                                {localFilters.favoritesOnly ? "Sim" : "Não"}
-                            </Button>
+                        {/* Boolean Filters Row */}
+                        <div className="flex gap-6">
+                            <div className="flex items-center space-x-2">
+                                <Switch
+                                    id="favorites"
+                                    checked={localFilters.favoritesOnly || false}
+                                    onCheckedChange={(checked) => handleFilterChange('favoritesOnly', checked)}
+                                    disabled={isLoading}
+                                />
+                                <Label htmlFor="favorites" className="text-sm font-medium cursor-pointer">
+                                    Apenas favoritos
+                                </Label>
+                            </div>
+
+                            <div className="flex items-center space-x-2">
+                                <Switch
+                                    id="rented"
+                                    checked={localFilters.isRented || false}
+                                    onCheckedChange={(checked) => handleFilterChange('isRented', checked)}
+                                    disabled={isLoading}
+                                />
+                                <Label htmlFor="rented" className="text-sm font-medium cursor-pointer">
+                                    Apenas alugados
+                                </Label>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -16,6 +16,7 @@ interface PropertyFilters {
     areaMax?: number;
     location?: string;
     favoritesOnly?: boolean;
+    isRented?: boolean;
     page?: number;
     limit?: number;
     sortBy?: 'price' | 'area' | 'createdAt';
@@ -44,6 +45,7 @@ export async function GET(request: NextRequest) {
             areaMax: searchParams.get('areaMax') ? parseInt(searchParams.get('areaMax')!) : undefined,
             location: searchParams.get('location') || undefined,
             favoritesOnly: searchParams.get('favoritesOnly') === 'true',
+            isRented: searchParams.get('isRented') ? searchParams.get('isRented') === 'true' : undefined,
             page: Math.max(1, parseInt(searchParams.get('page') || '1')),
             limit: Math.min(50, Math.max(10, parseInt(searchParams.get('limit') || '20'))), // Max 50 per page
             sortBy: (searchParams.get('sortBy') as 'price' | 'area' | 'createdAt') || 'createdAt',
@@ -95,6 +97,10 @@ export async function GET(request: NextRequest) {
 
         if (appliedFilters.location) {
             whereConditions.push(ilike(properties.location, `%${appliedFilters.location}%`));
+        }
+
+        if (appliedFilters.isRented !== undefined) {
+            whereConditions.push(eq(properties.isRented, appliedFilters.isRented));
         }
 
         const whereClause = whereConditions.length > 1 ? and(...whereConditions) : whereConditions[0];
@@ -204,6 +210,7 @@ export async function GET(request: NextRequest) {
                 areaMax: appliedFilters.areaMax,
                 location: appliedFilters.location,
                 favoritesOnly: appliedFilters.favoritesOnly,
+                isRented: appliedFilters.isRented,
                 sortBy: appliedFilters.sortBy,
                 sortOrder: appliedFilters.sortOrder
             },
