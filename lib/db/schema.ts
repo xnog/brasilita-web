@@ -1,4 +1,4 @@
-import { pgTable, text, timestamp, integer, primaryKey, boolean, unique, jsonb } from "drizzle-orm/pg-core";
+import { pgTable, text, timestamp, integer, primaryKey, boolean, unique, jsonb, decimal } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 import type { AdapterAccountType } from "next-auth/adapters";
 
@@ -197,8 +197,8 @@ export const properties = pgTable("property", {
     features: jsonb("features"), // JSON array of features
     images: jsonb("images"), // JSON array of image URLs
     originalUrl: text("originalUrl").unique(), // URL of the original property listing
-    latitude: text("latitude"), // GPS latitude coordinate
-    longitude: text("longitude"), // GPS longitude coordinate
+    latitude: decimal("latitude", { precision: 9, scale: 6 }), // GPS latitude coordinate
+    longitude: decimal("longitude", { precision: 9, scale: 6 }), // GPS longitude coordinate
     isAvailable: boolean("isAvailable").default(true),
     isRented: boolean("isRented").default(false),
     createdAt: timestamp("createdAt", { mode: "date" }).defaultNow(),
