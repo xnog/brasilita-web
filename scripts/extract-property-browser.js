@@ -268,6 +268,28 @@
             return false;
         }
 
+        // ========== EXTRAÇÃO DE COORDENADAS ==========
+        extractCoordinates() {
+            let latitude = null;
+            let longitude = null;
+
+            // 1. Buscar no config.multimediaCarrousel.map.src
+            if (window.config && window.config.multimediaCarrousel && window.config.multimediaCarrousel.map) {
+                const mapSrc = window.config.multimediaCarrousel.map.src;
+                if (mapSrc) {
+                    // Extrair coordenadas do link do Google Maps
+                    // Formato: center=45.81774160%2C9.53456340
+                    const centerMatch = mapSrc.match(/center=([0-9.-]+)%2C([0-9.-]+)/);
+                    if (centerMatch) {
+                        latitude = parseFloat(centerMatch[1]);
+                        longitude = parseFloat(centerMatch[2]);
+                    }
+                }
+            }
+
+            return { latitude, longitude };
+        }
+
         // ========== EXTRAÇÃO DE IMAGENS ==========
         extractImages() {
             const images = [];
@@ -302,6 +324,7 @@
         // ========== FUNÇÃO PRINCIPAL DE EXTRAÇÃO ==========
         extractProperty() {
             const now = new Date().toISOString().split('T')[0];
+            const coordinates = this.extractCoordinates();
 
             return {
                 title: this.extractTitle(),
@@ -313,6 +336,8 @@
                 area: this.extractArea(),
                 features: this.extractFeatures(),
                 images: this.extractImages(),
+                latitude: coordinates.latitude,
+                longitude: coordinates.longitude,
                 isRented: this.extractIsRented(),
                 isAvailable: true,
                 originalUrl: window.location.href,

@@ -197,6 +197,8 @@ export const properties = pgTable("property", {
     features: jsonb("features"), // JSON array of features
     images: jsonb("images"), // JSON array of image URLs
     originalUrl: text("originalUrl").unique(), // URL of the original property listing
+    latitude: text("latitude"), // GPS latitude coordinate
+    longitude: text("longitude"), // GPS longitude coordinate
     isAvailable: boolean("isAvailable").default(true),
     isRented: boolean("isRented").default(false),
     createdAt: timestamp("createdAt", { mode: "date" }).defaultNow(),

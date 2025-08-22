@@ -175,8 +175,12 @@ export function PropertyFilters({
                                 value={`${localFilters.sortBy || 'createdAt'}-${localFilters.sortOrder || 'desc'}`}
                                 onValueChange={(value) => {
                                     const [sortBy, sortOrder] = value.split('-');
-                                    handleFilterChange('sortBy', sortBy as 'price' | 'area' | 'createdAt');
-                                    handleFilterChange('sortOrder', sortOrder as 'asc' | 'desc');
+                                    const newFilters = { 
+                                        ...localFilters, 
+                                        sortBy: sortBy as 'price' | 'area' | 'createdAt',
+                                        sortOrder: sortOrder as 'asc' | 'desc'
+                                    };
+                                    setLocalFilters(newFilters);
                                 }}
                                 disabled={isLoading}
                             >

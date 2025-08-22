@@ -177,7 +177,7 @@ export function PropertyList({ userPreferences: initialUserPreferences, regions 
         return (
             <div className="space-y-6">
                 <PropertyFilters
-                    filters={filters}
+                    filters={data.appliedFilters}
                     onFiltersChange={handleFiltersChange}
                     onClearFilters={handleClearFilters}
                     onApplyPreferences={handleApplyPreferences}
@@ -206,7 +206,7 @@ export function PropertyList({ userPreferences: initialUserPreferences, regions 
     return (
         <div className="space-y-6">
             <PropertyFilters
-                filters={filters}
+                filters={data.appliedFilters}
                 onFiltersChange={handleFiltersChange}
                 onClearFilters={handleClearFilters}
                 onApplyPreferences={handleApplyPreferences}

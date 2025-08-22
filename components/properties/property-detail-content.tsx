@@ -22,6 +22,7 @@ import {
     Phone
 } from "lucide-react";
 import { PropertyDetailImage } from "./property-detail-image";
+import { PropertyMap } from "./property-map";
 import { getPropertyCode } from "@/lib/utils";
 
 interface PropertyDetailContentProps {
@@ -273,6 +274,13 @@ export function PropertyDetailContent({
                                 </ul>
                             </div>
                         )}
+
+                        {/* Map */}
+                        <PropertyMap
+                            latitude={property.latitude}
+                            longitude={property.longitude}
+                            propertyTitle={property.title}
+                        />
                     </div>
 
                     {/* Sidebar */}
