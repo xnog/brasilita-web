@@ -28,7 +28,7 @@ export function PageLoading({
 
     return (
         <div className={cn(
-            "fixed inset-0 z-50 bg-background/80 backdrop-blur-sm",
+            "fixed inset-0 z-[9998] bg-background/80 backdrop-blur-sm",
             "flex items-center justify-center",
             className
         )}>

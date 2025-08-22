@@ -3,11 +3,12 @@
 import { useState, useEffect, useCallback } from "react";
 import { PropertyCard } from "./property-card";
 import { PropertyFilters } from "./property-filters";
+import { PropertiesOverviewMap } from "./properties-overview-map";
 import { Property, Region } from "@/lib/db/schema";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
-import { Home, ChevronLeft, ChevronRight } from "lucide-react";
+import { Home, ChevronLeft, ChevronRight, Map, List } from "lucide-react";
 import { PageLoading } from "@/components/ui/page-loading";
 
 type PropertyWithInterest = Property & {
@@ -44,6 +45,7 @@ export function PropertyList({ userPreferences: initialUserPreferences, regions 
     const [data, setData] = useState<PropertyListResponse | null>(null);
     const [loading, setLoading] = useState(true);
     const [userPreferences] = useState<PropertyFilters | null>(initialUserPreferences || null);
+    const [viewMode, setViewMode] = useState<'list' | 'map'>('list');
 
     const [filters, setFilters] = useState<PropertyFilters>(
         initialUserPreferences || defaultFilters
@@ -121,12 +123,12 @@ export function PropertyList({ userPreferences: initialUserPreferences, regions 
         }
     }, [userPreferences, fetchProperties, handleClearFilters]);
 
-    const handleToggleInterest = async (propertyId: string, isInterested: boolean) => {
+    const handleToggleInterest = async (propertyId: string, isInterested: boolean, notes?: string) => {
         if (!data) return;
 
         // Optimistic update
         const updatedProperties = data.properties.map(p =>
-            p.id === propertyId ? { ...p, isInterested } : p
+            p.id === propertyId ? { ...p, isInterested, interestNotes: notes || null } : p
         );
         setData({ ...data, properties: updatedProperties });
 
@@ -134,21 +136,25 @@ export function PropertyList({ userPreferences: initialUserPreferences, regions 
             await fetch("/api/properties", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ propertyId, isInterested })
+                body: JSON.stringify({ propertyId, isInterested, notes })
             });
         } catch {
             // Revert on error
             const revertedProperties = data.properties.map(p =>
-                p.id === propertyId ? { ...p, isInterested: !isInterested } : p
+                p.id === propertyId ? { ...p, isInterested: !isInterested, interestNotes: p.interestNotes } : p
             );
             setData({ ...data, properties: revertedProperties });
         }
     };
 
+
+
     // Initial load
     useEffect(() => {
         fetchProperties(filters);
     }, []); // Only run once on mount
+
+
 
     if (loading && !data) {
         return <PageLoading />;
@@ -219,26 +225,57 @@ export function PropertyList({ userPreferences: initialUserPreferences, regions 
                     <h2 className="text-xl font-semibold">
                         {data.pagination.totalCount.toLocaleString()} propriedades
                     </h2>
-                    {data.pagination.totalCount > 0 && (
+                    {data.pagination.totalCount > 0 && viewMode === 'list' && (
                         <span className="text-sm text-slate-600">
                             Página {data.pagination.currentPage} de {data.pagination.totalPages}
                         </span>
                     )}
                 </div>
+
+                {/* View mode toggle */}
+                <div className="flex items-center gap-2">
+                    <Button
+                        variant={viewMode === 'list' ? 'default' : 'outline'}
+                        size="sm"
+                        onClick={() => setViewMode('list')}
+                        className="flex items-center gap-2"
+                    >
+                        <List className="h-4 w-4" />
+                        <span className="hidden sm:inline">Lista</span>
+                    </Button>
+                    <Button
+                        variant={viewMode === 'map' ? 'default' : 'outline'}
+                        size="sm"
+                        onClick={() => setViewMode('map')}
+                        className="flex items-center gap-2"
+                    >
+                        <Map className="h-4 w-4" />
+                        <span className="hidden sm:inline">Mapa</span>
+                    </Button>
+                </div>
             </div>
 
-            <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                {filteredProperties.map((property) => (
-                    <PropertyCard
-                        key={property.id}
-                        property={property}
-                        onToggleInterest={handleToggleInterest}
-                    />
-                ))}
-            </div>
+            {/* Content based on view mode */}
+            {viewMode === 'list' ? (
+                <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                    {filteredProperties.map((property) => (
+                        <PropertyCard
+                            key={property.id}
+                            property={property}
+                            onToggleInterest={handleToggleInterest}
+                        />
+                    ))}
+                </div>
+            ) : (
+                <PropertiesOverviewMap
+                    key={filteredProperties.map(p => p.id).join(',')}
+                    properties={filteredProperties}
+                    onToggleInterest={handleToggleInterest}
+                />
+            )}
 
-            {/* Pagination */}
-            {data.pagination.totalPages > 1 && (
+            {/* Pagination - only show in list mode */}
+            {viewMode === 'list' && data.pagination.totalPages > 1 && (
                 <div className="w-full">
                     {/* Mobile pagination */}
                     <div className="flex md:hidden items-center justify-between">
@@ -365,6 +402,8 @@ export function PropertyList({ userPreferences: initialUserPreferences, regions 
                     <PageLoading />
                 </div>
             )}
+
+
         </div>
     );
 }

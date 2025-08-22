@@ -31,8 +31,11 @@ export function PropertyDetailModal({
         };
 
         if (isOpen) {
-            // Store original URL when opening modal
-            originalUrlRef.current = window.location.href;
+            // Store original URL when opening modal, but ensure it's the properties page
+            const currentUrl = window.location.href;
+            originalUrlRef.current = currentUrl.includes('/properties/') ? 
+                currentUrl.split('/properties/')[0] + '/properties' : 
+                currentUrl;
 
             // Update URL to property detail page without navigating
             const newUrl = `/properties/${property.id}`;
@@ -54,7 +57,8 @@ export function PropertyDetailModal({
     return (
         <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
             <DialogContent
-                className="max-w-none w-full h-full sm:max-w-7xl sm:w-[95vw] sm:h-[95vh] p-0 gap-0 flex flex-col [&>button]:hidden"
+                className="max-w-none w-full h-full sm:max-w-7xl sm:w-[95vw] sm:h-[95vh] p-0 gap-0 flex flex-col [&>button]:hidden z-[9999]"
+                style={{ zIndex: 9999 }}
             >
                 <VisuallyHidden>
                     <DialogTitle>{property.title}</DialogTitle>
@@ -75,6 +79,17 @@ export function PropertyDetailModal({
                     </Suspense>
                 </div>
             </DialogContent>
+            <style jsx global>{`
+                [data-radix-popper-content-wrapper] {
+                    z-index: 9999 !important;
+                }
+                [data-radix-dialog-overlay] {
+                    z-index: 9998 !important;
+                }
+                [data-radix-dialog-content] {
+                    z-index: 9999 !important;
+                }
+            `}</style>
         </Dialog>
     );
 }
