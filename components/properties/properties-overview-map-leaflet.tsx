@@ -1,7 +1,7 @@
 "use client";
 
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 
@@ -36,9 +36,18 @@ interface PropertiesOverviewMapLeafletProps {
 // Componente para controlar o zoom e posicionamento do mapa
 function MapController({ markers }: { markers: PropertyMapMarker[] }) {
     const map = useMap();
+    const [initializedMarkers, setInitializedMarkers] = useState<string>('');
 
     useEffect(() => {
         if (markers.length === 0) return;
+
+        // Criar uma string única dos marcadores para detectar mudanças reais
+        const markersSignature = markers.map(m => `${m.id}-${m.latitude}-${m.longitude}`).sort().join('|');
+        
+        // Só atualizar o mapa se os marcadores realmente mudaram
+        if (markersSignature === initializedMarkers) {
+            return;
+        }
 
         // Calcular bounds dos marcadores
         const latitudes = markers.map(m => parseFloat(m.latitude));
@@ -52,6 +61,7 @@ function MapController({ markers }: { markers: PropertyMapMarker[] }) {
         // Se há apenas um marcador, centrar com zoom fixo
         if (markers.length === 1) {
             map.setView([latitudes[0], longitudes[0]], 12);
+            setInitializedMarkers(markersSignature);
             return;
         }
 
@@ -66,7 +76,10 @@ function MapController({ markers }: { markers: PropertyMapMarker[] }) {
             padding: [20, 20], // padding em pixels
             maxZoom: 12 // zoom máximo para evitar muito zoom
         });
-    }, [map, markers]);
+
+        // Marcar os marcadores como inicializados
+        setInitializedMarkers(markersSignature);
+    }, [map, markers, initializedMarkers]);
 
     return null;
 }
