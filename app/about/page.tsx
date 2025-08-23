@@ -1,5 +1,6 @@
 import { CheckCircle, Users, Shield, Award, MapPin } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { auth } from "@/lib/auth";
 import { LandingHeader } from "@/components/layout/landing-header";
 import { Logo } from "@/components/ui/logo";
@@ -164,9 +165,11 @@ export default async function AboutPage() {
                             {/* Aloisio */}
                             <div className="professional-card text-center">
                                 <div className="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden">
-                                    <img
+                                    <Image
                                         src="/Aloisio.png"
                                         alt="Aloisio Cechinel"
+                                        width={96}
+                                        height={96}
                                         className="w-full h-full object-cover"
                                     />
                                 </div>
@@ -181,9 +184,11 @@ export default async function AboutPage() {
                             {/* Bassani */}
                             <div className="professional-card text-center">
                                 <div className="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden">
-                                    <img
+                                    <Image
                                         src="/Bassani.png"
                                         alt="Rodrigo Bassani"
+                                        width={96}
+                                        height={96}
                                         className="w-full h-full object-cover"
                                     />
                                 </div>
@@ -198,9 +203,11 @@ export default async function AboutPage() {
                             {/* Felipe */}
                             <div className="professional-card text-center">
                                 <div className="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden">
-                                    <img
+                                    <Image
                                         src="/Felipe.png"
                                         alt="Felipe Gaudio"
+                                        width={96}
+                                        height={96}
                                         className="w-full h-full object-cover"
                                     />
                                 </div>
@@ -215,9 +222,11 @@ export default async function AboutPage() {
                             {/* Rafael */}
                             <div className="professional-card text-center">
                                 <div className="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden">
-                                    <img
+                                    <Image
                                         src="/Rafael.png"
                                         alt="Rafael Gaudio"
+                                        width={96}
+                                        height={96}
                                         className="w-full h-full object-cover"
                                     />
                                 </div>
@@ -232,9 +241,11 @@ export default async function AboutPage() {
                             {/* Camila */}
                             <div className="professional-card text-center">
                                 <div className="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden">
-                                    <img
+                                    <Image
                                         src="/Camila.png"
                                         alt="Camila Locks"
+                                        width={96}
+                                        height={96}
                                         className="w-full h-full object-cover"
                                     />
                                 </div>
@@ -249,9 +260,11 @@ export default async function AboutPage() {
                             {/* Silvana */}
                             <div className="professional-card text-center">
                                 <div className="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden">
-                                    <img
+                                    <Image
                                         src="/Silvana.png"
                                         alt="Silvana Beckhauser"
+                                        width={96}
+                                        height={96}
                                         className="w-full h-full object-cover"
                                     />
                                 </div>

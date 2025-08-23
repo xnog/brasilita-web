@@ -2,26 +2,13 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { properties, userPropertyInterests } from "@/lib/db/schema";
-import { eq, and, inArray, gte, lte, ilike, desc, asc, sql, count } from "drizzle-orm";
-
-interface PropertyFilters {
-    regions?: string[];
-    priceMin?: number;
-    priceMax?: number;
-    bedroomsMin?: number;
-    bedroomsMax?: number;
-    bathroomsMin?: number;
-    bathroomsMax?: number;
-    areaMin?: number;
-    areaMax?: number;
-    location?: string;
-    favoritesOnly?: boolean;
-    isRented?: boolean;
-    page?: number;
-    limit?: number;
-    sortBy?: 'price' | 'area' | 'createdAt';
-    sortOrder?: 'asc' | 'desc';
-}
+import { eq, and, inArray, sql, count, asc } from "drizzle-orm";
+import { 
+    parseFiltersFromRequest,
+    buildWhereClause,
+    buildOrderByClause,
+    normalizeFilters
+} from "@/lib/api/property-filters";
 
 export async function GET(request: NextRequest) {
     try {
@@ -30,80 +17,12 @@ export async function GET(request: NextRequest) {
             return NextResponse.json({ error: "Não autenticado" }, { status: 401 });
         }
 
-        const { searchParams } = new URL(request.url);
-
         // Parse filters from query params
-        const filters: PropertyFilters = {
-            regions: searchParams.get('regions')?.split(',').filter(Boolean),
-            priceMin: searchParams.get('priceMin') ? parseInt(searchParams.get('priceMin')!) : undefined,
-            priceMax: searchParams.get('priceMax') ? parseInt(searchParams.get('priceMax')!) : undefined,
-            bedroomsMin: searchParams.get('bedroomsMin') ? parseInt(searchParams.get('bedroomsMin')!) : undefined,
-            bedroomsMax: searchParams.get('bedroomsMax') ? parseInt(searchParams.get('bedroomsMax')!) : undefined,
-            bathroomsMin: searchParams.get('bathroomsMin') ? parseInt(searchParams.get('bathroomsMin')!) : undefined,
-            bathroomsMax: searchParams.get('bathroomsMax') ? parseInt(searchParams.get('bathroomsMax')!) : undefined,
-            areaMin: searchParams.get('areaMin') ? parseInt(searchParams.get('areaMin')!) : undefined,
-            areaMax: searchParams.get('areaMax') ? parseInt(searchParams.get('areaMax')!) : undefined,
-            location: searchParams.get('location') || undefined,
-            favoritesOnly: searchParams.get('favoritesOnly') === 'true',
-            isRented: searchParams.get('isRented') ? searchParams.get('isRented') === 'true' : undefined,
-            page: Math.max(1, parseInt(searchParams.get('page') || '1')),
-            limit: Math.min(50, Math.max(10, parseInt(searchParams.get('limit') || '20'))), // Max 50 per page
-            sortBy: (searchParams.get('sortBy') as 'price' | 'area' | 'createdAt') || 'createdAt',
-            sortOrder: (searchParams.get('sortOrder') as 'asc' | 'desc') || 'desc'
-        };
-
+        const filters = parseFiltersFromRequest(request);
         const appliedFilters = { ...filters };
 
-        // Build where conditions
-        const whereConditions = [
-            eq(properties.isAvailable, true)
-        ];
-
-        if (appliedFilters.regions && appliedFilters.regions.length > 0) {
-            whereConditions.push(inArray(properties.regionId, appliedFilters.regions));
-        }
-
-        if (appliedFilters.priceMin) {
-            whereConditions.push(gte(properties.price, appliedFilters.priceMin));
-        }
-
-        if (appliedFilters.priceMax) {
-            whereConditions.push(lte(properties.price, appliedFilters.priceMax));
-        }
-
-        if (appliedFilters.bedroomsMin) {
-            whereConditions.push(gte(properties.bedrooms, appliedFilters.bedroomsMin));
-        }
-
-        if (appliedFilters.bedroomsMax) {
-            whereConditions.push(lte(properties.bedrooms, appliedFilters.bedroomsMax));
-        }
-
-        if (appliedFilters.bathroomsMin) {
-            whereConditions.push(gte(properties.bathrooms, appliedFilters.bathroomsMin));
-        }
-
-        if (appliedFilters.bathroomsMax) {
-            whereConditions.push(lte(properties.bathrooms, appliedFilters.bathroomsMax));
-        }
-
-        if (appliedFilters.areaMin) {
-            whereConditions.push(gte(properties.area, appliedFilters.areaMin));
-        }
-
-        if (appliedFilters.areaMax) {
-            whereConditions.push(lte(properties.area, appliedFilters.areaMax));
-        }
-
-        if (appliedFilters.location) {
-            whereConditions.push(ilike(properties.location, `%${appliedFilters.location}%`));
-        }
-
-        if (appliedFilters.isRented !== undefined) {
-            whereConditions.push(eq(properties.isRented, appliedFilters.isRented));
-        }
-
-        const whereClause = whereConditions.length > 1 ? and(...whereConditions) : whereConditions[0];
+        // Build where clause
+        const whereClause = buildWhereClause(filters);
 
         // Get total count for pagination
         const [totalCountResult] = await db
@@ -115,19 +34,7 @@ export async function GET(request: NextRequest) {
         const totalPages = Math.ceil(totalCount / appliedFilters.limit!);
 
         // Build sort order
-        let orderBy;
-        const sortDirection = appliedFilters.sortOrder === 'asc' ? asc : desc;
-
-        switch (appliedFilters.sortBy) {
-            case 'price':
-                orderBy = sortDirection(properties.price);
-                break;
-            case 'area':
-                orderBy = sortDirection(properties.area);
-                break;
-            default:
-                orderBy = sortDirection(properties.createdAt);
-        }
+        const orderBy = buildOrderByClause(filters);
 
         // Get properties with pagination
         const offset = (appliedFilters.page! - 1) * appliedFilters.limit!;
@@ -198,22 +105,7 @@ export async function GET(request: NextRequest) {
                 hasPrevPage: appliedFilters.page! > 1,
                 limit: appliedFilters.limit
             },
-            appliedFilters: {
-                regions: appliedFilters.regions || [],
-                priceMin: appliedFilters.priceMin,
-                priceMax: appliedFilters.priceMax,
-                bedroomsMin: appliedFilters.bedroomsMin,
-                bedroomsMax: appliedFilters.bedroomsMax,
-                bathroomsMin: appliedFilters.bathroomsMin,
-                bathroomsMax: appliedFilters.bathroomsMax,
-                areaMin: appliedFilters.areaMin,
-                areaMax: appliedFilters.areaMax,
-                location: appliedFilters.location,
-                favoritesOnly: appliedFilters.favoritesOnly,
-                isRented: appliedFilters.isRented,
-                sortBy: appliedFilters.sortBy,
-                sortOrder: appliedFilters.sortOrder
-            },
+            appliedFilters: normalizeFilters(appliedFilters),
             availableFilters
         });
 

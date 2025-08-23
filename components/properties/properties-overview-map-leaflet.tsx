@@ -1,10 +1,9 @@
 "use client";
 
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import { useEffect } from 'react';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
-import { Property } from "@/lib/db/schema";
 
 // Fix para os ícones do Leaflet no Next.js
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -15,17 +14,64 @@ L.Icon.Default.mergeOptions({
     shadowUrl: '/leaflet/marker-shadow.png',
 });
 
-type PropertyWithInterest = Property & {
+type PropertyMapMarker = {
+    id: string;
+    title: string;
+    price: number;
+    latitude: string;
+    longitude: string;
+    location: string | null;
+    bedrooms: number | null;
+    bathrooms: number | null;
+    area: number | null;
     isInterested?: boolean;
-    interestNotes?: string | null;
 };
 
 interface PropertiesOverviewMapLeafletProps {
-    properties: PropertyWithInterest[];
-    onPropertyClick?: (property: PropertyWithInterest) => void;
+    markers: PropertyMapMarker[];
+    onPropertyClick?: (propertyId: string) => void;
+    loadingPropertyId?: string | null;
 }
 
-function PropertiesOverviewMapLeaflet({ properties, onPropertyClick }: PropertiesOverviewMapLeafletProps) {
+// Componente para controlar o zoom e posicionamento do mapa
+function MapController({ markers }: { markers: PropertyMapMarker[] }) {
+    const map = useMap();
+
+    useEffect(() => {
+        if (markers.length === 0) return;
+
+        // Calcular bounds dos marcadores
+        const latitudes = markers.map(m => parseFloat(m.latitude));
+        const longitudes = markers.map(m => parseFloat(m.longitude));
+        
+        const minLat = Math.min(...latitudes);
+        const maxLat = Math.max(...latitudes);
+        const minLng = Math.min(...longitudes);
+        const maxLng = Math.max(...longitudes);
+
+        // Se há apenas um marcador, centrar com zoom fixo
+        if (markers.length === 1) {
+            map.setView([latitudes[0], longitudes[0]], 12);
+            return;
+        }
+
+        // Para múltiplos marcadores, usar fitBounds
+        const bounds = L.latLngBounds([
+            [minLat, minLng],
+            [maxLat, maxLng]
+        ]);
+
+        // Aplicar bounds com padding
+        map.fitBounds(bounds, {
+            padding: [20, 20], // padding em pixels
+            maxZoom: 12 // zoom máximo para evitar muito zoom
+        });
+    }, [map, markers]);
+
+    return null;
+}
+
+function PropertiesOverviewMapLeaflet({ markers, onPropertyClick, loadingPropertyId }: PropertiesOverviewMapLeafletProps) {
     useEffect(() => {
         // Criar ícone customizado usando os assets locais
         const defaultIcon = L.icon({
@@ -42,46 +88,45 @@ function PropertiesOverviewMapLeaflet({ properties, onPropertyClick }: Propertie
         L.Marker.prototype.options.icon = defaultIcon;
     }, []);
 
-    // Filtrar propriedades que têm coordenadas válidas
-    const propertiesWithCoordinates = properties.filter(property => {
-        const lat = property.latitude ? parseFloat(property.latitude) : null;
-        const lng = property.longitude ? parseFloat(property.longitude) : null;
-        return lat !== null && lng !== null && !isNaN(lat) && !isNaN(lng);
-    });
-
-    // Se não há propriedades com coordenadas, exibir mensagem
-    if (propertiesWithCoordinates.length === 0) {
+    // Se não há marcadores, exibir mensagem
+    if (markers.length === 0) {
         return (
             <div className="h-96 bg-slate-100 rounded-lg flex items-center justify-center">
                 <div className="text-center text-slate-600">
-                    <p className="font-medium">Nenhuma propriedade com localização encontrada</p>
-                    <p className="text-sm">As propriedades desta listagem não possuem coordenadas de localização</p>
+                    <p className="font-medium">Nenhum imóvel com localização encontrado</p>
+                    <p className="text-sm">Os imóveis desta listagem não possuem coordenadas de localização</p>
                 </div>
             </div>
         );
     }
 
-    // Calcular centro do mapa baseado nas propriedades
-    const centerLat = propertiesWithCoordinates.reduce((sum, prop) => 
-        sum + parseFloat(prop.latitude!), 0) / propertiesWithCoordinates.length;
-    const centerLng = propertiesWithCoordinates.reduce((sum, prop) => 
-        sum + parseFloat(prop.longitude!), 0) / propertiesWithCoordinates.length;
-
-    // Calcular zoom baseado na dispersão das propriedades
-    const latitudes = propertiesWithCoordinates.map(p => parseFloat(p.latitude!));
-    const longitudes = propertiesWithCoordinates.map(p => parseFloat(p.longitude!));
-    const latRange = Math.max(...latitudes) - Math.min(...latitudes);
-    const lngRange = Math.max(...longitudes) - Math.min(...longitudes);
+    // Calcular bounds dos marcadores para melhor centralização
+    const latitudes = markers.map(m => parseFloat(m.latitude));
+    const longitudes = markers.map(m => parseFloat(m.longitude));
+    
+    const minLat = Math.min(...latitudes);
+    const maxLat = Math.max(...latitudes);
+    const minLng = Math.min(...longitudes);
+    const maxLng = Math.max(...longitudes);
+    
+    // Centro baseado nos bounds (não na média simples)
+    const centerLat = (minLat + maxLat) / 2;
+    const centerLng = (minLng + maxLng) / 2;
+    
+    // Calcular ranges com padding para evitar cortes
+    const latRange = maxLat - minLat;
+    const lngRange = maxLng - minLng;
     const maxRange = Math.max(latRange, lngRange);
     
-    // Determinar zoom baseado na dispersão (começando com menos zoom para visão mais ampla)
-    let zoom = 9;
-    if (maxRange > 5) zoom = 6;
-    else if (maxRange > 2) zoom = 8;
-    else if (maxRange > 1) zoom = 9;
-    else if (maxRange > 0.5) zoom = 10;
-    else if (maxRange > 0.2) zoom = 11;
-    else zoom = 12;
+    // Determinar zoom com mais conservadorismo para evitar cortes
+    let zoom = 7; // Começar mais conservador
+    if (maxRange > 8) zoom = 5;       // Muito disperso (toda Itália)
+    else if (maxRange > 4) zoom = 6;  // Várias regiões
+    else if (maxRange > 2) zoom = 7;  // Algumas regiões
+    else if (maxRange > 1) zoom = 8;  // Uma região grande
+    else if (maxRange > 0.5) zoom = 9;  // Área regional
+    else if (maxRange > 0.2) zoom = 10; // Área local
+    else zoom = 11; // Área muito local
 
     const formatPrice = (price: number) => {
         return new Intl.NumberFormat('pt-BR', {
@@ -93,7 +138,7 @@ function PropertiesOverviewMapLeaflet({ properties, onPropertyClick }: Propertie
     };
 
     return (
-        <div className="h-96 w-full relative z-0">
+        <div className="h-[500px] md:h-[600px] w-full relative z-0">
             <MapContainer
                 center={[centerLat, centerLng]}
                 zoom={zoom}
@@ -106,23 +151,26 @@ function PropertiesOverviewMapLeaflet({ properties, onPropertyClick }: Propertie
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
                 
-                {propertiesWithCoordinates.map((property) => {
-                    const lat = parseFloat(property.latitude!);
-                    const lng = parseFloat(property.longitude!);
+                {/* Componente para controlar zoom/posicionamento quando markers mudarem */}
+                <MapController markers={markers} />
+                
+                {markers.map((marker) => {
+                    const lat = parseFloat(marker.latitude);
+                    const lng = parseFloat(marker.longitude);
                     const position: [number, number] = [lat, lng];
                     
                     return (
                         <Marker 
-                            key={property.id} 
+                            key={marker.id} 
                             position={position}
                         >
                             <Popup>
                                 <div className="text-center p-2 min-w-48">
                                     <div className="mb-2">
                                         <strong className="text-emerald-600 text-sm font-semibold">
-                                            {property.title}
+                                            {marker.title}
                                         </strong>
-                                        {property.isInterested && (
+                                        {marker.isInterested && (
                                             <span className="ml-2 text-xs bg-emerald-100 text-emerald-700 px-2 py-1 rounded">
                                                 ❤️ Favorito
                                             </span>
@@ -131,23 +179,25 @@ function PropertiesOverviewMapLeaflet({ properties, onPropertyClick }: Propertie
                                     
                                     <div className="text-sm space-y-1 text-left">
                                         <div className="font-semibold text-emerald-600">
-                                            {formatPrice(property.price)}
+                                            {formatPrice(marker.price)}
                                         </div>
                                         
-                                        <div className="text-slate-600">
-                                            📍 {property.location}
-                                        </div>
+                                        {marker.location && (
+                                            <div className="text-slate-600">
+                                                📍 {marker.location}
+                                            </div>
+                                        )}
                                         
-                                        {(property.bedrooms || property.bathrooms || property.area) && (
+                                        {(marker.bedrooms || marker.bathrooms || marker.area) && (
                                             <div className="text-slate-600 flex gap-2 text-xs">
-                                                {property.bedrooms && (
-                                                    <span>🛏️ {property.bedrooms}</span>
+                                                {marker.bedrooms && (
+                                                    <span>🛏️ {marker.bedrooms}</span>
                                                 )}
-                                                {property.bathrooms && (
-                                                    <span>🚿 {property.bathrooms}</span>
+                                                {marker.bathrooms && (
+                                                    <span>🚿 {marker.bathrooms}</span>
                                                 )}
-                                                {property.area && (
-                                                    <span>📐 {property.area}m²</span>
+                                                {marker.area && (
+                                                    <span>📐 {marker.area}m²</span>
                                                 )}
                                             </div>
                                         )}
@@ -155,9 +205,13 @@ function PropertiesOverviewMapLeaflet({ properties, onPropertyClick }: Propertie
                                     
                                     {onPropertyClick && (
                                         <button 
-                                            onClick={() => onPropertyClick(property)}
-                                            className="mt-2 text-xs bg-emerald-500 text-white px-3 py-1 rounded hover:bg-emerald-600 transition-colors"
+                                            onClick={() => onPropertyClick(marker.id)}
+                                            disabled={loadingPropertyId === marker.id}
+                                            className="mt-2 text-xs bg-emerald-500 text-white px-3 py-1 rounded hover:bg-emerald-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-1 mx-auto"
                                         >
+                                            {loadingPropertyId === marker.id && (
+                                                <div className="w-3 h-3 border border-white border-t-transparent rounded-full animate-spin"></div>
+                                            )}
                                             Ver detalhes
                                         </button>
                                     )}

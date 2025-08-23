@@ -1,25 +1,24 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { MapPin } from "lucide-react";
 import dynamic from "next/dynamic";
-import { Property } from "@/lib/db/schema";
 import { PropertyDetailModal } from "./property-detail-modal";
+import { PropertyFilters } from "@/lib/hooks/use-property-filters";
+import { usePropertyMap, PropertyMapMarker } from "@/lib/hooks/use-property-map";
 
-type PropertyWithInterest = Property & {
-    isInterested?: boolean;
-    interestNotes?: string | null;
-};
+import { useEffect } from "react";
 
 interface PropertiesOverviewMapProps {
-    properties: PropertyWithInterest[];
-    onToggleInterest: (propertyId: string, isInterested: boolean, notes?: string) => void;
+    filters: PropertyFilters;
     className?: string;
+    onTotalPropertiesChange?: (total: number | null) => void;
+    onLoadingChange?: (loading: boolean) => void;
 }
 
 interface PropertiesOverviewMapLeafletProps {
-    properties: PropertyWithInterest[];
-    onPropertyClick?: (property: PropertyWithInterest) => void;
+    markers: PropertyMapMarker[];
+    onPropertyClick?: (propertyId: string) => void;
+    loadingPropertyId?: string | null;
 }
 
 // Componente do mapa dinâmico (só carrega no cliente)
@@ -28,10 +27,9 @@ const DynamicOverviewMap = dynamic(
     {
         ssr: false,
         loading: () => (
-            <div className="h-96 bg-slate-100 rounded-lg flex items-center justify-center">
-                <div className="flex items-center gap-2 text-slate-600">
-                    <div className="w-4 h-4 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin"></div>
-                    <span>Carregando mapa...</span>
+            <div className="h-[500px] md:h-[600px] bg-slate-100 rounded-lg flex items-center justify-center">
+                <div className="text-center text-slate-600">
+                    <p className="font-medium">Carregando mapa...</p>
                 </div>
             </div>
         )
@@ -39,38 +37,64 @@ const DynamicOverviewMap = dynamic(
 ) as React.ComponentType<PropertiesOverviewMapLeafletProps>;
 
 export function PropertiesOverviewMap({ 
-    properties, 
-    onToggleInterest,
-    className = "" 
+    filters,
+    className = "",
+    onTotalPropertiesChange,
+    onLoadingChange
 }: PropertiesOverviewMapProps) {
-    const [selectedProperty, setSelectedProperty] = useState<PropertyWithInterest | null>(null);
-    const [showDetails, setShowDetails] = useState(false);
+    const {
+        validMarkers,
+        totalProperties,
+        propertiesWithoutLocation,
+        loading,
+        loadingPropertyId,
+        selectedProperty,
+        showDetails,
+        handlePropertyClick,
+        handleToggleInterest,
+        handleCloseDetails
+    } = usePropertyMap(filters);
 
-    const handlePropertyClick = (property: PropertyWithInterest) => {
-        setSelectedProperty(property);
-        setShowDetails(true);
-    };
-
-    // Update selected property when properties change (sync with list updates)
+    // Update total properties when data changes
     useEffect(() => {
-        if (selectedProperty) {
-            const updatedProperty = properties.find(p => p.id === selectedProperty.id);
-            if (updatedProperty) {
-                setSelectedProperty(updatedProperty);
+        if (onTotalPropertiesChange) {
+            if (totalProperties > 0 || !loading) {
+                onTotalPropertiesChange(totalProperties);
             }
         }
-    }, [properties, selectedProperty]);
-    // Filtrar propriedades que têm coordenadas válidas
-    const propertiesWithCoordinates = properties.filter(property => {
-        const lat = property.latitude ? parseFloat(property.latitude) : null;
-        const lng = property.longitude ? parseFloat(property.longitude) : null;
-        return lat !== null && lng !== null && !isNaN(lat) && !isNaN(lng);
-    });
+    }, [totalProperties, loading, onTotalPropertiesChange]);
 
-    // Se não há propriedades, não exibir o componente
-    if (properties.length === 0) {
-        return null;
+    // Update loading state when loading changes
+    useEffect(() => {
+        if (onLoadingChange) {
+            onLoadingChange(loading);
+        }
+    }, [loading, onLoadingChange]);
+
+    // Don't show internal loading - parent component handles it
+
+    // Se não há imóveis e não está carregando, não exibir o componente
+    if (totalProperties === 0 && !loading) {
+        return (
+            <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                    <h3 className="text-lg font-semibold text-slate-900 flex items-center gap-2">
+                        <MapPin className="h-5 w-5 text-emerald-500" />
+                        Mapa Geral
+                    </h3>
+                </div>
+                
+                <div className="h-96 bg-slate-100 rounded-lg flex items-center justify-center">
+                    <div className="text-center text-slate-600">
+                        <p className="font-medium">Nenhum imóvel encontrado</p>
+                        <p className="text-sm">Tente ajustar os filtros para ver imóveis no mapa</p>
+                    </div>
+                </div>
+            </div>
+        );
     }
+
+
 
 
 
@@ -83,33 +107,32 @@ export function PropertiesOverviewMap({
                 </h3>
                 
                 <div className="text-sm text-slate-600">
-                    {propertiesWithCoordinates.length} de {properties.length} propriedades com localização
+                    Mostrando {validMarkers.length} imóveis no mapa
+                    {propertiesWithoutLocation > 0 && (
+                        <span className="text-amber-600">
+                            {' '}({propertiesWithoutLocation} sem localização)
+                        </span>
+                    )}
                 </div>
             </div>
             
-            <div className="relative rounded-lg overflow-hidden border shadow-sm">
+                            <div className="relative rounded-lg overflow-hidden border shadow-sm">
                 <DynamicOverviewMap 
-                    properties={properties}
+                    markers={validMarkers}
                     onPropertyClick={handlePropertyClick}
+                    loadingPropertyId={loadingPropertyId}
                 />
             </div>
             
-            <div className="text-sm text-slate-600">
-                <span className="font-medium">Total de propriedades:</span> {properties.length}
-                {propertiesWithCoordinates.length < properties.length && (
-                    <span className="ml-2 text-amber-600">
-                        ({properties.length - propertiesWithCoordinates.length} sem localização)
-                    </span>
-                )}
-            </div>
+
 
             {/* Property Detail Modal */}
             {selectedProperty && (
                 <PropertyDetailModal
                     property={selectedProperty}
                     isOpen={showDetails}
-                    onClose={() => setShowDetails(false)}
-                    onToggleInterest={onToggleInterest}
+                    onClose={handleCloseDetails}
+                    onToggleInterest={handleToggleInterest}
                 />
             )}
         </div>

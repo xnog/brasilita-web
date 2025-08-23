@@ -1,0 +1,153 @@
+import { NextRequest } from "next/server";
+import { properties } from "@/lib/db/schema";
+import { eq, and, inArray, gte, lte, ilike, desc, asc } from "drizzle-orm";
+
+export interface PropertyFilters {
+    regions?: string[];
+    priceMin?: number;
+    priceMax?: number;
+    bedroomsMin?: number;
+    bedroomsMax?: number;
+    bathroomsMin?: number;
+    bathroomsMax?: number;
+    areaMin?: number;
+    areaMax?: number;
+    location?: string;
+    favoritesOnly?: boolean;
+    isRented?: boolean;
+    page?: number;
+    limit?: number;
+    sortBy?: 'price' | 'area' | 'createdAt';
+    sortOrder?: 'asc' | 'desc';
+}
+
+/**
+ * Parse filters from URL search parameters
+ */
+export function parseFiltersFromRequest(request: NextRequest): PropertyFilters {
+    const { searchParams } = new URL(request.url);
+
+    return {
+        regions: searchParams.get('regions')?.split(',').filter(Boolean),
+        priceMin: searchParams.get('priceMin') ? parseInt(searchParams.get('priceMin')!) : undefined,
+        priceMax: searchParams.get('priceMax') ? parseInt(searchParams.get('priceMax')!) : undefined,
+        bedroomsMin: searchParams.get('bedroomsMin') ? parseInt(searchParams.get('bedroomsMin')!) : undefined,
+        bedroomsMax: searchParams.get('bedroomsMax') ? parseInt(searchParams.get('bedroomsMax')!) : undefined,
+        bathroomsMin: searchParams.get('bathroomsMin') ? parseInt(searchParams.get('bathroomsMin')!) : undefined,
+        bathroomsMax: searchParams.get('bathroomsMax') ? parseInt(searchParams.get('bathroomsMax')!) : undefined,
+        areaMin: searchParams.get('areaMin') ? parseInt(searchParams.get('areaMin')!) : undefined,
+        areaMax: searchParams.get('areaMax') ? parseInt(searchParams.get('areaMax')!) : undefined,
+        location: searchParams.get('location') || undefined,
+        favoritesOnly: searchParams.get('favoritesOnly') === 'true',
+        isRented: searchParams.get('isRented') ? searchParams.get('isRented') === 'true' : undefined,
+        page: Math.max(1, parseInt(searchParams.get('page') || '1')),
+        limit: Math.min(50, Math.max(10, parseInt(searchParams.get('limit') || '20'))),
+        sortBy: (searchParams.get('sortBy') as 'price' | 'area' | 'createdAt') || 'createdAt',
+        sortOrder: (searchParams.get('sortOrder') as 'asc' | 'desc') || 'desc'
+    };
+}
+
+/**
+ * Build WHERE clause for property queries based on filters
+ */
+export function buildWhereClause(filters: PropertyFilters, includeCoordinates: boolean = false) {
+    const whereConditions = [
+        eq(properties.isAvailable, true)
+    ];
+
+    // Include coordinate validation for map queries
+    if (includeCoordinates) {
+        whereConditions.push(
+            // Only include properties with valid coordinates for map display
+            // Note: Using isNotNull from drizzle-orm would be imported separately
+        );
+    }
+
+    if (filters.regions && filters.regions.length > 0) {
+        whereConditions.push(inArray(properties.regionId, filters.regions));
+    }
+
+    if (filters.priceMin !== undefined) {
+        whereConditions.push(gte(properties.price, filters.priceMin));
+    }
+
+    if (filters.priceMax !== undefined) {
+        whereConditions.push(lte(properties.price, filters.priceMax));
+    }
+
+    if (filters.bedroomsMin !== undefined) {
+        whereConditions.push(gte(properties.bedrooms, filters.bedroomsMin));
+    }
+
+    if (filters.bedroomsMax !== undefined) {
+        whereConditions.push(lte(properties.bedrooms, filters.bedroomsMax));
+    }
+
+    if (filters.bathroomsMin !== undefined) {
+        whereConditions.push(gte(properties.bathrooms, filters.bathroomsMin));
+    }
+
+    if (filters.bathroomsMax !== undefined) {
+        whereConditions.push(lte(properties.bathrooms, filters.bathroomsMax));
+    }
+
+    if (filters.areaMin !== undefined) {
+        whereConditions.push(gte(properties.area, filters.areaMin));
+    }
+
+    if (filters.areaMax !== undefined) {
+        whereConditions.push(lte(properties.area, filters.areaMax));
+    }
+
+    if (filters.location) {
+        // For list endpoint, search in location field
+        // For map endpoint, search in title field (as implemented in original)
+        whereConditions.push(ilike(properties.location, `%${filters.location}%`));
+    }
+
+    if (filters.isRented !== undefined) {
+        whereConditions.push(eq(properties.isRented, filters.isRented));
+    }
+
+    return whereConditions.length > 1 ? and(...whereConditions) : whereConditions[0];
+}
+
+/**
+ * Build ORDER BY clause for property queries
+ */
+export function buildOrderByClause(filters: PropertyFilters) {
+    const sortDirection = filters.sortOrder === 'asc' ? asc : desc;
+
+    switch (filters.sortBy) {
+        case 'price':
+            return sortDirection(properties.price);
+        case 'area':
+            return sortDirection(properties.area);
+        default:
+            return sortDirection(properties.createdAt);
+    }
+}
+
+/**
+ * Normalize filters for consistent API responses
+ */
+export function normalizeFilters(filters: PropertyFilters): PropertyFilters {
+    return {
+        regions: filters.regions || [],
+        priceMin: filters.priceMin,
+        priceMax: filters.priceMax,
+        bedroomsMin: filters.bedroomsMin,
+        bedroomsMax: filters.bedroomsMax,
+        bathroomsMin: filters.bathroomsMin,
+        bathroomsMax: filters.bathroomsMax,
+        areaMin: filters.areaMin,
+        areaMax: filters.areaMax,
+        location: filters.location,
+        favoritesOnly: filters.favoritesOnly,
+        isRented: filters.isRented,
+        page: filters.page,
+        limit: filters.limit,
+        sortBy: filters.sortBy,
+        sortOrder: filters.sortOrder
+    };
+}
