@@ -190,10 +190,10 @@ export function PropertyFilters({
                                 <SelectContent>
                                     <SelectItem value="createdAt-desc">Recentes</SelectItem>
                                     <SelectItem value="createdAt-asc">Antigos</SelectItem>
-                                    <SelectItem value="price-asc">↑ Preço</SelectItem>
-                                    <SelectItem value="price-desc">↓ Preço</SelectItem>
-                                    <SelectItem value="area-desc">↓ Área</SelectItem>
-                                    <SelectItem value="area-asc">↑ Área</SelectItem>
+                                    <SelectItem value="price-asc">Menor preço</SelectItem>
+                                    <SelectItem value="price-desc">Maior preço</SelectItem>
+                                    <SelectItem value="area-asc">Menor área</SelectItem>
+                                    <SelectItem value="area-desc">Maior área</SelectItem>
                                 </SelectContent>
                             </Select>
                         </div>
