@@ -6,6 +6,7 @@ const nextConfig: NextConfig = {
       new URL('https://img4.idealista.it/**'),
       new URL('https://si9dados3.com.br/**'),
       new URL('https://images-1.casa.it/**'),
+      new URL('https://www.casa.it/**'),
     ],
   },
 };
