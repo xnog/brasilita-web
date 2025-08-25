@@ -290,6 +290,54 @@
             return { latitude, longitude };
         }
 
+        // ========== EXTRAÇÃO DE NOME DA IMOBILIÁRIA ==========
+        extractRealEstate() {
+            // 1. PRINCIPAL: Buscar no objeto config global (adFirstName)
+            if (window.config && window.config.adFirstName) {
+                const name = window.config.adFirstName.trim();
+                if (name.length > 3 && !name.includes('Profissional')) {
+                    return this.decodeHtmlEntities(name);
+                }
+            }
+
+            // 2. Fallback: adCommercialName no config
+            if (window.config && window.config.adCommercialName) {
+                const name = window.config.adCommercialName.trim();
+                if (name.length > 3 && !name.includes('Profissional')) {
+                    return this.decodeHtmlEntities(name);
+                }
+            }
+
+            // 3. Fallback: input hidden com name="user-name"
+            const userNameInput = document.querySelector('input[name="user-name"]');
+            if (userNameInput) {
+                const value = userNameInput.getAttribute('value');
+                if (value && value.length > 3 && !value.includes('Profissional')) {
+                    return this.decodeHtmlEntities(value);
+                }
+            }
+
+            // 4. Fallback: elemento .advertiser-name
+            const advertiserNameElement = document.querySelector('.advertiser-name');
+            if (advertiserNameElement) {
+                const text = advertiserNameElement.textContent.trim();
+                if (text.length > 3 && !text.includes('Profissional')) {
+                    return this.decodeHtmlEntities(text);
+                }
+            }
+
+            // 5. Fallback: elemento .about-advertiser-name
+            const aboutAdvertiserNameElement = document.querySelector('.about-advertiser-name');
+            if (aboutAdvertiserNameElement) {
+                const text = aboutAdvertiserNameElement.textContent.trim();
+                if (text.length > 3 && !text.includes('Profissional')) {
+                    return this.decodeHtmlEntities(text);
+                }
+            }
+
+            return '';
+        }
+
         // ========== EXTRAÇÃO DE IMAGENS ==========
         extractImages() {
             const images = [];
@@ -338,6 +386,7 @@
                 images: this.extractImages(),
                 latitude: coordinates.latitude,
                 longitude: coordinates.longitude,
+                realEstate: this.extractRealEstate(),
                 isRented: this.extractIsRented(),
                 isAvailable: true,
                 originalUrl: window.location.href,

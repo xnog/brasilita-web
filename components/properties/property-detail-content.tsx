@@ -19,7 +19,8 @@ import {
     Hash,
     Check,
     X,
-    Phone
+    Phone,
+    Building2
 } from "lucide-react";
 import { PropertyDetailImage } from "./property-detail-image";
 import { PropertyMap } from "./property-map";
@@ -304,6 +305,15 @@ export function PropertyDetailContent({
                                             Anunciado em {formattedDate}
                                         </span>
                                     </div>
+
+                                    {property.realEstate && (
+                                        <div className="flex items-center gap-2">
+                                            <Building2 className="h-4 w-4 text-slate-500" />
+                                            <span className="text-slate-600">
+                                                <span className="font-medium text-slate-800">{property.realEstate}</span>
+                                            </span>
+                                        </div>
+                                    )}
 
                                     {property.area && (
                                         <div className="flex items-center gap-2">
