@@ -75,7 +75,7 @@ export function PropertyDetailContent({
     };
 
     const openWhatsApp = (propertyCode: string, message: string) => {
-        const phoneNumber = "5548988452578";
+        const phoneNumber = "393515295913";
         const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
 
         // Tentar abrir em nova aba primeiro
@@ -369,10 +369,10 @@ export function PropertyDetailContent({
                                                         </p>
                                                         <div className="flex items-center justify-center gap-2">
                                                             <span className="text-emerald-700 font-semibold">
-                                                                +55 48 98845-2578
+                                                                +39 351 529 5913
                                                             </span>
                                                             <button
-                                                                onClick={() => navigator.clipboard.writeText('+5548988452578')}
+                                                                onClick={() => navigator.clipboard.writeText('+393515295913')}
                                                                 className="text-xs bg-emerald-200 hover:bg-emerald-300 text-emerald-800 px-2 py-1 rounded transition-colors"
                                                                 title="Copiar número"
                                                             >
