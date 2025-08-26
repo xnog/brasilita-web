@@ -31,7 +31,7 @@ export default async function HomePage() {
               Encontramos seu imóvel dos sonhos e conectamos você a profissionais e imobiliárias locais, facilitando a comunicação e a organização das etapas, eliminando barreiras de idioma e burocracia.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-              <a href="/auth/signin?callbackUrl=/dashboard" className="inline-flex items-center justify-center px-8 py-3 rounded-lg bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-black font-semibold transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105">
+              <a href="/properties" className="inline-flex items-center justify-center px-8 py-3 rounded-lg bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-black font-semibold transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105">
                 Buscar Imóveis
               </a>
               <a href="#servicos" className="inline-flex items-center justify-center px-8 py-3 rounded-lg bg-white/10 backdrop-blur-md hover:bg-white/20 text-white font-semibold border-2 border-white/70 hover:border-white transition-all duration-300 shadow-lg hover:scale-105">
@@ -339,7 +339,7 @@ export default async function HomePage() {
               Entre em contato conosco e descubra como podemos ajudá-lo a investir no mercado imobiliário italiano
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a href="/auth/signin?callbackUrl=/dashboard" className="btn-primary">
+              <a href="/dashboard" className="btn-primary">
                 Começar Agora
               </a>
               <a href="/contact" className="btn-secondary">

@@ -297,7 +297,7 @@ export default async function AboutPage() {
                                     a música, as paisagens — são muitos os motivos que fizeram da Itália nossa especialidade e paixão.
                                 </p>
                                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                                    <a href="/auth/signin?callbackUrl=/dashboard" className="btn-primary">
+                                    <a href="/dashboard" className="btn-primary">
                                         Conhecer a Brasilità
                                     </a>
                                     <div className="text-sm text-muted-foreground sm:text-left text-center">
@@ -322,7 +322,7 @@ export default async function AboutPage() {
                             Entre em contato conosco e descubra como podemos ajudá-lo a investir no mercado imobiliário italiano
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                            <a href="/auth/signin?callbackUrl=/dashboard" className="btn-primary">
+                            <a href="/dashboard" className="btn-primary">
                                 Começar Agora
                             </a>
                             <a href="/contact" className="btn-secondary">

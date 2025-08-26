@@ -113,7 +113,7 @@ export default async function ContactPage() {
                                 <p className="text-sm text-muted-foreground mb-4">
                                     Para iniciar sua busca por imóveis na Itália
                                 </p>
-                                <a href="/auth/signin?callbackUrl=/dashboard" className="text-primary font-medium hover:underline text-sm">
+                                <a href="/dashboard" className="text-primary font-medium hover:underline text-sm">
                                     Acessar Plataforma
                                 </a>
                             </div>
@@ -149,7 +149,7 @@ export default async function ContactPage() {
                             Entre em contato conosco e descubra como podemos ajudá-lo a investir no mercado imobiliário italiano
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                            <a href="/auth/signin?callbackUrl=/dashboard" className="btn-primary">
+                            <a href="/dashboard" className="btn-primary">
                                 Começar Agora
                             </a>
                             <a href="mailto:contato@brasilita.com" className="btn-secondary">

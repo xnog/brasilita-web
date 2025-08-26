@@ -199,7 +199,7 @@ export default async function PossibilitiesPage() {
                             Entre em contato conosco e descubra qual estratégia é ideal para seu perfil de investimento
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                            <a href="/auth/signin?callbackUrl=/dashboard" className="btn-primary">
+                            <a href="/dashboard" className="btn-primary">
                                 Começar Agora
                             </a>
                             <a href="/contact" className="btn-secondary">
