@@ -1,4 +1,4 @@
-import { Building, Home, Key, MapPin, Mail, CheckCircle, Users, TrendingUp, Shield, Clock, Award, Globe } from "lucide-react";
+import { Home, Key, MapPin, Mail, CheckCircle, Users, User, TrendingUp, Shield, Clock, Award, Globe } from "lucide-react";
 import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { Logo } from "@/components/ui/logo";
@@ -20,7 +20,7 @@ export default async function HomePage() {
             <div className="mb-6">
               <span className="inline-flex items-center px-4 py-2 rounded-full bg-white/90 backdrop-blur-md text-gray-800 text-sm font-medium mb-4 shadow-xl border border-white/50">
                 <Award className="w-4 h-4 mr-2" />
-                O único marketplace de imóveis italianos
+                O único marketplace de imóveis italianos para brasileiros
               </span>
             </div>
             <h1 className="text-4xl md:text-6xl font-bold mb-6 text-white leading-tight" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.8), 0px 0px 8px rgba(0,0,0,0.6)' }}>
@@ -31,12 +31,12 @@ export default async function HomePage() {
               Encontramos seu imóvel dos sonhos e conectamos você a profissionais e imobiliárias locais, facilitando a comunicação e a organização das etapas, eliminando barreiras de idioma e burocracia.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-              <a href="/properties" className="inline-flex items-center justify-center px-8 py-3 rounded-lg bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-black font-semibold transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105">
+              <a href="/auth/signup" className="inline-flex items-center justify-center px-8 py-3 rounded-lg bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-black font-semibold transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105">
+                Criar Conta
+              </a>
+              <Link href="/properties" className="inline-flex items-center justify-center px-8 py-3 rounded-lg bg-white/10 backdrop-blur-md hover:bg-white/20 text-white font-semibold border-2 border-white/70 hover:border-white transition-all duration-300 shadow-lg hover:scale-105">
                 Buscar Imóveis
-              </a>
-              <a href="#servicos" className="inline-flex items-center justify-center px-8 py-3 rounded-lg bg-white/10 backdrop-blur-md hover:bg-white/20 text-white font-semibold border-2 border-white/70 hover:border-white transition-all duration-300 shadow-lg hover:scale-105">
-                Ver Nossos Serviços
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -93,9 +93,9 @@ export default async function HomePage() {
             </p>
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
+          <div className="flex justify-center max-w-6xl mx-auto">
             {/* Service 1 */}
-            <div className="professional-card">
+            <div className="professional-card max-w-2xl">
               <div className="flex items-center mb-6">
                 <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mr-4">
                   <Home className="h-6 w-6 text-primary" />
@@ -115,7 +115,7 @@ export default async function HomePage() {
                 </li>
                 <li className="flex items-start space-x-3">
                   <CheckCircle className="feature-icon mt-0.5" />
-                  <span className="text-sm">Negociação estratégica de preços</span>
+                  <span className="text-sm">Verificação física e documental</span>
                 </li>
                 <li className="flex items-start space-x-3">
                   <CheckCircle className="feature-icon mt-0.5" />
@@ -123,12 +123,13 @@ export default async function HomePage() {
                 </li>
                 <li className="flex items-start space-x-3">
                   <CheckCircle className="feature-icon mt-0.5" />
-                  <span className="text-sm">Acompanhamento em português</span>
+                  <span className="text-sm">Acompanhamento do processo do início ao fim</span>
                 </li>
               </ul>
             </div>
 
             {/* Service 2 */}
+            {/* 
             <div className="professional-card">
               <div className="flex items-center mb-6">
                 <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mr-4">
@@ -161,6 +162,55 @@ export default async function HomePage() {
                 </li>
               </ul>
             </div>
+            */}
+          </div>
+        </div>
+      </section>
+
+      {/* Quick Start Section */}
+      <section className="bg-primary/5 section-padding">
+        <div className="container mx-auto container-padding">
+          <div className="max-w-4xl mx-auto text-center">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">
+              Comece sua jornada em 2 minutos
+            </h2>
+            <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
+              Crie sua conta e acesse nossa plataforma completa para encontrar seu imóvel dos sonhos na Itália
+            </p>
+
+            <div className="grid md:grid-cols-3 gap-6 mb-8">
+              <div className="professional-card text-center">
+                <div className="w-12 h-12 bg-gradient-to-br from-green-500/10 to-green-600/10 rounded-xl flex items-center justify-center mx-auto mb-4">
+                  <User className="w-6 h-6 text-green-600" />
+                </div>
+                <h3 className="font-semibold mb-2">1. Criar Conta</h3>
+                <p className="text-sm text-muted-foreground">Cadastro rápido</p>
+              </div>
+
+              <div className="professional-card text-center">
+                <div className="w-12 h-12 bg-gradient-to-br from-blue-500/10 to-blue-600/10 rounded-xl flex items-center justify-center mx-auto mb-4">
+                  <Home className="w-6 h-6 text-blue-600" />
+                </div>
+                <h3 className="font-semibold mb-2">2. Definir Preferências</h3>
+                <p className="text-sm text-muted-foreground">Conte-nos sobre seu imóvel ideal</p>
+              </div>
+
+              <div className="professional-card text-center">
+                <div className="w-12 h-12 bg-gradient-to-br from-purple-500/10 to-purple-600/10 rounded-xl flex items-center justify-center mx-auto mb-4">
+                  <CheckCircle className="w-6 h-6 text-purple-600" />
+                </div>
+                <h3 className="font-semibold mb-2">3. Receber Suporte</h3>
+                <p className="text-sm text-muted-foreground">Nossa equipe entrará em contato</p>
+              </div>
+            </div>
+
+            <a href="/auth/signup" className="inline-flex items-center justify-center px-8 py-4 rounded-lg bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary text-primary-foreground font-semibold text-lg transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105">
+              Criar Minha Conta
+            </a>
+
+            <p className="text-sm text-muted-foreground mt-4">
+              ✓ Sem compromisso ✓ Suporte em português
+            </p>
           </div>
         </div>
       </section>
@@ -339,8 +389,8 @@ export default async function HomePage() {
               Entre em contato conosco e descubra como podemos ajudá-lo a investir no mercado imobiliário italiano
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a href="/dashboard" className="btn-primary">
-                Começar Agora
+              <a href="/auth/signup" className="btn-primary">
+                Criar Conta
               </a>
               <a href="/contact" className="btn-secondary">
                 Fale Conosco

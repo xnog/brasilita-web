@@ -20,7 +20,8 @@ import {
     Check,
     X,
     Phone,
-    Building2
+    Building2,
+    HelpCircle
 } from "lucide-react";
 import { PropertyDetailImage } from "./property-detail-image";
 import { PropertyMap } from "./property-map";
@@ -224,6 +225,8 @@ export function PropertyDetailContent({
                             </Badge>
                         </div>
 
+
+
                         {/* Specs */}
                         <div className="flex flex-wrap gap-6">
                             {property.bedrooms != null && Number(property.bedrooms) > 0 && (
@@ -252,6 +255,28 @@ export function PropertyDetailContent({
                             <p className="text-slate-600 leading-relaxed whitespace-pre-line break-words">
                                 {property.description || "Descrição não disponível."}
                             </p>
+                        </div>
+
+                        {/* Help Section */}
+                        <div className="bg-slate-50/50 rounded-lg p-4 border-l-4 border-slate-200">
+                            <div className="flex items-start gap-3">
+                                <HelpCircle className="h-4 w-4 text-slate-400 mt-0.5 flex-shrink-0" />
+                                <div className="text-sm">
+                                    <p className="text-slate-600 mb-1">
+                                        <span className="font-medium">Primeira vez comprando na Itália?</span>
+                                    </p>
+                                    <p className="text-slate-500 text-xs">
+                                        Confira nossa seção de{" "}
+                                        <button
+                                            onClick={() => window.open('/faq', '_blank')}
+                                            className="text-slate-700 hover:text-slate-900 underline decoration-slate-300 hover:decoration-slate-500 transition-colors"
+                                        >
+                                            perguntas frequentes
+                                        </button>
+                                        {" "}para esclarecer dúvidas sobre custos, documentação e processo.
+                                    </p>
+                                </div>
+                            </div>
                         </div>
 
                         {/* Features */}
@@ -325,6 +350,8 @@ export function PropertyDetailContent({
                                     )}
                                 </div>
                             </div>
+
+
 
                             {/* Action Buttons */}
                             <div className="space-y-3">

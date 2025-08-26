@@ -20,9 +20,9 @@ const faqData = {
         {
             id: "comprar-sem-morar",
             question: "1. Posso comprar um imóvel na Itália mesmo sem morar lá?",
-            answer: "Sim. Qualquer estrangeiro pode adquirir imóveis na Itália, mesmo sem residência fixa no país. O processo é formalizado em cartório por um notaio, que garante a validade da compra.",
+            answer: "Sim. Brasileiros podem adquirir imóveis na Itália, mesmo sem residência fixa no país. O processo é formalizado em cartório por um notaio, que garante a validade da compra.",
             category: "Processo de Compra",
-            tags: ["estrangeiro", "residência", "notaio", "cartório"]
+            tags: ["brasileiros", "residência", "notaio", "cartório"]
         },
         {
             id: "custos-adicionais",
@@ -136,17 +136,20 @@ const faqData = {
             question: "13. Como funciona o processo de compra na Brasilità?",
             answer: (
                 <ol className="list-decimal list-inside space-y-1 ml-4">
+                    <li>Busca do Imóvel na plataforma</li>
                     <li>Escolha do imóvel</li>
+                    <li>Verificação de disponibilidade com a imobiliária</li>
                     <li>Visita por correspondente (vídeos e fotos)</li>
-                    <li>Oferta de compra aceita pelo vendedor;</li>
-                    <li>Assinatura do Compromesso (contrato preliminar) com pagamento de sinal;</li>
-                    <li>Procuração via cartório no Brasil</li>
-                    <li>Escritura definitiva no notaio;</li>
-                    <li>Registro na Agenzia Dell Entrate, oficializando a propriedade.</li>
+                    <li>Oferta de compra através da imobiliária</li>
+                    <li>Assinatura do compromesso com pagamento de caparra (sinal)</li>
+                    <li>Agendamento do atto</li>
+                    <li>Procuração via cartório no Brasil (se necessário)</li>
+                    <li>Escritura definitiva no notaio</li>
+                    <li>Registro na Agenzia Dell Entrate, oficializando a propriedade</li>
                 </ol>
             ),
             category: "Processo de Compra",
-            tags: ["escolha", "oferta", "compromesso", "escritura", "agenzia", "procuração"]
+            tags: ["busca", "escolha", "disponibilidade", "visita", "oferta", "compromesso", "caparra", "atto", "procuração", "escritura", "agenzia"]
         },
         {
             id: "cidadania-necessaria",
@@ -334,22 +337,6 @@ export function FAQClient() {
                         })
                     )}
                 </div>
-
-                {/* Important Notice */}
-                <Card className="mt-12 bg-gradient-to-r from-amber-500/10 to-amber-500/5 border-amber-500/20">
-                    <CardHeader>
-                        <CardTitle className="text-center flex items-center justify-center gap-2">
-                            <Shield className="h-5 w-5 text-amber-600" />
-                            Aviso Importante
-                        </CardTitle>
-                    </CardHeader>
-                    <CardContent className="text-center">
-                        <p className="text-sm text-muted-foreground mb-4">
-                            👉 <strong>Importante:</strong> Antes de confirmar o interesse em qualquer imóvel, esteja ciente de que existem
-                            custos fixos e obrigatórios (taxas, impostos e notaio). Confirme sua intenção apenas se tiver real interesse em prosseguir.
-                        </p>
-                    </CardContent>
-                </Card>
             </div>
         </div>
     );
