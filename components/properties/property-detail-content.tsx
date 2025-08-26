@@ -295,7 +295,7 @@ export function PropertyDetailContent({
                                     <div className="flex items-center gap-2">
                                         <Hash className="h-4 w-4 text-slate-500" />
                                         <span className="text-slate-600">
-                                            Código: <span className="font-mono font-semibold text-slate-800">{getPropertyCode(property.id)}</span>
+                                            Código <span className="font-mono font-semibold text-slate-800">{getPropertyCode(property.id)}</span>
                                         </span>
                                     </div>
 
@@ -310,7 +310,7 @@ export function PropertyDetailContent({
                                         <div className="flex items-center gap-2">
                                             <Building2 className="h-4 w-4 text-slate-500" />
                                             <span className="text-slate-600">
-                                                <span className="font-medium text-slate-800">{property.realEstate}</span>
+                                                Anúncio de <span className="font-medium text-slate-800">{property.realEstate}</span>
                                             </span>
                                         </div>
                                     )}
