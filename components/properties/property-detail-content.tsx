@@ -377,7 +377,7 @@ export function PropertyDetailContent({
                                         size="lg"
                                     >
                                         <Phone className="h-5 w-5 mr-2" />
-                                        Negociar via WhatsApp
+                                        Entrar em Contato
                                     </Button>
                                     <p className="text-xs text-center text-slate-500">
                                         Conecte-se diretamente com nossa equipe
