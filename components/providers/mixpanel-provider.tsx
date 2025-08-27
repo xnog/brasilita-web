@@ -4,7 +4,7 @@ import { createContext, useContext, useEffect, useState, ReactNode } from 'react
 import mixpanel from 'mixpanel-browser';
 
 interface MixpanelContextType {
-    track: (eventName: string, properties?: Record<string, any>) => void;
+    track: (eventName: string, properties?: Record<string, unknown>) => void;
     setUser: (email: string, name?: string) => void;
     reset: () => void;
     isInitialized: boolean;
@@ -27,7 +27,7 @@ export function MixpanelProvider({ children }: { children: ReactNode }) {
         }
     }, []);
 
-    const track = (eventName: string, properties?: Record<string, any>) => {
+    const track = (eventName: string, properties?: Record<string, unknown>) => {
         if (!isInitialized) return;
         mixpanel.track(eventName, properties);
     };
