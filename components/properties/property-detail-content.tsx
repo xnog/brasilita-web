@@ -91,6 +91,24 @@ export function PropertyDetailContent({
 
     const handleProceedToNegotiation = async () => {
         setLoading(true);
+
+        // Criar mensagem pré-preenchida para WhatsApp (uma única vez)
+        const propertyCode = getPropertyCode(property.id);
+        const propertyUrl = `${window.location.origin}/properties/${property.id}`;
+        const locationText = property.location + (property.region?.name ? `, ${property.region.name}` : '');
+
+        const message = `*Olá! Tenho interesse em obter mais informações sobre este imóvel.*
+
+*Propriedade de interesse:*
+Código: ${propertyCode}
+Título: ${property.title}
+Localização: ${locationText}
+Link: ${propertyUrl}
+
+Aguardo retorno para darmos continuidade.
+
+_Mensagem enviada através do site brasilita.com_`;
+
         try {
             // Registrar o interesse em prosseguir no banco de dados
             const response = await fetch('/api/properties/interest', {
@@ -111,25 +129,12 @@ export function PropertyDetailContent({
                 // Atualizar o estado local se o registro foi bem-sucedido
                 setWantsToProceed(true);
             }
-
-            // Criar mensagem pré-preenchida para WhatsApp
-            const propertyCode = getPropertyCode(property.id);
-            const message = `Olá! Tenho interesse no imóvel código ${propertyCode} - ${property.title}. Gostaria de receber mais informações. Obrigado!`;
-
-            // Abrir WhatsApp com fallback para bloqueio de popup
-            openWhatsApp(propertyCode, message);
-
         } catch (error) {
             console.error('Erro ao registrar interesse:', error);
             // Continue mesmo se houver erro, não queremos bloquear o usuário
-
-            // Criar mensagem pré-preenchida para WhatsApp mesmo com erro
-            const propertyCode = getPropertyCode(property.id);
-            const message = `Olá! Tenho interesse no imóvel código ${propertyCode} - ${property.title}. Gostaria de receber mais informações. Obrigado!`;
-
-            // Abrir WhatsApp com fallback para bloqueio de popup
-            openWhatsApp(propertyCode, message);
         } finally {
+            // Abrir WhatsApp sempre, independente do resultado do registro
+            openWhatsApp(propertyCode, message);
             setLoading(false);
         }
     };

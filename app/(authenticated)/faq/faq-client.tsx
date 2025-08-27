@@ -8,12 +8,6 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { ChevronDown, ChevronUp, Search, HelpCircle, FileText, MapPin, DollarSign, Home, Shield, Calendar, User } from "lucide-react";
 
-// Removed JSON import - data is now inline
-
-
-
-
-
 // FAQ Data inline
 const faqData = {
     questions: [
