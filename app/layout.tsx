@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { AuthProvider } from "@/components/providers/session-provider";
+import { MixpanelProvider } from "@/components/providers/mixpanel-provider";
+import { PageTracker } from "@/components/analytics/page-tracker";
+import { UserTracker } from "@/components/analytics/user-tracker";
 import { Toaster } from "sonner";
 import "./globals.css";
 
@@ -49,10 +52,14 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <AuthProvider>
-          {children}
-          <Toaster position="top-right" richColors />
-        </AuthProvider>
+        <MixpanelProvider>
+          <AuthProvider>
+            <PageTracker />
+            <UserTracker />
+            {children}
+            <Toaster position="top-right" richColors />
+          </AuthProvider>
+        </MixpanelProvider>
       </body>
     </html>
   );

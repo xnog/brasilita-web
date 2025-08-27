@@ -8,6 +8,7 @@ frontend:
         - echo "GOOGLE_CLIENT_SECRET=$GOOGLE_CLIENT_SECRET" >> .env
         - echo "NEXTAUTH_URL=$NEXTAUTH_URL" >> .env
         - echo "NEXTAUTH_SECRET=$NEXTAUTH_SECRET" >> .env
+        - echo "NEXT_PUBLIC_MIXPANEL_PROJECT_TOKEN=$NEXT_PUBLIC_MIXPANEL_PROJECT_TOKEN" >> .env
         - npm ci --cache .npm --prefer-offline
     build:
       commands:

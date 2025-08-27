@@ -42,6 +42,7 @@
     "embla-carousel-react": "^8.6.0",
     "leaflet": "^1.9.4",
     "lucide-react": "^0.537.0",
+    "mixpanel-browser": "^2.69.1",
     "next": "15.4.6",
     "next-auth": "^5.0.0-beta.29",
     "nodemailer": "^6.10.1",
