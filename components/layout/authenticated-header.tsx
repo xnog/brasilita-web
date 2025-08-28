@@ -7,9 +7,10 @@ import { Logo } from "@/components/ui/logo";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
-import { LogOut, User, Menu } from "lucide-react";
+import { LogOut, User, Menu, HelpCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { signOut } from "next-auth/react";
+
 
 const navigationItems = [
     {
@@ -17,21 +18,13 @@ const navigationItems = [
         href: "/dashboard",
     },
     {
-        name: "Preferências",
-        href: "/preferences",
-    },
-    {
         name: "Imóveis",
         href: "/properties",
     },
     {
-        name: "FAQ",
-        href: "/faq",
+        name: "Serviços",
+        href: "/services",
     },
-    // {
-    //     name: "Checklist",
-    //     href: "/checklist",
-    // },
 ];
 
 interface AuthenticatedHeaderProps {
@@ -56,7 +49,7 @@ export function AuthenticatedHeader({ user }: AuthenticatedHeaderProps) {
                     <SheetTrigger asChild>
                         <Button
                             variant="ghost"
-                            className="mr-2 px-0 text-base hover:bg-transparent focus-visible:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 md:hidden"
+                            className="mr-2 px-0 text-base hover:bg-transparent focus-visible:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 lg:hidden"
                         >
                             <Menu className="h-5 w-5" />
                             <span className="sr-only">Toggle Menu</span>
@@ -83,19 +76,31 @@ export function AuthenticatedHeader({ user }: AuthenticatedHeaderProps) {
                                             href={item.href}
                                             className={cn(
                                                 "transition-colors hover:text-foreground/80",
-                                                isActive ? "text-foreground" : "text-foreground/60"
+                                                isActive ? "text-foreground font-medium" : "text-foreground/60"
                                             )}
                                         >
                                             {item.name}
                                         </Link>
                                     );
                                 })}
+
+                                {/* Support link in mobile menu */}
+                                <Link
+                                    href="/support"
+                                    className={cn(
+                                        "transition-colors hover:text-foreground/80 flex items-center gap-2",
+                                        pathname === "/support" ? "text-foreground font-medium" : "text-foreground/60"
+                                    )}
+                                >
+                                    <HelpCircle className="h-4 w-4" />
+                                    Suporte
+                                </Link>
                             </div>
                         </div>
                     </SheetContent>
                 </Sheet>
 
-                <div className="mr-6 hidden md:flex">
+                <div className="mr-6 hidden lg:flex">
                     <Link href="/dashboard" className="flex items-center space-x-2">
                         <Logo className="h-6 w-6" size={24} />
                         <span className="hidden font-bold sm:inline-block">
@@ -104,7 +109,7 @@ export function AuthenticatedHeader({ user }: AuthenticatedHeaderProps) {
                     </Link>
                 </div>
 
-                <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
+                <nav className="hidden lg:flex items-center space-x-6 text-sm font-medium">
                     {navigationItems.map((item) => {
                         const isActive = pathname === item.href;
                         return (
@@ -120,10 +125,21 @@ export function AuthenticatedHeader({ user }: AuthenticatedHeaderProps) {
                             </Link>
                         );
                     })}
+
+
                 </nav>
 
                 <div className="flex flex-1 items-center justify-end">
                     <div className="flex items-center space-x-2">
+                        {/* Support Button */}
+                        <Button variant="ghost" size="sm" asChild>
+                            <Link href="/support" className="flex items-center gap-2">
+                                <HelpCircle className="h-4 w-4" />
+                                <span className="hidden sm:inline">Suporte</span>
+                            </Link>
+                        </Button>
+
+                        {/* User Avatar Dropdown */}
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                                 <Button variant="ghost" className="relative h-8 w-8 rounded-full">
@@ -148,7 +164,7 @@ export function AuthenticatedHeader({ user }: AuthenticatedHeaderProps) {
                                 </DropdownMenuLabel>
                                 <DropdownMenuSeparator />
                                 <DropdownMenuItem asChild>
-                                    <Link href="/dashboard">
+                                    <Link href="/preferences">
                                         <User className="mr-2 h-4 w-4" />
                                         <span>Perfil</span>
                                     </Link>

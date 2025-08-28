@@ -4,6 +4,7 @@ import { db } from "@/lib/db";
 import { userProfiles, Region } from "@/lib/db/schema";
 import { eq, asc, sql } from "drizzle-orm";
 import { PreferencesRequiredBanner } from "@/components/preferences/preferences-required-banner";
+import { CustomSearchBanner } from "@/components/services/custom-search-banner";
 
 export default async function PropertiesPage() {
     const session = await auth();
@@ -71,6 +72,10 @@ export default async function PropertiesPage() {
                         </div>
 
                         <PropertiesClient userPreferences={userPreferences} regions={regions} />
+
+                        <div className="mt-12">
+                            <CustomSearchBanner />
+                        </div>
                     </>
                 )}
             </div>

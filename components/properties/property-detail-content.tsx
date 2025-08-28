@@ -26,6 +26,8 @@ import {
 import { PropertyDetailImage } from "./property-detail-image";
 import { PropertyMap } from "./property-map";
 import { getPropertyCode } from "@/lib/utils";
+import { PropertyVisitButton } from "@/components/services/property-visit-button";
+import { generatePropertyNegotiationMessage, openWhatsApp, WHATSAPP_PHONE, getFormattedPhoneNumber } from "@/lib/services/whatsapp-messages";
 
 interface PropertyDetailContentProps {
     property: Property & {
@@ -76,38 +78,10 @@ export function PropertyDetailContent({
         }
     };
 
-    const openWhatsApp = (propertyCode: string, message: string) => {
-        const phoneNumber = "393515295913";
-        const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
 
-        // Tentar abrir em nova aba primeiro
-        const newWindow = window.open(whatsappUrl, '_blank');
-
-        // Se o popup foi bloqueado, usar redirecionamento direto
-        if (!newWindow || newWindow.closed || typeof newWindow.closed === 'undefined') {
-            window.location.href = whatsappUrl;
-        }
-    };
 
     const handleProceedToNegotiation = async () => {
         setLoading(true);
-
-        // Criar mensagem pré-preenchida para WhatsApp (uma única vez)
-        const propertyCode = getPropertyCode(property.id);
-        const propertyUrl = `${window.location.origin}/properties/${property.id}`;
-        const locationText = property.location + (property.region?.name ? `, ${property.region.name}` : '');
-
-        const message = `*Olá! Tenho interesse em obter mais informações sobre este imóvel.*
-
-*Propriedade de interesse:*
-Código: ${propertyCode}
-Título: ${property.title}
-Localização: ${locationText}
-Link: ${propertyUrl}
-
-Aguardo retorno para darmos continuidade.
-
-_Mensagem enviada através do site brasilita.com_`;
 
         try {
             // Registrar o interesse em prosseguir no banco de dados
@@ -133,8 +107,11 @@ _Mensagem enviada através do site brasilita.com_`;
             console.error('Erro ao registrar interesse:', error);
             // Continue mesmo se houver erro, não queremos bloquear o usuário
         } finally {
+            // Criar mensagem pré-preenchida para WhatsApp usando a função utilitária
+            const message = generatePropertyNegotiationMessage(property);
+
             // Abrir WhatsApp sempre, independente do resultado do registro
-            openWhatsApp(propertyCode, message);
+            openWhatsApp(message);
             setLoading(false);
         }
     };
@@ -373,6 +350,16 @@ _Mensagem enviada através do site brasilita.com_`;
                                     {property.isInterested ? "Favoritado" : "Adicionar aos Favoritos"}
                                 </Button>
 
+                                {/* Property Visit */}
+                                <PropertyVisitButton
+                                    property={property}
+                                    variant="outline"
+                                    size="lg"
+                                    className="w-full"
+                                >
+                                    Solicitar Visita com Fotos e Vídeos
+                                </PropertyVisitButton>
+
                                 {/* Negotiation Flow */}
                                 <div className="space-y-2">
                                     <Button
@@ -411,10 +398,10 @@ _Mensagem enviada através do site brasilita.com_`;
                                                         </p>
                                                         <div className="flex items-center justify-center gap-2">
                                                             <span className="text-emerald-700 font-semibold">
-                                                                +39 351 529 5913
+                                                                {getFormattedPhoneNumber()}
                                                             </span>
                                                             <button
-                                                                onClick={() => navigator.clipboard.writeText('+393515295913')}
+                                                                onClick={() => navigator.clipboard.writeText(`+${WHATSAPP_PHONE}`)}
                                                                 className="text-xs bg-emerald-200 hover:bg-emerald-300 text-emerald-800 px-2 py-1 rounded transition-colors"
                                                                 title="Copiar número"
                                                             >

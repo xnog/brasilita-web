@@ -1,4 +1,4 @@
-import { Home, Key, MapPin, Mail, CheckCircle, Users, User, TrendingUp, Shield, Clock, Award, Globe } from "lucide-react";
+import { Home, Key, MapPin, Mail, CheckCircle, Users, User, TrendingUp, Shield, Clock, Award, Globe, Search, Camera } from "lucide-react";
 import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { Logo } from "@/components/ui/logo";
@@ -93,9 +93,77 @@ export default async function HomePage() {
             </p>
           </div>
 
-          <div className="flex justify-center max-w-6xl mx-auto">
-            {/* Service 1 */}
-            <div className="professional-card max-w-2xl">
+          <div className="grid lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            {/* Service 1 - Busca Dedicada */}
+            <div className="professional-card">
+              <div className="flex items-center mb-6">
+                <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mr-4">
+                  <Search className="h-6 w-6 text-primary" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold text-foreground">Busca Dedicada</h3>
+                  <p className="text-sm text-muted-foreground">Encontramos para você</p>
+                </div>
+              </div>
+              <p className="text-muted-foreground mb-6">
+                Não encontrou o imóvel ideal? Nossa equipe fará uma busca dedicada no mercado italiano baseada nas suas especificações.
+              </p>
+              <ul className="space-y-3">
+                <li className="flex items-start space-x-3">
+                  <CheckCircle className="feature-icon mt-0.5" />
+                  <span className="text-sm">Busca direcionada conforme seus critérios</span>
+                </li>
+                <li className="flex items-start space-x-3">
+                  <CheckCircle className="feature-icon mt-0.5" />
+                  <span className="text-sm">Acesso a propriedades não públicas</span>
+                </li>
+                <li className="flex items-start space-x-3">
+                  <CheckCircle className="feature-icon mt-0.5" />
+                  <span className="text-sm">Relatório detalhado das opções</span>
+                </li>
+                <li className="flex items-start space-x-3">
+                  <CheckCircle className="feature-icon mt-0.5" />
+                  <span className="text-sm">Atendimento em português</span>
+                </li>
+              </ul>
+            </div>
+
+            {/* Service 2 - Visita de Imóveis */}
+            <div className="professional-card">
+              <div className="flex items-center mb-6">
+                <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mr-4">
+                  <Camera className="h-6 w-6 text-primary" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold text-foreground">Visita de Imóveis</h3>
+                  <p className="text-sm text-muted-foreground">Documentação completa</p>
+                </div>
+              </div>
+              <p className="text-muted-foreground mb-6">
+                Solicite uma visita presencial em imóveis de interesse. Receba fotos, vídeos e relatório técnico para decidir com segurança.
+              </p>
+              <ul className="space-y-3">
+                <li className="flex items-start space-x-3">
+                  <CheckCircle className="feature-icon mt-0.5" />
+                  <span className="text-sm">Fotos profissionais em alta resolução</span>
+                </li>
+                <li className="flex items-start space-x-3">
+                  <CheckCircle className="feature-icon mt-0.5" />
+                  <span className="text-sm">Vídeo tour completo da propriedade</span>
+                </li>
+                <li className="flex items-start space-x-3">
+                  <CheckCircle className="feature-icon mt-0.5" />
+                  <span className="text-sm">Relatório técnico detalhado</span>
+                </li>
+                <li className="flex items-start space-x-3">
+                  <CheckCircle className="feature-icon mt-0.5" />
+                  <span className="text-sm">Entrega em até 48 horas</span>
+                </li>
+              </ul>
+            </div>
+
+            {/* Service 3 - Compra de Imóveis */}
+            <div className="professional-card">
               <div className="flex items-center mb-6">
                 <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mr-4">
                   <Home className="h-6 w-6 text-primary" />
@@ -127,42 +195,6 @@ export default async function HomePage() {
                 </li>
               </ul>
             </div>
-
-            {/* Service 2 */}
-            {/* 
-            <div className="professional-card">
-              <div className="flex items-center mb-6">
-                <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mr-4">
-                  <Building className="h-6 w-6 text-primary" />
-                </div>
-                <div>
-                  <h3 className="text-xl font-bold text-foreground">Aluguel Longo Prazo</h3>
-                  <p className="text-sm text-muted-foreground">Renda estável</p>
-                </div>
-              </div>
-              <p className="text-muted-foreground mb-6">
-                Gestão completa de aluguéis residenciais com seleção criteriosa de inquilinos e administração total.
-              </p>
-              <ul className="space-y-3">
-                <li className="flex items-start space-x-3">
-                  <CheckCircle className="feature-icon mt-0.5" />
-                  <span className="text-sm">Seleção rigorosa de inquilinos</span>
-                </li>
-                <li className="flex items-start space-x-3">
-                  <CheckCircle className="feature-icon mt-0.5" />
-                  <span className="text-sm">Contratos seguros e conformes</span>
-                </li>
-                <li className="flex items-start space-x-3">
-                  <CheckCircle className="feature-icon mt-0.5" />
-                  <span className="text-sm">Cobrança e administração</span>
-                </li>
-                <li className="flex items-start space-x-3">
-                  <CheckCircle className="feature-icon mt-0.5" />
-                  <span className="text-sm">Manutenção preventiva</span>
-                </li>
-              </ul>
-            </div>
-            */}
           </div>
         </div>
       </section>
@@ -204,9 +236,14 @@ export default async function HomePage() {
               </div>
             </div>
 
-            <a href="/auth/signup" className="inline-flex items-center justify-center px-8 py-4 rounded-lg bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary text-primary-foreground font-semibold text-lg transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105">
-              Criar Minha Conta
-            </a>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
+              <a href="/auth/signup" className="inline-flex items-center justify-center px-8 py-4 rounded-lg bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary text-primary-foreground font-semibold text-lg transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105">
+                Criar Minha Conta
+              </a>
+              <Link href="/properties" className="inline-flex items-center justify-center px-8 py-4 rounded-lg bg-white/10 backdrop-blur-sm hover:bg-white/20 text-primary border-2 border-primary/20 hover:border-primary/40 font-semibold text-lg transition-all duration-300 shadow-lg hover:scale-105">
+                Explorar Imóveis
+              </Link>
+            </div>
 
             <p className="text-sm text-muted-foreground mt-4">
               ✓ Sem compromisso ✓ Suporte em português

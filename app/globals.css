@@ -124,6 +124,20 @@
   html {
     scroll-behavior: smooth;
   }
+
+  /* Add cursor pointer to all links */
+  a {
+    cursor: pointer;
+  }
+
+  /* Ensure buttons and interactive elements also have pointer cursor */
+  button,
+  [role="button"],
+  [type="button"],
+  [type="submit"],
+  [type="reset"] {
+    cursor: pointer;
+  }
 }
 
 @layer components {
