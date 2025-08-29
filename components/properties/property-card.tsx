@@ -8,7 +8,6 @@ import { Badge } from "@/components/ui/badge";
 import { MapPin, Bed, Bath, Square, Car, Wifi, Dumbbell, ChefHat, ChevronLeft, ChevronRight } from "lucide-react";
 import { Property } from "@/lib/db/schema";
 import { PropertyDetailModal } from "./property-detail-modal";
-import { PropertyVisitFloatingButton } from "@/components/services/property-visit-button";
 
 interface PropertyCardProps {
     property: Property & { isInterested?: boolean; region?: { id: string; name: string } | null };
@@ -185,10 +184,6 @@ export function PropertyCard({ property, onToggleInterest }: PropertyCardProps) 
                         )}
                     </div>
 
-                    {/* Visit button */}
-                    <div className="absolute top-4 right-4">
-                        <PropertyVisitFloatingButton property={property} />
-                    </div>
 
                     {/* Price overlay */}
                     <div className="absolute bottom-4 left-4">
@@ -287,8 +282,6 @@ export function PropertyCard({ property, onToggleInterest }: PropertyCardProps) 
                             </div>
                         )}
                     </div>
-
-
                 </CardContent>
             </Card>
 
