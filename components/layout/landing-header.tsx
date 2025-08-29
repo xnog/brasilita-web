@@ -20,16 +20,16 @@ interface LandingHeaderProps {
 
 const navigationItems = [
     {
-        name: "Possibilidades",
-        href: "/possibilities",
-    },
-    {
         name: "Sobre",
         href: "/about",
     },
     {
         name: "Parceiros",
         href: "/partners",
+    },
+    {
+        name: "FAQ",
+        href: "/faq",
     },
     {
         name: "Contato",

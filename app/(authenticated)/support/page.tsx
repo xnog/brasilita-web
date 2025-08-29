@@ -1,5 +1,4 @@
 import { Metadata } from "next";
-import Link from "next/link";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { HelpCircle, MessageCircle, Mail, ArrowRight, Instagram } from "lucide-react";
@@ -53,11 +52,11 @@ export default function SupportPage() {
                                 </p>
                             </div>
                             <Button size="lg" className="shrink-0" asChild>
-                                <Link href="/faq">
+                                <a href="/faq" target="_blank" rel="noopener noreferrer">
                                     <HelpCircle className="h-4 w-4 mr-2" />
                                     Ver FAQ
                                     <ArrowRight className="h-4 w-4 ml-2" />
-                                </Link>
+                                </a>
                             </Button>
                         </div>
                     </CardContent>

@@ -278,7 +278,7 @@ export default async function DashboardPage() {
                                 </p>
                             </div>
                             <Button size="lg" className="shrink-0 bg-blue-600 hover:bg-blue-700" asChild>
-                                <a href="/faq">
+                                <a href="/faq" target="_blank" rel="noopener noreferrer">
                                     <HelpCircle className="h-4 w-4 mr-2" />
                                     Ver FAQ
                                     <ArrowRight className="h-4 w-4 ml-2" />

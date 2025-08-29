@@ -364,8 +364,164 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Navigation Cards Section */}
+      {/* Property Possibilities Section */}
       <section className="section-padding">
+        <div className="container mx-auto container-padding">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">
+                Possibilidades do Seu Imóvel
+              </h2>
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                Descubra as diferentes formas de aproveitar e monetizar seu investimento imobiliário na Itália
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+              {/* Airbnb / Short-term Rental */}
+              <div className="professional-card text-center">
+                <div className="w-16 h-16 bg-gradient-to-br from-pink-500/10 to-red-500/10 rounded-xl flex items-center justify-center mx-auto mb-4">
+                  <Key className="w-8 h-8 text-pink-600" />
+                </div>
+                <h3 className="text-lg font-semibold mb-3">Aluguel por Temporada</h3>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Monetize seu imóvel com aluguéis de curta duração através de plataformas como Airbnb e Booking.com
+                </p>
+                <ul className="text-xs text-muted-foreground space-y-1">
+                  <li>• Alta rentabilidade sazonal</li>
+                  <li>• Gestão de reservas</li>
+                  <li>• Marketing digital</li>
+                </ul>
+              </div>
+
+              {/* Holiday Home */}
+              <div className="professional-card text-center">
+                <div className="w-16 h-16 bg-gradient-to-br from-blue-500/10 to-cyan-500/10 rounded-xl flex items-center justify-center mx-auto mb-4">
+                  <Home className="w-8 h-8 text-blue-600" />
+                </div>
+                <h3 className="text-lg font-semibold mb-3">Casa de Férias Pessoal</h3>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Tenha seu refúgio particular na Itália para desfrutar com família e amigos
+                </p>
+                <ul className="text-xs text-muted-foreground space-y-1">
+                  <li>• Uso exclusivo quando desejar</li>
+                  <li>• Manutenção preventiva</li>
+                  <li>• Segurança patrimonial</li>
+                </ul>
+              </div>
+
+              {/* Long-term Investment */}
+              <div className="professional-card text-center">
+                <div className="w-16 h-16 bg-gradient-to-br from-green-500/10 to-emerald-500/10 rounded-xl flex items-center justify-center mx-auto mb-4">
+                  <TrendingUp className="w-8 h-8 text-green-600" />
+                </div>
+                <h3 className="text-lg font-semibold mb-3">Investimento Longo Prazo</h3>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Valorização patrimonial consistente no mercado imobiliário italiano
+                </p>
+                <ul className="text-xs text-muted-foreground space-y-1">
+                  <li>• Valorização histórica estável</li>
+                  <li>• Diversificação de portfólio</li>
+                  <li>• Proteção contra inflação</li>
+                </ul>
+              </div>
+
+              {/* Relocation/Living */}
+              <div className="professional-card text-center">
+                <div className="w-16 h-16 bg-gradient-to-br from-purple-500/10 to-violet-500/10 rounded-xl flex items-center justify-center mx-auto mb-4">
+                  <MapPin className="w-8 h-8 text-purple-600" />
+                </div>
+                <h3 className="text-lg font-semibold mb-3">Mudança Definitiva</h3>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Realize o sonho de morar na Itália com toda segurança e suporte necessário
+                </p>
+                <ul className="text-xs text-muted-foreground space-y-1">
+                  <li>• Assessoria para residência</li>
+                  <li>• Suporte com documentação</li>
+                  <li>• Integração local</li>
+                </ul>
+              </div>
+
+              {/* Mixed Use */}
+              <div className="professional-card text-center">
+                <div className="w-16 h-16 bg-gradient-to-br from-orange-500/10 to-yellow-500/10 rounded-xl flex items-center justify-center mx-auto mb-4">
+                  <Clock className="w-8 h-8 text-orange-600" />
+                </div>
+                <h3 className="text-lg font-semibold mb-3">Uso Misto</h3>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Combine uso pessoal com rentabilização nos períodos que não estiver utilizando
+                </p>
+                <ul className="text-xs text-muted-foreground space-y-1">
+                  <li>• Flexibilidade total</li>
+                  <li>• Otimização de receita</li>
+                  <li>• Controle personalizado</li>
+                </ul>
+              </div>
+
+              {/* Legacy/Heritage */}
+              <div className="professional-card text-center">
+                <div className="w-16 h-16 bg-gradient-to-br from-amber-500/10 to-orange-500/10 rounded-xl flex items-center justify-center mx-auto mb-4">
+                  <Award className="w-8 h-8 text-amber-600" />
+                </div>
+                <h3 className="text-lg font-semibold mb-3">Patrimônio Familiar</h3>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Construa um legado duradouro para as próximas gerações da sua família
+                </p>
+                <ul className="text-xs text-muted-foreground space-y-1">
+                  <li>• Herança de valor</li>
+                  <li>• Tradição familiar</li>
+                  <li>• Cidadania italiana</li>
+                </ul>
+              </div>
+            </div>
+
+            {/* Benefits of Italian Market */}
+            <div className="text-center mb-8">
+              <h3 className="text-2xl font-bold mb-4 text-foreground">
+                Vantagens do Mercado Italiano
+              </h3>
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
+                Por que investir em imóveis na Itália é uma decisão inteligente
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-6">
+              <div className="professional-card text-center">
+                <div className="w-16 h-16 bg-gradient-to-br from-blue-500/10 to-blue-600/10 rounded-xl flex items-center justify-center mx-auto mb-4">
+                  <TrendingUp className="w-8 h-8 text-blue-600" />
+                </div>
+                <h3 className="text-lg font-semibold mb-3">Mercado Estável</h3>
+                <p className="text-sm text-muted-foreground">
+                  O mercado imobiliário italiano oferece estabilidade e crescimento consistente ao longo dos anos.
+                </p>
+              </div>
+
+              <div className="professional-card text-center">
+                <div className="w-16 h-16 bg-gradient-to-br from-green-500/10 to-green-600/10 rounded-xl flex items-center justify-center mx-auto mb-4">
+                  <MapPin className="w-8 h-8 text-green-600" />
+                </div>
+                <h3 className="text-lg font-semibold mb-3">Localização Estratégica</h3>
+                <p className="text-sm text-muted-foreground">
+                  Posição privilegiada na Europa, facilitando viagens e negócios internacionais.
+                </p>
+              </div>
+
+              <div className="professional-card text-center">
+                <div className="w-16 h-16 bg-gradient-to-br from-purple-500/10 to-purple-600/10 rounded-xl flex items-center justify-center mx-auto mb-4">
+                  <Award className="w-8 h-8 text-purple-600" />
+                </div>
+                <h3 className="text-lg font-semibold mb-3">Qualidade de Vida</h3>
+                <p className="text-sm text-muted-foreground">
+                  Cultura rica, gastronomia excepcional e estilo de vida mediterrâneo incomparável.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Navigation Cards Section */}
+      <section className="bg-muted/30 section-padding">
         <div className="container mx-auto container-padding">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-12">
@@ -377,16 +533,7 @@ export default async function HomePage() {
               </p>
             </div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {/* Possibilities Card */}
-              <a href="/possibilities" className="professional-card text-center hover:scale-105 transition-transform">
-                <div className="w-16 h-16 bg-gradient-to-br from-pink-500/10 to-red-500/10 rounded-xl flex items-center justify-center mx-auto mb-4">
-                  <Key className="w-8 h-8 text-pink-600" />
-                </div>
-                <h3 className="text-lg font-semibold mb-2">Possibilidades</h3>
-                <p className="text-sm text-muted-foreground">Descubra as diferentes formas de aproveitar seu imóvel</p>
-              </a>
-
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               <a href="/about" className="professional-card text-center hover:scale-105 transition-transform">
                 <div className="w-16 h-16 bg-gradient-to-br from-blue-500/10 to-blue-600/10 rounded-xl flex items-center justify-center mx-auto mb-4">
                   <Award className="w-8 h-8 text-blue-600" />
@@ -463,9 +610,9 @@ export default async function HomePage() {
             <div>
               <h4 className="font-semibold mb-4 text-foreground">Navegação</h4>
               <ul className="space-y-2 text-sm text-muted-foreground">
-                <li><a href="/possibilities" className="hover:text-foreground transition-colors">Possibilidades</a></li>
                 <li><a href="/about" className="hover:text-foreground transition-colors">Sobre</a></li>
                 <li><a href="/partners" className="hover:text-foreground transition-colors">Parceiros</a></li>
+                <li><a href="/faq" className="hover:text-foreground transition-colors">FAQ</a></li>
                 <li><a href="/contact" className="hover:text-foreground transition-colors">Contato</a></li>
               </ul>
             </div>

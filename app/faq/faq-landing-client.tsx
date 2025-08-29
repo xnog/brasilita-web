@@ -177,7 +177,7 @@ const categories = [
     { name: "Sobre a Brasilità", icon: User, value: "Sobre a Brasilità" },
 ];
 
-export function FAQClient() {
+export function FAQLandingClient() {
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedCategory, setSelectedCategory] = useState("all");
     const [expandedItems, setExpandedItems] = useState<Set<string>>(new Set());
@@ -207,131 +207,162 @@ export function FAQClient() {
     };
 
     return (
-        <div className="container mx-auto container-padding py-8">
-            <div className="max-w-4xl mx-auto">
-                {/* Header */}
-                <div className="mb-8">
-                    <h1 className="text-3xl font-bold text-foreground mb-2">
-                        Perguntas Frequentes
-                    </h1>
-                    <p className="text-muted-foreground">
-                        Encontre respostas para as principais dúvidas sobre compra de imóveis na Itália por brasileiros.
-                        Nosso guia completo vai te ajudar em cada etapa do processo.
-                    </p>
-                </div>
-
-                {/* Search */}
-                <div className="mb-6">
-                    <div className="relative">
-                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-                        <Input
-                            type="text"
-                            placeholder="Buscar por palavra-chave..."
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                            className="pl-10"
-                        />
+        <>
+            {/* Hero Section */}
+            <section className="section-padding bg-gradient-to-r from-primary/5 via-primary/10 to-primary/5">
+                <div className="container mx-auto container-padding text-center">
+                    <div className="max-w-4xl mx-auto">
+                        <h1 className="text-4xl md:text-6xl font-bold mb-6 text-foreground">
+                            Perguntas Frequentes
+                        </h1>
+                        <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-3xl mx-auto leading-relaxed">
+                            Encontre respostas para as principais dúvidas sobre compra de imóveis na Itália por brasileiros.
+                            Nosso guia completo vai te ajudar em cada etapa do processo.
+                        </p>
                     </div>
                 </div>
+            </section>
 
-                {/* Category Filters */}
-                <div className="mb-8">
-                    <div className="flex flex-wrap gap-2">
-                        {categories.map((category) => {
-                            const Icon = category.icon;
-                            return (
-                                <Button
-                                    key={category.value}
-                                    variant={selectedCategory === category.value ? "default" : "outline"}
-                                    size="sm"
-                                    onClick={() => setSelectedCategory(category.value)}
-                                    className="flex items-center gap-2"
-                                >
-                                    <Icon className="h-4 w-4" />
-                                    {category.name}
-                                </Button>
-                            );
-                        })}
-                    </div>
-                </div>
+            {/* FAQ Content */}
+            <section className="section-padding">
+                <div className="container mx-auto container-padding">
+                    <div className="max-w-4xl mx-auto">
+                        {/* Search */}
+                        <div className="mb-8">
+                            <div className="relative">
+                                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+                                <Input
+                                    type="text"
+                                    placeholder="Buscar por palavra-chave..."
+                                    value={searchTerm}
+                                    onChange={(e) => setSearchTerm(e.target.value)}
+                                    className="pl-10 h-12 text-base"
+                                />
+                            </div>
+                        </div>
 
-                {/* Results Count */}
-                <div className="mb-6">
-                    <p className="text-sm text-gray-600">
-                        {filteredFAQs.length} {filteredFAQs.length === 1 ? 'pergunta encontrada' : 'perguntas encontradas'}
-                    </p>
-                </div>
+                        {/* Category Filters */}
+                        <div className="mb-8">
+                            <div className="flex flex-wrap gap-3">
+                                {categories.map((category) => {
+                                    const Icon = category.icon;
+                                    return (
+                                        <Button
+                                            key={category.value}
+                                            variant={selectedCategory === category.value ? "default" : "outline"}
+                                            size="sm"
+                                            onClick={() => setSelectedCategory(category.value)}
+                                            className="flex items-center gap-2 h-10 px-4"
+                                        >
+                                            <Icon className="h-4 w-4" />
+                                            {category.name}
+                                        </Button>
+                                    );
+                                })}
+                            </div>
+                        </div>
 
-                {/* FAQ Items */}
-                <div className="space-y-4">
-                    {filteredFAQs.length === 0 ? (
-                        <Card>
-                            <CardContent className="p-8 text-center">
-                                <HelpCircle className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                                <h3 className="text-lg font-medium text-foreground mb-2">
-                                    Nenhuma pergunta encontrada
-                                </h3>
-                                <p className="text-muted-foreground">
-                                    Tente ajustar sua busca ou selecionar uma categoria diferente.
-                                </p>
-                            </CardContent>
-                        </Card>
-                    ) : (
-                        filteredFAQs.map((faq) => {
-                            const isExpanded = expandedItems.has(faq.id);
-                            return (
-                                <Card key={faq.id} className="overflow-hidden hover:shadow-md transition-shadow duration-200">
-                                    <CardHeader
-                                        className="pb-3 cursor-pointer hover:bg-muted/30 transition-colors duration-200"
-                                        onClick={() => toggleExpanded(faq.id)}
-                                    >
-                                        <div className="flex items-start justify-between">
-                                            <div className="flex-1">
-                                                <h3 className="text-base font-medium text-left leading-relaxed">
-                                                    {faq.question}
-                                                </h3>
-                                                <div className="flex items-center gap-2 mt-2">
-                                                    <Badge variant="secondary" className="text-xs">
-                                                        {faq.category}
-                                                    </Badge>
-                                                </div>
-                                            </div>
-                                            <div className="ml-2 flex-shrink-0">
-                                                {isExpanded ? (
-                                                    <ChevronUp className="h-5 w-5 text-muted-foreground" />
-                                                ) : (
-                                                    <ChevronDown className="h-5 w-5 text-muted-foreground" />
-                                                )}
-                                            </div>
-                                        </div>
-                                    </CardHeader>
-                                    {isExpanded && (
-                                        <>
-                                            <Separator />
-                                            <CardContent className="pt-4">
-                                                <div className="faq-content text-foreground leading-relaxed mb-4">
-                                                    {typeof faq.answer === 'string' ? faq.answer : faq.answer}
-                                                </div>
-                                                <div className="flex flex-wrap gap-1">
-                                                    {faq.tags.map((tag) => (
-                                                        <Badge
-                                                            key={tag}
-                                                            variant="outline"
-                                                            className="text-xs"
-                                                        >
-                                                            {tag}
-                                                        </Badge>
-                                                    ))}
-                                                </div>
-                                            </CardContent>
-                                        </>
-                                    )}
+                        {/* Results Count */}
+                        <div className="mb-8">
+                            <p className="text-sm text-muted-foreground">
+                                {filteredFAQs.length} {filteredFAQs.length === 1 ? 'pergunta encontrada' : 'perguntas encontradas'}
+                            </p>
+                        </div>
+
+                        {/* FAQ Items */}
+                        <div className="space-y-4">
+                            {filteredFAQs.length === 0 ? (
+                                <Card className="professional-card">
+                                    <CardContent className="p-12 text-center">
+                                        <HelpCircle className="h-16 w-16 text-muted-foreground mx-auto mb-6" />
+                                        <h3 className="text-xl font-semibold text-foreground mb-3">
+                                            Nenhuma pergunta encontrada
+                                        </h3>
+                                        <p className="text-muted-foreground">
+                                            Tente ajustar sua busca ou selecionar uma categoria diferente.
+                                        </p>
+                                    </CardContent>
                                 </Card>
-                            );
-                        })
-                    )}
+                            ) : (
+                                filteredFAQs.map((faq) => {
+                                    const isExpanded = expandedItems.has(faq.id);
+                                    return (
+                                        <Card key={faq.id} className="professional-card overflow-hidden hover:shadow-lg transition-all duration-300">
+                                            <CardHeader
+                                                className="pb-4 cursor-pointer hover:bg-muted/30 transition-colors duration-200"
+                                                onClick={() => toggleExpanded(faq.id)}
+                                            >
+                                                <div className="flex items-start justify-between">
+                                                    <div className="flex-1">
+                                                        <h3 className="text-lg font-semibold text-left leading-relaxed mb-3">
+                                                            {faq.question}
+                                                        </h3>
+                                                        <div className="flex items-center gap-2">
+                                                            <Badge variant="secondary" className="text-xs">
+                                                                {faq.category}
+                                                            </Badge>
+                                                        </div>
+                                                    </div>
+                                                    <div className="ml-4 flex-shrink-0">
+                                                        {isExpanded ? (
+                                                            <ChevronUp className="h-6 w-6 text-muted-foreground" />
+                                                        ) : (
+                                                            <ChevronDown className="h-6 w-6 text-muted-foreground" />
+                                                        )}
+                                                    </div>
+                                                </div>
+                                            </CardHeader>
+                                            {isExpanded && (
+                                                <>
+                                                    <Separator />
+                                                    <CardContent className="pt-6 pb-6">
+                                                        <div className="faq-content text-foreground leading-relaxed mb-6 text-base">
+                                                            {typeof faq.answer === 'string' ? faq.answer : faq.answer}
+                                                        </div>
+                                                        <div className="flex flex-wrap gap-2">
+                                                            {faq.tags.map((tag) => (
+                                                                <Badge
+                                                                    key={tag}
+                                                                    variant="outline"
+                                                                    className="text-xs"
+                                                                >
+                                                                    {tag}
+                                                                </Badge>
+                                                            ))}
+                                                        </div>
+                                                    </CardContent>
+                                                </>
+                                            )}
+                                        </Card>
+                                    );
+                                })
+                            )}
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
+            </section>
+
+            {/* CTA Section */}
+            <section className="bg-gradient-to-r from-primary/5 via-primary/10 to-primary/5 section-padding">
+                <div className="container mx-auto container-padding text-center">
+                    <div className="max-w-3xl mx-auto">
+                        <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">
+                            Ainda tem dúvidas?
+                        </h2>
+                        <p className="text-lg text-muted-foreground mb-8">
+                            Nossa equipe está pronta para ajudá-lo a esclarecer qualquer questão sobre seu investimento na Itália
+                        </p>
+                        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                            <a href="/auth/signup" className="btn-primary">
+                                Criar Conta
+                            </a>
+                            <a href="/contact" className="btn-secondary">
+                                Fale Conosco
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </>
     );
 }
