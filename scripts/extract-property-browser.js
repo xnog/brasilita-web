@@ -292,7 +292,31 @@
 
         // ========== EXTRAÇÃO DE NOME DA IMOBILIÁRIA ==========
         extractRealEstate() {
-            // 1. PRINCIPAL: Buscar no objeto config global (adFirstName)
+            // 1. PRINCIPAL: Buscar no bloco professional-name primeiro
+            const professionalNameBlock = document.querySelector('.professional-name');
+            if (professionalNameBlock) {
+                const spanElement = professionalNameBlock.querySelector('span');
+                if (spanElement) {
+                    const text = spanElement.textContent.trim();
+                    if (text.length > 3 && !text.includes('Profissional')) {
+                        return this.decodeHtmlEntities(text);
+                    }
+                }
+            }
+
+            // 2. Fallback: Buscar no bloco advertiser-info
+            const advertiserInfoBlock = document.querySelector('.advertiser-info');
+            if (advertiserInfoBlock) {
+                const advertiserNameElement = advertiserInfoBlock.querySelector('.advertiser-name');
+                if (advertiserNameElement) {
+                    const text = advertiserNameElement.textContent.trim();
+                    if (text.length > 3 && !text.includes('Profissional')) {
+                        return this.decodeHtmlEntities(text);
+                    }
+                }
+            }
+
+            // 3. Fallback: Buscar no objeto config global (adFirstName)
             if (window.config && window.config.adFirstName) {
                 const name = window.config.adFirstName.trim();
                 if (name.length > 3 && !name.includes('Profissional')) {
@@ -300,7 +324,7 @@
                 }
             }
 
-            // 2. Fallback: adCommercialName no config
+            // 4. Fallback: adCommercialName no config
             if (window.config && window.config.adCommercialName) {
                 const name = window.config.adCommercialName.trim();
                 if (name.length > 3 && !name.includes('Profissional')) {
@@ -308,7 +332,7 @@
                 }
             }
 
-            // 3. Fallback: input hidden com name="user-name"
+            // 5. Fallback: input hidden com name="user-name"
             const userNameInput = document.querySelector('input[name="user-name"]');
             if (userNameInput) {
                 const value = userNameInput.getAttribute('value');
@@ -317,7 +341,7 @@
                 }
             }
 
-            // 4. Fallback: elemento .advertiser-name
+            // 6. Fallback: elemento .advertiser-name (geral)
             const advertiserNameElement = document.querySelector('.advertiser-name');
             if (advertiserNameElement) {
                 const text = advertiserNameElement.textContent.trim();
@@ -326,7 +350,7 @@
                 }
             }
 
-            // 5. Fallback: elemento .about-advertiser-name
+            // 7. Fallback: elemento .about-advertiser-name
             const aboutAdvertiserNameElement = document.querySelector('.about-advertiser-name');
             if (aboutAdvertiserNameElement) {
                 const text = aboutAdvertiserNameElement.textContent.trim();

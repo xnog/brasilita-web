@@ -17,6 +17,17 @@ export function MixpanelProvider({ children }: { children: ReactNode }) {
 
     useEffect(() => {
         const token = process.env.NEXT_PUBLIC_MIXPANEL_PROJECT_TOKEN;
+        const isLocalhost = typeof window !== 'undefined' &&
+            (window.location.hostname === 'localhost' ||
+                window.location.hostname === '127.0.0.1' ||
+                window.location.hostname.startsWith('192.168.') ||
+                window.location.hostname.endsWith('.local'));
+
+        // Don't initialize Mixpanel on localhost
+        if (isLocalhost) {
+            console.log('Mixpanel disabled on localhost environment');
+            return;
+        }
 
         if (token && typeof window !== 'undefined') {
             mixpanel.init(token, {
