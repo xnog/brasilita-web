@@ -8,20 +8,34 @@ import { usePropertyList } from "@/lib/hooks/use-property-list";
 import { PropertyFilters } from "@/lib/hooks/use-property-filters";
 import { useEffect } from "react";
 
+interface PropertyListResponse {
+    properties: Array<any>;
+    pagination: {
+        currentPage: number;
+        totalPages: number;
+        totalCount: number;
+        hasNextPage: boolean;
+        hasPrevPage: boolean;
+        limit: number;
+    };
+    appliedFilters: PropertyFilters;
+}
+
 interface PropertyListViewProps {
     filters: PropertyFilters;
     onFiltersChange: (filters: PropertyFilters) => void;
     onTotalPropertiesChange: (total: number | null) => void;
     onLoadingChange: (loading: boolean) => void;
+    initialPropertyData?: PropertyListResponse | null;
 }
 
-export function PropertyListView({ filters, onTotalPropertiesChange, onLoadingChange }: PropertyListViewProps) {
+export function PropertyListView({ filters, onTotalPropertiesChange, onLoadingChange, initialPropertyData }: PropertyListViewProps) {
     const {
         data,
         loading,
         handlePageChange,
         handleToggleInterest
-    } = usePropertyList(filters);
+    } = usePropertyList(filters, initialPropertyData);
 
     // Update total properties when data changes
     useEffect(() => {

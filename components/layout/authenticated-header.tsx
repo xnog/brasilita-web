@@ -7,7 +7,7 @@ import { Logo } from "@/components/ui/logo";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
-import { LogOut, User, Menu, HelpCircle } from "lucide-react";
+import { LogOut, User, Menu, HelpCircle, Bell } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { signOut } from "next-auth/react";
 
@@ -88,11 +88,10 @@ export function AuthenticatedHeader({ user }: AuthenticatedHeaderProps) {
                                 <Link
                                     href="/support"
                                     className={cn(
-                                        "transition-colors hover:text-foreground/80 flex items-center gap-2",
+                                        "transition-colors hover:text-foreground/80",
                                         pathname === "/support" ? "text-foreground font-medium" : "text-foreground/60"
                                     )}
                                 >
-                                    <HelpCircle className="h-4 w-4" />
                                     Suporte
                                 </Link>
                             </div>
@@ -167,6 +166,12 @@ export function AuthenticatedHeader({ user }: AuthenticatedHeaderProps) {
                                     <Link href="/preferences">
                                         <User className="mr-2 h-4 w-4" />
                                         <span>Perfil</span>
+                                    </Link>
+                                </DropdownMenuItem>
+                                <DropdownMenuItem asChild>
+                                    <Link href="/alerts">
+                                        <Bell className="mr-2 h-4 w-4" />
+                                        <span>Alertas</span>
                                     </Link>
                                 </DropdownMenuItem>
                                 <DropdownMenuSeparator />

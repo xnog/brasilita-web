@@ -227,8 +227,6 @@ export const userPropertyInterests = pgTable("user_property_interest", {
     uniqueUserPropertyInterest: unique("user_property_interest_unique").on(table.userId, table.propertyId),
 }));
 
-
-
 // Regions tables
 export const regions = pgTable("region", {
     id: text("id")
@@ -301,6 +299,30 @@ export const userPropertyInterestsRelations = relations(userPropertyInterests, (
     }),
 }));
 
+// Property notifications tables
+export const propertyNotifications = pgTable("property_notification", {
+    id: text("id")
+        .primaryKey()
+        .$defaultFn(() => crypto.randomUUID()),
+    userId: text("userId")
+        .notNull()
+        .references(() => users.id, { onDelete: "cascade" }),
+    name: text("name").notNull(), // User-defined name for the notification
+    isActive: boolean("isActive").default(true),
+    filters: jsonb("filters").notNull(), // PropertyFilters object as JSON
+    lastProcessedAt: timestamp("lastProcessedAt", { mode: "date" }), // Last time this notification was processed
+    createdAt: timestamp("createdAt", { mode: "date" }).defaultNow(),
+    updatedAt: timestamp("updatedAt", { mode: "date" }).defaultNow(),
+});
+
+// Relations for notifications
+export const propertyNotificationsRelations = relations(propertyNotifications, ({ one }) => ({
+    user: one(users, {
+        fields: [propertyNotifications.userId],
+        references: [users.id],
+    }),
+}));
+
 export const usersRelations = relations(users, ({ many }) => ({
     accounts: many(accounts),
     sessions: many(sessions),
@@ -308,6 +330,7 @@ export const usersRelations = relations(users, ({ many }) => ({
     userProfiles: many(userProfiles),
     userPropertyInterests: many(userPropertyInterests),
     userChecklistProgress: many(userChecklistProgress),
+    propertyNotifications: many(propertyNotifications),
 }));
 
 export type Region = typeof regions.$inferSelect;
@@ -318,3 +341,5 @@ export type Property = typeof properties.$inferSelect;
 export type NewProperty = typeof properties.$inferInsert;
 export type UserPropertyInterest = typeof userPropertyInterests.$inferSelect;
 export type NewUserPropertyInterest = typeof userPropertyInterests.$inferInsert;
+export type PropertyNotification = typeof propertyNotifications.$inferSelect;
+export type NewPropertyNotification = typeof propertyNotifications.$inferInsert;

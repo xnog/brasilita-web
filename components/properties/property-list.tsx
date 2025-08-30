@@ -9,12 +9,27 @@ import { Button } from "@/components/ui/button";
 import { PropertyFilters } from "@/lib/hooks/use-property-filters";
 import { usePropertyCache } from "@/lib/hooks/use-property-cache";
 
-import { Map, List } from "lucide-react";
+import { Map, List, Bell } from "lucide-react";
 import { PageLoading } from "@/components/ui/page-loading";
+import { CreateAlertModal } from "@/components/alerts/create-alert-modal";
+
+interface PropertyListResponse {
+    properties: Array<any>;
+    pagination: {
+        currentPage: number;
+        totalPages: number;
+        totalCount: number;
+        hasNextPage: boolean;
+        hasPrevPage: boolean;
+        limit: number;
+    };
+    appliedFilters: PropertyFilters;
+}
 
 interface PropertyListProps {
     userPreferences?: PropertyFilters | null;
     regions: Region[];
+    initialPropertyData?: PropertyListResponse | null;
 }
 
 const defaultFilters: PropertyFilters = {
@@ -24,15 +39,16 @@ const defaultFilters: PropertyFilters = {
     sortOrder: 'desc'
 };
 
-export function PropertyList({ userPreferences: initialUserPreferences, regions }: PropertyListProps) {
+export function PropertyList({ userPreferences: initialUserPreferences, regions, initialPropertyData }: PropertyListProps) {
     const [userPreferences] = useState<PropertyFilters | null>(initialUserPreferences || null);
     const [viewMode, setViewMode] = useState<'list' | 'map'>('list');
     const [filters, setFilters] = useState<PropertyFilters>(
-        initialUserPreferences || defaultFilters
+        initialPropertyData?.appliedFilters || initialUserPreferences || defaultFilters
     );
     const [totalProperties, setTotalProperties] = useState<number | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    
+    const [showCreateAlertModal, setShowCreateAlertModal] = useState(false);
+
     const { clearSearchCache } = usePropertyCache();
 
     const handleClearFilters = useCallback(() => {
@@ -71,7 +87,7 @@ export function PropertyList({ userPreferences: initialUserPreferences, regions 
                 regions={regions}
             />
 
-            {/* View mode toggle - always show */}
+            {/* View mode toggle and actions */}
             <div className="flex justify-between items-center">
                 <div className="flex items-center gap-4">
                     <h2 className="text-xl font-semibold">
@@ -80,6 +96,18 @@ export function PropertyList({ userPreferences: initialUserPreferences, regions 
                 </div>
 
                 <div className="flex items-center gap-2">
+                    {/* Create Alert Button */}
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setShowCreateAlertModal(true)}
+                        className="flex items-center gap-2"
+                    >
+                        <Bell className="h-4 w-4" />
+                        <span className="hidden sm:inline">Criar Alerta</span>
+                    </Button>
+
+                    {/* View Mode Buttons */}
                     <Button
                         variant={viewMode === 'list' ? 'default' : 'outline'}
                         size="sm"
@@ -103,11 +131,12 @@ export function PropertyList({ userPreferences: initialUserPreferences, regions 
 
             {/* Content based on view mode - each component manages its own data but reports loading back */}
             {viewMode === 'list' ? (
-                <PropertyListView 
-                    filters={filters} 
+                <PropertyListView
+                    filters={filters}
                     onFiltersChange={handleFiltersChange}
                     onTotalPropertiesChange={setTotalProperties}
                     onLoadingChange={setIsLoading}
+                    initialPropertyData={initialPropertyData}
                 />
             ) : (
                 <PropertiesOverviewMap
@@ -123,6 +152,14 @@ export function PropertyList({ userPreferences: initialUserPreferences, regions 
                     <PageLoading />
                 </div>
             )}
+
+            {/* Create Alert Modal */}
+            <CreateAlertModal
+                open={showCreateAlertModal}
+                onClose={() => setShowCreateAlertModal(false)}
+                onSuccess={() => setShowCreateAlertModal(false)}
+                initialFilters={filters}
+            />
         </div>
     );
 }

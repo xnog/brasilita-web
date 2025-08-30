@@ -22,21 +22,36 @@ interface PropertyListResponse {
     appliedFilters: PropertyFilters;
 }
 
-export function usePropertyList(filters: PropertyFilters) {
-    const [data, setData] = useState<PropertyListResponse | null>(null);
-    const [loading, setLoading] = useState(true);
-    
+export function usePropertyList(filters: PropertyFilters, initialData?: PropertyListResponse | null) {
+    const [data, setData] = useState<PropertyListResponse | null>(initialData || null);
+    const [loading, setLoading] = useState(!initialData);
+
     const { buildQueryString } = usePropertyFilters();
     const { toggleInterest } = usePropertyInterest();
     const { getCachedListData, setCachedListData } = usePropertyCache();
-    
+
     // Ref to prevent double requests in development
     const lastFiltersRef = useRef<string>('');
+    const hasInitialData = useRef<boolean>(!!initialData);
+
+    // Helper function to normalize filters for comparison
+    const normalizeFiltersForComparison = (filters: PropertyFilters) => {
+        const normalized = { ...filters };
+        // Convert undefined regions to empty array for consistent comparison
+        if (!normalized.regions) normalized.regions = [];
+        // Remove undefined values
+        Object.keys(normalized).forEach(key => {
+            if (normalized[key as keyof PropertyFilters] === undefined) {
+                delete normalized[key as keyof PropertyFilters];
+            }
+        });
+        return normalized;
+    };
 
     const fetchProperties = useCallback(async (newFilters: PropertyFilters) => {
         // Always show loading first to give user feedback
         setLoading(true);
-        
+
         // Check cache first
         const cachedData = getCachedListData(newFilters);
         if (cachedData) {
@@ -44,15 +59,15 @@ export function usePropertyList(filters: PropertyFilters) {
             setLoading(false);
             return;
         }
-        
+
         try {
             const queryString = buildQueryString(newFilters);
             const response = await fetch(`/api/properties?${queryString}`);
-            
+
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
-            
+
             const responseData = await response.json();
             setData(responseData);
             setCachedListData(newFilters, responseData);
@@ -70,8 +85,8 @@ export function usePropertyList(filters: PropertyFilters) {
     }, [filters, fetchProperties]);
 
     const handleToggleInterest = useCallback(async (
-        propertyId: string, 
-        isInterested: boolean, 
+        propertyId: string,
+        isInterested: boolean,
         notes?: string
     ) => {
         if (!data) return;
@@ -83,7 +98,7 @@ export function usePropertyList(filters: PropertyFilters) {
         setData({ ...data, properties: updatedProperties });
 
         const result = await toggleInterest(propertyId, isInterested, notes);
-        
+
         if (!result.success) {
             // Revert on error
             const revertedProperties = data.properties.map(p =>
@@ -95,13 +110,29 @@ export function usePropertyList(filters: PropertyFilters) {
 
     // Load properties when filters change (with deduplication to prevent double requests)
     useEffect(() => {
-        const filtersString = JSON.stringify(filters);
+        const normalizedCurrentFilters = normalizeFiltersForComparison(filters);
+        const filtersString = JSON.stringify(normalizedCurrentFilters);
+
+        // Skip if same filters as last request
         if (lastFiltersRef.current === filtersString) {
-            return; // Skip if same filters
+            return;
+        }
+
+        // If we have initial data and this is the first load with matching filters, skip fetch
+        if (hasInitialData.current && initialData) {
+            const normalizedInitialFilters = normalizeFiltersForComparison(initialData.appliedFilters);
+            const initialFiltersString = JSON.stringify(normalizedInitialFilters);
+
+            if (filtersString === initialFiltersString) {
+                // Using SSR data, skip API call
+                hasInitialData.current = false; // Mark as used
+                lastFiltersRef.current = filtersString;
+                return; // Skip fetch as we already have the data
+            }
         }
         lastFiltersRef.current = filtersString;
         fetchProperties(filters);
-    }, [filters, fetchProperties]);
+    }, [filters, fetchProperties, initialData, normalizeFiltersForComparison]);
 
 
 
