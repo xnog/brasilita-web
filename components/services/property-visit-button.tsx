@@ -6,7 +6,7 @@ import { Property } from "@/lib/db/schema";
 import { generatePropertyVisitMessage, openWhatsApp } from "@/lib/services/whatsapp-messages";
 
 interface PropertyVisitButtonProps {
-    property: Property & { region?: { name: string } | null };
+    property: Omit<Property, 'originalUrl'> & { region?: { name: string } | null };
     variant?: "default" | "outline" | "ghost";
     size?: "sm" | "default" | "lg";
     className?: string;

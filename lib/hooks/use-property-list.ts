@@ -4,9 +4,10 @@ import { PropertyFilters, usePropertyFilters } from "./use-property-filters";
 import { usePropertyInterest } from "./use-property-interest";
 import { usePropertyCache } from "./use-property-cache";
 
-type PropertyWithInterest = Property & {
+type PropertyWithInterest = Omit<Property, 'originalUrl'> & {
     isInterested?: boolean;
     interestNotes?: string | null;
+    region: { id: string; name: string; examples: string | null; createdAt: Date | null; updatedAt: Date | null; } | null;
 };
 
 interface PropertyListResponse {
@@ -35,7 +36,7 @@ export function usePropertyList(filters: PropertyFilters, initialData?: Property
     const hasInitialData = useRef<boolean>(!!initialData);
 
     // Helper function to normalize filters for comparison
-    const normalizeFiltersForComparison = (filters: PropertyFilters) => {
+    const normalizeFiltersForComparison = useCallback((filters: PropertyFilters) => {
         const normalized = { ...filters };
         // Convert undefined regions to empty array for consistent comparison
         if (!normalized.regions) normalized.regions = [];
@@ -46,7 +47,7 @@ export function usePropertyList(filters: PropertyFilters, initialData?: Property
             }
         });
         return normalized;
-    };
+    }, []);
 
     const fetchProperties = useCallback(async (newFilters: PropertyFilters) => {
         // Always show loading first to give user feedback

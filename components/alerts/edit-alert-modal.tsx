@@ -24,13 +24,13 @@ export function EditAlertModal({
     onSuccess
 }: EditAlertModalProps) {
     const [name, setName] = useState(notification.name);
-    const [isActive, setIsActive] = useState(notification.isActive);
+    const [isActive, setIsActive] = useState(notification.isActive ?? true);
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         if (open) {
             setName(notification.name);
-            setIsActive(notification.isActive);
+            setIsActive(notification.isActive ?? true);
         }
     }, [open, notification]);
 

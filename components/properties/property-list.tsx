@@ -4,7 +4,7 @@ import { useState, useCallback } from "react";
 import { PropertyFilters as PropertyFiltersComponent } from "./property-filters";
 import { PropertiesOverviewMap } from "./properties-overview-map";
 import { PropertyListView } from "./property-list-view";
-import { Region } from "@/lib/db/schema";
+import { Region, Property } from "@/lib/db/schema";
 import { Button } from "@/components/ui/button";
 import { PropertyFilters } from "@/lib/hooks/use-property-filters";
 import { usePropertyCache } from "@/lib/hooks/use-property-cache";
@@ -14,7 +14,11 @@ import { PageLoading } from "@/components/ui/page-loading";
 import { CreateAlertModal } from "@/components/alerts/create-alert-modal";
 
 interface PropertyListResponse {
-    properties: Array<any>;
+    properties: Array<Omit<Property, 'originalUrl'> & {
+        isInterested?: boolean;
+        interestNotes?: string | null;
+        region: { id: string; name: string; examples: string | null; createdAt: Date | null; updatedAt: Date | null; } | null;
+    }>;
     pagination: {
         currentPage: number;
         totalPages: number;

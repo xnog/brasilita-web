@@ -7,7 +7,7 @@ export const getFormattedPhoneNumber = () => {
     return `+${WHATSAPP_PHONE.replace(/(\d{2})(\d{3})(\d{3})(\d{4})/, '$1 $2 $3 $4')}`;
 };
 
-export const generatePropertyVisitMessage = (property: Property & { region?: { name: string } | null }) => {
+export const generatePropertyVisitMessage = (property: Omit<Property, 'originalUrl'> & { region?: { name: string } | null }) => {
     const propertyCode = getPropertyCode(property.id);
     const propertyUrl = `${window.location.origin}/properties/${property.id}`;
     const locationText = property.location + (property.region?.name ? `, ${property.region.name}` : '');
@@ -32,7 +32,7 @@ _Mensagem enviada através do site brasilita.com_`;
     return encodeURIComponent(message);
 };
 
-export const generatePropertyNegotiationMessage = (property: Property & { region?: { name: string } | null }) => {
+export const generatePropertyNegotiationMessage = (property: Omit<Property, 'originalUrl'> & { region?: { name: string } | null }) => {
     const propertyCode = getPropertyCode(property.id);
     const propertyUrl = `${window.location.origin}/properties/${property.id}`;
     const locationText = property.location + (property.region?.name ? `, ${property.region.name}` : '');

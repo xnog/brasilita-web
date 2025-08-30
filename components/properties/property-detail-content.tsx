@@ -30,10 +30,10 @@ import { PropertyVisitButton } from "@/components/services/property-visit-button
 import { generatePropertyNegotiationMessage, openWhatsApp, WHATSAPP_PHONE, getFormattedPhoneNumber } from "@/lib/services/whatsapp-messages";
 
 interface PropertyDetailContentProps {
-    property: Property & {
+    property: Omit<Property, 'originalUrl'> & {
         isInterested?: boolean;
         interestNotes?: string | null;
-        region?: { id: string; name: string } | null;
+        region?: { id: string; name: string; examples?: string | null; createdAt?: Date | null; updatedAt?: Date | null; } | null;
     };
     onToggleInterest: (propertyId: string, isInterested: boolean) => void;
     showCloseButton?: boolean;

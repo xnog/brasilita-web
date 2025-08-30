@@ -8,7 +8,10 @@ import { PropertyDetailContent } from "./property-detail-content";
 import { PageLoading } from "@/components/ui/page-loading";
 
 interface PropertyDetailModalProps {
-    property: Property & { isInterested?: boolean; region?: { id: string; name: string } | null };
+    property: Omit<Property, 'originalUrl'> & {
+        isInterested?: boolean;
+        region?: { id: string; name: string; examples: string | null; createdAt: Date | null; updatedAt: Date | null; } | null;
+    };
     isOpen: boolean;
     onClose: () => void;
     onToggleInterest: (propertyId: string, isInterested: boolean) => void;
@@ -33,8 +36,8 @@ export function PropertyDetailModal({
         if (isOpen) {
             // Store original URL when opening modal, but ensure it's the properties page
             const currentUrl = window.location.href;
-            originalUrlRef.current = currentUrl.includes('/properties/') ? 
-                currentUrl.split('/properties/')[0] + '/properties' : 
+            originalUrlRef.current = currentUrl.includes('/properties/') ?
+                currentUrl.split('/properties/')[0] + '/properties' :
                 currentUrl;
 
             // Update URL to property detail page without navigating

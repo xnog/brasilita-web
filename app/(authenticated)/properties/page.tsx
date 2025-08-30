@@ -88,10 +88,10 @@ export default async function PropertiesPage() {
                 id: string;
                 userId: string;
                 propertyId: string;
-                isInterested: boolean;
+                isInterested: boolean | null;
             }> = [];
 
-            if (propertyIds.length > 0) {
+            if (propertyIds.length > 0 && session?.user?.id) {
                 userInterests = await db.query.userPropertyInterests.findMany({
                     where: and(
                         eq(userPropertyInterests.userId, session.user.id),
@@ -102,7 +102,7 @@ export default async function PropertiesPage() {
 
             // Create interest map for easy lookup
             const interestMap = new Map(
-                userInterests.map(interest => [interest.propertyId, interest.isInterested])
+                userInterests.map(interest => [interest.propertyId, interest.isInterested ?? false])
             );
 
             // Add interest status to properties

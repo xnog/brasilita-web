@@ -10,7 +10,10 @@ import { Property } from "@/lib/db/schema";
 import { PropertyDetailModal } from "./property-detail-modal";
 
 interface PropertyCardProps {
-    property: Property & { isInterested?: boolean; region?: { id: string; name: string } | null };
+    property: Omit<Property, 'originalUrl'> & {
+        isInterested?: boolean;
+        region?: { id: string; name: string; examples: string | null; createdAt: Date | null; updatedAt: Date | null; } | null;
+    };
     onToggleInterest: (propertyId: string, isInterested: boolean) => void;
 }
 

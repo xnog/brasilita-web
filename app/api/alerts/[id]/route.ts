@@ -96,7 +96,11 @@ export async function PATCH(
         }
 
         // Prepare update data - only allow name and isActive
-        const updateData: any = {
+        const updateData: {
+            updatedAt: Date;
+            name?: string;
+            isActive?: boolean;
+        } = {
             updatedAt: new Date(),
         };
 

@@ -2,10 +2,14 @@
 
 import { PropertyList } from "@/components/properties/property-list";
 import { PropertyFilters } from "@/components/properties/property-filters";
-import { Region } from "@/lib/db/schema";
+import { Region, Property } from "@/lib/db/schema";
 
 interface PropertyListResponse {
-    properties: Array<any>;
+    properties: Array<Omit<Property, 'originalUrl'> & {
+        isInterested?: boolean;
+        interestNotes?: string | null;
+        region: { id: string; name: string; examples: string | null; createdAt: Date | null; updatedAt: Date | null; } | null;
+    }>;
     pagination: {
         currentPage: number;
         totalPages: number;

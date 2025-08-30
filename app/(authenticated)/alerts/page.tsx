@@ -8,7 +8,7 @@ import { AlertListClient } from "@/components/alerts/alert-list-client";
 export default async function AlertsPage() {
     const session = await auth();
 
-    if (!session?.user) {
+    if (!session?.user?.id) {
         redirect("/auth/signin");
     }
 
@@ -26,7 +26,7 @@ export default async function AlertsPage() {
                         Alertas de Imóveis
                     </h1>
                     <p className="text-slate-600">
-                        Receba alertas por email quando novos imóveis que correspondem aos seus critérios forem cadastrados na plataforma. Para criar novos alertas, vá para a página de imóveis e use o botão "Criar Alerta".
+                        Receba alertas por email quando novos imóveis que correspondem aos seus critérios forem cadastrados na plataforma. Para criar novos alertas, vá para a página de imóveis e use o botão &quot;Criar Alerta&quot;.
                     </p>
                 </div>
 

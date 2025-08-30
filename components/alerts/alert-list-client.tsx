@@ -10,6 +10,7 @@ import { PropertyFilters } from "@/lib/api/property-filters";
 import { EditAlertModal } from "./edit-alert-modal";
 import { DeleteAlertModal } from "./delete-alert-modal";
 import { toast } from "sonner";
+import Link from "next/link";
 
 interface AlertListClientProps {
     initialAlerts: PropertyNotification[];
@@ -182,12 +183,12 @@ export function AlertListClient({ initialAlerts }: AlertListClientProps) {
                                 Nenhum alerta criado
                             </h3>
                             <p className="text-slate-600 mb-6">
-                                Vá para a página de imóveis, aplique os filtros desejados e clique em "Criar Alerta" para receber alertas sobre novos imóveis.
+                                Vá para a página de imóveis, aplique os filtros desejados e clique em &quot;Criar Alerta&quot; para receber alertas sobre novos imóveis.
                             </p>
                             <Button asChild>
-                                <a href="/properties">
+                                <Link href="/properties">
                                     Ver Imóveis
-                                </a>
+                                </Link>
                             </Button>
                         </CardContent>
                     </Card>
@@ -217,7 +218,7 @@ export function AlertListClient({ initialAlerts }: AlertListClientProps) {
                                                         {alert.isActive ? "Ativo" : "Inativo"}
                                                     </Badge>
                                                     <span className="text-sm text-slate-500">
-                                                        Criado em {new Date(alert.createdAt).toLocaleDateString("pt-BR")}
+                                                        Criado em {alert.createdAt ? new Date(alert.createdAt).toLocaleDateString("pt-BR") : "Data não disponível"}
                                                     </span>
                                                 </div>
                                             </div>

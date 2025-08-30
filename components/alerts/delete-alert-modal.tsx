@@ -83,7 +83,7 @@ export function DeleteAlertModal({
                             <strong>Filtros:</strong> {formatFilters(alert.filters as PropertyFilters)}
                         </div>
                         <div className="text-xs text-slate-500">
-                            Criado em {new Date(alert.createdAt).toLocaleDateString("pt-BR")}
+                            Criado em {alert.createdAt ? new Date(alert.createdAt).toLocaleDateString("pt-BR") : "Data não disponível"}
                         </div>
                     </div>
 

@@ -7,9 +7,14 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { usePropertyList } from "@/lib/hooks/use-property-list";
 import { PropertyFilters } from "@/lib/hooks/use-property-filters";
 import { useEffect } from "react";
+import { Property } from "@/lib/db/schema";
 
 interface PropertyListResponse {
-    properties: Array<any>;
+    properties: Array<Omit<Property, 'originalUrl'> & {
+        isInterested?: boolean;
+        interestNotes?: string | null;
+        region: { id: string; name: string; examples: string | null; createdAt: Date | null; updatedAt: Date | null; } | null;
+    }>;
     pagination: {
         currentPage: number;
         totalPages: number;

@@ -17,9 +17,10 @@ export type PropertyMapMarker = {
     isInterested?: boolean;
 };
 
-type PropertyWithInterest = Property & {
+type PropertyWithInterest = Omit<Property, 'originalUrl'> & {
     isInterested?: boolean;
     interestNotes?: string | null;
+    region?: { id: string; name: string; examples: string | null; createdAt: Date | null; updatedAt: Date | null; } | null;
 };
 
 interface PropertyMapResponse {
@@ -38,10 +39,10 @@ export function usePropertyMap(filters: PropertyFilters) {
     const [loadingPropertyId, setLoadingPropertyId] = useState<string | null>(null);
     const [selectedProperty, setSelectedProperty] = useState<PropertyWithInterest | null>(null);
     const [showDetails, setShowDetails] = useState(false);
-    
+
     // Ref to prevent double requests in development
     const lastFiltersRef = useRef<string>('');
-    
+
     const { buildQueryString } = usePropertyFilters();
     const { toggleInterest } = usePropertyInterest();
     const { getCachedMapData, setCachedMapData, getCachedPropertyDetails, setCachedPropertyDetails } = usePropertyCache();
@@ -58,18 +59,18 @@ export function usePropertyMap(filters: PropertyFilters) {
             setLoading(false);
             return;
         }
-        
+
         // Only show loading if we need to fetch from API
         setLoading(true);
-        
+
         try {
             const queryString = buildQueryString(newFilters);
             const response = await fetch(`/api/properties/map?${queryString}`);
-            
+
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
-            
+
             const responseData: PropertyMapResponse = await response.json();
             setMarkers(responseData.properties || []);
             setTotalProperties(responseData.totalCount || 0);
@@ -119,8 +120,8 @@ export function usePropertyMap(filters: PropertyFilters) {
     }, [fetchPropertyDetails]);
 
     const handleToggleInterest = useCallback(async (
-        propertyId: string, 
-        isInterested: boolean, 
+        propertyId: string,
+        isInterested: boolean,
         notes?: string
     ) => {
         // Update cache if property is cached
@@ -128,7 +129,7 @@ export function usePropertyMap(filters: PropertyFilters) {
         if (cachedProperty) {
             const updatedProperty = { ...cachedProperty, isInterested, interestNotes: notes || null };
             setCachedPropertyDetails(propertyId, updatedProperty);
-            
+
             // Update selected property if it's the same one
             if (selectedProperty?.id === propertyId) {
                 setSelectedProperty(updatedProperty);
@@ -136,25 +137,25 @@ export function usePropertyMap(filters: PropertyFilters) {
         }
 
         // Update marker interest status
-        setMarkers(prev => prev.map(marker => 
+        setMarkers(prev => prev.map(marker =>
             marker.id === propertyId ? { ...marker, isInterested } : marker
         ));
 
         const result = await toggleInterest(propertyId, isInterested, notes);
-        
+
         if (!result.success) {
             // Revert changes on error
             const cachedPropertyForRevert = getCachedPropertyDetails(propertyId);
             if (cachedPropertyForRevert) {
                 const revertedProperty = { ...cachedPropertyForRevert, isInterested: !isInterested };
                 setCachedPropertyDetails(propertyId, revertedProperty);
-                
+
                 if (selectedProperty?.id === propertyId) {
                     setSelectedProperty(revertedProperty);
                 }
             }
-            
-            setMarkers(prev => prev.map(marker => 
+
+            setMarkers(prev => prev.map(marker =>
                 marker.id === propertyId ? { ...marker, isInterested: !isInterested } : marker
             ));
         }

@@ -3,9 +3,10 @@ import { Property } from "@/lib/db/schema";
 import { PropertyFilters } from "./use-property-filters";
 import { PropertyMapMarker } from "./use-property-map";
 
-type PropertyWithInterest = Property & {
+type PropertyWithInterest = Omit<Property, 'originalUrl'> & {
     isInterested?: boolean;
     interestNotes?: string | null;
+    region: { id: string; name: string; examples: string | null; createdAt: Date | null; updatedAt: Date | null; } | null;
 };
 
 interface PropertyListResponse {
@@ -45,13 +46,13 @@ const globalPropertyDetailsCache = new Map<string, CacheEntry<PropertyWithIntere
 // Generate cache key from filters (excluding pagination for map cache)
 function generateCacheKey(filters: PropertyFilters, includePagination: boolean = true): string {
     const keyFilters = { ...filters };
-    
+
     // For map cache, exclude pagination
     if (!includePagination) {
         delete keyFilters.page;
         delete keyFilters.limit;
     }
-    
+
     return JSON.stringify(keyFilters);
 }
 
@@ -59,14 +60,14 @@ function generateCacheKey(filters: PropertyFilters, includePagination: boolean =
 function areFiltersEquivalent(filters1: PropertyFilters, filters2: PropertyFilters, ignorePagination: boolean = false): boolean {
     const f1 = { ...filters1 };
     const f2 = { ...filters2 };
-    
+
     if (ignorePagination) {
         delete f1.page;
         delete f1.limit;
         delete f2.page;
         delete f2.limit;
     }
-    
+
     return JSON.stringify(f1) === JSON.stringify(f2);
 }
 
@@ -79,11 +80,11 @@ export function usePropertyCache() {
     const getCachedListData = useCallback((filters: PropertyFilters): PropertyListResponse | null => {
         const key = generateCacheKey(filters, true);
         const entry = globalListCache.get(key);
-        
+
         if (entry && isValidCache(entry)) {
             return entry.data;
         }
-        
+
         return null;
     }, []);
 
@@ -99,11 +100,11 @@ export function usePropertyCache() {
     const getCachedMapData = useCallback((filters: PropertyFilters): MapCacheData | null => {
         const key = generateCacheKey(filters, false);
         const entry = globalMapCache.get(key);
-        
+
         if (entry && isValidCache(entry)) {
             return entry.data;
         }
-        
+
         return null;
     }, []);
 
@@ -151,11 +152,11 @@ export function usePropertyCache() {
     // Property details cache methods
     const getCachedPropertyDetails = useCallback((propertyId: string): PropertyWithInterest | null => {
         const entry = globalPropertyDetailsCache.get(propertyId);
-        
+
         if (entry && isValidCache(entry)) {
             return entry.data;
         }
-        
+
         return null;
     }, []);
 
