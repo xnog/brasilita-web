@@ -633,9 +633,9 @@ export default async function HomePage() {
             <div>
               <h4 className="font-semibold mb-4 text-foreground">Empresa</h4>
               <ul className="space-y-2 text-sm text-muted-foreground">
-                <li>DUAS MALAS E UM DESTINO PRODUCAO DE CONTEUDO</li>
-                <li className="pt-2">
-                  46.438.133/0001-45
+                <li>BRASILITÀ NEGÓCIOS DIGITAIS LTDA</li>
+                <li>
+                  62.481.530/0001-56
                 </li>
                 <li className="pt-2">
                   <Link href="/privacy-policy" className="hover:text-foreground transition-colors">
