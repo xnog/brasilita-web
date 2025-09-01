@@ -21,6 +21,41 @@ export interface PropertyData {
     updatedAt: string;
 }
 
+interface AdFeature {
+    featureName: string;
+    text: string;
+}
+
+interface AdMultimediasInfo {
+    title?: string;
+    price?: number;
+    features?: AdFeature[];
+    fullScreenGalleryPics?: GalleryPic[];
+}
+
+interface GalleryPic {
+    imageDataService?: string;
+}
+
+interface MapConfig {
+    src?: string;
+}
+
+interface MultimediaCarrousel {
+    map?: MapConfig;
+}
+
+interface WindowConfig {
+    adFirstName?: string;
+    adCommercialName?: string;
+    multimediaCarrousel?: MultimediaCarrousel;
+}
+
+interface IdealistaWindow {
+    adMultimediasInfo?: AdMultimediasInfo;
+    config?: WindowConfig;
+}
+
 export interface ScrapingResult {
     success: boolean;
     data?: PropertyData;
@@ -93,7 +128,7 @@ export class HtmlDownloader {
 // Property Extractor
 export class PropertyExtractor {
     private document: Document;
-    private window: any;
+    private window: IdealistaWindow;
 
     constructor(html: string) {
         const dom = new JSDOM(html, {
@@ -102,7 +137,7 @@ export class PropertyExtractor {
             resources: "usable"
         });
         this.document = dom.window.document;
-        this.window = dom.window;
+        this.window = dom.window as unknown as IdealistaWindow;
     }
 
     extractTitle(): string {
@@ -222,7 +257,7 @@ export class PropertyExtractor {
     extractArea(): number {
         // 1. JavaScript variable
         if (this.window.adMultimediasInfo?.features) {
-            const areaFeature = this.window.adMultimediasInfo.features.find((f: any) =>
+            const areaFeature = this.window.adMultimediasInfo.features.find((f: AdFeature) =>
                 f && f.featureName === 'CONSTRUCTED_AREA'
             );
             if (areaFeature) {
@@ -243,7 +278,7 @@ export class PropertyExtractor {
     extractBedrooms(): number {
         // 1. JavaScript variable
         if (this.window.adMultimediasInfo?.features) {
-            const roomFeature = this.window.adMultimediasInfo.features.find((f: any) =>
+            const roomFeature = this.window.adMultimediasInfo.features.find((f: AdFeature) =>
                 f && f.featureName === 'ROOM_NUMBER'
             );
             if (roomFeature) {
@@ -399,7 +434,7 @@ export class PropertyExtractor {
 
         // 1. JavaScript variable
         if (this.window.adMultimediasInfo?.fullScreenGalleryPics) {
-            this.window.adMultimediasInfo.fullScreenGalleryPics.forEach((pic: any) => {
+            this.window.adMultimediasInfo.fullScreenGalleryPics.forEach((pic: GalleryPic) => {
                 if (pic.imageDataService) {
                     let url = pic.imageDataService;
                     // Replace WEB_DETAIL with WEB_DETAIL_TOP-L-L for better quality
