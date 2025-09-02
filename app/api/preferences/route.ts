@@ -56,6 +56,7 @@ export async function POST(request: Request) {
             buyerProfile: data.buyerProfile,
             usageType: data.usageType,
             investmentBudget: data.investmentBudget,
+            hasFinancing: data.hasFinancing,
             phone: data.phone,
             investmentGoal: data.investmentGoal,
         }).returning();
@@ -96,6 +97,7 @@ export async function PUT(request: Request) {
                 buyerProfile: data.buyerProfile,
                 usageType: data.usageType,
                 investmentBudget: data.investmentBudget,
+                hasFinancing: data.hasFinancing,
                 phone: data.phone,
                 investmentGoal: data.investmentGoal,
                 updatedAt: new Date(),

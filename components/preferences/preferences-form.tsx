@@ -18,7 +18,7 @@ import {
     MultiSelectValue,
 } from "@/components/extension/multi-select";
 import { convertEurToBrl, formatBrlCurrency, CURRENCY_CONFIG } from "@/lib/config/currency";
-import { Building2, MapPin, User, Target, Euro, Phone, Goal } from "lucide-react";
+import { Building2, MapPin, User, Target, Euro, Phone, Goal, Wallet } from "lucide-react";
 
 const formSchema = z.object({
     propertyType: z.enum(["residential", "investment"], {
@@ -35,6 +35,7 @@ const formSchema = z.object({
     investmentBudget: z.number().min(10000, {
         message: "O investimento deve ser de pelo menos €10.000.",
     }),
+    hasFinancing: z.boolean().optional(),
     phone: z.string().min(8, {
         message: "Telefone deve ter pelo menos 8 dígitos.",
     }).regex(/^[+\d\s()-]+$/, {
@@ -68,6 +69,7 @@ export function PreferencesForm({ onSubmit, availableRegions, initialData, isEdi
             buyerProfile: initialData?.buyerProfile || undefined,
             usageType: initialData?.usageType || undefined,
             investmentBudget: initialData?.investmentBudget || undefined,
+            hasFinancing: initialData?.hasFinancing || false,
             phone: initialData?.phone || "",
             investmentGoal: initialData?.investmentGoal || "",
         },
@@ -106,8 +108,8 @@ export function PreferencesForm({ onSubmit, availableRegions, initialData, isEdi
                                                         }`}
                                                     onClick={() => field.onChange(option.value)}
                                                 >
-                                                    <div className="font-medium">{option.label}</div>
-                                                    <div className="text-sm text-muted-foreground">{option.desc}</div>
+                                                    <div className="text-sm font-medium">{option.label}</div>
+                                                    <div className="text-xs text-muted-foreground">{option.desc}</div>
                                                 </div>
                                             ))}
                                         </div>
@@ -175,7 +177,7 @@ export function PreferencesForm({ onSubmit, availableRegions, initialData, isEdi
                                 <FormItem>
                                     <FormLabel className="flex items-center gap-2">
                                         <MapPin className="h-4 w-4" />
-                                        Detalhes de Localização (Opcional)
+                                        Detalhes de Localização (opcional)
                                     </FormLabel>
                                     <FormControl>
                                         <Input
@@ -233,8 +235,8 @@ export function PreferencesForm({ onSubmit, availableRegions, initialData, isEdi
                                                         }`}
                                                     onClick={() => field.onChange(option.value)}
                                                 >
-                                                    <div className="font-medium">{option.label}</div>
-                                                    <div className="text-sm text-muted-foreground">{option.desc}</div>
+                                                    <div className="text-sm font-medium">{option.label}</div>
+                                                    <div className="text-xs text-muted-foreground">{option.desc}</div>
                                                 </div>
                                             ))}
                                         </div>
@@ -296,8 +298,8 @@ export function PreferencesForm({ onSubmit, availableRegions, initialData, isEdi
                                                         }`}
                                                     onClick={() => field.onChange(option.value)}
                                                 >
-                                                    <div className="font-medium">{option.label}</div>
-                                                    <div className="text-sm text-muted-foreground">{option.desc}</div>
+                                                    <div className="text-sm font-medium">{option.label}</div>
+                                                    <div className="text-xs text-muted-foreground">{option.desc}</div>
                                                 </div>
                                             ))}
                                         </div>
@@ -351,6 +353,52 @@ export function PreferencesForm({ onSubmit, availableRegions, initialData, isEdi
                                         <span className="text-xs text-muted-foreground">
                                             * A conversão para reais é apenas uma referência aproximada.
                                         </span>
+                                    </FormDescription>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
+                        {/* Has Financing */}
+                        <FormField
+                            control={form.control}
+                            name="hasFinancing"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel className="flex items-center gap-2">
+                                        <Wallet className="h-4 w-4" />
+                                        Situação Financeira
+                                    </FormLabel>
+                                    <FormControl>
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                            {[
+                                                {
+                                                    value: true,
+                                                    label: "Já tenho o dinheiro",
+                                                    desc: "Tenho o valor total disponível para compra"
+                                                },
+                                                {
+                                                    value: false,
+                                                    label: "Preciso de financiamento",
+                                                    desc: "Vou precisar de empréstimo ou financiamento"
+                                                },
+                                            ].map((option) => (
+                                                <div
+                                                    key={option.value.toString()}
+                                                    className={`p-4 border rounded-lg cursor-pointer transition-colors ${field.value === option.value
+                                                        ? "border-primary bg-primary/5"
+                                                        : "border-border hover:border-primary/50"
+                                                        }`}
+                                                    onClick={() => field.onChange(option.value)}
+                                                >
+                                                    <div className="text-sm font-medium">{option.label}</div>
+                                                    <div className="text-xs text-muted-foreground">{option.desc}</div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </FormControl>
+                                    <FormDescription>
+                                        Essa informação nos ajuda a personalizar as recomendações e oferecer as melhores opções para sua situação
                                     </FormDescription>
                                     <FormMessage />
                                 </FormItem>

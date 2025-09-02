@@ -27,6 +27,7 @@ export function PreferencesClient({ initialUserProfile, availableRegions }: Pref
         buyerProfile: "resident" | "italian_citizen" | "foreign_non_resident" | "brazilian_abroad";
         usageType: "personal_use" | "long_rental" | "short_rental" | "relocation" | "mixed_use" | "family_legacy";
         investmentBudget: number;
+        hasFinancing?: boolean;
         phone: string;
         investmentGoal: string;
     }) => {
@@ -78,6 +79,7 @@ export function PreferencesClient({ initialUserProfile, availableRegions }: Pref
                     buyerProfile: userProfile.buyerProfile as "resident" | "italian_citizen" | "foreign_non_resident" | "brazilian_abroad" | undefined,
                     usageType: userProfile.usageType as "personal_use" | "long_rental" | "short_rental" | "relocation" | "mixed_use" | "family_legacy" | undefined,
                     investmentBudget: userProfile.investmentBudget || undefined,
+                    hasFinancing: (userProfile as UserProfile & { hasFinancing?: boolean }).hasFinancing || false,
                     phone: userProfile.phone || "",
                     investmentGoal: userProfile.investmentGoal || "",
                 } : undefined}
