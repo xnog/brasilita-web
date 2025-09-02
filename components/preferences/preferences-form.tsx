@@ -380,7 +380,7 @@ export function PreferencesForm({ onSubmit, availableRegions, initialData, isEdi
                                                 {
                                                     value: false,
                                                     label: "Não",
-                                                    desc: "Ainda estou organizando o investimento"
+                                                    desc: "Estou me preparando para investir"
                                                 },
                                             ].map((option) => (
                                                 <div
