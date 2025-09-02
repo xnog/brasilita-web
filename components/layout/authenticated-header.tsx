@@ -7,7 +7,7 @@ import { Logo } from "@/components/ui/logo";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
-import { LogOut, User, Menu, HelpCircle, Bell } from "lucide-react";
+import { LogOut, User, Menu, HelpCircle, Bell, Settings } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { signOut } from "next-auth/react";
 
@@ -172,6 +172,12 @@ export function AuthenticatedHeader({ user }: AuthenticatedHeaderProps) {
                                     <Link href="/alerts">
                                         <Bell className="mr-2 h-4 w-4" />
                                         <span>Alertas</span>
+                                    </Link>
+                                </DropdownMenuItem>
+                                <DropdownMenuItem asChild>
+                                    <Link href="/settings">
+                                        <Settings className="mr-2 h-4 w-4" />
+                                        <span>Configurações</span>
                                     </Link>
                                 </DropdownMenuItem>
                                 <DropdownMenuSeparator />

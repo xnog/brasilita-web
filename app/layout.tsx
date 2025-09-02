@@ -18,6 +18,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_URL || 'https://brasilita.com'),
   title: "Brasilità - Seu imóvel na Itália",
   description: "Assessoria completa para brasileiros que desejam investir no mercado imobiliário italiano",
   openGraph: {
