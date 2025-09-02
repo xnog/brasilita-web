@@ -367,20 +367,20 @@ export function PreferencesForm({ onSubmit, availableRegions, initialData, isEdi
                                 <FormItem>
                                     <FormLabel className="flex items-center gap-2">
                                         <Wallet className="h-4 w-4" />
-                                        Situação Financeira
+                                        Você já tem o valor disponível para investir?
                                     </FormLabel>
                                     <FormControl>
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                                             {[
                                                 {
                                                     value: true,
-                                                    label: "Já tenho o dinheiro",
-                                                    desc: "Tenho o valor total disponível para compra"
+                                                    label: "Sim",
+                                                    desc: "Já tenho o valor total disponível"
                                                 },
                                                 {
                                                     value: false,
-                                                    label: "Preciso de financiamento",
-                                                    desc: "Vou precisar de empréstimo ou financiamento"
+                                                    label: "Não",
+                                                    desc: "Ainda estou organizando o investimento"
                                                 },
                                             ].map((option) => (
                                                 <div
@@ -398,7 +398,7 @@ export function PreferencesForm({ onSubmit, availableRegions, initialData, isEdi
                                         </div>
                                     </FormControl>
                                     <FormDescription>
-                                        Essa informação nos ajuda a personalizar as recomendações e oferecer as melhores opções para sua situação
+                                        Essa informação nos ajuda a entender melhor seu momento de investimento
                                     </FormDescription>
                                     <FormMessage />
                                 </FormItem>
