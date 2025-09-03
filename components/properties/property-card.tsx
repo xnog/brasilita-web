@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { MapPin, Bed, Bath, Square, Car, Wifi, Dumbbell, ChefHat, ChevronLeft, ChevronRight } from "lucide-react";
 import { Property } from "@/lib/db/schema";
 import { PropertyDetailModal } from "./property-detail-modal";
+import removeMarkdown from "remove-markdown";
 
 interface PropertyCardProps {
     property: Omit<Property, 'originalUrl'> & {
@@ -261,7 +262,7 @@ export function PropertyCard({ property, onToggleInterest }: PropertyCardProps) 
                         {/* Description */}
                         <div className="pt-1">
                             <p className="text-slate-600 text-sm line-clamp-2 leading-relaxed">
-                                {property.description}
+                                {removeMarkdown(property.description || '')}
                             </p>
                         </div>
 

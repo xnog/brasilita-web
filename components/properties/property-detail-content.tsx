@@ -28,6 +28,7 @@ import { PropertyMap } from "./property-map";
 import { getPropertyCode } from "@/lib/utils";
 import { PropertyVisitButton } from "@/components/services/property-visit-button";
 import { generatePropertyNegotiationMessage, openWhatsApp, WHATSAPP_PHONE, getFormattedPhoneNumber } from "@/lib/services/whatsapp-messages";
+import ReactMarkdown from "react-markdown";
 
 interface PropertyDetailContentProps {
     property: Omit<Property, 'originalUrl'> & {
@@ -234,9 +235,11 @@ export function PropertyDetailContent({
                         {/* Description */}
                         <div className="space-y-3">
                             <h3 className="text-lg font-semibold text-slate-900">Descrição</h3>
-                            <p className="text-slate-600 leading-relaxed whitespace-pre-line break-words">
-                                {property.description || "Descrição não disponível."}
-                            </p>
+                            <div className="text-slate-600 leading-relaxed break-words prose prose-slate max-w-none prose-headings:text-slate-900 prose-headings:font-semibold prose-p:text-slate-600 prose-strong:text-slate-900 prose-ul:text-slate-600 prose-ol:text-slate-600">
+                                <ReactMarkdown>
+                                    {property.description || "Descrição não disponível."}
+                                </ReactMarkdown>
+                            </div>
                         </div>
 
                         {/* Help Section */}
