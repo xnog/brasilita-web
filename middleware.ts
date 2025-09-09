@@ -10,7 +10,6 @@ export default auth((req) => {
         "/auth/signin",
         "/auth/signup",
         "/api/auth",
-        "/api/scrapper",
         "/privacy-policy",
     ];
 

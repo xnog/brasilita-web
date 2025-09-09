@@ -192,6 +192,7 @@ export const properties = pgTable("property", {
     regionId: text("regionId")
         .references(() => regions.id, { onDelete: "set null" }), // Italian region
     propertyType: text("propertyType").notNull(), // residential, commercial, investment
+    rooms: integer("rooms"),
     bedrooms: integer("bedrooms"),
     bathrooms: integer("bathrooms"),
     area: integer("area"), // square meters

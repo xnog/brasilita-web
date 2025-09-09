@@ -7,6 +7,7 @@ const nextConfig: NextConfig = {
       new URL('https://si9dados3.com.br/**'),
       new URL('https://images-1.casa.it/**'),
       new URL('https://www.casa.it/**'),
+      new URL('https://pwm.im-cdn.it/**'),
     ],
   },
 };
