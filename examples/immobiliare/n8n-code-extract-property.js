@@ -103,23 +103,101 @@ function extractFeatures(propertyData) {
     const features = [];
     const property = propertyData?.properties?.[0];
 
-    if (property?.primaryFeatures) {
-        property.primaryFeatures.forEach(feature => {
-            if (feature.name && feature.isVisible && feature.value) {
-                features.push(feature.name.toLowerCase());
-            }
-        });
+    // Extract basic property characteristics from direct fields with context
+    if (property?.typologyV2?.name) {
+        features.push(property.typologyV2.name.toLowerCase());
     }
 
-    if (property?.features) {
-        property.features.forEach(feature => {
-            if (typeof feature === 'string') {
+    if (property?.condition) {
+        features.push(`stato: ${property.condition.toLowerCase()}`);
+    }
+
+    if (property?.availability) {
+        features.push(`disponibilità: ${property.availability.toLowerCase()}`);
+    }
+
+    if (property?.floor?.floorOnlyValue) {
+        features.push(property.floor.floorOnlyValue.toLowerCase());
+    }
+
+    if (property?.buildingYear) {
+        features.push(`anno di costruzione ${property.buildingYear}`);
+    }
+
+    if (propertyData?.contract) {
+        features.push(`contratto: ${propertyData.contract.toLowerCase()}`);
+    }
+
+    // Additional property characteristics
+    if (property?.typologyValue) {
+        features.push(property.typologyValue.toLowerCase());
+    }
+
+    if (property?.energy?.class?.name) {
+        features.push(`classe energetica: ${property.energy.class.name.toLowerCase()}`);
+    }
+
+    if (property?.ga4Heating) {
+        features.push(`riscaldamento: ${property.ga4Heating.toLowerCase()}`);
+    }
+
+    if (property?.elevator !== undefined) {
+        features.push(property.elevator ? 'ascensore' : 'no ascensore');
+    }
+
+    if (propertyData?.luxury) {
+        features.push('immobile di lusso');
+    }
+
+    if (property?.category?.name) {
+        features.push(`categoria: ${property.category.name.toLowerCase()}`);
+    }
+
+    if (property?.costs?.condominiumExpenses) {
+        features.push(`spese condominiali: ${property.costs.condominiumExpenses.toLowerCase()}`);
+    }
+
+    // Extract from ga4features (clean feature list)
+    if (property?.ga4features && Array.isArray(property.ga4features)) {
+        property.ga4features.forEach(feature => {
+            if (typeof feature === 'string' && feature.length > 2) {
                 features.push(feature.toLowerCase());
             }
         });
     }
 
-    return [...new Set(features)].filter(f => f && f.length > 2);
+    // Extract from primaryFeatures (all features with value, including 0 for "no")
+    if (property?.primaryFeatures) {
+        property.primaryFeatures.forEach(feature => {
+            if (feature.name && (feature.value === 1 || feature.value === 0)) {
+                if (feature.value === 0) {
+                    features.push(`no ${feature.name.toLowerCase()}`);
+                } else {
+                    features.push(feature.name.toLowerCase());
+                }
+            }
+        });
+    }
+
+    // Extract from mainFeatures
+    if (property?.mainFeatures) {
+        property.mainFeatures.forEach(feature => {
+            if (feature.label && typeof feature.label === 'string') {
+                features.push(feature.label.toLowerCase().trim());
+            }
+        });
+    }
+
+    // Extract from features array
+    if (property?.features) {
+        property.features.forEach(feature => {
+            if (typeof feature === 'string' && feature.length > 2) {
+                features.push(feature.toLowerCase());
+            }
+        });
+    }
+
+    return [...new Set(features)];
 }
 
 function extractImages(propertyData) {
@@ -185,7 +263,7 @@ function extractProperty(input) {
         propertyType: extractPropertyType(propertyData),
         isRented: false,
         isAvailable: true,
-        originalUrl: '',
+        originalUrl: input.url,
         createdAt: now,
         updatedAt: now
     };
