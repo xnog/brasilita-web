@@ -22,7 +22,23 @@ export async function GET(request: NextRequest) {
         const appliedFilters = { ...filters };
 
         // Build where clause
-        const whereClause = buildWhereClause(filters);
+        let whereClause = buildWhereClause(filters);
+        
+        // Add favorites filter if requested
+        if (appliedFilters.favoritesOnly) {
+            const favoritesCondition = inArray(
+                properties.id,
+                db.select({ propertyId: userPropertyInterests.propertyId })
+                  .from(userPropertyInterests)
+                  .where(
+                      and(
+                          eq(userPropertyInterests.userId, session.user.id),
+                          eq(userPropertyInterests.isInterested, true)
+                      )
+                  )
+            );
+            whereClause = whereClause ? and(whereClause, favoritesCondition) : favoritesCondition;
+        }
 
         // Get total count for pagination
         const [totalCountResult] = await db
@@ -74,7 +90,7 @@ export async function GET(request: NextRequest) {
         }
 
         // Combine properties with interest status
-        let propertiesWithInterest = propertyList.map(property => {
+        const propertiesWithInterest = propertyList.map(property => {
             const interest = userInterests.find(ui => ui.propertyId === property.id);
             return {
                 ...property,
@@ -83,25 +99,16 @@ export async function GET(request: NextRequest) {
             };
         });
 
-        // Apply favorites filter if requested
-        if (appliedFilters.favoritesOnly) {
-            propertiesWithInterest = propertiesWithInterest.filter(property => property.isInterested);
-        }
-
         // Get available filter options for frontend
         const availableFilters = await getAvailableFilters();
-
-        // Adjust pagination for favorites filter
-        const finalTotalCount = appliedFilters.favoritesOnly ? propertiesWithInterest.length : totalCount;
-        const finalTotalPages = appliedFilters.favoritesOnly ? 1 : totalPages; // Simplified for favorites
 
         return NextResponse.json({
             properties: propertiesWithInterest,
             pagination: {
                 currentPage: appliedFilters.page,
-                totalPages: finalTotalPages,
-                totalCount: finalTotalCount,
-                hasNextPage: appliedFilters.page! < finalTotalPages,
+                totalPages: totalPages,
+                totalCount: totalCount,
+                hasNextPage: appliedFilters.page! < totalPages,
                 hasPrevPage: appliedFilters.page! > 1,
                 limit: appliedFilters.limit
             },
