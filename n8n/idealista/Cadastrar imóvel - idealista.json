@@ -1,0 +1,688 @@
+{
+  "name": "Cadastrar imóvel - idealista",
+  "nodes": [
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "INSERT INTO property (\n  id,\n  title,\n  description,\n  price,\n  location,\n  bedrooms,\n  bathrooms,\n  area,\n  features,\n  images,\n  \"isRented\",\n  \"isAvailable\",\n  \"propertyType\",\n  \"regionId\",\n  \"originalUrl\",\n  \"latitude\",\n  \"longitude\",\n  \"realEstate\"\n)\nVALUES (\n  gen_random_uuid(),\n  $${{ $json.translated_title }}$$,\n  $${{ $json.translated_description }}$$,\n  {{ $('Code - Extract Property').item.json.price }},\n  $${{ $('Code - Extract Property').item.json.location }}$$,\n  {{ $('Code - Extract Property').item.json.bedrooms }},\n  {{ $('Code - Extract Property').item.json.bathrooms }},\n  {{ $('Code - Extract Property').item.json.area }},\n  '{{ JSON.stringify($json.translated_features) }}'::jsonb,\n  '{{ JSON.stringify($('Code - Extract Property').item.json.images) }}'::jsonb,\n  {{ $('Code - Extract Property').item.json.isRented }},\n  {{ $('Code - Extract Property').item.json.isAvailable }},\n  '',\n  '{{ $json.region }}',\n  '{{ $('No Operation, do nothing').item.json.url }}',\n  {{ $('Code - Extract Property').item.json.latitude }},\n  {{ $('Code - Extract Property').item.json.longitude }},\n  $${{ $('Code - Extract Property').item.json.realEstate }}$$\n);\n",
+        "options": {
+          "queryBatching": "independently"
+        }
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        2368,
+        -48
+      ],
+      "id": "6fd5219a-e857-4770-a4f0-974b8f344b28",
+      "name": "Execute a SQL query",
+      "credentials": {
+        "postgres": {
+          "id": "u0EV3deZFzmRhFSE",
+          "name": "Postgres account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "messageId": "={{ $('Gmail Trigger').item.json.id }}"
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        2672,
+        -112
+      ],
+      "id": "294ece7f-9c0f-4be7-a0b7-b0b22c213a24",
+      "name": "Delete a message",
+      "webhookId": "3a2a9755-c2fa-4f69-b713-affc54e33426",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "uebntvdhimCXD6Ff",
+          "name": "Gmail account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "operation": "extractHtmlContent",
+        "extractionValues": {
+          "values": [
+            {
+              "key": "description",
+              "cssSelector": ".comment p"
+            },
+            {
+              "key": "location",
+              "cssSelector": ".main-info__title-minor"
+            },
+            {
+              "key": "features",
+              "cssSelector": ".details-property_features li",
+              "returnArray": true
+            },
+            {
+              "key": "realEstate",
+              "cssSelector": ".professional-name span"
+            },
+            {
+              "key": "tags",
+              "cssSelector": ".detail-info-tags span",
+              "returnArray": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        1056,
+        -48
+      ],
+      "id": "533ba64e-185a-4044-b6b9-710332a37b54",
+      "name": "HTML"
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all()\n\nreturn items.map(item => {\n    const newItem = JSON.parse(JSON.stringify(item));\n\n    // Remove apenas o bloco ```json ... ```\n    let text = newItem.json.content.parts[0].text;\n    text = text.replace(/```json\\s*([\\s\\S]*?)```/g, '$1').trim();\n\n    // Converte o text para JSON diretamente\n    newItem.json = JSON.parse(text);\n\n    return newItem;\n});\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2224,
+        -48
+      ],
+      "id": "9517bf37-d950-4802-89e1-c007a21e8a04",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.url }}",
+        "request_type": "Browser",
+        "datadome": true,
+        "attempts": 2
+      },
+      "type": "@nskha/n8n-nodes-scrappey.scrappey",
+      "typeVersion": 1,
+      "position": [
+        784,
+        -112
+      ],
+      "id": "e049f87e-3801-4ccf-88ac-272e161154b1",
+      "name": "scrappey",
+      "credentials": {
+        "scrappeyApi": {
+          "id": "lS6SMy297PJBEjvF",
+          "name": "Scrappey account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.url }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-scrapingbee.ScrapingBee",
+      "typeVersion": 1,
+      "position": [
+        912,
+        16
+      ],
+      "id": "fad12c8c-74c5-4011-9519-a87851db9a47",
+      "name": "Scrape using HTML API",
+      "retryOnFail": true,
+      "maxTries": 2,
+      "credentials": {
+        "ScrapingBeeApi": {
+          "id": "ifZ8aJGfpcLu5Lxx",
+          "name": "ScrapingBee account"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\nconst regex = /(https:\\/\\/www\\.idealista\\.it\\/(?:pt\\/)?immobile\\/\\d+\\/)/;\n\nconst urls = items\n  .map(item => {\n    const match = item?.json?.html?.match(regex);\n    if (!match) return null;\n    return match[0].replace(\"/pt\", \"\");\n  })\n  .filter(Boolean);\n\n// remover duplicados\n// const uniqueUrls = [...new Set(urls)];\n\n// return uniqueUrls.map(url => ({ json: { url, origin: \"gmail\" } }));\n\nreturn urls.map(url => ({ json: { url, origin: \"gmail\" } }));\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        592,
+        -112
+      ],
+      "id": "54d4093d-ef4f-4995-af9c-e1dff9faeb6f",
+      "name": "Code - Extrair URL"
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "simple": false,
+        "filters": {
+          "sender": "nonrispondere@idealista.it"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmailTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        464,
+        -112
+      ],
+      "id": "b87e7643-f85e-4fca-9066-6a995d040bcf",
+      "name": "Gmail Trigger",
+      "alwaysOutputData": false,
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "uebntvdhimCXD6Ff",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Loop over input items and add a new field called 'myNewField' to the JSON of each one\nfor (const item of $input.all()) {\n  item.json.myNewField = 1;\n}\n\nreturn $input.all();"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        912,
+        -112
+      ],
+      "id": "36c95fd3-2451-4584-b3b3-9a6fe0017f51",
+      "name": "Code - Convert payload"
+    },
+    {
+      "parameters": {
+        "jsCode": "function extractAdMultimediasInfo(html) {\n  const start = html.indexOf('var adMultimediasInfo = ') + 'var adMultimediasInfo = '.length;\n  const end = html.indexOf('var adDetail = ');\n\n  if (start === -1 || end === -1) {\n    throw new Error('adMultimediasInfo variable not found');\n  }\n\n  let jsonString = html.substring(start, end).trim();\n\n  if (jsonString.endsWith(';')) {\n    jsonString = jsonString.slice(0, -1);\n  }\n\n  const obj = eval(\"(\" + jsonString + \")\");\n  return JSON.parse(JSON.stringify(obj));\n}\n\nfunction extractConfig(html) {\n  const start = html.indexOf('var config = {') + 'var config = '.length;\n  const end = html.indexOf('};', start) + 1;\n\n  if (start === -1 || end === -1) {\n    throw new Error('Config variable not found');\n  }\n\n  const jsonString = html.substring(start, end).trim();\n  const obj = eval(\"(\" + jsonString + \")\");\n  return JSON.parse(JSON.stringify(obj));\n}\n\nfunction extractTitle(adMultimediasInfo) {\n  return adMultimediasInfo.title || '';\n}\n\nfunction extractDescription(item) {\n  return item.json.description\n}\n\nfunction extractPrice(adMultimediasInfo) {\n  return adMultimediasInfo.price || 0;\n}\n\nfunction extractLocation(item) {\n  return item.json.location;\n}\n\nfunction extractBedrooms(adMultimediasInfo) {\n  if (adMultimediasInfo.features) {\n    const roomFeature = adMultimediasInfo.features.find(f =>\n      f && f.featureName === 'ROOM_NUMBER'\n    );\n    if (roomFeature) {\n      return parseInt(roomFeature.text) || 0;\n    }\n  }\n  return 0;\n}\n\nfunction extractBathrooms(item) {\n  const features = item.json.features || [];\n\n  for (const feature of features) {\n    const bathroomMatch = feature.match(/(\\d+)\\s*bagn[oi]/i);\n    if (bathroomMatch) {\n      return parseInt(bathroomMatch[1]);\n    }\n  }\n\n  return 0;\n}\n\nfunction extractArea(adMultimediasInfo) {\n  if (adMultimediasInfo.features) {\n    const areaFeature = adMultimediasInfo.features.find(f =>\n      f && f.featureName === 'CONSTRUCTED_AREA'\n    );\n    if (areaFeature) {\n      return parseInt(areaFeature.text) || 0;\n    }\n  }\n  return 0;\n}\n\nfunction extractFeatures(item) {\n  return item.json.features;\n}\n\nfunction extractImages(adMultimediasInfo) {\n  const images = [];\n  if (adMultimediasInfo.fullScreenGalleryPics) {\n    adMultimediasInfo.fullScreenGalleryPics.forEach(pic => {\n      if (pic.imageDataService) {\n        let url = pic.imageDataService;\n        url = url.replace('/WEB_DETAIL/', '/WEB_DETAIL_TOP-L-L/');\n        images.push(url);\n      }\n    });\n  }\n  return images;\n}\n\nfunction extractCoordinates(config) {\n  let latitude = null;\n  let longitude = null;\n\n  if (config.multimediaCarrousel && config.multimediaCarrousel.map && config.multimediaCarrousel.map.src) {\n    const mapSrc = config.multimediaCarrousel.map.src;\n    const centerMatch = mapSrc.match(/center=([0-9.-]+)%2C([0-9.-]+)/);\n    if (centerMatch) {\n      latitude = parseFloat(centerMatch[1]);\n      longitude = parseFloat(centerMatch[2]);\n    }\n  }\n\n  return { latitude, longitude };\n}\n\nfunction extractRealEstate(item) {\n  return item.json.realEstate;\n}\n\nfunction extractIsRented(item) {\n  const tags = item.json.tags || [];\n  return tags.includes('Affittata');\n}\n\nfunction extractOriginalUrl(item) {\n  return item.json.url;\n}\n\nfunction extractProperty(item, html) {\n  const adMultimediasInfo = extractAdMultimediasInfo(html);\n  const config = extractConfig(html);\n  const now = new Date().toISOString().split('T')[0];\n  const coordinates = extractCoordinates(config);\n\n  return {\n    title: extractTitle(adMultimediasInfo),\n    description: extractDescription(item),\n    price: extractPrice(adMultimediasInfo),\n    location: extractLocation(item),\n    bedrooms: extractBedrooms(adMultimediasInfo),\n    bathrooms: extractBathrooms(item),\n    area: extractArea(adMultimediasInfo),\n    features: extractFeatures(item),\n    images: extractImages(adMultimediasInfo),\n    latitude: coordinates.latitude,\n    longitude: coordinates.longitude,\n    realEstate: extractRealEstate(item),\n    isRented: extractIsRented(item),\n    isAvailable: true,\n    originalUrl: extractOriginalUrl(item),\n    createdAt: now,\n    updatedAt: now\n  };\n}\n\nconst results = [];\n\nfor (const [index, inputItem] of $input.all().entries()) {\n  try {\n    const html = $('Scrape using HTML API').all()[index].json.data;\n    const property = extractProperty(inputItem, html);\n\n    results.push({\n      json: property\n    });\n\n  } catch (error) {\n    results.push({\n      json: {\n        error: error.message,\n        success: false\n      }\n    });\n  }\n}\n\nreturn results;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1184,
+        -48
+      ],
+      "id": "cd4c8bf7-783e-4e7f-b0b4-7e30e6eccef0",
+      "name": "Code - Extract Property"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "0e8b3963-bed5-4dac-892f-5baaf2176357",
+              "leftValue": "={{ $json.content.parts[0].text }}",
+              "rightValue": "reproved",
+              "operator": {
+                "type": "string",
+                "operation": "notContains"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1568,
+        -48
+      ],
+      "id": "119885c5-9169-4fcc-a5ce-04d5813d1b41",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-flash-lite",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-flash-lite"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=Analise a descrição do imóvel abaixo de acordo com as regras abaixo e retorne \"approved\" caso aprovado ou \"reproved\" caso reprovado, e explique os motivos da aprovação ou reprovação em cada regra. \n\nRegras:\n1- Não pode mecionar \"nuda proprieta\".\n2- Pode estar alugado.\n3- Não pode mencionar ter mofo ou umidade.\n4- Não pode ficar em cidades muito remotas que não tenha mercado ou supermercado (com base em busca no google).\n5- Não pode mencionar leilão.\n6- Não pode mencionar procedimentos judiciais ou aquisição judicial.\n7- Não pode ser da GESCOM ou ATHENA, esta regra é absoluta.\n8- Não pode precisar de grandes reformas.\n9- Caso os campos `description` e `title` estejam vazios, reprove o imóvel.\n\nImóvel:\n{{ JSON.stringify($json, null, 2) }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1,
+      "position": [
+        1312,
+        -48
+      ],
+      "id": "028fab9c-9f87-49b9-bc63-dbe3f33f9d61",
+      "name": "Message a model - Validar imóvel",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "9VQJsIiSCe2a5cfe",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "public": true,
+        "initialMessages": "Insira o link do anúncio Idealista.it",
+        "options": {
+          "responseMode": "responseNodes"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        464,
+        16
+      ],
+      "id": "96ec8f3c-464c-4d88-960a-a97e17a07793",
+      "name": "Link idealista",
+      "webhookId": "f0fc98f5-df5c-4fbe-b5a9-ced8015552bd"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-flash-lite",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-flash-lite"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=Com base nos dados do imóvel fornecidos abaixo no formato JSON, execute a tarefa a seguir na ordem especificada somente nos itens pedidos:\n\n\n**Tarefa 3: Traduzir Conteúdo para Português brasileiro, exceto `region` que deve manter todas as letras minúsculase representar a região da itália**\nTraduza os seguintes itens para o português brasileiro:\n1. O `title`.\n2. A `description`.\n3.  Cada um dos itens do array `features`.\n\n*   No Item 1, use números ao invés de texto para as quantidades.*\n* Destaque pontos positivos do imóvel usando negrito.\n*   No Item 1, substitua o termo \"quartos\" por \"cômodos\"*\n* No item 1, sempre que começar por \"bilocale\", \"trilocale\" ou \"quadrilocale\", inserir \"Apartamento\" antes destes termos APENAS.\n* Não retire as estruturas de quebra de linha \"\\\\n\".\n* Usar \"à venda\" ao invés de \"em venda\".\n* Substituir \"Terratetto unifamiliare\", Villa a schiera\", \"villeta unifamiliare\", \"villa unifamiliare\" por \"Casa\".\n* Substituir \"Terratetto bifamiliare\", \"villeta bifamiliare\", \"villa bifamiliare\" por \"Casa\".\n* Não usar \"Apartamento\" antes de \"Casa\".\n\n\n**Dados do Imóvel (JSON):**\n{{ JSON.stringify($('Message a model - Preencher imóvel2').item.json, null, 2) }}\n\n**Formato da Resposta Final:**\nResponda **apenas** com um objeto JSON contendo as seguintes chaves: `region`, `translated_title`, `translated_description` e `translated_features`. Não inclua nenhum texto adicional."
+            }
+          ]
+        },
+        "options": {
+          "temperature": 0
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1,
+      "position": [
+        1968,
+        -48
+      ],
+      "id": "6fbe4b36-8d78-4031-8131-87fdffac0537",
+      "name": "Message a model - Traduzir",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "9VQJsIiSCe2a5cfe",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-flash-lite",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-flash-lite"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=Com base nos dados do imóvel fornecidos abaixo no formato JSON, execute as três tarefas a seguir na ordem especificada:\n\n**Tarefa 1: Identificar a Região**\nAnalise o campo `location` para determinar a qual região da Itália o imóvel pertence. A resposta para esta tarefa deve ser **exatamente** um dos seguintes valores, em minúsculas e sem acentos:\n`abruzzo`, `basilicata`, `calabria`, `campania`, `emilia-romagna`, `friuli-venezia-giulia`, `lazio`, `liguria`, `lombardia`, `marche`, `molise`, `piemonte`, `puglia`, `sardegna`, `sicilia`, `toscana`, `trentino-alto-adige`, `umbria`, `valle-d-aosta`, `veneto`.\n\n**Tarefa 2: Reescrever a Descrição em Italiano**\nUse os dados do JSON para remodelar a descrição do anúncio no idioma original (**italiano**). Siga as instruções abaixo:\n\n*   **Estrutura da Nova Descrição:**\n    Sintetize a descrição de forma mais persuasiva e lúdica, marcando pontos positivos em **negrito**. Se for preciso, adicione informações, sem inventar. Fale sobre as características positivas do imóvel presentes no texto original, como renda, investimento, localização e outras que julgue positivas. O texto reescrito não pode ser mais resumido que o original, tem que ser maior. Oculte dados da imobiliária que oferece o imóvel caso esteja presente. Padronize escrita em maiúsculo/minúsculo. Se houve frases em texto maiúsculo, transforme para texto normal.\n\n**Criar tópicos em linha separadas**\n\n    *   **Características do Imóvel:** Crie um subtítulo  e liste em pontos-chave as características principais (metragem, quartos, banheiros, andar, etc.) sem usar negrito nesta seção. Inicie cada característica com um marcador *.\n    \n*   **Dados Financeiros:** Crie um subtítulo **Dados Financeiros:** em negrito e liste informações financeiras relevantes, como valor da renda de alugal (caso seja informado), valor do condomínio (caso seja informado) e preço por metro quadrado, sem usar negrito. Inicie cada item com um marcador \"*\".\n    *   **A Região:** Crie um subtítulo em negrito e comente sobre a região do imóvel, cidades e locais de destaque próximos à localização do imóvel, indicando a quantidade habitantes da comune onde está o imóvel, a distância para as principais cidades maiores (em minutos) e mencione a presença na comune de hospitais, escolas e universidades.\n*   **Potencial de Investimento:** Crie um subtítulo em negrito e em uma nova linha comente sobre o potencial de investimento do imóvel, destacando a expectativa de retorno em caso de aluguel a longo prazo ou temporada, considerando a média dos alugueis na região com fontes do google (sem mencionar diretamente o google). Comente também os benefícios para moradia nessa região.\nOs itens acima deverão estão dentro de `translated_description`.\nO item `translated_features` sempre deve vir por último.\n\n\n*   **Instruções Adicionais:**\n    *   Use negrito para destacar os dados importantes.\n    * Se estiver alugado com rendimento superior a 10% bruto, mencione isso no texto.\n    *   Não altere o título\n    *   **Não invente informações** que não estejam presentes nos dados originais.\n    *   Mantenha a linguagem profissional e extremamente persuasiva no idioma original.\n\n\n**Dados do Imóvel (JSON):**\n{{ JSON.stringify($('Code - Extract Property').item.json, null, 2) }}\n\n**Formato da Resposta Final:**\nResponda **apenas** com um objeto JSON contendo as seguintes chaves: `region`, `translated_title`, `translated_description` e `translated_features`. Não inclua nenhum texto adicional."
+            }
+          ]
+        },
+        "options": {
+          "temperature": 0
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1,
+      "position": [
+        1712,
+        -48
+      ],
+      "id": "55ade00e-d59d-443f-90f1-9e98320833af",
+      "name": "Message a model - Preencher imóvel2",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "9VQJsIiSCe2a5cfe",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "message": "={{ $('If').item.json.content.parts[0].text }}",
+        "waitUserReply": false,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chat",
+      "typeVersion": 1,
+      "position": [
+        2672,
+        16
+      ],
+      "id": "b99bbdc1-2615-47c5-bf00-42ec2088cd39",
+      "name": "Respond to Chat"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f58c915a-fe23-4bc1-9003-49f5e5121c7b",
+              "name": "url",
+              "value": "={{ $json.chatInput }}",
+              "type": "string"
+            },
+            {
+              "id": "d0c0ed86-5834-418a-adc1-bcdd163a9dbd",
+              "name": "origin",
+              "value": "chat",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        592,
+        16
+      ],
+      "id": "e57ab2e9-6d9d-4cf5-a659-0cbaaa2e32ee",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        784,
+        16
+      ],
+      "id": "adeacbfa-c04b-48db-a206-be98858d9d53",
+      "name": "No Operation, do nothing"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "cd29ff1d-a024-4b6f-8a43-e3ae151045c3",
+              "leftValue": "={{ $('No Operation, do nothing').item.json.origin }}",
+              "rightValue": "gmail",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        2512,
+        -48
+      ],
+      "id": "ed0f2a91-1cd2-4903-b3ff-ffa22c66bff7",
+      "name": "If1",
+      "executeOnce": false
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Execute a SQL query": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTML": {
+      "main": [
+        [
+          {
+            "node": "Code - Extract Property",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Execute a SQL query",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "scrappey": {
+      "main": [
+        [
+          {
+            "node": "Code - Convert payload",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "Scrape using HTML API": {
+      "main": [
+        [
+          {
+            "node": "HTML",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code - Extrair URL": {
+      "main": [
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail Trigger": {
+      "main": [
+        [
+          {
+            "node": "Code - Extrair URL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code - Convert payload": {
+      "main": [
+        [
+          {
+            "node": "HTML",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code - Extract Property": {
+      "main": [
+        [
+          {
+            "node": "Message a model - Validar imóvel",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Message a model - Preencher imóvel2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model - Validar imóvel": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Link idealista": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model - Traduzir": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model - Preencher imóvel2": {
+      "main": [
+        [
+          {
+            "node": "Message a model - Traduzir",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Respond to Chat": {
+      "main": [
+        []
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "No Operation, do nothing": {
+      "main": [
+        [
+          {
+            "node": "Scrape using HTML API",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Delete a message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Respond to Chat",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "d969b68b-1a45-47d7-a4df-619129bfc72e",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "97cb3be33b31e70f98bb17c9b9966df6e412a57ef4f757ff342c06b3aa507ed7"
+  },
+  "id": "EPRKtZeleba7N7jn",
+  "tags": []
+}
