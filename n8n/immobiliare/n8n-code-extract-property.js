@@ -48,11 +48,11 @@ function extractLocation(propertyData) {
     if (!location) return '';
 
     const parts = [];
-    if (location.address) parts.push(location.address);
-    if (location.macrozone) parts.push(location.macrozone);
+    // if (location.address) parts.push(location.address);
+    // if (location.macrozone) parts.push(location.macrozone);
     if (location.city) parts.push(location.city);
     if (location.province) parts.push(location.province);
-    if (location.region) parts.push(location.region);
+    // if (location.region) parts.push(location.region);
 
     return parts.join(', ');
 }
@@ -240,6 +240,11 @@ function extractPropertyType(propertyData) {
     // return propertyData?.typology?.name || '';
 }
 
+function extractIsRented(propertyData) {
+    const contractValue = propertyData?.contractValue || '';
+    return contractValue.includes('Immobile a reddito');
+}
+
 function extractProperty(input) {
     const html = input.data;
     const propertyData = extractNextData(html);
@@ -261,7 +266,7 @@ function extractProperty(input) {
         longitude: coordinates.longitude,
         realEstate: extractRealEstate(propertyData),
         propertyType: extractPropertyType(propertyData),
-        isRented: false,
+        isRented: extractIsRented(propertyData),
         isAvailable: true,
         originalUrl: input.url,
         createdAt: now,
