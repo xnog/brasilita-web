@@ -21,7 +21,8 @@ import {
     X,
     Phone,
     Building2,
-    HelpCircle
+    HelpCircle,
+    Home
 } from "lucide-react";
 import { PropertyDetailImage } from "./property-detail-image";
 import { PropertyMap } from "./property-map";
@@ -73,7 +74,7 @@ export function PropertyDetailContent({
     const handleToggleInterest = async () => {
         setLoading(true);
         try {
-            await onToggleInterest(property.id, !property.isInterested);
+            onToggleInterest(property.id, !property.isInterested);
         } finally {
             setLoading(false);
         }
@@ -212,6 +213,12 @@ export function PropertyDetailContent({
 
                         {/* Specs */}
                         <div className="flex flex-wrap gap-6">
+                            {property.rooms != null && Number(property.rooms) > 0 && (
+                                <div className="flex items-center gap-2">
+                                    <Home className="h-5 w-5 text-emerald-500" />
+                                    <span className="font-semibold text-slate-900">{property.rooms} {Number(property.rooms) === 1 ? 'cômodo' : 'cômodos'}</span>
+                                </div>
+                            )}
                             {property.bedrooms != null && Number(property.bedrooms) > 0 && (
                                 <div className="flex items-center gap-2">
                                     <Bed className="h-5 w-5 text-emerald-500" />
@@ -270,21 +277,23 @@ export function PropertyDetailContent({
                         {features.length > 0 && (
                             <div className="space-y-3">
                                 <h3 className="text-lg font-semibold text-slate-900">Características</h3>
-                                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                                    {features.map((feature: string, index: number) => {
-                                        const FeatureIcon = getFeatureIcon(feature);
-                                        return (
-                                            <li key={index} className="flex items-center gap-3 py-2 px-3 bg-slate-50 rounded-lg border">
-                                                {FeatureIcon ? (
-                                                    <FeatureIcon className="h-4 w-4 text-emerald-600 flex-shrink-0" />
-                                                ) : (
-                                                    <div className="w-2 h-2 bg-emerald-600 rounded-full flex-shrink-0" />
-                                                )}
-                                                <span className="text-slate-700">{feature}</span>
-                                            </li>
-                                        );
-                                    })}
-                                </ul>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-1 sm:gap-2">
+                                    {features
+                                        .sort((a: string, b: string) => a.localeCompare(b, 'pt-BR', { numeric: true }))
+                                        .map((feature: string, index: number) => {
+                                            const FeatureIcon = getFeatureIcon(feature);
+                                            return (
+                                                <div key={index} className="flex items-center gap-2 py-1 text-slate-700">
+                                                    {FeatureIcon ? (
+                                                        <FeatureIcon className="h-4 w-4 text-emerald-600 flex-shrink-0" />
+                                                    ) : (
+                                                        <div className="w-1.5 h-1.5 bg-emerald-600 rounded-full flex-shrink-0" />
+                                                    )}
+                                                    <span className="text-sm leading-tight">{feature}</span>
+                                                </div>
+                                            );
+                                        })}
+                                </div>
                             </div>
                         )}
 

@@ -21,6 +21,7 @@ type PropertyMapMarker = {
     latitude: string;
     longitude: string;
     location: string | null;
+    rooms: number | null;
     bedrooms: number | null;
     bathrooms: number | null;
     area: number | null;
@@ -201,16 +202,19 @@ function PropertiesOverviewMapLeaflet({ markers, onPropertyClick, loadingPropert
                                             </div>
                                         )}
                                         
-                                        {(marker.bedrooms || marker.bathrooms || marker.area) && (
-                                            <div className="text-slate-600 flex gap-2 text-xs">
+                                        {(marker.rooms || marker.bedrooms || marker.bathrooms || marker.area) && (
+                                            <div className="text-slate-600 flex flex-wrap gap-2 text-xs">
+                                                {marker.rooms && (
+                                                    <span>🏠 {marker.rooms}</span>
+                                                )}
                                                 {marker.bedrooms && (
                                                     <span>🛏️ {marker.bedrooms}</span>
                                                 )}
                                                 {marker.bathrooms && (
-                                                    <span>🚿 {marker.bathrooms}</span>
+                                                    <span>🛁 {marker.bathrooms}</span>
                                                 )}
                                                 {marker.area && (
-                                                    <span>📐 {marker.area}m²</span>
+                                                    <span>⏹️ {marker.area}m²</span>
                                                 )}
                                             </div>
                                         )}

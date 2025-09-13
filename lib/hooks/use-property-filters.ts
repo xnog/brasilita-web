@@ -4,6 +4,8 @@ export interface PropertyFilters {
     regions?: string[];
     priceMin?: number;
     priceMax?: number;
+    roomsMin?: number;
+    roomsMax?: number;
     bedroomsMin?: number;
     bedroomsMax?: number;
     bathroomsMin?: number;

@@ -16,6 +16,8 @@ export interface PropertyFilters {
     regions?: string[];
     priceMin?: number;
     priceMax?: number;
+    roomsMin?: number;
+    roomsMax?: number;
     bedroomsMin?: number;
     bedroomsMax?: number;
     bathroomsMin?: number;
@@ -34,6 +36,7 @@ export interface PropertyFilters {
 export interface AvailableFilters {
     priceRange: { min: number; max: number };
     areaRange: { min: number; max: number };
+    roomOptions: number[];
     bedroomOptions: number[];
     bathroomOptions: number[];
 }
@@ -87,6 +90,12 @@ export function PropertyFilters({
     const handleBedroomChange = (type: 'min' | 'max', value: string) => {
         const numValue = value ? parseInt(value) : undefined;
         const key = type === 'min' ? 'bedroomsMin' : 'bedroomsMax';
+        handleFilterChange(key, numValue);
+    };
+
+    const handleRoomChange = (type: 'min' | 'max', value: string) => {
+        const numValue = value ? parseInt(value) : undefined;
+        const key = type === 'min' ? 'roomsMin' : 'roomsMax';
         handleFilterChange(key, numValue);
     };
 
@@ -258,7 +267,32 @@ export function PropertyFilters({
             {/* Advanced Filters */}
             {showAdvanced && (
                 <div className="p-3 sm:p-4 md:p-6 bg-white border-t space-y-4 sm:space-y-6">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 sm:gap-6">
+                        {/* Rooms Range */}
+                        <div className="space-y-2">
+                            <Label className="text-xs font-medium text-slate-600 tracking-wide">Cômodos</Label>
+                            <div className="flex gap-2">
+                                <Input
+                                    type="number"
+                                    placeholder="Min"
+                                    value={localFilters.roomsMin || ''}
+                                    onChange={(e) => handleRoomChange('min', e.target.value)}
+                                    disabled={isLoading}
+                                    min="0"
+                                    className="h-9"
+                                />
+                                <Input
+                                    type="number"
+                                    placeholder="Max"
+                                    value={localFilters.roomsMax || ''}
+                                    onChange={(e) => handleRoomChange('max', e.target.value)}
+                                    disabled={isLoading}
+                                    min="0"
+                                    className="h-9"
+                                />
+                            </div>
+                        </div>
+
                         {/* Bedrooms Range */}
                         <div className="space-y-2">
                             <Label className="text-xs font-medium text-slate-600 tracking-wide">Quartos</Label>
@@ -333,7 +367,8 @@ export function PropertyFilters({
                         </div>
 
                         {/* Boolean Filters Row */}
-                        <div className="flex gap-6">
+                        <div className="lg:col-span-5 sm:col-span-2">
+                            <div className="flex gap-6">
                             <div className="flex items-center space-x-2">
                                 <Switch
                                     id="favorites"
@@ -357,6 +392,7 @@ export function PropertyFilters({
                                     Apenas alugados
                                 </Label>
                             </div>
+                        </div>
                         </div>
                     </div>
                 </div>

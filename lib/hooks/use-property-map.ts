@@ -11,6 +11,7 @@ export type PropertyMapMarker = {
     latitude: string;
     longitude: string;
     location: string | null;
+    rooms: number | null;
     bedrooms: number | null;
     bathrooms: number | null;
     area: number | null;

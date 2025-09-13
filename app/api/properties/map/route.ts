@@ -71,6 +71,7 @@ export async function GET(request: NextRequest) {
                 latitude: true,
                 longitude: true,
                 location: true,
+                rooms: true,
                 bedrooms: true,
                 bathrooms: true,
                 area: true,

@@ -6,6 +6,8 @@ export interface PropertyFilters {
     regions?: string[];
     priceMin?: number;
     priceMax?: number;
+    roomsMin?: number;
+    roomsMax?: number;
     bedroomsMin?: number;
     bedroomsMax?: number;
     bathroomsMin?: number;
@@ -31,6 +33,8 @@ export function parseFiltersFromRequest(request: NextRequest): PropertyFilters {
         regions: searchParams.get('regions')?.split(',').filter(Boolean),
         priceMin: searchParams.get('priceMin') ? parseInt(searchParams.get('priceMin')!) : undefined,
         priceMax: searchParams.get('priceMax') ? parseInt(searchParams.get('priceMax')!) : undefined,
+        roomsMin: searchParams.get('roomsMin') ? parseInt(searchParams.get('roomsMin')!) : undefined,
+        roomsMax: searchParams.get('roomsMax') ? parseInt(searchParams.get('roomsMax')!) : undefined,
         bedroomsMin: searchParams.get('bedroomsMin') ? parseInt(searchParams.get('bedroomsMin')!) : undefined,
         bedroomsMax: searchParams.get('bedroomsMax') ? parseInt(searchParams.get('bedroomsMax')!) : undefined,
         bathroomsMin: searchParams.get('bathroomsMin') ? parseInt(searchParams.get('bathroomsMin')!) : undefined,
@@ -73,6 +77,14 @@ export function buildWhereClause(filters: PropertyFilters, includeCoordinates: b
 
     if (filters.priceMax !== undefined) {
         whereConditions.push(lte(properties.price, filters.priceMax));
+    }
+
+    if (filters.roomsMin !== undefined) {
+        whereConditions.push(gte(properties.rooms, filters.roomsMin));
+    }
+
+    if (filters.roomsMax !== undefined) {
+        whereConditions.push(lte(properties.rooms, filters.roomsMax));
     }
 
     if (filters.bedroomsMin !== undefined) {
@@ -136,6 +148,8 @@ export function normalizeFilters(filters: PropertyFilters): PropertyFilters {
         regions: filters.regions || [],
         priceMin: filters.priceMin,
         priceMax: filters.priceMax,
+        roomsMin: filters.roomsMin,
+        roomsMax: filters.roomsMax,
         bedroomsMin: filters.bedroomsMin,
         bedroomsMax: filters.bedroomsMax,
         bathroomsMin: filters.bathroomsMin,

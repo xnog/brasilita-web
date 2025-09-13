@@ -5,7 +5,7 @@ import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { MapPin, Bed, Bath, Square, Car, Wifi, Dumbbell, ChefHat, ChevronLeft, ChevronRight } from "lucide-react";
+import { MapPin, Bed, Bath, Square, Car, Wifi, Dumbbell, ChefHat, ChevronLeft, ChevronRight, Home } from "lucide-react";
 import { Property } from "@/lib/db/schema";
 import { PropertyDetailModal } from "./property-detail-modal";
 import removeMarkdown from "remove-markdown";
@@ -234,7 +234,15 @@ export function PropertyCard({ property, onToggleInterest }: PropertyCardProps) 
                         </div>
 
                         {/* Property specs */}
-                        <div className="flex items-center gap-6 text-slate-600 pt-1">
+                        <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-slate-600 pt-1">
+                            {property.rooms != null && Number(property.rooms) > 0 && (
+                                <div className="flex items-center gap-1">
+                                    <Home className="h-4 w-4 text-emerald-500" />
+                                    <span className="text-sm font-medium">
+                                        {property.rooms} {Number(property.rooms) === 1 ? 'cômodo' : 'cômodos'}
+                                    </span>
+                                </div>
+                            )}
                             {property.bedrooms != null && Number(property.bedrooms) > 0 && (
                                 <div className="flex items-center gap-1">
                                     <Bed className="h-4 w-4 text-emerald-500" />
