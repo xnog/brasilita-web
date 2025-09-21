@@ -5,10 +5,11 @@ import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { MapPin, Bed, Bath, Square, Car, Wifi, Dumbbell, ChefHat, ChevronLeft, ChevronRight, Home } from "lucide-react";
+import { MapPin, Bed, Bath, Square, ChevronLeft, ChevronRight, Home } from "lucide-react";
 import { Property } from "@/lib/db/schema";
 import { PropertyDetailModal } from "./property-detail-modal";
 import removeMarkdown from "remove-markdown";
+import { parsePropertyImagesForCard, parsePropertyFeatures } from "@/lib/utils/property-parsing";
 
 interface PropertyCardProps {
     property: Omit<Property, 'originalUrl'> & {
@@ -18,14 +19,6 @@ interface PropertyCardProps {
     onToggleInterest: (propertyId: string, isInterested: boolean) => void;
 }
 
-const getFeatureIcon = (feature: string) => {
-    const lowerFeature = feature.toLowerCase();
-    if (lowerFeature.includes('garage') || lowerFeature.includes('parking')) return Car;
-    if (lowerFeature.includes('wifi') || lowerFeature.includes('internet')) return Wifi;
-    if (lowerFeature.includes('gym') || lowerFeature.includes('academia')) return Dumbbell;
-    if (lowerFeature.includes('kitchen') || lowerFeature.includes('cozinha')) return ChefHat;
-    return null;
-};
 
 export function PropertyCard({ property, onToggleInterest }: PropertyCardProps) {
     const [showDetails, setShowDetails] = useState(false);
@@ -39,15 +32,8 @@ export function PropertyCard({ property, onToggleInterest }: PropertyCardProps) 
     const imageContainerRef = useRef<HTMLDivElement>(null);
 
     // Memoizar parsing de JSON para evitar re-processing
-    const images = useMemo(() => {
-        if (!property.images) return [];
-        return typeof property.images === 'string' ? JSON.parse(property.images) : property.images;
-    }, [property.images]);
-
-    const features = useMemo(() => {
-        if (!property.features) return [];
-        return typeof property.features === 'string' ? JSON.parse(property.features) : property.features;
-    }, [property.features]);
+    const images = useMemo(() => parsePropertyImagesForCard(property.images), [property.images]);
+    const features = useMemo(() => parsePropertyFeatures(property.features), [property.features]);
 
     const currentImage = useMemo(() => {
         return images[currentImageIndex] || '/api/placeholder/400/300';
@@ -277,15 +263,11 @@ export function PropertyCard({ property, onToggleInterest }: PropertyCardProps) 
                         {/* Features */}
                         {features.length > 0 && (
                             <div className="flex flex-wrap gap-2 pt-1">
-                                {features.slice(0, 4).map((feature: string, index: number) => {
-                                    const FeatureIcon = getFeatureIcon(feature);
-                                    return (
-                                        <div key={index} className="flex items-center gap-1 bg-slate-50 text-slate-600 px-3 py-1 rounded-full text-xs">
-                                            {FeatureIcon && <FeatureIcon className="h-3 w-3" />}
-                                            <span>{feature}</span>
-                                        </div>
-                                    );
-                                })}
+                                {features.slice(0, 4).map((feature, index) => (
+                                    <div key={index} className="bg-slate-50 text-slate-600 px-3 py-1 rounded-full text-xs">
+                                        {String(feature)}
+                                    </div>
+                                ))}
                                 {features.length > 4 && (
                                     <div className="bg-slate-50 text-slate-600 px-3 py-1 rounded-full text-xs">
                                         +{features.length - 4} mais

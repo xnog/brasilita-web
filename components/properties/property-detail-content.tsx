@@ -10,10 +10,6 @@ import {
     Bath,
     Square,
     ThumbsUp,
-    Car,
-    Wifi,
-    Dumbbell,
-    ChefHat,
     Calendar,
     Euro,
     Hash,
@@ -30,6 +26,7 @@ import { getPropertyCode } from "@/lib/utils";
 import { PropertyVisitButton } from "@/components/services/property-visit-button";
 import { generatePropertyNegotiationMessage, openWhatsApp, WHATSAPP_PHONE, getFormattedPhoneNumber } from "@/lib/services/whatsapp-messages";
 import ReactMarkdown from "react-markdown";
+import { parsePropertyImages, parsePropertyFeatures } from "@/lib/utils/property-parsing";
 
 interface PropertyDetailContentProps {
     property: Omit<Property, 'originalUrl'> & {
@@ -42,14 +39,6 @@ interface PropertyDetailContentProps {
     onClose?: () => void;
 }
 
-const getFeatureIcon = (feature: string) => {
-    const lowerFeature = feature.toLowerCase();
-    if (lowerFeature.includes('garage') || lowerFeature.includes('parking')) return Car;
-    if (lowerFeature.includes('wifi') || lowerFeature.includes('internet')) return Wifi;
-    if (lowerFeature.includes('gym') || lowerFeature.includes('academia')) return Dumbbell;
-    if (lowerFeature.includes('kitchen') || lowerFeature.includes('cozinha')) return ChefHat;
-    return null;
-};
 
 export function PropertyDetailContent({
     property,
@@ -61,15 +50,8 @@ export function PropertyDetailContent({
     const [wantsToProceed, setWantsToProceed] = useState(false);
 
     // Memoizar parsing para melhor performance
-    const images = useMemo(() => {
-        if (!property.images) return ['/api/placeholder/800/600'];
-        return typeof property.images === 'string' ? JSON.parse(property.images) : property.images;
-    }, [property.images]);
-
-    const features = useMemo(() => {
-        if (!property.features) return [];
-        return typeof property.features === 'string' ? JSON.parse(property.features) : property.features;
-    }, [property.features]);
+    const images = useMemo(() => parsePropertyImages(property.images), [property.images]);
+    const features = useMemo(() => parsePropertyFeatures(property.features), [property.features]);
 
     const handleToggleInterest = async () => {
         setLoading(true);
@@ -279,20 +261,14 @@ export function PropertyDetailContent({
                                 <h3 className="text-lg font-semibold text-slate-900">Características</h3>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-1 sm:gap-2">
                                     {features
+                                        .filter((feature): feature is string => typeof feature === 'string')
                                         .sort((a: string, b: string) => a.localeCompare(b, 'pt-BR', { numeric: true }))
-                                        .map((feature: string, index: number) => {
-                                            const FeatureIcon = getFeatureIcon(feature);
-                                            return (
-                                                <div key={index} className="flex items-center gap-2 py-1 text-slate-700">
-                                                    {FeatureIcon ? (
-                                                        <FeatureIcon className="h-4 w-4 text-emerald-600 flex-shrink-0" />
-                                                    ) : (
-                                                        <div className="w-1.5 h-1.5 bg-emerald-600 rounded-full flex-shrink-0" />
-                                                    )}
-                                                    <span className="text-sm leading-tight">{feature}</span>
-                                                </div>
-                                            );
-                                        })}
+                                        .map((feature: string, index: number) => (
+                                            <div key={index} className="flex items-center gap-2 py-1 text-slate-700">
+                                                <div className="w-1.5 h-1.5 bg-emerald-600 rounded-full flex-shrink-0" />
+                                                <span className="text-sm leading-tight">{feature}</span>
+                                            </div>
+                                        ))}
                                 </div>
                             </div>
                         )}
