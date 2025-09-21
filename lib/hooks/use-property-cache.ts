@@ -33,6 +33,8 @@ interface MapCacheData {
     totalCount: number;
     propertiesWithoutLocation: number;
     appliedFilters: PropertyFilters;
+    isLimited?: boolean;
+    maxMapProperties?: number;
 }
 
 const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
