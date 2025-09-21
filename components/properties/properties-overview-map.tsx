@@ -50,6 +50,8 @@ export function PropertiesOverviewMap({
         loadingPropertyId,
         selectedProperty,
         showDetails,
+        isLimited,
+        maxMapProperties,
         handlePropertyClick,
         handleToggleInterest,
         handleCloseDetails
@@ -100,24 +102,21 @@ export function PropertiesOverviewMap({
 
     return (
         <div className={`space-y-3 ${className}`}>
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                 <h3 className="text-lg font-semibold text-slate-900 flex items-center gap-2">
                     <MapPin className="h-5 w-5 text-emerald-500" />
                     Mapa Geral
                 </h3>
-                
+
                 <div className="text-sm text-slate-600">
                     Mostrando {validMarkers.length} imóveis no mapa
-                    {propertiesWithoutLocation > 0 && (
-                        <span className="text-amber-600">
-                            {' '}({propertiesWithoutLocation} sem localização)
-                        </span>
-                    )}
+                    {isLimited && <span className="text-amber-600"> • Use filtros para ver mais</span>}
                 </div>
             </div>
-            
-                            <div className="relative rounded-lg overflow-hidden border shadow-sm">
-                <DynamicOverviewMap 
+
+
+            <div className="relative rounded-lg overflow-hidden border shadow-sm">
+                <DynamicOverviewMap
                     markers={validMarkers}
                     onPropertyClick={handlePropertyClick}
                     loadingPropertyId={loadingPropertyId}

@@ -62,6 +62,7 @@ export async function GET(request: NextRequest) {
         const whereClause = and(baseWhereClause, ...coordinateConditions);
 
         // Get properties optimized for map markers (essential data for popups)
+        // Limit to 1000 properties for performance reasons
         const propertyList = await db.query.properties.findMany({
             where: whereClause,
             columns: {
@@ -83,7 +84,8 @@ export async function GET(request: NextRequest) {
                 createdAt: false,
                 updatedAt: false,
                 regionId: false
-            }
+            },
+            limit: 1000
         });
 
         // If favorites only, filter by user interests
@@ -149,7 +151,9 @@ export async function GET(request: NextRequest) {
             totalCount: totalMatchingProperties,
             propertiesWithLocation: propertiesWithLocation,
             propertiesWithoutLocation: propertiesWithoutLocation,
-            appliedFilters: normalizeFilters(filters)
+            appliedFilters: normalizeFilters(filters),
+            isLimited: propertiesWithInterest.length >= 1000,
+            maxMapProperties: 1000
         });
 
     } catch (error) {

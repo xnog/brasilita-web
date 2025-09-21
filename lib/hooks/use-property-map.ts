@@ -30,6 +30,8 @@ interface PropertyMapResponse {
     propertiesWithLocation: number;
     propertiesWithoutLocation: number;
     appliedFilters: PropertyFilters;
+    isLimited?: boolean;
+    maxMapProperties?: number;
 }
 
 export function usePropertyMap(filters: PropertyFilters) {
@@ -40,6 +42,8 @@ export function usePropertyMap(filters: PropertyFilters) {
     const [loadingPropertyId, setLoadingPropertyId] = useState<string | null>(null);
     const [selectedProperty, setSelectedProperty] = useState<PropertyWithInterest | null>(null);
     const [showDetails, setShowDetails] = useState(false);
+    const [isLimited, setIsLimited] = useState<boolean>(false);
+    const [maxMapProperties, setMaxMapProperties] = useState<number>(1000);
 
     // Ref to prevent double requests in development
     const lastFiltersRef = useRef<string>('');
@@ -57,6 +61,8 @@ export function usePropertyMap(filters: PropertyFilters) {
             setMarkers(cachedData.properties || []);
             setTotalProperties(cachedData.totalCount || 0);
             setPropertiesWithoutLocation(cachedData.propertiesWithoutLocation || 0);
+            setIsLimited(cachedData.isLimited || false);
+            setMaxMapProperties(cachedData.maxMapProperties || 1000);
             setLoading(false);
             return;
         }
@@ -76,6 +82,8 @@ export function usePropertyMap(filters: PropertyFilters) {
             setMarkers(responseData.properties || []);
             setTotalProperties(responseData.totalCount || 0);
             setPropertiesWithoutLocation(responseData.propertiesWithoutLocation || 0);
+            setIsLimited(responseData.isLimited || false);
+            setMaxMapProperties(responseData.maxMapProperties || 1000);
             setCachedMapData(newFilters, responseData);
         } catch (error: unknown) {
             console.error("Map Error:", error);
@@ -194,6 +202,8 @@ export function usePropertyMap(filters: PropertyFilters) {
         loadingPropertyId,
         selectedProperty,
         showDetails,
+        isLimited,
+        maxMapProperties,
         handlePropertyClick,
         handleToggleInterest,
         handleCloseDetails,
