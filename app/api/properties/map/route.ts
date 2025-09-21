@@ -3,9 +3,10 @@ import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { properties, userPropertyInterests } from "@/lib/db/schema";
 import { and, eq, inArray, isNotNull, ilike, count } from "drizzle-orm";
-import { 
+import {
     parseFiltersFromRequest,
     buildWhereClause,
+    buildOrderByClause,
     normalizeFilters
 } from "@/lib/api/property-filters";
 
@@ -61,6 +62,9 @@ export async function GET(request: NextRequest) {
         
         const whereClause = and(baseWhereClause, ...coordinateConditions);
 
+        // Build sort order (same as listing page)
+        const orderBy = buildOrderByClause(filters);
+
         // Get properties optimized for map markers (essential data for popups)
         // Limit to 1000 properties for performance reasons
         const propertyList = await db.query.properties.findMany({
@@ -85,6 +89,7 @@ export async function GET(request: NextRequest) {
                 updatedAt: false,
                 regionId: false
             },
+            orderBy: orderBy,
             limit: 1000
         });
 
