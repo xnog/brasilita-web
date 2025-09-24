@@ -17,6 +17,7 @@ export interface PropertyFilters {
     location?: string;
     favoritesOnly?: boolean;
     isRented?: boolean;
+    isRentToOwn?: boolean;
     page?: number;
     limit?: number;
     sortBy?: 'price' | 'area' | 'createdAt';
@@ -44,6 +45,7 @@ export function parseFiltersFromRequest(request: NextRequest): PropertyFilters {
         location: searchParams.get('location') || undefined,
         favoritesOnly: searchParams.get('favoritesOnly') === 'true',
         isRented: searchParams.get('isRented') ? searchParams.get('isRented') === 'true' : undefined,
+        isRentToOwn: searchParams.get('isRentToOwn') ? searchParams.get('isRentToOwn') === 'true' : undefined,
         page: Math.max(1, parseInt(searchParams.get('page') || '1')),
         limit: Math.min(50, Math.max(10, parseInt(searchParams.get('limit') || '20'))),
         sortBy: (searchParams.get('sortBy') as 'price' | 'area' | 'createdAt') || 'createdAt',
@@ -121,6 +123,10 @@ export function buildWhereClause(filters: PropertyFilters, includeCoordinates: b
         whereConditions.push(eq(properties.isRented, filters.isRented));
     }
 
+    if (filters.isRentToOwn !== undefined) {
+        whereConditions.push(eq(properties.isRentToOwn, filters.isRentToOwn));
+    }
+
     return whereConditions.length > 1 ? and(...whereConditions) : whereConditions[0];
 }
 
@@ -159,6 +165,7 @@ export function normalizeFilters(filters: PropertyFilters): PropertyFilters {
         location: filters.location,
         favoritesOnly: filters.favoritesOnly,
         isRented: filters.isRented,
+        isRentToOwn: filters.isRentToOwn,
         page: filters.page,
         limit: filters.limit,
         sortBy: filters.sortBy,

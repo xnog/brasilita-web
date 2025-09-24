@@ -18,7 +18,9 @@ import {
     Phone,
     Building2,
     HelpCircle,
-    Home
+    Home,
+    CreditCard,
+    Key
 } from "lucide-react";
 import { PropertyDetailImage } from "./property-detail-image";
 import { PropertyMap } from "./property-map";
@@ -186,9 +188,25 @@ export function PropertyDetailContent({
                             <div className="text-3xl font-bold text-emerald-600">
                                 {formattedPrice}
                             </div>
-                            <Badge variant="secondary" className="text-sm">
-                                {propertyTypeLabel}
-                            </Badge>
+                            <div className="flex items-center gap-2 flex-wrap">
+                                {propertyTypeLabel && (
+                                    <Badge variant="secondary" className="text-sm">
+                                        {propertyTypeLabel}
+                                    </Badge>
+                                )}
+                                {property.isRentToOwn && (
+                                    <Badge variant="outline" className="text-sm border-blue-200 text-blue-700 bg-blue-50">
+                                        <CreditCard className="h-3 w-3 mr-1" />
+                                        Affitto a riscatto
+                                    </Badge>
+                                )}
+                                {property.isRented && (
+                                    <Badge variant="outline" className="text-sm border-orange-200 text-orange-700 bg-orange-50">
+                                        <Key className="h-3 w-3 mr-1" />
+                                        Alugado
+                                    </Badge>
+                                )}
+                            </div>
                         </div>
 
 
@@ -347,7 +365,7 @@ export function PropertyDetailContent({
                                     size="lg"
                                     className="w-full"
                                 >
-                                    Solicitar Visita com Fotos e Vídeos
+                                    Solicitar Visita
                                 </PropertyVisitButton>
 
                                 {/* Negotiation Flow */}

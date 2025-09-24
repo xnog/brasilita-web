@@ -27,6 +27,7 @@ export interface PropertyFilters {
     location?: string;
     favoritesOnly?: boolean;
     isRented?: boolean;
+    isRentToOwn?: boolean;
     page?: number;
     limit?: number;
     sortBy?: 'price' | 'area' | 'createdAt';
@@ -184,8 +185,8 @@ export function PropertyFilters({
                                 value={`${localFilters.sortBy || 'createdAt'}-${localFilters.sortOrder || 'desc'}`}
                                 onValueChange={(value) => {
                                     const [sortBy, sortOrder] = value.split('-');
-                                    const newFilters = { 
-                                        ...localFilters, 
+                                    const newFilters = {
+                                        ...localFilters,
                                         sortBy: sortBy as 'price' | 'area' | 'createdAt',
                                         sortOrder: sortOrder as 'asc' | 'desc'
                                     };
@@ -369,30 +370,42 @@ export function PropertyFilters({
                         {/* Boolean Filters Row */}
                         <div className="lg:col-span-5 sm:col-span-2">
                             <div className="flex gap-6">
-                            <div className="flex items-center space-x-2">
-                                <Switch
-                                    id="favorites"
-                                    checked={localFilters.favoritesOnly || false}
-                                    onCheckedChange={(checked) => handleFilterChange('favoritesOnly', checked)}
-                                    disabled={isLoading}
-                                />
-                                <Label htmlFor="favorites" className="text-sm font-medium cursor-pointer">
-                                    Apenas favoritos
-                                </Label>
-                            </div>
+                                <div className="flex items-center space-x-2">
+                                    <Switch
+                                        id="favorites"
+                                        checked={localFilters.favoritesOnly || false}
+                                        onCheckedChange={(checked) => handleFilterChange('favoritesOnly', checked)}
+                                        disabled={isLoading}
+                                    />
+                                    <Label htmlFor="favorites" className="text-sm font-medium cursor-pointer">
+                                        Favoritos
+                                    </Label>
+                                </div>
 
-                            <div className="flex items-center space-x-2">
-                                <Switch
-                                    id="rented"
-                                    checked={localFilters.isRented || false}
-                                    onCheckedChange={(checked) => handleFilterChange('isRented', checked)}
-                                    disabled={isLoading}
-                                />
-                                <Label htmlFor="rented" className="text-sm font-medium cursor-pointer">
-                                    Apenas alugados
-                                </Label>
+                                <div className="flex items-center space-x-2">
+                                    <Switch
+                                        id="rented"
+                                        checked={localFilters.isRented || false}
+                                        onCheckedChange={(checked) => handleFilterChange('isRented', checked)}
+                                        disabled={isLoading}
+                                    />
+                                    <Label htmlFor="rented" className="text-sm font-medium cursor-pointer">
+                                        Alugados
+                                    </Label>
+                                </div>
+
+                                <div className="flex items-center space-x-2">
+                                    <Switch
+                                        id="isRentToOwn"
+                                        checked={localFilters.isRentToOwn || false}
+                                        onCheckedChange={(checked) => handleFilterChange('isRentToOwn', checked)}
+                                        disabled={isLoading}
+                                    />
+                                    <Label htmlFor="isRentToOwn" className="text-sm font-medium cursor-pointer">
+                                        Affitto a riscatto
+                                    </Label>
+                                </div>
                             </div>
-                        </div>
                         </div>
                     </div>
                 </div>

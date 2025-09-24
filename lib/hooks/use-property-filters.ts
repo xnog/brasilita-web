@@ -15,6 +15,7 @@ export interface PropertyFilters {
     location?: string;
     favoritesOnly?: boolean;
     isRented?: boolean;
+    isRentToOwn?: boolean;
     page?: number;
     limit?: number;
     sortBy?: 'price' | 'area' | 'createdAt';

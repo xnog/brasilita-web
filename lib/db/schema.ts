@@ -202,6 +202,7 @@ export const properties = pgTable("property", {
     latitude: decimal("latitude", { precision: 9, scale: 6 }), // GPS latitude coordinate
     longitude: decimal("longitude", { precision: 9, scale: 6 }), // GPS longitude coordinate
     realEstate: text("realEstate"), // Real estate agency/company name
+    isRentToOwn: boolean("isRentToOwn").default(false), // Whether property offers rent-to-own option
     isAvailable: boolean("isAvailable").default(true),
     isRented: boolean("isRented").default(false),
     createdAt: timestamp("createdAt", { mode: "date" }).defaultNow(),
