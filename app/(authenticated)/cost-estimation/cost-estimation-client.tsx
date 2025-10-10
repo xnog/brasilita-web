@@ -61,7 +61,7 @@ export function CostEstimationClient() {
         const ivaNotaio = subtotaleImponibile * 0.22;
         const ivaAgencia = comissaoAgencia * 0.22;
 
-        const assessoriaFixo = 1500;
+        const assessoriaFixo = 2000;
         const assessoriaVariavel = valorImovel * 0.015;
         const ivaAssessoria = (assessoriaFixo + assessoriaVariavel) * 0.22;
 
@@ -82,7 +82,7 @@ export function CostEstimationClient() {
             { item: "IVA 22% (Notário)", calculatedValue: ivaNotaio, percentage: 22.0, observations: "22%", entity: "notario" },
             { item: "Comissione Agenzia Immobiliare", calculatedValue: comissaoAgencia, observations: "", entity: "imobiliaria" },
             { item: "IVA 22% (Imobiliária)", calculatedValue: ivaAgencia, percentage: 22.0, observations: "22%", entity: "imobiliaria" },
-            { item: "Assessoria Brasilità Fixo", calculatedValue: assessoriaFixo, fixedValue: 1500, observations: "", entity: "brasilita" },
+            { item: "Assessoria Brasilità Fixo", calculatedValue: assessoriaFixo, fixedValue: 2000, observations: "", entity: "brasilita" },
             { item: "Assessoria Brasilità Variável", calculatedValue: assessoriaVariavel, percentage: 1.5, observations: "1,5%", entity: "brasilita" },
             { item: "IVA 22% (Brasilità)", calculatedValue: ivaAssessoria, percentage: 22.0, observations: "22%", entity: "brasilita" },
             { item: "Total geral", calculatedValue: totalGeral, observations: "", entity: "total" }
