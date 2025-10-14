@@ -36,7 +36,7 @@ const DynamicOverviewMap = dynamic(
     }
 ) as React.ComponentType<PropertiesOverviewMapLeafletProps>;
 
-export function PropertiesOverviewMap({ 
+export function PropertiesOverviewMap({
     filters,
     className = "",
     onTotalPropertiesChange,
@@ -45,13 +45,11 @@ export function PropertiesOverviewMap({
     const {
         validMarkers,
         totalProperties,
-        propertiesWithoutLocation,
         loading,
         loadingPropertyId,
         selectedProperty,
         showDetails,
         isLimited,
-        maxMapProperties,
         handlePropertyClick,
         handleToggleInterest,
         handleCloseDetails
@@ -85,7 +83,7 @@ export function PropertiesOverviewMap({
                         Mapa Geral
                     </h3>
                 </div>
-                
+
                 <div className="h-96 bg-slate-100 rounded-lg flex items-center justify-center">
                     <div className="text-center text-slate-600">
                         <p className="font-medium">Nenhum imóvel encontrado</p>
@@ -122,7 +120,7 @@ export function PropertiesOverviewMap({
                     loadingPropertyId={loadingPropertyId}
                 />
             </div>
-            
+
 
 
             {/* Property Detail Modal */}
