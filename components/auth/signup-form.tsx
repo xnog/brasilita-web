@@ -1,13 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Mail, Lock, User } from "lucide-react";
+import { Mail, Lock, User, Check, X } from "lucide-react";
 import { Logo } from "@/components/ui/logo";
 import Link from "next/link";
 
@@ -15,7 +15,6 @@ export function SignUpForm() {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
 
     const [acceptPrivacyPolicy, setAcceptPrivacyPolicy] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -23,25 +22,22 @@ export function SignUpForm() {
 
     const router = useRouter();
 
+    // Password strength indicator
+    const passwordStrength = useMemo(() => {
+        if (password.length === 0) return null;
+        if (password.length < 6) return { label: "Muito curta", color: "text-red-600", valid: false };
+        if (password.length < 8) return { label: "Fraca", color: "text-yellow-600", valid: true };
+        if (password.length < 12) return { label: "Boa", color: "text-green-600", valid: true };
+        return { label: "Forte", color: "text-green-600", valid: true };
+    }, [password]);
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsLoading(true);
         setError("");
 
-        if (password !== confirmPassword) {
-            setError("As senhas não coincidem");
-            setIsLoading(false);
-            return;
-        }
-
         if (password.length < 6) {
             setError("A senha deve ter pelo menos 6 caracteres");
-            setIsLoading(false);
-            return;
-        }
-
-        if (!acceptPrivacyPolicy) {
-            setError("Você deve concordar com a Política de Privacidade para continuar");
             setIsLoading(false);
             return;
         }
@@ -189,23 +185,29 @@ export function SignUpForm() {
                                     required
                                 />
                             </div>
+                            {passwordStrength && (
+                                <div className="flex items-center gap-2 text-xs">
+                                    {passwordStrength.valid ? (
+                                        <Check className="h-3 w-3 text-green-600" />
+                                    ) : (
+                                        <X className="h-3 w-3 text-red-600" />
+                                    )}
+                                    <span className={passwordStrength.color}>
+                                        Senha {passwordStrength.label.toLowerCase()}
+                                    </span>
+                                </div>
+                            )}
                         </div>
 
-                        <div className="space-y-2">
-                            <Label htmlFor="confirmPassword">Confirmar senha</Label>
-                            <div className="relative">
-                                <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                                <Input
-                                    id="confirmPassword"
-                                    type="password"
-                                    placeholder="Confirme sua senha"
-                                    className="pl-10"
-                                    value={confirmPassword}
-                                    onChange={(e) => setConfirmPassword(e.target.value)}
-                                    required
-                                />
+                        {error && (
+                            <div className="text-sm text-red-600 bg-red-50 p-3 rounded-md">
+                                {error}
                             </div>
-                        </div>
+                        )}
+
+                        <Button type="submit" className="w-full" disabled={isLoading}>
+                            {isLoading ? "Criando conta..." : "Criar conta"}
+                        </Button>
 
                         <div className="space-y-2">
                             <div className="flex items-start space-x-2">
@@ -215,6 +217,7 @@ export function SignUpForm() {
                                     checked={acceptPrivacyPolicy}
                                     onChange={(e) => setAcceptPrivacyPolicy(e.target.checked)}
                                     className="mt-1 h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
+                                    required
                                 />
                                 <label htmlFor="acceptPrivacyPolicy" className="text-sm text-muted-foreground leading-relaxed">
                                     Li e concordo com a{" "}
@@ -225,16 +228,6 @@ export function SignUpForm() {
                                 </label>
                             </div>
                         </div>
-
-                        {error && (
-                            <div className="text-sm text-red-600 bg-red-50 p-3 rounded-md">
-                                {error}
-                            </div>
-                        )}
-
-                        <Button type="submit" className="w-full" disabled={isLoading || !acceptPrivacyPolicy}>
-                            {isLoading ? "Criando conta..." : "Criar conta"}
-                        </Button>
                     </form>
 
                     <div className="text-center text-sm">

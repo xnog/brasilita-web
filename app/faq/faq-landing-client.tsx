@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { ChevronDown, ChevronUp, Search, HelpCircle, FileText, MapPin, DollarSign, Home, Shield, Calendar, User } from "lucide-react";
+import { PrimaryCTA } from "@/components/ui/primary-cta";
 
 // FAQ Data inline
 const faqData = {
@@ -347,15 +348,13 @@ export function FAQLandingClient() {
                 <div className="container mx-auto container-padding text-center">
                     <div className="max-w-3xl mx-auto">
                         <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">
-                            Ainda tem dúvidas?
+                            Pronto para realizar seu sonho italiano?
                         </h2>
                         <p className="text-lg text-muted-foreground mb-8">
-                            Nossa equipe está pronta para ajudá-lo a esclarecer qualquer questão sobre seu investimento na Itália
+                            Entre em contato conosco e descubra como podemos ajudá-lo a investir no mercado imobiliário italiano
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                            <a href="/auth/signup" className="btn-primary">
-                                Criar Conta
-                            </a>
+                            <PrimaryCTA href="/auth/signup" variant="large" />
                             <a href="/contact" className="btn-secondary">
                                 Fale Conosco
                             </a>

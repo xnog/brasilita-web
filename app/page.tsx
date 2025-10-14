@@ -1,8 +1,8 @@
 import { Home, Key, MapPin, CheckCircle, Users, User, TrendingUp, Shield, Clock, Award, Globe } from "lucide-react";
-import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { LandingHeader } from "@/components/layout/landing-header";
 import { LandingFooter } from "@/components/layout/landing-footer";
+import { PrimaryCTA } from "@/components/ui/primary-cta";
 
 export default async function HomePage() {
   const session = await auth();
@@ -14,7 +14,7 @@ export default async function HomePage() {
       {/* Hero Section */}
       <section className="section-padding relative bg-cover bg-center bg-no-repeat" style={{ backgroundImage: 'url(/bg.jpeg)' }}>
         {/* Enhanced overlay for better text readability */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/10 to-black/30"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-black/70"></div>
         <div className="container mx-auto container-padding text-center relative z-10">
           <div className="max-w-4xl mx-auto">
             <div className="mb-6">
@@ -23,20 +23,15 @@ export default async function HomePage() {
                 O único marketplace de imóveis italianos para brasileiros
               </span>
             </div>
-            <h1 className="text-4xl md:text-6xl font-bold mb-6 text-white leading-tight" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.8), 0px 0px 8px rgba(0,0,0,0.6)' }}>
-              Realize seu sonho de ter uma
-              <span className="text-yellow-400" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.8), 0px 0px 8px rgba(0,0,0,0.6)' }}> casa na Itália</span>
+            <h1 className="text-3xl md:text-5xl font-bold mb-6 text-white leading-tight text-shadow-hero">
+              Realize seu sonho de ter uma<br />
+              <span className="text-yellow-400">casa na Itália</span>
             </h1>
-            <p className="text-lg md:text-xl text-white mb-8 max-w-3xl mx-auto leading-relaxed" style={{ textShadow: '1px 1px 3px rgba(0,0,0,0.8)' }}>
-              Encontramos seu imóvel dos sonhos e conectamos você a profissionais e imobiliárias locais, facilitando a comunicação e a organização das etapas, eliminando barreiras de idioma e burocracia.
+            <p className="text-lg md:text-xl text-white mb-8 max-w-3xl mx-auto leading-relaxed text-shadow-hero-subtitle">
+              Conectamos você a imóveis e profissionais na Itália, eliminando barreiras de idioma e burocracia.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-              <a href="/auth/signup" className="inline-flex items-center justify-center px-8 py-3 rounded-lg bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-black font-semibold transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105">
-                Criar Conta
-              </a>
-              <Link href="/properties" className="inline-flex items-center justify-center px-8 py-3 rounded-lg bg-white/10 backdrop-blur-md hover:bg-white/20 text-white font-semibold border-2 border-white/70 hover:border-white transition-all duration-300 shadow-lg hover:scale-105">
-                Buscar Imóveis
-              </Link>
+            <div className="flex justify-center mb-12">
+              <PrimaryCTA href="/auth/signup" />
             </div>
           </div>
         </div>
@@ -118,13 +113,8 @@ export default async function HomePage() {
               </div>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
-              <a href="/auth/signup" className="inline-flex items-center justify-center px-8 py-4 rounded-lg bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary text-primary-foreground font-semibold text-lg transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105">
-                Criar Minha Conta
-              </a>
-              <Link href="/properties" className="inline-flex items-center justify-center px-8 py-4 rounded-lg bg-white/10 backdrop-blur-sm hover:bg-white/20 text-primary border-2 border-primary/20 hover:border-primary/40 font-semibold text-lg transition-all duration-300 shadow-lg hover:scale-105">
-                Explorar Imóveis
-              </Link>
+            <div className="flex justify-center mb-6">
+              <PrimaryCTA href="/auth/signup" variant="large" />
             </div>
 
             <p className="text-sm text-muted-foreground mt-4">
@@ -413,9 +403,7 @@ export default async function HomePage() {
               Entre em contato conosco e descubra como podemos ajudá-lo a investir no mercado imobiliário italiano
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a href="/auth/signup" className="btn-primary">
-                Criar Conta
-              </a>
+              <PrimaryCTA href="/auth/signup" variant="large" />
               <a href="/contact" className="btn-secondary">
                 Fale Conosco
               </a>

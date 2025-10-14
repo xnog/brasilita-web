@@ -3,6 +3,7 @@ import Image from "next/image";
 import { auth } from "@/lib/auth";
 import { LandingHeader } from "@/components/layout/landing-header";
 import { LandingFooter } from "@/components/layout/landing-footer";
+import { PrimaryCTA } from "@/components/ui/primary-cta";
 
 export default async function AboutPage() {
     const session = await auth();
@@ -273,7 +274,7 @@ export default async function AboutPage() {
             </section>
 
             {/* Legacy Section */}
-            <section className="bg-gradient-to-r from-primary/5 via-primary/10 to-primary/5 section-padding">
+            <section className="bg-muted/30 section-padding">
                 <div className="container mx-auto container-padding">
                     <div className="max-w-6xl mx-auto">
                         <div className="text-center">
@@ -283,19 +284,10 @@ export default async function AboutPage() {
                                     Nossa essência vem do amor por propriedades que contam histórias e pela honra em fazer parte
                                     da jornada de diversas famílias brasileiras que realizaram o sonho de ter uma casa na Itália.
                                 </p>
-                                <p className="text-muted-foreground leading-relaxed mb-8">
+                                <p className="text-muted-foreground leading-relaxed">
                                     A Itália é um lugar especial que nos encanta a cada dia. A arte, a culinária, as pessoas,
                                     a música, as paisagens — são muitos os motivos que fizeram da Itália nossa especialidade e paixão.
                                 </p>
-                                <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                                    <a href="/dashboard" className="btn-primary">
-                                        Conhecer a Brasilità
-                                    </a>
-                                    <div className="text-sm text-muted-foreground sm:text-left text-center">
-                                        <p className="font-semibold">Atendimento Especializado</p>
-                                        <p>Sua jornada italiana começa aqui</p>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -313,9 +305,7 @@ export default async function AboutPage() {
                             Entre em contato conosco e descubra como podemos ajudá-lo a investir no mercado imobiliário italiano
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                            <a href="/dashboard" className="btn-primary">
-                                Começar Agora
-                            </a>
+                            <PrimaryCTA href="/auth/signup" variant="large" />
                             <a href="/contact" className="btn-secondary">
                                 Fale Conosco
                             </a>

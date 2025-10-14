@@ -2,6 +2,7 @@ import { Mail, MapPin } from "lucide-react";
 import { auth } from "@/lib/auth";
 import { LandingHeader } from "@/components/layout/landing-header";
 import { LandingFooter } from "@/components/layout/landing-footer";
+import { PrimaryCTA } from "@/components/ui/primary-cta";
 
 export default async function ContactPage() {
     const session = await auth();
@@ -148,9 +149,7 @@ export default async function ContactPage() {
                             Entre em contato conosco e descubra como podemos ajudá-lo a investir no mercado imobiliário italiano
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                            <a href="/dashboard" className="btn-primary">
-                                Começar Agora
-                            </a>
+                            <PrimaryCTA href="/auth/signup" variant="large" />
                             <a href="mailto:contato@brasilita.com" className="btn-secondary">
                                 Enviar Email
                             </a>

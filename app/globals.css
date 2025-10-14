@@ -186,3 +186,13 @@
     @apply bg-card border border-border/50 rounded-xl p-6 shadow-sm;
   }
 }
+
+@layer utilities {
+  .text-shadow-hero {
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.9), 0px 0px 12px rgba(0,0,0,0.7);
+  }
+
+  .text-shadow-hero-subtitle {
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.9);
+  }
+}
