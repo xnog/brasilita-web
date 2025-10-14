@@ -25,7 +25,6 @@ import {
 import { PropertyDetailImage } from "./property-detail-image";
 import { PropertyMap } from "./property-map";
 import { getPropertyCode } from "@/lib/utils";
-import { PropertyVisitButton } from "@/components/services/property-visit-button";
 import { generatePropertyNegotiationMessage, openWhatsApp, WHATSAPP_PHONE, getFormattedPhoneNumber } from "@/lib/services/whatsapp-messages";
 import ReactMarkdown from "react-markdown";
 import { parsePropertyImages, parsePropertyFeatures } from "@/lib/utils/property-parsing";
@@ -357,16 +356,6 @@ export function PropertyDetailContent({
                                     <ThumbsUp className="h-5 w-5 mr-2" />
                                     {property.isInterested ? "Favoritado" : "Adicionar aos Favoritos"}
                                 </Button>
-
-                                {/* Property Visit */}
-                                <PropertyVisitButton
-                                    property={property}
-                                    variant="outline"
-                                    size="lg"
-                                    className="w-full"
-                                >
-                                    Solicitar Visita
-                                </PropertyVisitButton>
 
                                 {/* Negotiation Flow */}
                                 <div className="space-y-2">

@@ -55,33 +55,6 @@ export default async function AboutPage() {
                 </div>
             </section>
 
-            {/* Video Section */}
-            <section className="bg-muted/30 section-padding">
-                <div className="container mx-auto container-padding">
-                    <div className="max-w-6xl mx-auto">
-                        <div className="text-center mb-12">
-                            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">Conheça Nossa História</h2>
-                            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                                Assista ao vídeo e descubra como a Brasilità nasceu do sonho de conectar brasileiros ao mercado imobiliário italiano
-                            </p>
-                        </div>
-
-                        <div className="max-w-4xl mx-auto">
-                            <div className="relative w-full aspect-video rounded-xl overflow-hidden shadow-lg">
-                                <iframe
-                                    src="https://www.youtube.com/embed/IGgq1I9ldpc"
-                                    title="Vídeo sobre a Brasilità"
-                                    className="w-full h-full"
-                                    frameBorder="0"
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                    allowFullScreen
-                                />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
             {/* Mission and Values Section */}
             <section className="section-padding">
                 <div className="container mx-auto container-padding">
@@ -216,6 +189,25 @@ export default async function AboutPage() {
                                 <p className="text-sm text-muted-foreground leading-relaxed">
                                     Fundador da Translate AI. Mais de 20 anos em desenvolvimento e arquitetura de sistemas críticos.
                                     Na Brasilità, combina inovação e tecnologia para criar soluções escaláveis.
+                                </p>
+                            </div>
+
+                            {/* Olavo */}
+                            <div className="professional-card text-center">
+                                <div className="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden">
+                                    <Image
+                                        src="/Olavo.png"
+                                        alt="Olavo Ferenshitz"
+                                        width={96}
+                                        height={96}
+                                        className="w-full h-full object-cover"
+                                    />
+                                </div>
+                                <h4 className="text-lg font-semibold mb-1">Olavo Ferenshitz</h4>
+                                <p className="text-sm text-primary font-medium mb-3">Co-fundador</p>
+                                <p className="text-sm text-muted-foreground leading-relaxed">
+                                    Advogado e Planejador Financeiro CFP®, com experiência internacional no Brasil, EUA e Itália.
+                                    Especialista em Investimentos Imobiliários na Itália.
                                 </p>
                             </div>
 
@@ -361,7 +353,7 @@ export default async function AboutPage() {
                             <ul className="space-y-2 text-sm text-muted-foreground">
                                 <li><a href="/possibilities" className="hover:text-foreground transition-colors">Possibilidades</a></li>
                                 <li><a href="/about" className="hover:text-foreground transition-colors">Sobre</a></li>
-                                <li><a href="/partners" className="hover:text-foreground transition-colors">Parceiros</a></li>
+                                <li><a href="/faq" className="hover:text-foreground transition-colors">FAQ</a></li>
                                 <li><a href="/contact" className="hover:text-foreground transition-colors">Contato</a></li>
                             </ul>
                         </div>

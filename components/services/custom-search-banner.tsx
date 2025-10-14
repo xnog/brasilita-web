@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Search, ArrowRight } from "lucide-react";
-import Link from "next/link";
+import { generatePropertyAdvisoryMessage, openWhatsApp } from "@/lib/services/whatsapp-messages";
 
 interface CustomSearchBannerProps {
     variant?: "default" | "empty-results";
@@ -28,16 +28,22 @@ export function CustomSearchBanner({ variant = "default", className = "" }: Cust
                 </div>
 
                 <p className="text-sm text-muted-foreground mb-4 max-w-2xl mx-auto">
-                    Nossa equipe pode fazer uma busca dedicada no mercado italiano com suas especificações.
+                    Nossa assessoria completa pode ajudar você a encontrar e adquirir o imóvel perfeito na Itália.
                 </p>
 
-                <Link href="/services/custom-search">
-                    <Button variant="outline" size="sm" className="group">
-                        <Search className="w-3 h-3 mr-2" />
-                        Busca Dedicada
-                        <ArrowRight className="ml-2 h-3 w-3 group-hover:translate-x-1 transition-transform" />
-                    </Button>
-                </Link>
+                <Button
+                    variant="outline"
+                    size="sm"
+                    className="group"
+                    onClick={() => {
+                        const message = generatePropertyAdvisoryMessage();
+                        openWhatsApp(message);
+                    }}
+                >
+                    <Search className="w-3 h-3 mr-2" />
+                    Assessoria de Compra
+                    <ArrowRight className="ml-2 h-3 w-3 group-hover:translate-x-1 transition-transform" />
+                </Button>
             </div>
         </div>
     );

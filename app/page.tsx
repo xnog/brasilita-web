@@ -1,4 +1,4 @@
-import { Home, Key, MapPin, Mail, CheckCircle, Users, User, TrendingUp, Shield, Clock, Award, Globe, Search, Camera } from "lucide-react";
+import { Home, Key, MapPin, Mail, CheckCircle, Users, User, TrendingUp, Shield, Clock, Award, Globe } from "lucide-react";
 import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { Logo } from "@/components/ui/logo";
@@ -76,124 +76,6 @@ export default async function HomePage() {
                 <h3 className="text-lg font-semibold mb-2">ROI Otimizado</h3>
                 <p className="text-sm text-muted-foreground">Estratégias personalizadas para maximizar seu retorno</p>
               </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Services Section */}
-      <section id="servicos" className="section-padding">
-        <div className="container mx-auto container-padding">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">
-              Nossos Serviços
-            </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Soluções completas para seu investimento imobiliário na Itália, desde a compra até a gestão
-            </p>
-          </div>
-
-          <div className="grid lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {/* Service 1 - Busca Dedicada */}
-            <div className="professional-card">
-              <div className="flex items-center mb-6">
-                <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mr-4">
-                  <Search className="h-6 w-6 text-primary" />
-                </div>
-                <div>
-                  <h3 className="text-xl font-bold text-foreground">Busca Dedicada</h3>
-                  <p className="text-sm text-muted-foreground">Encontramos para você</p>
-                </div>
-              </div>
-              <p className="text-muted-foreground mb-6">
-                Não encontrou o imóvel ideal? Nossa equipe fará uma busca dedicada no mercado italiano baseada nas suas especificações.
-              </p>
-              <ul className="space-y-3">
-                <li className="flex items-start space-x-3">
-                  <CheckCircle className="feature-icon mt-0.5" />
-                  <span className="text-sm">Busca direcionada conforme seus critérios</span>
-                </li>
-                <li className="flex items-start space-x-3">
-                  <CheckCircle className="feature-icon mt-0.5" />
-                  <span className="text-sm">Acesso a propriedades não públicas</span>
-                </li>
-                <li className="flex items-start space-x-3">
-                  <CheckCircle className="feature-icon mt-0.5" />
-                  <span className="text-sm">Relatório detalhado das opções</span>
-                </li>
-                <li className="flex items-start space-x-3">
-                  <CheckCircle className="feature-icon mt-0.5" />
-                  <span className="text-sm">Atendimento em português</span>
-                </li>
-              </ul>
-            </div>
-
-            {/* Service 2 - Visita de Imóveis */}
-            <div className="professional-card">
-              <div className="flex items-center mb-6">
-                <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mr-4">
-                  <Camera className="h-6 w-6 text-primary" />
-                </div>
-                <div>
-                  <h3 className="text-xl font-bold text-foreground">Visita de Imóveis</h3>
-                  <p className="text-sm text-muted-foreground">Documentação completa</p>
-                </div>
-              </div>
-              <p className="text-muted-foreground mb-6">
-                Solicite uma visita presencial em imóveis de interesse. Receba fotos, vídeos e relatório técnico para decidir com segurança.
-              </p>
-              <ul className="space-y-3">
-                <li className="flex items-start space-x-3">
-                  <CheckCircle className="feature-icon mt-0.5" />
-                  <span className="text-sm">Fotos profissionais em alta resolução</span>
-                </li>
-                <li className="flex items-start space-x-3">
-                  <CheckCircle className="feature-icon mt-0.5" />
-                  <span className="text-sm">Vídeo tour completo da propriedade</span>
-                </li>
-                <li className="flex items-start space-x-3">
-                  <CheckCircle className="feature-icon mt-0.5" />
-                  <span className="text-sm">Relatório técnico detalhado</span>
-                </li>
-                <li className="flex items-start space-x-3">
-                  <CheckCircle className="feature-icon mt-0.5" />
-                  <span className="text-sm">Entrega em até 48 horas</span>
-                </li>
-              </ul>
-            </div>
-
-            {/* Service 3 - Compra de Imóveis */}
-            <div className="professional-card">
-              <div className="flex items-center mb-6">
-                <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mr-4">
-                  <Home className="h-6 w-6 text-primary" />
-                </div>
-                <div>
-                  <h3 className="text-xl font-bold text-foreground">Compra de Imóveis</h3>
-                  <p className="text-sm text-muted-foreground">Assessoria completa</p>
-                </div>
-              </div>
-              <p className="text-muted-foreground mb-6">
-                Da busca à escritura final, cuidamos de todo o processo de aquisição com total transparência e segurança jurídica.
-              </p>
-              <ul className="space-y-3">
-                <li className="flex items-start space-x-3">
-                  <CheckCircle className="feature-icon mt-0.5" />
-                  <span className="text-sm">Curadoria personalizada de imóveis</span>
-                </li>
-                <li className="flex items-start space-x-3">
-                  <CheckCircle className="feature-icon mt-0.5" />
-                  <span className="text-sm">Verificação física e documental</span>
-                </li>
-                <li className="flex items-start space-x-3">
-                  <CheckCircle className="feature-icon mt-0.5" />
-                  <span className="text-sm">Validação jurídica completa</span>
-                </li>
-                <li className="flex items-start space-x-3">
-                  <CheckCircle className="feature-icon mt-0.5" />
-                  <span className="text-sm">Acompanhamento do processo do início ao fim</span>
-                </li>
-              </ul>
             </div>
           </div>
         </div>
@@ -515,48 +397,6 @@ export default async function HomePage() {
                   Cultura rica, gastronomia excepcional e estilo de vida mediterrâneo incomparável.
                 </p>
               </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Navigation Cards Section */}
-      <section className="bg-muted/30 section-padding">
-        <div className="container mx-auto container-padding">
-          <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">
-                Explore Mais
-              </h2>
-              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                Descubra tudo sobre nossos serviços e como podemos ajudá-lo
-              </p>
-            </div>
-
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              <a href="/about" className="professional-card text-center hover:scale-105 transition-transform">
-                <div className="w-16 h-16 bg-gradient-to-br from-blue-500/10 to-blue-600/10 rounded-xl flex items-center justify-center mx-auto mb-4">
-                  <Award className="w-8 h-8 text-blue-600" />
-                </div>
-                <h3 className="text-lg font-semibold mb-2">Sobre Nós</h3>
-                <p className="text-sm text-muted-foreground">Nossa história e equipe especializada</p>
-              </a>
-
-              <a href="/partners" className="professional-card text-center hover:scale-105 transition-transform">
-                <div className="w-16 h-16 bg-gradient-to-br from-green-500/10 to-green-600/10 rounded-xl flex items-center justify-center mx-auto mb-4">
-                  <Users className="w-8 h-8 text-green-600" />
-                </div>
-                <h3 className="text-lg font-semibold mb-2">Parceiros</h3>
-                <p className="text-sm text-muted-foreground">Faça parte da nossa rede de profissionais</p>
-              </a>
-
-              <a href="/contact" className="professional-card text-center hover:scale-105 transition-transform">
-                <div className="w-16 h-16 bg-gradient-to-br from-purple-500/10 to-purple-600/10 rounded-xl flex items-center justify-center mx-auto mb-4">
-                  <Mail className="w-8 h-8 text-purple-600" />
-                </div>
-                <h3 className="text-lg font-semibold mb-2">Fale Conosco</h3>
-                <p className="text-sm text-muted-foreground">Tire suas dúvidas e comece agora</p>
-              </a>
             </div>
           </div>
         </div>

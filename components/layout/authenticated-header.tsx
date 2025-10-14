@@ -21,10 +21,6 @@ const navigationItems = [
         name: "Imóveis",
         href: "/properties",
     },
-    {
-        name: "Serviços",
-        href: "/services",
-    },
 ];
 
 interface AuthenticatedHeaderProps {

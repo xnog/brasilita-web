@@ -24,10 +24,6 @@ const navigationItems = [
         href: "/about",
     },
     {
-        name: "Parceiros",
-        href: "/partners",
-    },
-    {
         name: "FAQ",
         href: "/faq",
     },

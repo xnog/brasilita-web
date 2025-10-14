@@ -64,7 +64,7 @@ const processSteps = [
     }
 ];
 
-export function CompraImoveisClient() {
+export function PropertyPurchaseClient() {
     return (
         <div className="container mx-auto container-padding py-8">
             <div className="max-w-4xl mx-auto">

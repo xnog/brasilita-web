@@ -1,7 +1,7 @@
 import { auth } from "@/lib/auth";
 import Link from "next/link";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { User, CheckSquare, ArrowRight, Home, Search, Settings, Handshake, Heart, HelpCircle } from "lucide-react";
+import { User, CheckSquare, ArrowRight, Home, Search, Settings, Handshake, Heart, HelpCircle, ShoppingCart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { db } from "@/lib/db";
 import { userProfiles, userPropertyInterests } from "@/lib/db/schema";
@@ -283,6 +283,46 @@ export default async function DashboardPage() {
                                     Ver FAQ
                                     <ArrowRight className="h-4 w-4 ml-2" />
                                 </a>
+                            </Button>
+                        </div>
+                    </CardContent>
+                </Card>
+
+                {/* Featured Section - Property Purchase Service */}
+                <Card className="mb-8 bg-gradient-to-r from-purple-500/10 to-purple-500/5 border-purple-500/20">
+                    <CardHeader>
+                        <CardTitle className="flex items-center gap-3 text-xl">
+                            <ShoppingCart className="h-6 w-6 text-purple-600" />
+                            Compra de Imóveis
+                        </CardTitle>
+                        <CardDescription className="text-base">
+                            Assessoria completa para aquisição do seu imóvel na Itália.
+                        </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
+                            <div className="space-y-2">
+                                <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-sm">
+                                    <span className="flex items-center gap-1">
+                                        🏠 <strong>Curadoria</strong> personalizada
+                                    </span>
+                                    <span className="flex items-center gap-1">
+                                        ✅ <strong>Verificação</strong> completa
+                                    </span>
+                                    <span className="flex items-center gap-1">
+                                        ⚖️ <strong>Validação</strong> jurídica
+                                    </span>
+                                </div>
+                                <p className="text-sm text-muted-foreground">
+                                    Do início à escritura final com total segurança e transparência
+                                </p>
+                            </div>
+                            <Button size="lg" className="shrink-0 bg-purple-600 hover:bg-purple-700" asChild>
+                                <Link href="/services/property-purchase">
+                                    <ShoppingCart className="h-4 w-4 mr-2" />
+                                    Saiba Mais
+                                    <ArrowRight className="h-4 w-4 ml-2" />
+                                </Link>
                             </Button>
                         </div>
                     </CardContent>
