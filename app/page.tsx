@@ -451,7 +451,6 @@ export default async function HomePage() {
               <h4 className="font-semibold mb-4 text-foreground">Navegação</h4>
               <ul className="space-y-2 text-sm text-muted-foreground">
                 <li><a href="/about" className="hover:text-foreground transition-colors">Sobre</a></li>
-                <li><a href="/partners" className="hover:text-foreground transition-colors">Parceiros</a></li>
                 <li><a href="/faq" className="hover:text-foreground transition-colors">FAQ</a></li>
                 <li><a href="/contact" className="hover:text-foreground transition-colors">Contato</a></li>
               </ul>
