@@ -1,8 +1,9 @@
-import { Home, Key, MapPin, CheckCircle, Users, User, TrendingUp, Shield, Clock, Award, Globe } from "lucide-react";
+import { Home, Key, MapPin, CheckCircle, Users, User, TrendingUp, Shield, Clock, Award, Globe, Sparkles, ArrowRight } from "lucide-react";
 import { auth } from "@/lib/auth";
 import { LandingHeader } from "@/components/layout/landing-header";
 import { LandingFooter } from "@/components/layout/landing-footer";
 import { PrimaryCTA } from "@/components/ui/primary-cta";
+import Link from "next/link";
 
 export default async function HomePage() {
   const session = await auth();
@@ -32,6 +33,95 @@ export default async function HomePage() {
             </p>
             <div className="flex justify-center mb-12">
               <PrimaryCTA href="/auth/signup" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Brasilità Insider Launch Banner */}
+      <section className="relative bg-gradient-to-br from-primary via-primary/95 to-primary/90 py-12 md:py-16 overflow-hidden">
+        {/* Background Pattern */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute inset-0" style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+          }} />
+        </div>
+
+        <div className="container mx-auto container-padding relative z-10">
+          <div className="max-w-6xl mx-auto">
+            <div className="grid lg:grid-cols-2 gap-8 items-center">
+              {/* Left Column - Content */}
+              <div className="text-white">
+                <div className="inline-flex items-center px-4 py-2 rounded-full bg-yellow-400 text-black text-xs md:text-sm font-bold mb-4 shadow-xl animate-pulse">
+                  <Sparkles className="w-4 h-4 mr-2" />
+                  LANÇAMENTO 02/11 - VAGAS LIMITADAS
+                </div>
+                <h2 className="text-3xl md:text-5xl font-bold mb-4 leading-tight">
+                  Apresentamos o<br />
+                  <span className="text-yellow-400">Brasilità Insider</span>
+                </h2>
+                <p className="text-lg md:text-xl text-white/90 mb-6 leading-relaxed">
+                  A primeira comunidade em português dedicada a ensinar brasileiros a investir
+                  no mercado imobiliário italiano com segurança e autonomia.
+                </p>
+                <ul className="space-y-3 mb-8">
+                  <li className="flex items-start gap-3">
+                    <CheckCircle className="w-6 h-6 text-green-400 flex-shrink-0 mt-0.5" />
+                    <span className="text-white/90">Curso completo em módulos sobre o mercado italiano</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <CheckCircle className="w-6 h-6 text-green-400 flex-shrink-0 mt-0.5" />
+                    <span className="text-white/90">Comunidade exclusiva no WhatsApp</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <CheckCircle className="w-6 h-6 text-green-400 flex-shrink-0 mt-0.5" />
+                    <span className="text-white/90">Lives mensais e acesso a oportunidades exclusivas</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <CheckCircle className="w-6 h-6 text-green-400 flex-shrink-0 mt-0.5" />
+                    <span className="text-white/90"><strong className="text-yellow-400">Primeiros 100:</strong> apenas €29/trimestre</span>
+                  </li>
+                </ul>
+                <Link
+                  href="/insider-launch"
+                  className="inline-flex items-center justify-center px-8 py-4 text-lg font-bold rounded-xl bg-yellow-400 hover:bg-yellow-500 text-black transition-all duration-300 shadow-2xl hover:shadow-yellow-400/50 hover:scale-105"
+                >
+                  QUERO SABER MAIS
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Link>
+              </div>
+
+              {/* Right Column - Visual/Stats */}
+              <div className="relative">
+                <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20 shadow-2xl">
+                  <div className="space-y-6">
+                    <div className="text-center pb-6 border-b border-white/20">
+                      <div className="text-5xl md:text-6xl font-bold text-yellow-400 mb-2">€29</div>
+                      <div className="text-white/70 text-sm">por trimestre</div>
+                      <div className="text-white font-semibold mt-2">Apenas para os primeiros 100</div>
+                    </div>
+
+                    <div className="space-y-4">
+                      <div className="flex items-center justify-between p-4 bg-white/5 rounded-lg">
+                        <span className="text-white/90">Curso Completo</span>
+                        <CheckCircle className="w-5 h-5 text-green-400" />
+                      </div>
+                      <div className="flex items-center justify-between p-4 bg-white/5 rounded-lg">
+                        <span className="text-white/90">Comunidade VIP</span>
+                        <CheckCircle className="w-5 h-5 text-green-400" />
+                      </div>
+                      <div className="flex items-center justify-between p-4 bg-white/5 rounded-lg">
+                        <span className="text-white/90">Lives Mensais</span>
+                        <CheckCircle className="w-5 h-5 text-green-400" />
+                      </div>
+                      <div className="flex items-center justify-between p-4 bg-white/5 rounded-lg">
+                        <span className="text-white/90">Garantia 7 Dias</span>
+                        <CheckCircle className="w-5 h-5 text-green-400" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
