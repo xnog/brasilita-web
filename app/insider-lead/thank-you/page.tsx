@@ -2,7 +2,6 @@ import { CheckCircle, Download, Calendar, Video, Users } from "lucide-react";
 import { LandingHeader } from "@/components/layout/landing-header";
 import { LandingFooter } from "@/components/layout/landing-footer";
 import { auth } from "@/lib/auth";
-import Link from "next/link";
 
 export default async function ThankYouPage() {
   const session = await auth();
@@ -70,7 +69,7 @@ export default async function ThankYouPage() {
                 <div className="text-3xl font-bold text-primary mb-2">1</div>
                 <h3 className="text-lg font-semibold mb-3">Série de Vídeos Gratuitos</h3>
                 <p className="text-muted-foreground text-sm">
-                  Nos próximos dias, você receberá <strong>3 vídeos exclusivos</strong> revelando 
+                  Nos próximos dias, você receberá <strong>3 vídeos exclusivos</strong> revelando
                   os segredos do mercado imobiliário italiano
                 </p>
               </div>
@@ -83,7 +82,7 @@ export default async function ThankYouPage() {
                 <div className="text-3xl font-bold text-primary mb-2">2</div>
                 <h3 className="text-lg font-semibold mb-3">Lançamento Exclusivo</h3>
                 <p className="text-muted-foreground text-sm">
-                  No dia <strong>02/11</strong>, abriremos as portas do <strong>Brasilità Insider</strong>, 
+                  No dia <strong>02/11</strong>, abriremos as portas do <strong>Brasilità Insider</strong>,
                   nossa comunidade exclusiva
                 </p>
               </div>
@@ -96,7 +95,7 @@ export default async function ThankYouPage() {
                 <div className="text-3xl font-bold text-primary mb-2">3</div>
                 <h3 className="text-lg font-semibold mb-3">Acesso Prioritário</h3>
                 <p className="text-muted-foreground text-sm">
-                  Como você está na lista, terá <strong>acesso antecipado</strong> às vagas 
+                  Como você está na lista, terá <strong>acesso antecipado</strong> às vagas
                   com preço especial de €29/trimestre
                 </p>
               </div>
@@ -133,7 +132,7 @@ export default async function ThankYouPage() {
                       </span>
                     </div>
                     <p className="text-muted-foreground">
-                      Por que a maioria dos brasileiros perde dinheiro ao investir na Itália 
+                      Por que a maioria dos brasileiros perde dinheiro ao investir na Itália
                       (e como evitar essas armadilhas)
                     </p>
                   </div>
@@ -154,7 +153,7 @@ export default async function ThankYouPage() {
                       </span>
                     </div>
                     <p className="text-muted-foreground">
-                      Como realmente funciona o mercado imobiliário italiano 
+                      Como realmente funciona o mercado imobiliário italiano
                       (o que ninguém te conta)
                     </p>
                   </div>
@@ -175,7 +174,7 @@ export default async function ThankYouPage() {
                       </span>
                     </div>
                     <p className="text-muted-foreground">
-                      Como comprar seu primeiro imóvel na Itália em 2025 
+                      Como comprar seu primeiro imóvel na Itália em 2025
                       (mesmo morando no Brasil)
                     </p>
                   </div>
@@ -256,7 +255,7 @@ export default async function ThankYouPage() {
             <div className="professional-card">
               <h3 className="text-2xl font-bold mb-4">📧 Verifique Seu E-mail</h3>
               <p className="text-muted-foreground mb-4">
-                Nos próximos minutos, você receberá um e-mail com o link para download do guia. 
+                Nos próximos minutos, você receberá um e-mail com o link para download do guia.
                 Se não encontrar na caixa de entrada, <strong>verifique o spam</strong>.
               </p>
               <p className="text-sm text-muted-foreground">
