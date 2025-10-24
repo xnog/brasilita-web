@@ -102,63 +102,57 @@ export function CountdownTimer({ targetDate }: CountdownTimerProps) {
     }
 
     return (
-        <div className="mb-8">
-            <div className="flex items-center justify-center gap-2 mb-4">
+        <div className="mb-8 w-full max-w-2xl mx-auto">
+            <div className="flex items-center justify-center gap-2 mb-6">
                 <Clock className="w-6 h-6 text-yellow-400" />
-                <p className="text-white text-lg font-semibold">LANÇAMENTO EM:</p>
+                <p className="text-white text-lg font-semibold">EVENTO EM:</p>
             </div>
 
-            <div className="flex items-center justify-center gap-2 md:gap-4 flex-wrap">
+            <div className="grid grid-cols-4 gap-2 sm:gap-3 md:gap-4 max-w-lg mx-auto">
                 {/* Days */}
-                <div className="bg-white/10 backdrop-blur-md rounded-xl p-4 md:p-6 min-w-[80px] md:min-w-[100px] shadow-xl border border-white/20">
-                    <div className="text-center">
-                        <div className="text-3xl md:text-5xl font-bold text-yellow-400 mb-1">
+                <div className="bg-white/10 backdrop-blur-md rounded-lg sm:rounded-xl p-3 sm:p-4 md:p-5 shadow-xl border border-white/20">
+                    <div className="flex flex-col items-center justify-center">
+                        <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-yellow-400 mb-1">
                             {days.toString().padStart(2, "0")}
                         </div>
-                        <div className="text-xs md:text-sm text-white/70 uppercase tracking-wider font-medium">
+                        <div className="text-[9px] sm:text-[10px] md:text-xs text-white/70 uppercase font-medium whitespace-nowrap">
                             Dias
                         </div>
                     </div>
                 </div>
 
-                <div className="text-2xl md:text-3xl text-white/50 font-bold">:</div>
-
                 {/* Hours */}
-                <div className="bg-white/10 backdrop-blur-md rounded-xl p-4 md:p-6 min-w-[80px] md:min-w-[100px] shadow-xl border border-white/20">
-                    <div className="text-center">
-                        <div className="text-3xl md:text-5xl font-bold text-yellow-400 mb-1">
+                <div className="bg-white/10 backdrop-blur-md rounded-lg sm:rounded-xl p-3 sm:p-4 md:p-5 shadow-xl border border-white/20">
+                    <div className="flex flex-col items-center justify-center">
+                        <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-yellow-400 mb-1">
                             {hours.toString().padStart(2, "0")}
                         </div>
-                        <div className="text-xs md:text-sm text-white/70 uppercase tracking-wider font-medium">
+                        <div className="text-[9px] sm:text-[10px] md:text-xs text-white/70 uppercase font-medium whitespace-nowrap">
                             Horas
                         </div>
                     </div>
                 </div>
 
-                <div className="text-2xl md:text-3xl text-white/50 font-bold">:</div>
-
                 {/* Minutes */}
-                <div className="bg-white/10 backdrop-blur-md rounded-xl p-4 md:p-6 min-w-[80px] md:min-w-[100px] shadow-xl border border-white/20">
-                    <div className="text-center">
-                        <div className="text-3xl md:text-5xl font-bold text-yellow-400 mb-1">
+                <div className="bg-white/10 backdrop-blur-md rounded-lg sm:rounded-xl p-3 sm:p-4 md:p-5 shadow-xl border border-white/20">
+                    <div className="flex flex-col items-center justify-center">
+                        <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-yellow-400 mb-1">
                             {minutes.toString().padStart(2, "0")}
                         </div>
-                        <div className="text-xs md:text-sm text-white/70 uppercase tracking-wider font-medium">
-                            Minutos
+                        <div className="text-[9px] sm:text-[10px] md:text-xs text-white/70 uppercase font-medium whitespace-nowrap">
+                            Min
                         </div>
                     </div>
                 </div>
 
-                <div className="text-2xl md:text-3xl text-white/50 font-bold">:</div>
-
                 {/* Seconds */}
-                <div className="bg-white/10 backdrop-blur-md rounded-xl p-4 md:p-6 min-w-[80px] md:min-w-[100px] shadow-xl border border-white/20">
-                    <div className="text-center">
-                        <div className="text-3xl md:text-5xl font-bold text-yellow-400 mb-1 animate-pulse">
+                <div className="bg-white/10 backdrop-blur-md rounded-lg sm:rounded-xl p-3 sm:p-4 md:p-5 shadow-xl border border-white/20">
+                    <div className="flex flex-col items-center justify-center">
+                        <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-yellow-400 mb-1 animate-pulse">
                             {seconds.toString().padStart(2, "0")}
                         </div>
-                        <div className="text-xs md:text-sm text-white/70 uppercase tracking-wider font-medium">
-                            Segundos
+                        <div className="text-[9px] sm:text-[10px] md:text-xs text-white/70 uppercase font-medium whitespace-nowrap">
+                            Seg
                         </div>
                     </div>
                 </div>

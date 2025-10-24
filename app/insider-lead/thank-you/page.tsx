@@ -1,4 +1,4 @@
-import { CheckCircle, Download, Calendar, Video, Users } from "lucide-react";
+import { CheckCircle, Calendar, Clock, Video, Bell, Users } from "lucide-react";
 import { LandingHeader } from "@/components/layout/landing-header";
 import { LandingFooter } from "@/components/layout/landing-footer";
 import { auth } from "@/lib/auth";
@@ -15,88 +15,94 @@ export default async function ThankYouPage() {
         <div className="container mx-auto container-padding">
           <div className="max-w-4xl mx-auto text-center">
             {/* Success Icon */}
-            <div className="w-24 h-24 bg-green-100 dark:bg-green-900/20 rounded-full flex items-center justify-center mx-auto mb-8">
+            <div className="w-24 h-24 bg-green-100 dark:bg-green-900/20 rounded-full flex items-center justify-center mx-auto mb-8 animate-bounce">
               <CheckCircle className="w-16 h-16 text-green-600" />
             </div>
 
             <h1 className="text-4xl md:text-5xl font-bold mb-6 text-foreground">
-              Parabéns! Seu Guia Está a Caminho 🎉
+              Inscrição Confirmada! 🎉
             </h1>
 
             <p className="text-xl text-muted-foreground mb-8">
-              Enviamos o <strong>Guia: 5 Regiões Italianas Mais Rentáveis</strong> para o seu e-mail.
-              Verifique sua caixa de entrada (e também o spam, só para garantir).
+              Sua vaga para o evento <strong>&ldquo;Como Comprar Seu Primeiro Imóvel na Itália&rdquo;</strong> está garantida!
             </p>
 
-            {/* Download Button */}
-            <div className="bg-muted/30 rounded-2xl p-8 mb-12">
-              <h2 className="text-2xl font-bold mb-4">Baixe Agora Mesmo</h2>
-              <p className="text-muted-foreground mb-6">
-                Não quer esperar? Clique no botão abaixo para fazer o download imediato:
-              </p>
-              <a
-                href="/pdfs/guia-5-regioes-italianas.pdf"
-                download
-                className="inline-flex items-center justify-center px-8 py-4 text-lg font-bold rounded-xl bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-black transition-all duration-300 shadow-xl hover:scale-105"
-              >
-                <Download className="mr-2 h-6 w-6" />
-                BAIXAR GUIA EM PDF
-              </a>
+            {/* Event Details Card */}
+            <div className="bg-gradient-to-br from-primary/10 to-primary/5 border-2 border-primary/20 rounded-2xl p-8 mb-12">
+              <div className="flex items-center justify-center gap-3 mb-6">
+                <Video className="w-8 h-8 text-primary" />
+                <h2 className="text-2xl font-bold">Detalhes do Evento</h2>
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-6 text-left max-w-2xl mx-auto">
+                <div className="flex items-start gap-3">
+                  <Calendar className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
+                  <div>
+                    <p className="font-semibold">Data</p>
+                    <p className="text-muted-foreground">02 de Novembro (Sábado)</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <Clock className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
+                  <div>
+                    <p className="font-semibold">Horário</p>
+                    <p className="text-muted-foreground">16:00h (Brasília)</p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* What's Next Section */}
-      <section className="bg-gradient-to-br from-primary/5 to-primary/10 section-padding">
+      {/* What Happens Next */}
+      <section className="bg-muted/30 section-padding">
         <div className="container mx-auto container-padding">
           <div className="max-w-5xl mx-auto">
             <div className="text-center mb-12">
               <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">
                 O Que Acontece Agora?
               </h2>
-              <p className="text-lg text-muted-foreground">
-                Você acaba de dar o primeiro passo. Veja o que vem pela frente:
-              </p>
             </div>
 
             <div className="grid md:grid-cols-3 gap-8">
               {/* Step 1 */}
               <div className="professional-card text-center">
                 <div className="w-16 h-16 bg-gradient-to-br from-blue-500/10 to-blue-600/10 rounded-xl flex items-center justify-center mx-auto mb-4">
-                  <Video className="w-8 h-8 text-blue-600" />
+                  <Bell className="w-8 h-8 text-blue-600" />
                 </div>
                 <div className="text-3xl font-bold text-primary mb-2">1</div>
-                <h3 className="text-lg font-semibold mb-3">Série de Vídeos Gratuitos</h3>
+                <h3 className="text-lg font-semibold mb-3">Confirmação Enviada</h3>
                 <p className="text-muted-foreground text-sm">
-                  Nos próximos dias, você receberá <strong>3 vídeos exclusivos</strong> revelando
-                  os segredos do mercado imobiliário italiano
+                  Você receberá um <strong>e-mail de confirmação</strong> com todos os detalhes.
+                  Verifique também o spam!
                 </p>
               </div>
 
               {/* Step 2 */}
               <div className="professional-card text-center">
-                <div className="w-16 h-16 bg-gradient-to-br from-purple-500/10 to-purple-600/10 rounded-xl flex items-center justify-center mx-auto mb-4">
-                  <Calendar className="w-8 h-8 text-purple-600" />
+                <div className="w-16 h-16 bg-gradient-to-br from-green-500/10 to-green-600/10 rounded-xl flex items-center justify-center mx-auto mb-4">
+                  <Video className="w-8 h-8 text-green-600" />
                 </div>
                 <div className="text-3xl font-bold text-primary mb-2">2</div>
-                <h3 className="text-lg font-semibold mb-3">Lançamento Exclusivo</h3>
+                <h3 className="text-lg font-semibold mb-3">Link de Acesso</h3>
                 <p className="text-muted-foreground text-sm">
-                  No dia <strong>02/11</strong>, abriremos as portas do <strong>Brasilità Insider</strong>,
-                  nossa comunidade exclusiva
+                  <strong>1 dia antes</strong> do evento, enviaremos o link de acesso
+                  por e-mail e WhatsApp
                 </p>
               </div>
 
               {/* Step 3 */}
               <div className="professional-card text-center">
-                <div className="w-16 h-16 bg-gradient-to-br from-green-500/10 to-green-600/10 rounded-xl flex items-center justify-center mx-auto mb-4">
-                  <Users className="w-8 h-8 text-green-600" />
+                <div className="w-16 h-16 bg-gradient-to-br from-purple-500/10 to-purple-600/10 rounded-xl flex items-center justify-center mx-auto mb-4">
+                  <Users className="w-8 h-8 text-purple-600" />
                 </div>
                 <div className="text-3xl font-bold text-primary mb-2">3</div>
-                <h3 className="text-lg font-semibold mb-3">Acesso Prioritário</h3>
+                <h3 className="text-lg font-semibold mb-3">Participe Ao Vivo</h3>
                 <p className="text-muted-foreground text-sm">
-                  Como você está na lista, terá <strong>acesso antecipado</strong> às vagas
-                  com preço especial de €29/trimestre
+                  No dia <strong>02/11 às 16h</strong>, entre no link e participe
+                  da aula completa
                 </p>
               </div>
             </div>
@@ -104,103 +110,153 @@ export default async function ThankYouPage() {
         </div>
       </section>
 
-      {/* Video Schedule */}
+      {/* What You'll Learn */}
       <section className="section-padding">
         <div className="container mx-auto container-padding">
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-12">
               <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">
-                Cronograma dos Vídeos Gratuitos
+                Prepare-se! Você Vai Aprender:
               </h2>
-              <p className="text-lg text-muted-foreground">
-                Fique de olho no seu e-mail! Vamos liberar os vídeos nesta ordem:
-              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-6">
+              <div className="professional-card">
+                <div className="flex items-start gap-3">
+                  <CheckCircle className="w-6 h-6 text-green-600 flex-shrink-0 mt-1" />
+                  <div>
+                    <h3 className="font-semibold mb-1">As 5 Melhores Regiões para Investir</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Onde comprar para ter a melhor rentabilidade
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="professional-card">
+                <div className="flex items-start gap-3">
+                  <CheckCircle className="w-6 h-6 text-green-600 flex-shrink-0 mt-1" />
+                  <div>
+                    <h3 className="font-semibold mb-1">Custos Reais e Impostos</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Todos os custos envolvidos na compra
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="professional-card">
+                <div className="flex items-start gap-3">
+                  <CheckCircle className="w-6 h-6 text-green-600 flex-shrink-0 mt-1" />
+                  <div>
+                    <h3 className="font-semibold mb-1">Processo Completo de Compra</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Do Brasil até a escritura final
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="professional-card">
+                <div className="flex items-start gap-3">
+                  <CheckCircle className="w-6 h-6 text-green-600 flex-shrink-0 mt-1" />
+                  <div>
+                    <h3 className="font-semibold mb-1">Erros Que Custam Caro</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Armadilhas que você precisa evitar
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="professional-card">
+                <div className="flex items-start gap-3">
+                  <CheckCircle className="w-6 h-6 text-green-600 flex-shrink-0 mt-1" />
+                  <div>
+                    <h3 className="font-semibold mb-1">Rentabilidade Real</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Quanto você pode ganhar com aluguel
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="professional-card">
+                <div className="flex items-start gap-3">
+                  <CheckCircle className="w-6 h-6 text-green-600 flex-shrink-0 mt-1" />
+                  <div>
+                    <h3 className="font-semibold mb-1">Bônus Exclusivo</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Oferta especial apenas para participantes
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Important Reminders */}
+      <section className="bg-gradient-to-br from-yellow-50 to-yellow-100 dark:from-yellow-900/10 dark:to-yellow-800/10 section-padding">
+        <div className="container mx-auto container-padding">
+          <div className="max-w-3xl mx-auto">
+            <div className="text-center mb-8">
+              <h2 className="text-3xl font-bold mb-4">⚠️ Importante!</h2>
             </div>
 
             <div className="space-y-6">
-              {/* Video 1 */}
               <div className="professional-card">
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-gradient-to-br from-red-500/10 to-red-600/10 rounded-xl flex items-center justify-center flex-shrink-0">
-                    <span className="text-2xl font-bold text-red-600">1</span>
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 bg-yellow-400 rounded-full flex items-center justify-center flex-shrink-0">
+                    <span className="text-black font-bold">1</span>
                   </div>
-                  <div className="flex-1">
-                    <div className="flex items-center gap-3 mb-2">
-                      <h3 className="text-xl font-bold">Vídeo 1: Os 7 Erros Fatais</h3>
-                      <span className="px-3 py-1 bg-red-100 dark:bg-red-900/20 text-red-700 dark:text-red-400 text-xs font-bold rounded-full">
-                        26/10 - Sábado
-                      </span>
-                    </div>
-                    <p className="text-muted-foreground">
-                      Por que a maioria dos brasileiros perde dinheiro ao investir na Itália
-                      (e como evitar essas armadilhas)
+                  <div>
+                    <h3 className="font-semibold mb-2">Verifique Seu E-mail</h3>
+                    <p className="text-muted-foreground text-sm">
+                      Nos próximos minutos, você receberá um e-mail de confirmação.
+                      Se não encontrar, <strong>verifique a caixa de spam</strong>.
                     </p>
                   </div>
                 </div>
               </div>
 
-              {/* Video 2 */}
               <div className="professional-card">
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-gradient-to-br from-blue-500/10 to-blue-600/10 rounded-xl flex items-center justify-center flex-shrink-0">
-                    <span className="text-2xl font-bold text-blue-600">2</span>
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 bg-yellow-400 rounded-full flex items-center justify-center flex-shrink-0">
+                    <span className="text-black font-bold">2</span>
                   </div>
-                  <div className="flex-1">
-                    <div className="flex items-center gap-3 mb-2">
-                      <h3 className="text-xl font-bold">Vídeo 2: A Verdade Sobre o Mercado</h3>
-                      <span className="px-3 py-1 bg-blue-100 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 text-xs font-bold rounded-full">
-                        29/10 - Terça
-                      </span>
-                    </div>
-                    <p className="text-muted-foreground">
-                      Como realmente funciona o mercado imobiliário italiano
-                      (o que ninguém te conta)
+                  <div>
+                    <h3 className="font-semibold mb-2">Salve a Data</h3>
+                    <p className="text-muted-foreground text-sm">
+                      <strong>02 de Novembro (Sábado) às 16h</strong>.
+                      Coloque no calendário para não esquecer!
                     </p>
                   </div>
                 </div>
               </div>
 
-              {/* Video 3 */}
               <div className="professional-card">
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-gradient-to-br from-green-500/10 to-green-600/10 rounded-xl flex items-center justify-center flex-shrink-0">
-                    <span className="text-2xl font-bold text-green-600">3</span>
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 bg-yellow-400 rounded-full flex items-center justify-center flex-shrink-0">
+                    <span className="text-black font-bold">3</span>
                   </div>
-                  <div className="flex-1">
-                    <div className="flex items-center gap-3 mb-2">
-                      <h3 className="text-xl font-bold">Vídeo 3: O Passo a Passo Completo</h3>
-                      <span className="px-3 py-1 bg-green-100 dark:bg-green-900/20 text-green-700 dark:text-green-400 text-xs font-bold rounded-full">
-                        01/11 - Sexta
-                      </span>
-                    </div>
-                    <p className="text-muted-foreground">
-                      Como comprar seu primeiro imóvel na Itália em 2025
-                      (mesmo morando no Brasil)
+                  <div>
+                    <h3 className="font-semibold mb-2">Participe Ao Vivo</h3>
+                    <p className="text-muted-foreground text-sm">
+                      O <strong>bônus exclusivo</strong> será revelado apenas para quem
+                      participar ao vivo. Não perca!
                     </p>
                   </div>
                 </div>
               </div>
-            </div>
-
-            {/* Insider Announcement */}
-            <div className="mt-12 bg-gradient-to-br from-yellow-50 to-yellow-100 dark:from-yellow-900/10 dark:to-yellow-800/10 border-2 border-yellow-400 rounded-2xl p-8 text-center">
-              <div className="inline-flex items-center px-4 py-2 rounded-full bg-yellow-400 text-black text-sm font-bold mb-4">
-                LANÇAMENTO OFICIAL
-              </div>
-              <h3 className="text-2xl font-bold mb-3">02/11 - Sábado</h3>
-              <p className="text-lg mb-4">
-                <strong>Abertura do Brasilità Insider</strong>
-              </p>
-              <p className="text-muted-foreground">
-                Apenas 100 vagas com preço especial de <strong className="text-yellow-700 dark:text-yellow-400">€29/trimestre</strong>
-              </p>
             </div>
           </div>
         </div>
       </section>
 
       {/* Social Proof */}
-      <section className="bg-muted/30 section-padding">
+      <section className="section-padding">
         <div className="container mx-auto container-padding">
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-3xl md:text-4xl font-bold mb-6 text-foreground">
@@ -249,13 +305,13 @@ export default async function ThankYouPage() {
       </section>
 
       {/* Final Note */}
-      <section className="section-padding">
+      <section className="bg-muted/30 py-12">
         <div className="container mx-auto container-padding">
           <div className="max-w-3xl mx-auto text-center">
             <div className="professional-card">
               <h3 className="text-2xl font-bold mb-4">📧 Verifique Seu E-mail</h3>
               <p className="text-muted-foreground mb-4">
-                Nos próximos minutos, você receberá um e-mail com o link para download do guia.
+                Enviamos um e-mail de confirmação com todos os detalhes do evento.
                 Se não encontrar na caixa de entrada, <strong>verifique o spam</strong>.
               </p>
               <p className="text-sm text-muted-foreground">
@@ -270,4 +326,3 @@ export default async function ThankYouPage() {
     </div>
   );
 }
-
