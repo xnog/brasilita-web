@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
-import { eventRegistration } from "@/drizzle/schema";
+import { eventRegistration } from "@/lib/db/schema";
 import { nanoid } from "nanoid";
 import { sql } from "drizzle-orm";
 
@@ -23,7 +23,7 @@ export async function POST(request: Request) {
             name,
             email,
             phone,
-            eventDate,
+            eventDate: new Date(eventDate), // Convert string to Date
             eventName, // Nome do evento para facilitar consultas
             source: "landing-page-insider",
         }).returning();

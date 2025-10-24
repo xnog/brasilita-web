@@ -346,3 +346,21 @@ export type UserPropertyInterest = typeof userPropertyInterests.$inferSelect;
 export type NewUserPropertyInterest = typeof userPropertyInterests.$inferInsert;
 export type PropertyNotification = typeof propertyNotifications.$inferSelect;
 export type NewPropertyNotification = typeof propertyNotifications.$inferInsert;
+
+// Event registration table
+export const eventRegistration = pgTable("event_registration", {
+    id: text("id")
+        .primaryKey()
+        .$defaultFn(() => crypto.randomUUID()),
+    name: text("name").notNull(),
+    email: text("email").notNull(),
+    phone: text("phone"),
+    eventName: text("event_name").notNull(), // Nome do evento (ex: "insider-launch-nov-2025")
+    eventDate: timestamp("event_date", { mode: "date" }).notNull(),
+    registeredAt: timestamp("registered_at", { mode: "date" }).defaultNow().notNull(),
+    attended: boolean("attended").default(false),
+    source: text("source"), // Origem da inscrição (ex: "landing-page", "email-campaign", etc)
+});
+
+export type EventRegistration = typeof eventRegistration.$inferSelect;
+export type NewEventRegistration = typeof eventRegistration.$inferInsert;

@@ -1,4 +1,4 @@
-import { CheckCircle, Calendar, Clock, Video, Bell, Users } from "lucide-react";
+import { CheckCircle, Calendar, Clock, Video, Bell, Users, Instagram } from "lucide-react";
 import { LandingHeader } from "@/components/layout/landing-header";
 import { LandingFooter } from "@/components/layout/landing-footer";
 import { auth } from "@/lib/auth";
@@ -20,7 +20,7 @@ export default async function ThankYouPage() {
             </div>
 
             <h1 className="text-4xl md:text-5xl font-bold mb-6 text-foreground">
-              Inscrição Confirmada! 🎉
+              Inscrição Confirmada!
             </h1>
 
             <p className="text-xl text-muted-foreground mb-8">
@@ -66,29 +66,28 @@ export default async function ThankYouPage() {
               </h2>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-8">
+            <div className="grid md:grid-cols-3 gap-6">
               {/* Step 1 */}
               <div className="professional-card text-center">
                 <div className="w-16 h-16 bg-gradient-to-br from-blue-500/10 to-blue-600/10 rounded-xl flex items-center justify-center mx-auto mb-4">
-                  <Bell className="w-8 h-8 text-blue-600" />
+                  <CheckCircle className="w-8 h-8 text-blue-600" />
                 </div>
                 <div className="text-3xl font-bold text-primary mb-2">1</div>
-                <h3 className="text-lg font-semibold mb-3">Confirmação Enviada</h3>
+                <h3 className="text-lg font-semibold mb-3">Inscrição Confirmada</h3>
                 <p className="text-muted-foreground text-sm">
-                  Você receberá um <strong>e-mail de confirmação</strong> com todos os detalhes.
-                  Verifique também o spam!
+                  Sua vaga está <strong>garantida</strong>. Anote a data no seu calendário!
                 </p>
               </div>
 
               {/* Step 2 */}
               <div className="professional-card text-center">
                 <div className="w-16 h-16 bg-gradient-to-br from-green-500/10 to-green-600/10 rounded-xl flex items-center justify-center mx-auto mb-4">
-                  <Video className="w-8 h-8 text-green-600" />
+                  <Bell className="w-8 h-8 text-green-600" />
                 </div>
                 <div className="text-3xl font-bold text-primary mb-2">2</div>
-                <h3 className="text-lg font-semibold mb-3">Link de Acesso</h3>
+                <h3 className="text-lg font-semibold mb-3">Lembrete no Dia 02/11</h3>
                 <p className="text-muted-foreground text-sm">
-                  <strong>1 dia antes</strong> do evento, enviaremos o link de acesso
+                  No dia <strong>02 de novembro</strong>, enviaremos o link de acesso
                   por e-mail e WhatsApp
                 </p>
               </div>
@@ -96,13 +95,13 @@ export default async function ThankYouPage() {
               {/* Step 3 */}
               <div className="professional-card text-center">
                 <div className="w-16 h-16 bg-gradient-to-br from-purple-500/10 to-purple-600/10 rounded-xl flex items-center justify-center mx-auto mb-4">
-                  <Users className="w-8 h-8 text-purple-600" />
+                  <Video className="w-8 h-8 text-purple-600" />
                 </div>
                 <div className="text-3xl font-bold text-primary mb-2">3</div>
                 <h3 className="text-lg font-semibold mb-3">Participe Ao Vivo</h3>
                 <p className="text-muted-foreground text-sm">
-                  No dia <strong>02/11 às 16h</strong>, entre no link e participe
-                  da aula completa
+                  Às <strong>16h</strong>, clique no link e participe
+                  da aula completa com bônus exclusivo
                 </p>
               </div>
             </div>
@@ -198,33 +197,18 @@ export default async function ThankYouPage() {
       </section>
 
       {/* Important Reminders */}
-      <section className="bg-gradient-to-br from-yellow-50 to-yellow-100 dark:from-yellow-900/10 dark:to-yellow-800/10 section-padding">
+      <section className="bg-muted/30 section-padding">
         <div className="container mx-auto container-padding">
           <div className="max-w-3xl mx-auto">
             <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold mb-4">⚠️ Importante!</h2>
+              <h2 className="text-3xl font-bold mb-4 text-foreground">Importante!</h2>
             </div>
 
-            <div className="space-y-6">
-              <div className="professional-card">
+            <div className="space-y-4">
+              <div className="professional-card border-l-4 border-l-yellow-500">
                 <div className="flex items-start gap-3">
-                  <div className="w-8 h-8 bg-yellow-400 rounded-full flex items-center justify-center flex-shrink-0">
-                    <span className="text-black font-bold">1</span>
-                  </div>
-                  <div>
-                    <h3 className="font-semibold mb-2">Verifique Seu E-mail</h3>
-                    <p className="text-muted-foreground text-sm">
-                      Nos próximos minutos, você receberá um e-mail de confirmação.
-                      Se não encontrar, <strong>verifique a caixa de spam</strong>.
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="professional-card">
-                <div className="flex items-start gap-3">
-                  <div className="w-8 h-8 bg-yellow-400 rounded-full flex items-center justify-center flex-shrink-0">
-                    <span className="text-black font-bold">2</span>
+                  <div className="w-8 h-8 bg-yellow-500/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <Calendar className="w-5 h-5 text-yellow-600" />
                   </div>
                   <div>
                     <h3 className="font-semibold mb-2">Salve a Data</h3>
@@ -236,10 +220,25 @@ export default async function ThankYouPage() {
                 </div>
               </div>
 
-              <div className="professional-card">
+              <div className="professional-card border-l-4 border-l-blue-500">
                 <div className="flex items-start gap-3">
-                  <div className="w-8 h-8 bg-yellow-400 rounded-full flex items-center justify-center flex-shrink-0">
-                    <span className="text-black font-bold">3</span>
+                  <div className="w-8 h-8 bg-blue-500/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <Bell className="w-5 h-5 text-blue-600" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold mb-2">Link de Acesso no Dia do Evento</h3>
+                    <p className="text-muted-foreground text-sm">
+                      No dia <strong>02 de novembro</strong>, você receberá o link de acesso
+                      por e-mail e WhatsApp. Fique atento!
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="professional-card border-l-4 border-l-green-500">
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 bg-green-500/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <Users className="w-5 h-5 text-green-600" />
                   </div>
                   <div>
                     <h3 className="font-semibold mb-2">Participe Ao Vivo</h3>
@@ -272,9 +271,7 @@ export default async function ThankYouPage() {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold rounded-lg hover:scale-105 transition-transform"
               >
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z" />
-                </svg>
+                <Instagram className="w-5 h-5" />
                 @duasmalaseumdestino (190k)
               </a>
               <a
@@ -283,9 +280,7 @@ export default async function ThankYouPage() {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold rounded-lg hover:scale-105 transition-transform"
               >
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z" />
-                </svg>
+                <Instagram className="w-5 h-5" />
                 @nortedaitalia (17k)
               </a>
               <a
@@ -294,9 +289,7 @@ export default async function ThankYouPage() {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold rounded-lg hover:scale-105 transition-transform"
               >
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z" />
-                </svg>
+                <Instagram className="w-5 h-5" />
                 @brasilita.it (7k)
               </a>
             </div>
@@ -304,20 +297,19 @@ export default async function ThankYouPage() {
         </div>
       </section>
 
-      {/* Final Note */}
-      <section className="bg-muted/30 py-12">
-        <div className="container mx-auto container-padding">
-          <div className="max-w-3xl mx-auto text-center">
-            <div className="professional-card">
-              <h3 className="text-2xl font-bold mb-4">📧 Verifique Seu E-mail</h3>
-              <p className="text-muted-foreground mb-4">
-                Enviamos um e-mail de confirmação com todos os detalhes do evento.
-                Se não encontrar na caixa de entrada, <strong>verifique o spam</strong>.
-              </p>
-              <p className="text-sm text-muted-foreground">
-                Problemas para receber? Entre em contato pelo WhatsApp ou Instagram.
-              </p>
-            </div>
+      {/* Final CTA */}
+      <section className="bg-gradient-to-r from-primary via-primary/95 to-primary/90 py-16">
+        <div className="container mx-auto container-padding text-center">
+          <div className="max-w-3xl mx-auto">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">
+              Nos Vemos no Dia 02 de Novembro!
+            </h2>
+            <p className="text-xl text-white/90 mb-4">
+              Prepare-se para uma aula completa sobre como comprar seu imóvel na Itália
+            </p>
+            <p className="text-white/80 text-sm">
+              Dúvidas? Entre em contato pelo WhatsApp ou Instagram
+            </p>
           </div>
         </div>
       </section>

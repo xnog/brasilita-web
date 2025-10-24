@@ -32,13 +32,15 @@ export default async function InsiderEventPage() {
                                     EVENTO ONLINE GRATUITO
                                 </div>
 
-                                <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
-                                    Como Comprar Seu
+                                <h1 className="text-4xl md:text-6xl font-extrabold mb-6 leading-tight">
+                                    O Método Completo Para Comprar Seu
                                     <span className="block text-yellow-400 mt-2">
-                                        Primeiro Imóvel na Itália
+                                        Imóvel na Itália em 2025
                                     </span>
-                                    em 2025
                                 </h1>
+                                <p className="text-lg md:text-xl text-yellow-400 font-semibold mb-6">
+                                    Mesmo morando no Brasil e sem cair em armadilhas
+                                </p>
 
                                 <div className="flex items-center gap-3 mb-6 text-xl">
                                     <Calendar className="w-6 h-6 text-yellow-400" />
@@ -51,8 +53,8 @@ export default async function InsiderEventPage() {
                                 </div>
 
                                 <p className="text-xl md:text-2xl text-white/90 mb-8 leading-relaxed">
-                                    Aula ao vivo e gratuita revelando o passo a passo completo para investir
-                                    no mercado imobiliário italiano, mesmo morando no Brasil
+                                    Aula ao vivo e gratuita revelando o passo a passo usado por mais de 50 famílias
+                                    brasileiras para investir com segurança no mercado imobiliário italiano
                                 </p>
 
                                 {/* Benefits */}
@@ -60,29 +62,29 @@ export default async function InsiderEventPage() {
                                     <div className="flex items-start gap-3">
                                         <CheckCircle className="w-6 h-6 text-green-400 flex-shrink-0 mt-1" />
                                         <div>
-                                            <p className="text-white font-semibold">Consultoria Especializada</p>
-                                            <p className="text-white/80 text-sm">Tire suas dúvidas com quem vive e investe na Itália</p>
+                                            <p className="text-white font-semibold">As 5 Melhores Regiões para Investir</p>
+                                            <p className="text-white/80 text-sm">Onde o seu dinheiro rende mais e valoriza melhor</p>
                                         </div>
                                     </div>
                                     <div className="flex items-start gap-3">
                                         <CheckCircle className="w-6 h-6 text-green-400 flex-shrink-0 mt-1" />
                                         <div>
-                                            <p className="text-white font-semibold">Ferramentas Exclusivas</p>
-                                            <p className="text-white/80 text-sm">Calculadora financeira e ebook de italiano</p>
+                                            <p className="text-white font-semibold">Custos Reais e Impostos Detalhados</p>
+                                            <p className="text-white/80 text-sm">Saiba exatamente quanto precisa investir (sem surpresas)</p>
                                         </div>
                                     </div>
                                     <div className="flex items-start gap-3">
                                         <CheckCircle className="w-6 h-6 text-green-400 flex-shrink-0 mt-1" />
                                         <div>
-                                            <p className="text-white font-semibold">Oportunidades Únicas</p>
-                                            <p className="text-white/80 text-sm">Imóveis exclusivos antes de irem ao público</p>
+                                            <p className="text-white font-semibold">Processo Completo de Compra</p>
+                                            <p className="text-white/80 text-sm">Do Brasil até a escritura, passo a passo</p>
                                         </div>
                                     </div>
                                     <div className="flex items-start gap-3">
                                         <CheckCircle className="w-6 h-6 text-green-400 flex-shrink-0 mt-1" />
                                         <div>
-                                            <p className="text-white font-semibold">Oferta Especial €29</p>
-                                            <p className="text-white/80 text-sm">Desconto exclusivo para participantes do evento</p>
+                                            <p className="text-white font-semibold">Os 7 Erros Que Custam Caro</p>
+                                            <p className="text-white/80 text-sm">Armadilhas que você PRECISA evitar ao comprar</p>
                                         </div>
                                     </div>
                                 </div>
@@ -99,7 +101,7 @@ export default async function InsiderEventPage() {
                                     </div>
                                     <div className="flex items-center gap-2">
                                         <TrendingUp className="w-5 h-5 text-green-400" />
-                                        <span>Inúmeros de clientes atendidos</span>
+                                        <span>+50 famílias atendidas</span>
                                     </div>
                                 </div>
                             </div>
@@ -152,160 +154,103 @@ export default async function InsiderEventPage() {
                 <div className="container mx-auto container-padding">
                     <div className="max-w-6xl mx-auto">
                         <div className="text-center mb-12">
-                            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">
-                                O Que o Brasilità Insider Oferece
+                            <h2 className="text-3xl md:text-4xl font-extrabold mb-4 text-foreground">
+                                O Que Você Vai Aprender Neste Evento
                             </h2>
                             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                                Tudo que você precisa para comprar seu imóvel na Itália com segurança e confiança
+                                Conteúdo prático e direto ao ponto, baseado em experiência real de quem vive e investe na Itália
                             </p>
                         </div>
 
-                        <div className="grid md:grid-cols-2 gap-8 mb-12">
+                        <div className="grid md:grid-cols-2 gap-6">
                             <div className="professional-card">
-                                <div className="flex items-start gap-4 mb-4">
-                                    <div className="w-14 h-14 bg-gradient-to-br from-blue-500/10 to-blue-600/10 rounded-xl flex items-center justify-center flex-shrink-0">
-                                        <Users className="w-7 h-7 text-blue-600" />
+                                <div className="flex items-start gap-4">
+                                    <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                                        <span className="text-white font-bold text-xl">1</span>
                                     </div>
                                     <div className="flex-1">
-                                        <h3 className="text-xl font-bold mb-2">Comunidade Focada</h3>
+                                        <h3 className="text-xl font-bold mb-2">As 5 Regiões Mais Rentáveis</h3>
                                         <p className="text-muted-foreground">
-                                            Conecte-se com outros brasileiros que também estão comprando imóveis na Itália.
-                                            Compartilhe experiências, tire dúvidas e aprenda com quem está no mesmo caminho
+                                            Descubra onde seu investimento tem melhor retorno, considerando valorização,
+                                            turismo e custos operacionais
                                         </p>
                                     </div>
                                 </div>
                             </div>
 
                             <div className="professional-card">
-                                <div className="flex items-start gap-4 mb-4">
-                                    <div className="w-14 h-14 bg-gradient-to-br from-yellow-500/10 to-yellow-600/10 rounded-xl flex items-center justify-center flex-shrink-0">
-                                        <Calendar className="w-7 h-7 text-yellow-600" />
+                                <div className="flex items-start gap-4">
+                                    <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                                        <span className="text-white font-bold text-xl">2</span>
                                     </div>
                                     <div className="flex-1">
-                                        <h3 className="text-xl font-bold mb-2">Consultoria Mensal no Zoom</h3>
+                                        <h3 className="text-xl font-bold mb-2">Custos Reais (Sem Esconder Nada)</h3>
                                         <p className="text-muted-foreground">
-                                            Reuniões mensais ao vivo com a equipe Brasilità para tirar dúvidas,
-                                            analisar oportunidades e receber orientação especializada de quem vive na Itália
+                                            Quanto você realmente precisa ter: entrada, impostos, taxas notariais,
+                                            reformas e custos recorrentes
                                         </p>
                                     </div>
                                 </div>
                             </div>
 
                             <div className="professional-card">
-                                <div className="flex items-start gap-4 mb-4">
-                                    <div className="w-14 h-14 bg-gradient-to-br from-purple-500/10 to-purple-600/10 rounded-xl flex items-center justify-center flex-shrink-0">
-                                        <Globe className="w-7 h-7 text-purple-600" />
+                                <div className="flex items-start gap-4">
+                                    <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                                        <span className="text-white font-bold text-xl">3</span>
                                     </div>
                                     <div className="flex-1">
-                                        <h3 className="text-xl font-bold mb-2">Acesso Garantido à Plataforma</h3>
+                                        <h3 className="text-xl font-bold mb-2">Processo Completo Passo a Passo</h3>
                                         <p className="text-muted-foreground">
-                                            A plataforma Brasilità será restrita em breve. Como membro Insider,
-                                            você garante acesso permanente a todas as funcionalidades e atualizações
+                                            Do momento que você encontra o imóvel até assinar a escritura:
+                                            documentos, prazos e como fazer do Brasil
                                         </p>
                                     </div>
                                 </div>
                             </div>
 
                             <div className="professional-card">
-                                <div className="flex items-start gap-4 mb-4">
-                                    <div className="w-14 h-14 bg-gradient-to-br from-green-500/10 to-green-600/10 rounded-xl flex items-center justify-center flex-shrink-0">
-                                        <Sparkles className="w-7 h-7 text-green-600" />
+                                <div className="flex items-start gap-4">
+                                    <div className="w-12 h-12 bg-gradient-to-br from-red-500 to-red-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                                        <span className="text-white font-bold text-xl">4</span>
                                     </div>
                                     <div className="flex-1">
-                                        <h3 className="text-xl font-bold mb-2">Oportunidades Exclusivas</h3>
+                                        <h3 className="text-xl font-bold mb-2">Os 7 Erros Fatais (E Como Evitá-los)</h3>
                                         <p className="text-muted-foreground">
-                                            Acesso antecipado a imóveis selecionados que não estarão disponíveis
-                                            publicamente, dando a você vantagem na busca pela propriedade ideal
+                                            Armadilhas que já custaram milhares de euros para outros brasileiros -
+                                            e que você vai aprender a identificar antes que seja tarde
                                         </p>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
 
-            {/* O Que Você Recebe */}
-            <section className="section-padding">
-                <div className="container mx-auto container-padding">
-                    <div className="max-w-6xl mx-auto">
-                        <div className="text-center mb-12">
-                            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">
-                                O Que Você Recebe Como Membro
-                            </h2>
-                        </div>
-
-                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {/* Oportunidades Exclusivas */}
-                            <div className="professional-card text-center">
-                                <div className="w-16 h-16 bg-gradient-to-br from-red-500/10 to-red-600/10 rounded-xl flex items-center justify-center mx-auto mb-4">
-                                    <Sparkles className="w-8 h-8 text-red-600" />
+                            <div className="professional-card">
+                                <div className="flex items-start gap-4">
+                                    <div className="w-12 h-12 bg-gradient-to-br from-yellow-500 to-yellow-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                                        <span className="text-white font-bold text-xl">5</span>
+                                    </div>
+                                    <div className="flex-1">
+                                        <h3 className="text-xl font-bold mb-2">Rentabilidade Real com Números</h3>
+                                        <p className="text-muted-foreground">
+                                            Casos reais de brasileiros que compraram: quanto investiram,
+                                            quanto estão ganhando e em quanto tempo se paga
+                                        </p>
+                                    </div>
                                 </div>
-                                <h3 className="text-lg font-semibold mb-3">Oportunidades Únicas</h3>
-                                <p className="text-muted-foreground text-sm">
-                                    Acesso a imóveis e oportunidades que não estarão disponíveis publicamente
-                                </p>
                             </div>
 
-                            {/* Calculadora */}
-                            <div className="professional-card text-center">
-                                <div className="w-16 h-16 bg-gradient-to-br from-green-500/10 to-green-600/10 rounded-xl flex items-center justify-center mx-auto mb-4">
-                                    <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
-                                    </svg>
+                            <div className="professional-card">
+                                <div className="flex items-start gap-4">
+                                    <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                                        <Sparkles className="w-6 h-6 text-white" />
+                                    </div>
+                                    <div className="flex-1">
+                                        <h3 className="text-xl font-bold mb-2">Bônus Exclusivo Para Participantes</h3>
+                                        <p className="text-muted-foreground">
+                                            Uma oportunidade especial será revelada apenas para quem participar
+                                            do evento ao vivo (não perca!)
+                                        </p>
+                                    </div>
                                 </div>
-                                <h3 className="text-lg font-semibold mb-3">Calculadora Financeira</h3>
-                                <p className="text-muted-foreground text-sm">
-                                    Ferramenta exclusiva para planejar sua compra com todos os custos e impostos
-                                </p>
-                            </div>
-
-                            {/* Ebook Italiano */}
-                            <div className="professional-card text-center">
-                                <div className="w-16 h-16 bg-gradient-to-br from-blue-500/10 to-blue-600/10 rounded-xl flex items-center justify-center mx-auto mb-4">
-                                    <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                                    </svg>
-                                </div>
-                                <h3 className="text-lg font-semibold mb-3">Ebook de Italiano</h3>
-                                <p className="text-muted-foreground text-sm">
-                                    Guia prático com vocabulário essencial para o processo de compra
-                                </p>
-                            </div>
-
-                            {/* Relatórios IA */}
-                            <div className="professional-card text-center">
-                                <div className="w-16 h-16 bg-gradient-to-br from-purple-500/10 to-purple-600/10 rounded-xl flex items-center justify-center mx-auto mb-4">
-                                    <TrendingUp className="w-8 h-8 text-purple-600" />
-                                </div>
-                                <h3 className="text-lg font-semibold mb-3">Relatórios com IA</h3>
-                                <p className="text-muted-foreground text-sm">
-                                    Análises de regiões italianas geradas por Inteligência Artificial
-                                </p>
-                            </div>
-
-                            {/* Reuniões Zoom */}
-                            <div className="professional-card text-center">
-                                <div className="w-16 h-16 bg-gradient-to-br from-yellow-500/10 to-yellow-600/10 rounded-xl flex items-center justify-center mx-auto mb-4">
-                                    <Users className="w-8 h-8 text-yellow-600" />
-                                </div>
-                                <h3 className="text-lg font-semibold mb-3">Reuniões Mensais</h3>
-                                <p className="text-muted-foreground text-sm">
-                                    Consultoria coletiva mensal no Zoom com a equipe Brasilità
-                                </p>
-                            </div>
-
-                            {/* Desconto Consulenza */}
-                            <div className="professional-card text-center">
-                                <div className="w-16 h-16 bg-gradient-to-br from-orange-500/10 to-orange-600/10 rounded-xl flex items-center justify-center mx-auto mb-4">
-                                    <svg className="w-8 h-8 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
-                                    </svg>
-                                </div>
-                                <h3 className="text-lg font-semibold mb-3">Desconto na Assessoria</h3>
-                                <p className="text-muted-foreground text-sm">
-                                    Desconto especial na Brasilità Consulenza (assessoria completa)
-                                </p>
                             </div>
                         </div>
                     </div>
@@ -315,57 +260,84 @@ export default async function InsiderEventPage() {
             {/* Who Is This For Section */}
             <section className="section-padding">
                 <div className="container mx-auto container-padding">
-                    <div className="max-w-4xl mx-auto">
+                    <div className="max-w-5xl mx-auto">
                         <div className="text-center mb-12">
-                            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">
-                                Este Evento é Para Você Que...
+                            <h2 className="text-3xl md:text-4xl font-extrabold mb-4 text-foreground">
+                                Este Evento é Para Você Se...
                             </h2>
+                            <p className="text-lg text-muted-foreground">
+                                Identifique-se com pelo menos um desses perfis
+                            </p>
                         </div>
 
                         <div className="grid md:grid-cols-2 gap-6">
-                            <div className="professional-card">
+                            <div className="professional-card border-l-4 border-l-blue-500">
                                 <div className="flex items-start gap-3">
-                                    <CheckCircle className="w-6 h-6 text-green-600 flex-shrink-0 mt-1" />
+                                    <CheckCircle className="w-6 h-6 text-blue-600 flex-shrink-0 mt-1" />
                                     <div>
-                                        <h3 className="font-semibold mb-1">Quer Investir na Itália</h3>
+                                        <h3 className="font-bold mb-1 text-lg">Você tem o sonho de investir na Itália...</h3>
                                         <p className="text-sm text-muted-foreground">
-                                            Mas não sabe por onde começar ou tem medo de cair em armadilhas
+                                            Mas não sabe por onde começar, tem medo de cair em armadilhas ou acha que é complicado demais fazer do Brasil
                                         </p>
                                     </div>
                                 </div>
                             </div>
 
-                            <div className="professional-card">
+                            <div className="professional-card border-l-4 border-l-green-500">
                                 <div className="flex items-start gap-3">
                                     <CheckCircle className="w-6 h-6 text-green-600 flex-shrink-0 mt-1" />
                                     <div>
-                                        <h3 className="font-semibold mb-1">Busca Diversificação</h3>
+                                        <h3 className="font-bold mb-1 text-lg">Você quer proteger seu patrimônio...</h3>
                                         <p className="text-sm text-muted-foreground">
-                                            Quer proteger seu patrimônio em moeda forte e economia estável
+                                            Diversificar em moeda forte (Euro), economia estável e em um ativo tangível que valoriza com o tempo
                                         </p>
                                     </div>
                                 </div>
                             </div>
 
-                            <div className="professional-card">
+                            <div className="professional-card border-l-4 border-l-purple-500">
                                 <div className="flex items-start gap-3">
-                                    <CheckCircle className="w-6 h-6 text-green-600 flex-shrink-0 mt-1" />
+                                    <CheckCircle className="w-6 h-6 text-purple-600 flex-shrink-0 mt-1" />
                                     <div>
-                                        <h3 className="font-semibold mb-1">Sonha em Morar na Itália</h3>
+                                        <h3 className="font-bold mb-1 text-lg">Você sonha em morar na Itália...</h3>
                                         <p className="text-sm text-muted-foreground">
-                                            E quer garantir sua casa antes de fazer a mudança definitiva
+                                            E quer garantir sua casa antes de fazer a mudança, ou ter um pied-à-terre para suas estadias
                                         </p>
                                     </div>
                                 </div>
                             </div>
 
-                            <div className="professional-card">
+                            <div className="professional-card border-l-4 border-l-yellow-500">
                                 <div className="flex items-start gap-3">
-                                    <CheckCircle className="w-6 h-6 text-green-600 flex-shrink-0 mt-1" />
+                                    <CheckCircle className="w-6 h-6 text-yellow-600 flex-shrink-0 mt-1" />
                                     <div>
-                                        <h3 className="font-semibold mb-1">Busca Renda em Euro</h3>
+                                        <h3 className="font-bold mb-1 text-lg">Você busca renda passiva em Euro...</h3>
                                         <p className="text-sm text-muted-foreground">
-                                            Quer rentabilizar imóveis através de aluguel de curta ou longa temporada
+                                            Através de aluguel de curta temporada (turismo) ou longa duração, aproveitando a alta demanda italiana
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="professional-card border-l-4 border-l-red-500">
+                                <div className="flex items-start gap-3">
+                                    <CheckCircle className="w-6 h-6 text-red-600 flex-shrink-0 mt-1" />
+                                    <div>
+                                        <h3 className="font-bold mb-1 text-lg">Você já pesquisou mas ficou perdido...</h3>
+                                        <p className="text-sm text-muted-foreground">
+                                            Com informações desencontradas, sites em italiano e medo de tomar decisões erradas que custem caro
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="professional-card border-l-4 border-l-orange-500">
+                                <div className="flex items-start gap-3">
+                                    <CheckCircle className="w-6 h-6 text-orange-600 flex-shrink-0 mt-1" />
+                                    <div>
+                                        <h3 className="font-bold mb-1 text-lg">Você tem capital para investir...</h3>
+                                        <p className="text-sm text-muted-foreground">
+                                            E quer fazer isso com inteligência, maximizando retorno e minimizando riscos com orientação de quem já fez
                                         </p>
                                     </div>
                                 </div>
@@ -395,8 +367,8 @@ export default async function InsiderEventPage() {
                                 <div className="text-sm text-muted-foreground">Vivendo e investindo na Itália</div>
                             </div>
                             <div className="text-center">
-                                <div className="text-4xl font-bold text-primary mb-2">Inúmeros</div>
-                                <div className="text-sm text-muted-foreground">De clientes atendidos com sucesso</div>
+                                <div className="text-4xl font-bold text-primary mb-2">+50</div>
+                                <div className="text-sm text-muted-foreground">Famílias atendidas com sucesso</div>
                             </div>
                         </div>
 
