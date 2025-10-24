@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { eventRegistration } from "@/lib/db/schema";
-import { nanoid } from "nanoid";
 import { sql } from "drizzle-orm";
 
 export async function POST(request: Request) {
@@ -19,7 +18,6 @@ export async function POST(request: Request) {
 
         // Insert into database
         const registration = await db.insert(eventRegistration).values({
-            id: nanoid(),
             name,
             email,
             phone,
