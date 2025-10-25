@@ -1,4 +1,5 @@
-import { CheckCircle, Users, TrendingUp, Globe, Calendar, Sparkles, Shield, Target, Zap, Calculator, BookOpen } from "lucide-react";
+import { CheckCircle, Users, TrendingUp, Globe, Calendar, Sparkles, Shield, Target, Zap, Calculator, BookOpen, Instagram } from "lucide-react";
+import Image from "next/image";
 import { LandingHeader } from "@/components/layout/landing-header";
 import { LandingFooter } from "@/components/layout/landing-footer";
 import { auth } from "@/lib/auth";
@@ -292,6 +293,85 @@ export default async function InsiderLaunchPage() {
                                 <p className="text-muted-foreground text-sm">
                                     Grupo exclusivo para networking, troca de experiências e suporte entre membros
                                 </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* Hosts Section */}
+            <section className="section-padding">
+                <div className="container mx-auto container-padding">
+                    <div className="max-w-5xl mx-auto">
+                        <div className="text-center mb-12">
+                            <h2 className="text-3xl md:text-4xl font-extrabold mb-4 text-foreground">
+                                Quem Está Por Trás do Brasilità Insider
+                            </h2>
+                            <p className="text-lg text-muted-foreground">
+                                Conheça os fundadores que vão te guiar nesta jornada
+                            </p>
+                        </div>
+
+                        <div className="grid md:grid-cols-2 gap-8">
+                            {/* Aloisio */}
+                            <div className="professional-card">
+                                <div className="flex flex-col items-center text-center">
+                                    <div className="relative w-32 h-32 mb-4 rounded-full overflow-hidden">
+                                        <Image
+                                            src="/aloisio-insider.jpg"
+                                            alt="Aloisio Cechinel"
+                                            fill
+                                            className="object-cover"
+                                        />
+                                    </div>
+                                    <h3 className="text-2xl font-bold mb-2">Aloisio Cechinel</h3>
+                                    <p className="text-primary font-semibold mb-2">Fundador da Brasilità</p>
+                                    <a
+                                        href="https://www.instagram.com/duasmalaseumdestino/"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors mb-4"
+                                    >
+                                        <Instagram className="w-4 h-4" />
+                                        @duasmalaseumdestino
+                                    </a>
+                                    <p className="text-muted-foreground leading-relaxed">
+                                        Criador de conteúdo com mais de 180 mil seguidores, ex-policial militar por 12 anos
+                                        e especialista em vendas B2B. Aloisio vive na Itália e é responsável por oferecer
+                                        suporte próximo e transparente a dezenas de famílias brasileiras que realizam o sonho
+                                        de investir em imóveis italianos.
+                                    </p>
+                                </div>
+                            </div>
+
+                            {/* Olavo */}
+                            <div className="professional-card">
+                                <div className="flex flex-col items-center text-center">
+                                    <div className="relative w-32 h-32 mb-4 rounded-full overflow-hidden">
+                                        <Image
+                                            src="/olavo-insider.jpg"
+                                            alt="Olavo Ferenshitz"
+                                            fill
+                                            className="object-cover"
+                                        />
+                                    </div>
+                                    <h3 className="text-2xl font-bold mb-2">Olavo Ferenshitz</h3>
+                                    <p className="text-primary font-semibold mb-2">Co-fundador e Especialista</p>
+                                    <a
+                                        href="https://www.instagram.com/nortedaitalia/"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors mb-4"
+                                    >
+                                        <Instagram className="w-4 h-4" />
+                                        @nortedaitalia
+                                    </a>
+                                    <p className="text-muted-foreground leading-relaxed">
+                                        Advogado e Planejador Financeiro CFP®, com experiência internacional no Brasil,
+                                        EUA e Itália. Olavo é especialista em Investimentos Imobiliários na Itália e traz
+                                        toda sua expertise jurídica e financeira para garantir segurança e estratégia nos investimentos.
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>

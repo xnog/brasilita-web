@@ -1,4 +1,5 @@
-import { CheckCircle, Users, Globe, TrendingUp, Calendar, Sparkles, Video, Clock } from "lucide-react";
+import { CheckCircle, Users, Globe, TrendingUp, Calendar, Sparkles, Video, Clock, Instagram } from "lucide-react";
+import Image from "next/image";
 import { LandingHeader } from "@/components/layout/landing-header";
 import { LandingFooter } from "@/components/layout/landing-footer";
 import { EventRegistrationForm } from "@/components/forms/event-registration-form";
@@ -35,7 +36,7 @@ export default async function InsiderEventPage() {
                                 <h1 className="text-4xl md:text-6xl font-extrabold mb-6 leading-tight">
                                     O Método Completo Para Comprar Seu
                                     <span className="block text-yellow-400 mt-2">
-                                        Imóvel na Itália em 2025
+                                        Imóvel na Itália
                                     </span>
                                 </h1>
                                 <p className="text-lg md:text-xl text-yellow-400 font-semibold mb-6">
@@ -53,8 +54,8 @@ export default async function InsiderEventPage() {
                                 </div>
 
                                 <p className="text-xl md:text-2xl text-white/90 mb-8 leading-relaxed">
-                                    Aula ao vivo e gratuita revelando o passo a passo usado por mais de 50 famílias
-                                    brasileiras para investir com segurança no mercado imobiliário italiano
+                                    Aula ao vivo e gratuita revelando o passo a passo baseado na análise de mais de 30 cidades
+                                    italianas para investir com segurança no mercado imobiliário italiano
                                 </p>
 
                                 {/* Benefits */}
@@ -101,7 +102,7 @@ export default async function InsiderEventPage() {
                                     </div>
                                     <div className="flex items-center gap-2">
                                         <TrendingUp className="w-5 h-5 text-green-400" />
-                                        <span>+50 famílias atendidas</span>
+                                        <span>+30 cidades analisadas</span>
                                     </div>
                                 </div>
                             </div>
@@ -257,6 +258,85 @@ export default async function InsiderEventPage() {
                 </div>
             </section>
 
+            {/* Hosts Section */}
+            <section className="bg-muted/30 section-padding">
+                <div className="container mx-auto container-padding">
+                    <div className="max-w-5xl mx-auto">
+                        <div className="text-center mb-12">
+                            <h2 className="text-3xl md:text-4xl font-extrabold mb-4 text-foreground">
+                                Quem Vai Te Guiar Nesta Jornada
+                            </h2>
+                            <p className="text-lg text-muted-foreground">
+                                Conheça os especialistas que vão compartilhar sua experiência real no mercado italiano
+                            </p>
+                        </div>
+
+                        <div className="grid md:grid-cols-2 gap-8">
+                            {/* Aloisio */}
+                            <div className="professional-card">
+                                <div className="flex flex-col items-center text-center">
+                                    <div className="relative w-32 h-32 mb-4 rounded-full overflow-hidden">
+                                        <Image
+                                            src="/aloisio-insider.jpg"
+                                            alt="Aloisio Cechinel"
+                                            fill
+                                            className="object-cover"
+                                        />
+                                    </div>
+                                    <h3 className="text-2xl font-bold mb-2">Aloisio Cechinel</h3>
+                                    <p className="text-primary font-semibold mb-2">Fundador da Brasilità</p>
+                                    <a
+                                        href="https://www.instagram.com/duasmalaseumdestino/"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors mb-4"
+                                    >
+                                        <Instagram className="w-4 h-4" />
+                                        @duasmalaseumdestino
+                                    </a>
+                                    <p className="text-muted-foreground leading-relaxed">
+                                        Criador de conteúdo com mais de 180 mil seguidores, ex-policial militar por 12 anos
+                                        e especialista em vendas B2B. Aloisio vive na Itália e é responsável por oferecer
+                                        suporte próximo e transparente a dezenas de famílias brasileiras que realizam o sonho
+                                        de investir em imóveis italianos.
+                                    </p>
+                                </div>
+                            </div>
+
+                            {/* Olavo */}
+                            <div className="professional-card">
+                                <div className="flex flex-col items-center text-center">
+                                    <div className="relative w-32 h-32 mb-4 rounded-full overflow-hidden">
+                                        <Image
+                                            src="/olavo-insider.jpg"
+                                            alt="Olavo Ferenshitz"
+                                            fill
+                                            className="object-cover"
+                                        />
+                                    </div>
+                                    <h3 className="text-2xl font-bold mb-2">Olavo Ferenshitz</h3>
+                                    <p className="text-primary font-semibold mb-2">Co-fundador e Especialista</p>
+                                    <a
+                                        href="https://www.instagram.com/nortedaitalia/"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors mb-4"
+                                    >
+                                        <Instagram className="w-4 h-4" />
+                                        @nortedaitalia
+                                    </a>
+                                    <p className="text-muted-foreground leading-relaxed">
+                                        Advogado e Planejador Financeiro CFP®, com experiência internacional no Brasil,
+                                        EUA e Itália. Olavo é especialista em Investimentos Imobiliários na Itália e traz
+                                        toda sua expertise jurídica e financeira para garantir segurança e estratégia nos investimentos.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             {/* Who Is This For Section */}
             <section className="section-padding">
                 <div className="container mx-auto container-padding">
@@ -367,8 +447,8 @@ export default async function InsiderEventPage() {
                                 <div className="text-sm text-muted-foreground">Vivendo e investindo na Itália</div>
                             </div>
                             <div className="text-center">
-                                <div className="text-4xl font-bold text-primary mb-2">+50</div>
-                                <div className="text-sm text-muted-foreground">Famílias atendidas com sucesso</div>
+                                <div className="text-4xl font-bold text-primary mb-2">+30</div>
+                                <div className="text-sm text-muted-foreground">Cidades analisadas em profundidade</div>
                             </div>
                         </div>
 
