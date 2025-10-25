@@ -87,7 +87,7 @@ export default async function InsiderLaunchPage() {
                 <div className="container mx-auto container-padding">
                     <div className="max-w-4xl mx-auto text-center">
                         <h2 className="text-3xl md:text-5xl font-extrabold mb-6 text-foreground">
-                            Por Que Esta é a Hora de Agir?
+                            Por que esta é a hora de agir?
                         </h2>
                         <p className="text-xl text-muted-foreground mb-10 leading-relaxed">
                             O mercado imobiliário italiano está passando por um momento único para investidores brasileiros
@@ -142,7 +142,7 @@ export default async function InsiderLaunchPage() {
                     <div className="max-w-6xl mx-auto">
                         <div className="text-center mb-12">
                             <h2 className="text-3xl md:text-5xl font-extrabold mb-4 text-foreground">
-                                O Que Você Recebe ao Entrar
+                                O que você recebe ao entrar
                             </h2>
                             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
                                 Tudo que você precisa para comprar seu imóvel na Itália com segurança,
@@ -221,7 +221,7 @@ export default async function InsiderLaunchPage() {
                     <div className="max-w-6xl mx-auto">
                         <div className="text-center mb-12">
                             <h2 className="text-3xl md:text-5xl font-extrabold mb-4 text-foreground">
-                                Ferramentas e Recursos Exclusivos
+                                Ferramentas e recursos exclusivos
                             </h2>
                             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
                                 Além da comunidade e consultorias, você tem acesso a:
@@ -305,7 +305,7 @@ export default async function InsiderLaunchPage() {
                     <div className="max-w-5xl mx-auto">
                         <div className="text-center mb-12">
                             <h2 className="text-3xl md:text-4xl font-extrabold mb-4 text-foreground">
-                                Quem Está Por Trás do Brasilità Insider
+                                Quem está por trás do Brasilità Insider
                             </h2>
                             <p className="text-lg text-muted-foreground">
                                 Conheça os fundadores que vão te guiar nesta jornada
@@ -336,8 +336,8 @@ export default async function InsiderLaunchPage() {
                                         @duasmalaseumdestino
                                     </a>
                                     <p className="text-muted-foreground leading-relaxed">
-                                        Criador de conteúdo com mais de 180 mil seguidores, ex-policial militar por 12 anos
-                                        e especialista em vendas B2B. Aloisio vive na Itália e é responsável por oferecer
+                                        Criador de conteúdo de viagens com mais de 180 mil seguidores, ex-policial militar por 12 anos
+                                        e especialista em vendas B2B. Na Brasilità, é responsável por oferecer
                                         suporte próximo e transparente a dezenas de famílias brasileiras que realizam o sonho
                                         de investir em imóveis italianos.
                                     </p>
@@ -384,7 +384,7 @@ export default async function InsiderLaunchPage() {
                     <div className="max-w-4xl mx-auto">
                         <div className="text-center mb-12">
                             <h2 className="text-3xl md:text-5xl font-extrabold mb-4 text-foreground">
-                                Este Programa é Perfeito Para Você Se...
+                                Este programa é perfeito para você se...
                             </h2>
                             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
                                 Identifique-se com pelo menos um desses perfis
@@ -454,7 +454,7 @@ export default async function InsiderLaunchPage() {
                     <div className="max-w-6xl mx-auto">
                         <div className="text-center mb-12">
                             <h2 className="text-3xl md:text-5xl font-extrabold mb-4 text-foreground">
-                                Garanta Sua Vaga com Desconto de Fundador
+                                Garanta sua vaga com desconto de fundador
                             </h2>
                             <p className="text-xl text-muted-foreground">
                                 Investimento muito menor que o risco de errar sozinho
@@ -589,7 +589,7 @@ export default async function InsiderLaunchPage() {
                     <div className="max-w-4xl mx-auto">
                         <div className="text-center mb-12">
                             <h2 className="text-3xl md:text-5xl font-extrabold mb-4 text-foreground">
-                                Perguntas Frequentes
+                                Perguntas frequentes
                             </h2>
                             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
                                 Tudo que você precisa saber antes de tomar sua decisão

@@ -156,7 +156,7 @@ export default async function InsiderEventPage() {
                     <div className="max-w-6xl mx-auto">
                         <div className="text-center mb-12">
                             <h2 className="text-3xl md:text-4xl font-extrabold mb-4 text-foreground">
-                                O Que Você Vai Aprender Neste Evento
+                                O que você vai aprender neste evento
                             </h2>
                             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
                                 Conteúdo prático e direto ao ponto, baseado em experiência real de quem vive e investe na Itália
@@ -264,7 +264,7 @@ export default async function InsiderEventPage() {
                     <div className="max-w-5xl mx-auto">
                         <div className="text-center mb-12">
                             <h2 className="text-3xl md:text-4xl font-extrabold mb-4 text-foreground">
-                                Quem Vai Te Guiar Nesta Jornada
+                                Quem vai te guiar nesta jornada
                             </h2>
                             <p className="text-lg text-muted-foreground">
                                 Conheça os especialistas que vão compartilhar sua experiência real no mercado italiano
@@ -295,8 +295,8 @@ export default async function InsiderEventPage() {
                                         @duasmalaseumdestino
                                     </a>
                                     <p className="text-muted-foreground leading-relaxed">
-                                        Criador de conteúdo com mais de 180 mil seguidores, ex-policial militar por 12 anos
-                                        e especialista em vendas B2B. Aloisio vive na Itália e é responsável por oferecer
+                                        Criador de conteúdo de viagens com mais de 180 mil seguidores, ex-policial militar por 12 anos
+                                        e especialista em vendas B2B. Na Brasilità, é responsável por oferecer
                                         suporte próximo e transparente a dezenas de famílias brasileiras que realizam o sonho
                                         de investir em imóveis italianos.
                                     </p>
@@ -343,7 +343,7 @@ export default async function InsiderEventPage() {
                     <div className="max-w-5xl mx-auto">
                         <div className="text-center mb-12">
                             <h2 className="text-3xl md:text-4xl font-extrabold mb-4 text-foreground">
-                                Este Evento é Para Você Se...
+                                Este evento é para você se...
                             </h2>
                             <p className="text-lg text-muted-foreground">
                                 Identifique-se com pelo menos um desses perfis
@@ -433,7 +433,7 @@ export default async function InsiderEventPage() {
                     <div className="max-w-4xl mx-auto">
                         <div className="text-center mb-12">
                             <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">
-                                Por Que Confiar na Brasilità?
+                                Por que confiar na Brasilità?
                             </h2>
                         </div>
 
