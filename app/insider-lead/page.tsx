@@ -44,7 +44,7 @@ export default async function InsiderEventPage() {
 
                                 <div className="flex items-center gap-3 mb-6 text-xl">
                                     <Calendar className="w-6 h-6 text-yellow-400" />
-                                    <span className="font-semibold">02 de Novembro (Sábado)</span>
+                                    <span className="font-semibold">02 de Novembro (Domingo)</span>
                                 </div>
 
                                 <div className="flex items-center gap-3 mb-8 text-xl">

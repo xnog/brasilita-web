@@ -39,7 +39,7 @@ export default async function ThankYouPage() {
                   <Calendar className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
                   <div>
                     <p className="font-semibold">Data</p>
-                    <p className="text-muted-foreground">02 de Novembro (Sábado)</p>
+                    <p className="text-muted-foreground">02 de Novembro (Domingo)</p>
                   </div>
                 </div>
 
@@ -213,7 +213,7 @@ export default async function ThankYouPage() {
                   <div>
                     <h3 className="font-semibold mb-2">Salve a Data</h3>
                     <p className="text-muted-foreground text-sm">
-                      <strong>02 de Novembro (Sábado) às 16h</strong>.
+                      <strong>02 de Novembro (Domingo) às 16h</strong>.
                       Coloque no calendário para não esquecer!
                     </p>
                   </div>
