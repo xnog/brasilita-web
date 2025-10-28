@@ -5,6 +5,33 @@ import { LandingFooter } from "@/components/layout/landing-footer";
 import { EventRegistrationForm } from "@/components/forms/event-registration-form";
 import { CountdownTimer } from "@/components/ui/countdown-timer";
 import { auth } from "@/lib/auth";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Evento Gratuito: O Método Completo Para Comprar Seu Imóvel na Itália | Brasilità",
+    description: "Aula ao vivo gratuita em 02 de Novembro revelando o passo a passo para investir no mercado imobiliário italiano com segurança. Mesmo morando no Brasil e sem cair em armadilhas.",
+    openGraph: {
+        title: "O Método Completo Para Comprar Seu Imóvel na Itália em 2025",
+        description: "Aula ao vivo e gratuita em 02/11 às 16h. Descubra as 5 melhores regiões, custos reais e como evitar armadilhas.",
+        type: "website",
+        locale: "pt_BR",
+        siteName: "Brasilità - Seu imóvel na Itália",
+        images: [
+            {
+                url: "/og-insider-lead.jpg",
+                width: 1200,
+                height: 630,
+                alt: "Evento Brasilità - O Método Completo Para Comprar Seu Imóvel na Itália"
+            }
+        ]
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: "O Método Completo Para Comprar Seu Imóvel na Itália em 2025",
+        description: "Aula ao vivo e gratuita em 02/11 às 16h. Descubra as 5 melhores regiões, custos reais e como evitar armadilhas.",
+        images: ["/og-insider-lead.jpg"]
+    }
+};
 
 export default async function InsiderEventPage() {
     const session = await auth();

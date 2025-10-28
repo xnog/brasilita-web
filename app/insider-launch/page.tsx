@@ -3,6 +3,33 @@ import Image from "next/image";
 import { LandingHeader } from "@/components/layout/landing-header";
 import { LandingFooter } from "@/components/layout/landing-footer";
 import { auth } from "@/lib/auth";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Brasilità Insider - A Comunidade Exclusiva Para Investir na Itália | Brasilità",
+    description: "Junte-se aos primeiros 100 brasileiros transformando o sonho italiano em realidade. Consultoria mensal, ferramentas exclusivas e comunidade de apoio por apenas €29/trimestre.",
+    openGraph: {
+        title: "Brasilità Insider - Comunidade Exclusiva de Investimento Imobiliário na Itália",
+        description: "Primeiros 100 membros pagam apenas €29/trimestre. Acesso à plataforma restrita, reuniões mensais no Zoom e oportunidades exclusivas.",
+        type: "website",
+        locale: "pt_BR",
+        siteName: "Brasilità - Seu imóvel na Itália",
+        images: [
+            {
+                url: "/og-insider-launch.jpg",
+                width: 1200,
+                height: 630,
+                alt: "Brasilità Insider - Comunidade Exclusiva"
+            }
+        ]
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: "Brasilità Insider - Comunidade Exclusiva de Investimento Imobiliário na Itália",
+        description: "Primeiros 100 membros pagam apenas €29/trimestre. Acesso à plataforma restrita, reuniões mensais no Zoom e oportunidades exclusivas.",
+        images: ["/og-insider-launch.jpg"]
+    }
+};
 
 export default async function InsiderLaunchPage() {
     const session = await auth();
