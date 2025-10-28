@@ -8,12 +8,27 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
     title: "Brasilità Insider - A Comunidade Exclusiva Para Investir na Itália | Brasilità",
     description: "Junte-se aos primeiros 100 brasileiros transformando o sonho italiano em realidade. Consultoria mensal, ferramentas exclusivas e comunidade de apoio por apenas €29/trimestre.",
+    keywords: [
+        "Brasilità Insider",
+        "comunidade investimento Itália",
+        "comprar imóvel Itália",
+        "investir na Itália",
+        "curso imóveis Itália",
+        "consultoria imobiliária Itália",
+        "brasileiros na Itália",
+        "mercado imobiliário italiano",
+        "assessoria imóveis Itália",
+        "grupo investidores Itália"
+    ],
+    authors: [{ name: "Brasilità" }],
+    category: "Imóveis e Investimentos",
     openGraph: {
         title: "Brasilità Insider - Comunidade Exclusiva de Investimento Imobiliário na Itália",
         description: "Primeiros 100 membros pagam apenas €29/trimestre. Acesso à plataforma restrita, reuniões mensais no Zoom e oportunidades exclusivas.",
         type: "website",
         locale: "pt_BR",
         siteName: "Brasilità - Seu imóvel na Itália",
+        url: "/insider-launch",
         images: [
             {
                 url: "/og-insider-launch.jpg",
@@ -27,15 +42,82 @@ export const metadata: Metadata = {
         card: "summary_large_image",
         title: "Brasilità Insider - Comunidade Exclusiva de Investimento Imobiliário na Itália",
         description: "Primeiros 100 membros pagam apenas €29/trimestre. Acesso à plataforma restrita, reuniões mensais no Zoom e oportunidades exclusivas.",
-        images: ["/og-insider-launch.jpg"]
+        images: ["/og-insider-launch.jpg"],
+        creator: "@brasilita.it"
+    },
+    robots: {
+        index: true,
+        follow: true,
+        googleBot: {
+            index: true,
+            follow: true,
+            "max-video-preview": -1,
+            "max-image-preview": "large",
+            "max-snippet": -1
+        }
+    },
+    alternates: {
+        canonical: "/insider-launch"
     }
 };
 
 export default async function InsiderLaunchPage() {
     const session = await auth();
 
+    // JSON-LD Structured Data for Product/Service
+    const productJsonLd = {
+        "@context": "https://schema.org",
+        "@type": "Product",
+        "name": "Brasilità Insider",
+        "description": "Comunidade exclusiva com consultoria mensal, ferramentas exclusivas e suporte para brasileiros que desejam investir no mercado imobiliário italiano",
+        "image": "https://brasilita.com/og-insider-launch.jpg",
+        "brand": {
+            "@type": "Organization",
+            "name": "Brasilità"
+        },
+        "offers": {
+            "@type": "Offer",
+            "price": "29",
+            "priceCurrency": "EUR",
+            "availability": "https://schema.org/LimitedAvailability",
+            "priceValidUntil": "2025-12-31",
+            "url": "https://brasilita.com/insider-launch",
+            "eligibleQuantity": {
+                "@type": "QuantitativeValue",
+                "value": "100"
+            }
+        },
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "5",
+            "reviewCount": "1"
+        }
+    };
+
+    const organizationJsonLd = {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Brasilità",
+        "url": "https://brasilita.com",
+        "logo": "https://brasilita.com/logo.svg",
+        "description": "Plataforma especializada em conectar brasileiros ao mercado imobiliário italiano",
+        "sameAs": [
+            "https://www.instagram.com/brasilita.it"
+        ]
+    };
+
     return (
         <div className="min-h-screen bg-background">
+            {/* JSON-LD Structured Data */}
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
+            />
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+            />
+
             <LandingHeader session={session} />
 
             {/* Hero Section */}

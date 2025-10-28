@@ -10,12 +10,26 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
     title: "Evento Gratuito: O Método Completo Para Comprar Seu Imóvel na Itália | Brasilità",
     description: "Aula ao vivo gratuita em 02 de Novembro revelando o passo a passo para investir no mercado imobiliário italiano com segurança. Mesmo morando no Brasil e sem cair em armadilhas.",
+    keywords: [
+        "comprar imóvel na Itália",
+        "investir na Itália",
+        "mercado imobiliário italiano",
+        "imóvel Itália brasileiro",
+        "como comprar casa na Itália",
+        "investimento imobiliário Itália",
+        "curso imóveis Itália",
+        "evento gratuito Itália",
+        "Brasilità"
+    ],
+    authors: [{ name: "Brasilità" }],
+    category: "Imóveis e Investimentos",
     openGraph: {
         title: "O Método Completo Para Comprar Seu Imóvel na Itália em 2025",
         description: "Aula ao vivo e gratuita em 02/11 às 16h. Descubra as 5 melhores regiões, custos reais e como evitar armadilhas.",
         type: "website",
         locale: "pt_BR",
         siteName: "Brasilità - Seu imóvel na Itália",
+        url: "/insider-lead",
         images: [
             {
                 url: "/og-insider-lead.jpg",
@@ -29,7 +43,22 @@ export const metadata: Metadata = {
         card: "summary_large_image",
         title: "O Método Completo Para Comprar Seu Imóvel na Itália em 2025",
         description: "Aula ao vivo e gratuita em 02/11 às 16h. Descubra as 5 melhores regiões, custos reais e como evitar armadilhas.",
-        images: ["/og-insider-lead.jpg"]
+        images: ["/og-insider-lead.jpg"],
+        creator: "@brasilita.it"
+    },
+    robots: {
+        index: true,
+        follow: true,
+        googleBot: {
+            index: true,
+            follow: true,
+            "max-video-preview": -1,
+            "max-image-preview": "large",
+            "max-snippet": -1
+        }
+    },
+    alternates: {
+        canonical: "/insider-lead"
     }
 };
 
@@ -37,8 +66,53 @@ export default async function InsiderEventPage() {
     const session = await auth();
     const eventDate = new Date("2025-11-02T16:00:00-03:00"); // 02/11/2025 às 16h (horário de Brasília)
 
+    // JSON-LD Structured Data for Event
+    const eventJsonLd = {
+        "@context": "https://schema.org",
+        "@type": "Event",
+        "name": "O Método Completo Para Comprar Seu Imóvel na Itália em 2025",
+        "description": "Aula ao vivo e gratuita revelando o passo a passo baseado na análise de mais de 30 cidades italianas para investir com segurança no mercado imobiliário italiano",
+        "startDate": "2025-11-02T16:00:00-03:00",
+        "endDate": "2025-11-02T18:00:00-03:00",
+        "eventStatus": "https://schema.org/EventScheduled",
+        "eventAttendanceMode": "https://schema.org/OnlineEventAttendanceMode",
+        "location": {
+            "@type": "VirtualLocation",
+            "url": "https://brasilita.com/insider-lead"
+        },
+        "image": "https://brasilita.com/og-insider-lead.jpg",
+        "organizer": {
+            "@type": "Organization",
+            "name": "Brasilità",
+            "url": "https://brasilita.com"
+        },
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "BRL",
+            "availability": "https://schema.org/InStock",
+            "url": "https://brasilita.com/insider-lead"
+        },
+        "performer": [
+            {
+                "@type": "Person",
+                "name": "Aloisio Cechinel"
+            },
+            {
+                "@type": "Person",
+                "name": "Olavo Ferenshitz"
+            }
+        ]
+    };
+
     return (
         <div className="min-h-screen bg-background">
+            {/* JSON-LD Structured Data */}
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(eventJsonLd) }}
+            />
+
             <LandingHeader session={session} />
 
             {/* Hero Section */}
