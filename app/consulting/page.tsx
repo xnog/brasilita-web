@@ -6,7 +6,7 @@ import { auth } from "@/lib/auth";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-    title: "Consultoria Personalizada: Imóveis, Vida e Trabalho na Itália | Brasilità",
+    title: "Consultoria Personalizada: Morar ou Investir na Itália | Brasilità",
     description: "Consultoria individualizada de 45 minutos com especialistas que vivem na Itália. Tire suas dúvidas sobre compra de imóveis, trabalho, educação, custo de vida e muito mais.",
     keywords: [
         "consultoria imóveis Itália",
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     authors: [{ name: "Brasilità" }],
     category: "Consultoria e Serviços",
     openGraph: {
-        title: "Consultoria Personalizada: Imóveis, Vida e Trabalho na Itália",
+        title: "Consultoria Personalizada: Morar ou Investir na Itália",
         description: "45 minutos de consultoria individualizada com especialistas que vivem na Itália. Tire suas dúvidas sobre imóveis, trabalho, educação e muito mais.",
         type: "website",
         locale: "pt_BR",
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     },
     twitter: {
         card: "summary_large_image",
-        title: "Consultoria Personalizada: Imóveis, Vida e Trabalho na Itália",
+        title: "Consultoria Personalizada: Morar ou Investir na Itália",
         description: "45 minutos de consultoria individualizada com especialistas que vivem na Itália.",
         images: ["/og-consultoria.jpg"],
         creator: "@brasilita.it"
@@ -69,7 +69,7 @@ export default async function ConsultoriaPage() {
     const serviceJsonLd = {
         "@context": "https://schema.org",
         "@type": "Service",
-        "name": "Consultoria Personalizada - Imóveis, Vida e Trabalho na Itália",
+        "name": "Consultoria Personalizada - Morar ou Investir na Itália",
         "description": "Consultoria individualizada de 45 minutos com especialistas sobre imóveis, trabalho, educação e vida na Itália",
         "provider": {
             "@type": "Organization",
@@ -119,7 +119,7 @@ export default async function ConsultoriaPage() {
                                 </div>
 
                                 <h1 className="text-4xl md:text-6xl font-extrabold mb-6 leading-tight">
-                                    Seu Imóvel na Itália
+                                    Morar ou Investir na Itália
                                     <span className="block text-yellow-400 mt-2">
                                         Com Quem Entende
                                     </span>
@@ -140,7 +140,7 @@ export default async function ConsultoriaPage() {
                                 </div>
 
                                 <p className="text-xl md:text-2xl text-white/90 mb-8 leading-relaxed">
-                                    Conversa direta com especialistas que vivem na Itália sobre imóveis, trabalho, educação e muito mais
+                                    Conversa direta com especialistas que vivem na Itália para esclarecer todas as suas dúvidas
                                 </p>
 
                                 {/* Social Proof */}
@@ -393,7 +393,7 @@ export default async function ConsultoriaPage() {
                                 Quem vai te orientar
                             </h2>
                             <p className="text-lg text-muted-foreground">
-                                Especialistas que vivem na Itália e conhecem imóveis, trabalho e o dia a dia local
+                                Especialistas que vivem na Itália prontos para esclarecer todas as suas dúvidas
                             </p>
                         </div>
 
