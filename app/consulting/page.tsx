@@ -1,4 +1,4 @@
-import { CheckCircle, Users, Globe, Video, Clock, Target, ShieldCheck, Award, ArrowRight, Sparkles } from "lucide-react";
+import { CheckCircle, Users, Globe, Video, Clock, Target, ShieldCheck, Award, ArrowRight, Sparkles, Briefcase, GraduationCap, Home } from "lucide-react";
 import Image from "next/image";
 import { LandingHeader } from "@/components/layout/landing-header";
 import { LandingFooter } from "@/components/layout/landing-footer";
@@ -6,29 +6,30 @@ import { auth } from "@/lib/auth";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-    title: "Consultoria Personalizada: Seu Imóvel na Itália com Segurança | Brasilità",
-    description: "Consultoria individualizada de 45 minutos com especialistas que vivem na Itália. Tire suas dúvidas sobre compra de imóveis, financiamento, regiões, rentabilidade e cidadania italiana.",
+    title: "Consultoria Personalizada: Imóveis, Vida e Trabalho na Itália | Brasilità",
+    description: "Consultoria individualizada de 45 minutos com especialistas que vivem na Itália. Tire suas dúvidas sobre compra de imóveis, trabalho, educação, custo de vida e muito mais.",
     keywords: [
         "consultoria imóveis Itália",
         "comprar imóvel na Itália",
         "investir na Itália",
+        "trabalhar na Itália",
+        "morar na Itália",
         "consultor imobiliário Itália",
         "assessoria imóveis italianos",
-        "como comprar casa na Itália",
-        "financiamento imóvel Itália",
-        "rentabilidade aluguel Itália",
+        "vida na Itália",
+        "escola na Itália",
         "cidadania italiana",
         "Brasilità"
     ],
     authors: [{ name: "Brasilità" }],
     category: "Consultoria e Serviços",
     openGraph: {
-        title: "Consultoria Personalizada: Seu Imóvel na Itália com Segurança",
-        description: "45 minutos de consultoria individualizada com especialistas que vivem na Itália. Descubra como localizar, financiar e comprar seu imóvel ideal.",
+        title: "Consultoria Personalizada: Imóveis, Vida e Trabalho na Itália",
+        description: "45 minutos de consultoria individualizada com especialistas que vivem na Itália. Tire suas dúvidas sobre imóveis, trabalho, educação e muito mais.",
         type: "website",
         locale: "pt_BR",
         siteName: "Brasilità - Seu imóvel na Itália",
-        url: "/consultoria",
+        url: "/consulting",
         images: [
             {
                 url: "/og-consultoria.jpg",
@@ -40,7 +41,7 @@ export const metadata: Metadata = {
     },
     twitter: {
         card: "summary_large_image",
-        title: "Consultoria Personalizada: Seu Imóvel na Itália com Segurança",
+        title: "Consultoria Personalizada: Imóveis, Vida e Trabalho na Itália",
         description: "45 minutos de consultoria individualizada com especialistas que vivem na Itália.",
         images: ["/og-consultoria.jpg"],
         creator: "@brasilita.it"
@@ -57,7 +58,7 @@ export const metadata: Metadata = {
         }
     },
     alternates: {
-        canonical: "/consultoria"
+        canonical: "/consulting"
     }
 };
 
@@ -68,8 +69,8 @@ export default async function ConsultoriaPage() {
     const serviceJsonLd = {
         "@context": "https://schema.org",
         "@type": "Service",
-        "name": "Consultoria Personalizada - Imóveis na Itália",
-        "description": "Consultoria individualizada de 45 minutos com especialistas para compra de imóveis na Itália",
+        "name": "Consultoria Personalizada - Imóveis, Vida e Trabalho na Itália",
+        "description": "Consultoria individualizada de 45 minutos com especialistas sobre imóveis, trabalho, educação e vida na Itália",
         "provider": {
             "@type": "Organization",
             "name": "Brasilità",
@@ -125,7 +126,7 @@ export default async function ConsultoriaPage() {
                                 </h1>
 
                                 <p className="text-lg md:text-xl text-yellow-400 font-semibold mb-6">
-                                    45 minutos de consultoria individualizada para tirar todas as suas dúvidas
+                                    45 minutos de consultoria individualizada sobre imóveis, vida e trabalho na Itália
                                 </p>
 
                                 <div className="flex items-center gap-3 mb-6 text-xl">
@@ -139,7 +140,7 @@ export default async function ConsultoriaPage() {
                                 </div>
 
                                 <p className="text-xl md:text-2xl text-white/90 mb-8 leading-relaxed">
-                                    Conversa direta com especialistas que vivem na Itália e conhecem o mercado imobiliário de perto
+                                    Conversa direta com especialistas que vivem na Itália sobre imóveis, trabalho, educação e muito mais
                                 </p>
 
                                 {/* Social Proof */}
@@ -327,9 +328,10 @@ export default async function ConsultoriaPage() {
                                         <Users className="w-6 h-6 text-white" />
                                     </div>
                                     <div className="flex-1">
-                                        <h3 className="text-xl font-bold mb-2">Cidadania italiana</h3>
+                                        <h3 className="text-xl font-bold mb-2">Cidadania e permesso di soggiorno</h3>
                                         <p className="text-muted-foreground">
-                                            Como o imóvel pode ajudar no processo de cidadania e quais são os caminhos possíveis
+                                            Como o imóvel pode ajudar no processo de cidadania, permissão de residência,
+                                            requisitos e caminhos possíveis
                                         </p>
                                     </div>
                                 </div>
@@ -337,13 +339,42 @@ export default async function ConsultoriaPage() {
 
                             <div className="professional-card">
                                 <div className="flex items-start gap-4">
-                                    <div className="w-12 h-12 bg-gradient-to-br from-pink-500 to-pink-600 rounded-lg flex items-center justify-center flex-shrink-0">
-                                        <Globe className="w-6 h-6 text-white" />
+                                    <div className="w-12 h-12 bg-gradient-to-br from-teal-500 to-teal-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                                        <Briefcase className="w-6 h-6 text-white" />
                                     </div>
                                     <div className="flex-1">
-                                        <h3 className="text-xl font-bold mb-2">Permesso di soggiorno</h3>
+                                        <h3 className="text-xl font-bold mb-2">Trabalho e oportunidades</h3>
                                         <p className="text-muted-foreground">
-                                            Relação entre propriedade e permissão de residência, requisitos e processos
+                                            Mercado de trabalho, setores em alta, validação de diploma e possibilidades profissionais
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="professional-card">
+                                <div className="flex items-start gap-4">
+                                    <div className="w-12 h-12 bg-gradient-to-br from-cyan-500 to-cyan-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                                        <GraduationCap className="w-6 h-6 text-white" />
+                                    </div>
+                                    <div className="flex-1">
+                                        <h3 className="text-xl font-bold mb-2">Educação e sistema escolar</h3>
+                                        <p className="text-muted-foreground">
+                                            Escolas públicas vs privadas, matrículas, custos e adaptação de crianças ao sistema italiano
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="professional-card">
+                                <div className="flex items-start gap-4">
+                                    <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                                        <Home className="w-6 h-6 text-white" />
+                                    </div>
+                                    <div className="flex-1">
+                                        <h3 className="text-xl font-bold mb-2">Vida na Itália e muito mais</h3>
+                                        <p className="text-muted-foreground">
+                                            Custo de vida, saúde, transporte, cultura local e qualquer outra dúvida específica
+                                            que você queira esclarecer
                                         </p>
                                     </div>
                                 </div>
@@ -362,7 +393,7 @@ export default async function ConsultoriaPage() {
                                 Quem vai te orientar
                             </h2>
                             <p className="text-lg text-muted-foreground">
-                                Especialistas com experiência real no mercado imobiliário italiano
+                                Especialistas que vivem na Itália e conhecem imóveis, trabalho e o dia a dia local
                             </p>
                         </div>
 
