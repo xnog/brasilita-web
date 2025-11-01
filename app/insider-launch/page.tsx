@@ -243,6 +243,34 @@ export default async function InsiderLaunchPage() {
                 </div>
             </section>
 
+            {/* VSL Video Section */}
+            <section className="section-padding bg-muted/50">
+                <div className="container mx-auto container-padding">
+                    <div className="max-w-4xl mx-auto">
+                        <div className="text-center mb-8">
+                            <h2 className="text-3xl md:text-4xl font-extrabold mb-4 text-foreground">
+                                Veja como funciona o Brasilità Insider
+                            </h2>
+                            <p className="text-lg text-muted-foreground">
+                                Descubra tudo que você precisa saber antes de tomar sua decisão
+                            </p>
+                        </div>
+
+                        <div className="professional-card overflow-hidden">
+                            <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
+                                <iframe
+                                    className="absolute top-0 left-0 w-full h-full rounded-lg"
+                                    src="https://www.youtube.com/embed/nSIHX8hq83Y"
+                                    title="Brasilità Insider - Vídeo de Apresentação"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                    allowFullScreen
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             {/* O Que Você Recebe - Merged Section */}
             <section className="section-padding">
                 <div className="container mx-auto container-padding">
@@ -583,9 +611,9 @@ export default async function InsiderLaunchPage() {
                                     <div className="mb-6">
                                         <div className="flex items-center justify-center gap-3 mb-1">
                                             <span className="text-xl text-muted-foreground line-through">R$449</span>
-                                            <span className="text-5xl font-extrabold text-green-600">R$329</span>
+                                            <span className="text-5xl font-extrabold text-green-600">R$249</span>
                                         </div>
-                                        <span className="text-base text-muted-foreground">/semestre (R$54,83/mês)</span>
+                                        <span className="text-base text-muted-foreground">/semestre (R$41,50/mês)</span>
                                     </div>
                                     <ul className="space-y-2.5 text-left mb-6">
                                         <li className="flex items-start gap-2">
@@ -620,7 +648,7 @@ export default async function InsiderLaunchPage() {
 
                                     <div className="mb-4 p-3 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 dark:border-green-800">
                                         <p className="text-xs text-green-700 dark:text-green-400 font-semibold">
-                                            Economize R$29 vs plano trimestral = <strong>R$58/ano</strong>
+                                            Economize <strong>R$109 vs 2 trimestres</strong> (R$179 x 2 = R$358)
                                         </p>
                                     </div>
 
@@ -630,7 +658,7 @@ export default async function InsiderLaunchPage() {
                                         rel="noopener noreferrer"
                                         className="block w-full py-4 text-lg font-extrabold rounded-xl bg-gradient-to-r from-green-400 to-green-500 hover:from-green-500 hover:to-green-600 text-black transition-all duration-300 shadow-xl hover:shadow-2xl text-center mb-3"
                                     >
-                                        GARANTIR VAGA POR R$329
+                                        GARANTIR VAGA POR R$249
                                     </a>
                                     <p className="text-xs text-muted-foreground text-center">
                                         Acesso imediato • Cancele quando quiser • 7 dias de garantia
