@@ -146,9 +146,9 @@ export default async function InsiderLaunchPage() {
 
                         {/* Main Headline */}
                         <h1 className="text-4xl md:text-6xl font-extrabold mb-6 text-white leading-tight">
-                            Seu imóvel na Itália
+                            Compre seu imóvel na Itália sem cair em armadilhas
                             <span className="block text-yellow-400 mt-2">
-                                com segurança e suporte
+                                que podem custar milhares de euros
                             </span>
                         </h1>
 
@@ -183,6 +183,34 @@ export default async function InsiderLaunchPage() {
                             <div className="flex items-center gap-2">
                                 <CheckCircle className="w-5 h-5 text-green-400" />
                                 <span>Acesso à plataforma restrita</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* VSL Video Section - MOVIDO PARA CIMA */}
+            <section className="section-padding bg-muted/50">
+                <div className="container mx-auto container-padding">
+                    <div className="max-w-4xl mx-auto">
+                        <div className="text-center mb-8">
+                            <h2 className="text-3xl md:text-4xl font-extrabold mb-4 text-foreground">
+                                Veja como funciona o Brasilità Insider
+                            </h2>
+                            <p className="text-lg text-muted-foreground">
+                                Descubra tudo que você precisa saber antes de tomar sua decisão
+                            </p>
+                        </div>
+
+                        <div className="professional-card overflow-hidden">
+                            <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
+                                <iframe
+                                    className="absolute top-0 left-0 w-full h-full rounded-lg"
+                                    src="https://www.youtube.com/embed/nSIHX8hq83Y"
+                                    title="Brasilità Insider - Vídeo de Apresentação"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                    allowFullScreen
+                                />
                             </div>
                         </div>
                     </div>
@@ -238,34 +266,6 @@ export default async function InsiderLaunchPage() {
                                 pode custar milhares de euros em erros evitáveis. É por isso que criamos o <strong className="text-primary">Brasilità Insider</strong>,
                                 para você ter o suporte necessário sem precisar pagar o preço de uma assessoria completa que não te dá nenhuma certeza de sucesso no negócio.
                             </p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* VSL Video Section */}
-            <section className="section-padding bg-muted/50">
-                <div className="container mx-auto container-padding">
-                    <div className="max-w-4xl mx-auto">
-                        <div className="text-center mb-8">
-                            <h2 className="text-3xl md:text-4xl font-extrabold mb-4 text-foreground">
-                                Veja como funciona o Brasilità Insider
-                            </h2>
-                            <p className="text-lg text-muted-foreground">
-                                Descubra tudo que você precisa saber antes de tomar sua decisão
-                            </p>
-                        </div>
-
-                        <div className="professional-card overflow-hidden">
-                            <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
-                                <iframe
-                                    className="absolute top-0 left-0 w-full h-full rounded-lg"
-                                    src="https://www.youtube.com/embed/nSIHX8hq83Y"
-                                    title="Brasilità Insider - Vídeo de Apresentação"
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                    allowFullScreen
-                                />
-                            </div>
                         </div>
                     </div>
                 </div>
