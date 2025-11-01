@@ -7,7 +7,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
     title: "Brasilità Insider - A Comunidade Exclusiva Para Investir na Itália | Brasilità",
-    description: "Junte-se aos primeiros 100 brasileiros transformando o sonho italiano em realidade. Consultoria mensal, ferramentas exclusivas e comunidade de apoio por apenas €29/trimestre.",
+    description: "Junte-se aos primeiros 100 brasileiros transformando o sonho italiano em realidade. Consultoria mensal, ferramentas exclusivas e comunidade de apoio por apenas R$179/trimestre.",
     keywords: [
         "Brasilità Insider",
         "comunidade investimento Itália",
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     category: "Imóveis e Investimentos",
     openGraph: {
         title: "Brasilità Insider - Comunidade Exclusiva de Investimento Imobiliário na Itália",
-        description: "Primeiros 100 membros pagam apenas €29/trimestre. Acesso à plataforma restrita, reuniões mensais no Zoom e oportunidades exclusivas.",
+        description: "Primeiros 100 membros pagam apenas R$179/trimestre. Acesso à plataforma restrita, reuniões mensais no Zoom e oportunidades exclusivas.",
         type: "website",
         locale: "pt_BR",
         siteName: "Brasilità - Seu imóvel na Itália",
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     twitter: {
         card: "summary_large_image",
         title: "Brasilità Insider - Comunidade Exclusiva de Investimento Imobiliário na Itália",
-        description: "Primeiros 100 membros pagam apenas €29/trimestre. Acesso à plataforma restrita, reuniões mensais no Zoom e oportunidades exclusivas.",
+        description: "Primeiros 100 membros pagam apenas R$179/trimestre. Acesso à plataforma restrita, reuniões mensais no Zoom e oportunidades exclusivas.",
         images: ["/og-insider-launch.jpg"],
         creator: "@brasilita.it"
     },
@@ -77,8 +77,8 @@ export default async function InsiderLaunchPage() {
         },
         "offers": {
             "@type": "Offer",
-            "price": "29",
-            "priceCurrency": "EUR",
+            "price": "179",
+            "priceCurrency": "BRL",
             "availability": "https://schema.org/LimitedAvailability",
             "priceValidUntil": "2025-12-31",
             "url": "https://brasilita.com/insider-launch",
@@ -146,23 +146,21 @@ export default async function InsiderLaunchPage() {
 
                         {/* Main Headline */}
                         <h1 className="text-4xl md:text-6xl font-extrabold mb-6 text-white leading-tight">
-                            Finalmente: A Comunidade Que Faltava Para Você
+                            Seu imóvel na Itália
                             <span className="block text-yellow-400 mt-2">
-                                Realizar Seu Investimento na Itália
+                                com segurança e suporte
                             </span>
-                            Com Segurança e Suporte Real
                         </h1>
 
                         {/* Sub-headline */}
                         <p className="text-xl md:text-2xl text-white/90 mb-8 max-w-3xl mx-auto leading-relaxed">
-                            Junte-se aos primeiros 100 brasileiros que estão transformando o sonho italiano em realidade
-                            - com orientação mensal, ferramentas exclusivas e uma comunidade que entende sua jornada
+                            Junte-se aos primeiros brasileiros que estão transformando o sonho italiano em realidade com orientação, ferramentas exclusivas e uma comunidade que entende sua jornada
                         </p>
 
                         {/* CTA Button */}
                         <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
                             <a
-                                href="https://hub.la/g/6C6Rh0Mn1oqJqGEcmIHl"
+                                href="https://pay.hub.la/6C6Rh0Mn1oqJqGEcmIHl"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="inline-flex items-center justify-center px-12 py-5 text-lg font-bold rounded-xl bg-yellow-400 hover:bg-yellow-500 text-black transition-all duration-300 shadow-2xl hover:shadow-yellow-400/50 hover:scale-105"
@@ -176,7 +174,7 @@ export default async function InsiderLaunchPage() {
                         <div className="flex flex-wrap items-center justify-center gap-6 text-white/80 text-sm">
                             <div className="flex items-center gap-2">
                                 <CheckCircle className="w-5 h-5 text-green-400" />
-                                <span>Primeiros 100: €29/trimestre</span>
+                                <span>Primeiros 100: R$179/trimestre</span>
                             </div>
                             <div className="flex items-center gap-2">
                                 <CheckCircle className="w-5 h-5 text-green-400" />
@@ -237,115 +235,69 @@ export default async function InsiderLaunchPage() {
                         <div className="professional-card border-2 border-primary/20">
                             <p className="text-lg md:text-xl leading-relaxed">
                                 <strong className="text-foreground">Mas tem um problema:</strong> Fazer isso sozinho, sem orientação,
-                                pode custar milhares de euros em erros evitáveis. É por isso que criamos o <strong className="text-primary">Brasilità Insider</strong>
-                                - para você ter o suporte necessário sem precisar pagar o preço da assessoria completa.
+                                pode custar milhares de euros em erros evitáveis. É por isso que criamos o <strong className="text-primary">Brasilità Insider</strong>,
+                                para você ter o suporte necessário sem precisar pagar o preço de uma assessoria completa que não te dá nenhuma certeza de sucesso no negócio.
                             </p>
                         </div>
                     </div>
                 </div>
             </section>
 
-            {/* O Que É Section */}
-            <section className="bg-muted/30 section-padding">
-                <div className="container mx-auto container-padding">
-                    <div className="max-w-6xl mx-auto">
-                        <div className="text-center mb-12">
-                            <h2 className="text-3xl md:text-5xl font-extrabold mb-4 text-foreground">
-                                O que você recebe ao entrar
-                            </h2>
-                            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-                                Tudo que você precisa para comprar seu imóvel na Itália com segurança,
-                                sem pagar o preço de uma assessoria completa
-                            </p>
-                        </div>
-
-                        <div className="grid md:grid-cols-2 gap-8 mb-12">
-                            <div className="professional-card">
-                                <div className="flex items-start gap-4 mb-4">
-                                    <div className="w-14 h-14 bg-gradient-to-br from-blue-500/10 to-blue-600/10 rounded-xl flex items-center justify-center flex-shrink-0">
-                                        <Users className="w-7 h-7 text-blue-600" />
-                                    </div>
-                                    <div className="flex-1">
-                                        <h3 className="text-xl font-bold mb-2">Comunidade Focada</h3>
-                                        <p className="text-muted-foreground">
-                                            Conecte-se com outros brasileiros que também estão comprando imóveis na Itália.
-                                            Compartilhe experiências, tire dúvidas e aprenda com quem está no mesmo caminho
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="professional-card">
-                                <div className="flex items-start gap-4 mb-4">
-                                    <div className="w-14 h-14 bg-gradient-to-br from-yellow-500/10 to-yellow-600/10 rounded-xl flex items-center justify-center flex-shrink-0">
-                                        <Calendar className="w-7 h-7 text-yellow-600" />
-                                    </div>
-                                    <div className="flex-1">
-                                        <h3 className="text-xl font-bold mb-2">Consultoria Mensal no Zoom</h3>
-                                        <p className="text-muted-foreground">
-                                            Reuniões mensais ao vivo com a equipe Brasilità para tirar dúvidas,
-                                            analisar oportunidades e receber orientação especializada de quem vive na Itália
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="professional-card">
-                                <div className="flex items-start gap-4 mb-4">
-                                    <div className="w-14 h-14 bg-gradient-to-br from-purple-500/10 to-purple-600/10 rounded-xl flex items-center justify-center flex-shrink-0">
-                                        <Globe className="w-7 h-7 text-purple-600" />
-                                    </div>
-                                    <div className="flex-1">
-                                        <h3 className="text-xl font-bold mb-2">Acesso Garantido à Plataforma</h3>
-                                        <p className="text-muted-foreground">
-                                            A plataforma Brasilità será restrita em breve. Como membro Insider,
-                                            você garante acesso permanente a todas as funcionalidades e atualizações
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="professional-card">
-                                <div className="flex items-start gap-4 mb-4">
-                                    <div className="w-14 h-14 bg-gradient-to-br from-green-500/10 to-green-600/10 rounded-xl flex items-center justify-center flex-shrink-0">
-                                        <Sparkles className="w-7 h-7 text-green-600" />
-                                    </div>
-                                    <div className="flex-1">
-                                        <h3 className="text-xl font-bold mb-2">Oportunidades Exclusivas</h3>
-                                        <p className="text-muted-foreground">
-                                            Acesso antecipado a imóveis selecionados que não estarão disponíveis
-                                            publicamente, dando a você vantagem na busca pela propriedade ideal
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* O Que Você Recebe */}
+            {/* O Que Você Recebe - Merged Section */}
             <section className="section-padding">
                 <div className="container mx-auto container-padding">
                     <div className="max-w-6xl mx-auto">
                         <div className="text-center mb-12">
                             <h2 className="text-3xl md:text-5xl font-extrabold mb-4 text-foreground">
-                                Ferramentas e recursos exclusivos
+                                O que você recebe
                             </h2>
                             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                                Além da comunidade e consultorias, você tem acesso a:
+                                Tudo que você precisa para comprar seu imóvel na Itália com segurança
                             </p>
                         </div>
 
                         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            {/* Comunidade WhatsApp */}
+                            <div className="professional-card text-center">
+                                <div className="w-16 h-16 bg-gradient-to-br from-orange-500/10 to-orange-600/10 rounded-xl flex items-center justify-center mx-auto mb-4">
+                                    <Users className="w-8 h-8 text-orange-600" />
+                                </div>
+                                <h3 className="text-lg font-semibold mb-3">Comunidade Focada</h3>
+                                <p className="text-muted-foreground text-sm">
+                                    Conecte-se com outros brasileiros que também estão comprando imóveis na Itália
+                                </p>
+                            </div>
+
+                            {/* Reuniões Zoom */}
+                            <div className="professional-card text-center">
+                                <div className="w-16 h-16 bg-gradient-to-br from-yellow-500/10 to-yellow-600/10 rounded-xl flex items-center justify-center mx-auto mb-4">
+                                    <Calendar className="w-8 h-8 text-yellow-600" />
+                                </div>
+                                <h3 className="text-lg font-semibold mb-3">Consultoria Mensal no Zoom</h3>
+                                <p className="text-muted-foreground text-sm">
+                                    Reuniões mensais ao vivo com a equipe Brasilità para tirar dúvidas e receber orientação
+                                </p>
+                            </div>
+
+                            {/* Plataforma */}
+                            <div className="professional-card text-center">
+                                <div className="w-16 h-16 bg-gradient-to-br from-purple-500/10 to-purple-600/10 rounded-xl flex items-center justify-center mx-auto mb-4">
+                                    <Globe className="w-8 h-8 text-purple-600" />
+                                </div>
+                                <h3 className="text-lg font-semibold mb-3">Acesso à Plataforma Restrita</h3>
+                                <p className="text-muted-foreground text-sm">
+                                    Acesso permanente a todas as funcionalidades e atualizações da plataforma
+                                </p>
+                            </div>
+
                             {/* Oportunidades Exclusivas */}
                             <div className="professional-card text-center">
                                 <div className="w-16 h-16 bg-gradient-to-br from-red-500/10 to-red-600/10 rounded-xl flex items-center justify-center mx-auto mb-4">
                                     <Sparkles className="w-8 h-8 text-red-600" />
                                 </div>
-                                <h3 className="text-lg font-semibold mb-3">Oportunidades Únicas</h3>
+                                <h3 className="text-lg font-semibold mb-3">Oportunidades Exclusivas</h3>
                                 <p className="text-muted-foreground text-sm">
-                                    Acesso a imóveis e oportunidades que não estarão disponíveis publicamente
+                                    Acesso antecipado a imóveis selecionados antes de irem ao mercado público
                                 </p>
                             </div>
 
@@ -360,47 +312,14 @@ export default async function InsiderLaunchPage() {
                                 </p>
                             </div>
 
-                            {/* Ebook Italiano */}
-                            <div className="professional-card text-center">
-                                <div className="w-16 h-16 bg-gradient-to-br from-blue-500/10 to-blue-600/10 rounded-xl flex items-center justify-center mx-auto mb-4">
-                                    <BookOpen className="w-8 h-8 text-blue-600" />
-                                </div>
-                                <h3 className="text-lg font-semibold mb-3">Ebook de Italiano</h3>
-                                <p className="text-muted-foreground text-sm">
-                                    Guia prático com vocabulário essencial para o processo de compra
-                                </p>
-                            </div>
-
                             {/* Relatórios IA */}
                             <div className="professional-card text-center">
-                                <div className="w-16 h-16 bg-gradient-to-br from-purple-500/10 to-purple-600/10 rounded-xl flex items-center justify-center mx-auto mb-4">
-                                    <TrendingUp className="w-8 h-8 text-purple-600" />
+                                <div className="w-16 h-16 bg-gradient-to-br from-blue-500/10 to-blue-600/10 rounded-xl flex items-center justify-center mx-auto mb-4">
+                                    <TrendingUp className="w-8 h-8 text-blue-600" />
                                 </div>
                                 <h3 className="text-lg font-semibold mb-3">Relatórios com IA</h3>
                                 <p className="text-muted-foreground text-sm">
                                     Análises de regiões italianas geradas por Inteligência Artificial
-                                </p>
-                            </div>
-
-                            {/* Reuniões Zoom */}
-                            <div className="professional-card text-center">
-                                <div className="w-16 h-16 bg-gradient-to-br from-yellow-500/10 to-yellow-600/10 rounded-xl flex items-center justify-center mx-auto mb-4">
-                                    <Users className="w-8 h-8 text-yellow-600" />
-                                </div>
-                                <h3 className="text-lg font-semibold mb-3">Reuniões Mensais</h3>
-                                <p className="text-muted-foreground text-sm">
-                                    Consultoria coletiva mensal no Zoom com a equipe Brasilità
-                                </p>
-                            </div>
-
-                            {/* Comunidade WhatsApp */}
-                            <div className="professional-card text-center">
-                                <div className="w-16 h-16 bg-gradient-to-br from-orange-500/10 to-orange-600/10 rounded-xl flex items-center justify-center mx-auto mb-4">
-                                    <Users className="w-8 h-8 text-orange-600" />
-                                </div>
-                                <h3 className="text-lg font-semibold mb-3">Comunidade WhatsApp</h3>
-                                <p className="text-muted-foreground text-sm">
-                                    Grupo exclusivo para networking, troca de experiências e suporte entre membros
                                 </p>
                             </div>
                         </div>
@@ -445,8 +364,8 @@ export default async function InsiderLaunchPage() {
                                         @duasmalaseumdestino
                                     </a>
                                     <p className="text-muted-foreground leading-relaxed">
-                                        Criador de conteúdo de viagens com mais de 180 mil seguidores, ex-policial militar por 12 anos
-                                        e especialista em vendas B2B. Na Brasilità, é responsável por oferecer
+                                        Criador de conteúdo de viagens com mais de 190 mil seguidores, investidor no mercado imobiliário italiano,
+                                        e especialista em vendas. Na Brasilità, é responsável por oferecer
                                         suporte próximo e transparente a dezenas de famílias brasileiras que realizam o sonho
                                         de investir em imóveis italianos.
                                     </p>
@@ -571,7 +490,7 @@ export default async function InsiderLaunchPage() {
                         </div>
 
                         <div className="grid lg:grid-cols-2 gap-8 mb-12 max-w-5xl mx-auto">
-                            {/* Early Bird */}
+                            {/* Plano Trimestral */}
                             <div className="professional-card border-4 border-yellow-400 relative overflow-hidden shadow-2xl hover:shadow-yellow-400/20 transition-all duration-300">
                                 <div className="absolute top-0 right-0 bg-gradient-to-r from-yellow-400 to-yellow-500 text-black px-6 py-2 text-sm font-extrabold shadow-xl">
                                     <div className="flex items-center gap-2">
@@ -585,14 +504,14 @@ export default async function InsiderLaunchPage() {
                                             PREÇO DE FUNDADOR
                                         </span>
                                     </div>
-                                    <h3 className="text-2xl font-extrabold mb-1">Brasilità Insider</h3>
+                                    <h3 className="text-2xl font-extrabold mb-1">Plano Trimestral</h3>
                                     <p className="text-muted-foreground text-sm mb-6">Primeiros 100 Membros</p>
                                     <div className="mb-6">
                                         <div className="flex items-center justify-center gap-3 mb-1">
-                                            <span className="text-xl text-muted-foreground line-through">€39</span>
-                                            <span className="text-5xl font-extrabold text-yellow-600">€29</span>
+                                            <span className="text-xl text-muted-foreground line-through">R$239</span>
+                                            <span className="text-5xl font-extrabold text-yellow-600">R$179</span>
                                         </div>
-                                        <span className="text-base text-muted-foreground">/trimestre (€9,67/mês)</span>
+                                        <span className="text-base text-muted-foreground">/trimestre (R$59,67/mês)</span>
                                     </div>
                                     <ul className="space-y-2.5 text-left mb-6">
                                         <li className="flex items-start gap-2">
@@ -609,7 +528,7 @@ export default async function InsiderLaunchPage() {
                                         </li>
                                         <li className="flex items-start gap-2">
                                             <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
-                                            <span className="text-sm">Calculadora + Ebook italiano</span>
+                                            <span className="text-sm">Calculadora financeira</span>
                                         </li>
                                         <li className="flex items-start gap-2">
                                             <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
@@ -627,17 +546,17 @@ export default async function InsiderLaunchPage() {
 
                                     <div className="mb-4 p-3 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 dark:border-green-800">
                                         <p className="text-xs text-green-700 dark:text-green-400 font-semibold">
-                                            Economia de €40/ano = <strong>€400 em 10 anos</strong>
+                                            Economia de <strong>R$60 no primeiro trimestre</strong>
                                         </p>
                                     </div>
 
                                     <a
-                                        href="https://hub.la/g/6C6Rh0Mn1oqJqGEcmIHl"
+                                        href="https://pay.hub.la/6C6Rh0Mn1oqJqGEcmIHl"
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="block w-full py-4 text-lg font-extrabold rounded-xl bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-black transition-all duration-300 shadow-xl hover:shadow-2xl text-center mb-3"
                                     >
-                                        GARANTIR VAGA POR €29
+                                        GARANTIR VAGA POR R$179
                                     </a>
                                     <p className="text-xs text-muted-foreground text-center">
                                         Acesso imediato • Cancele quando quiser • 7 dias de garantia
@@ -645,31 +564,77 @@ export default async function InsiderLaunchPage() {
                                 </div>
                             </div>
 
-                            {/* Regular */}
-                            <div className="professional-card bg-muted/30 opacity-75">
-                                <div className="text-center pt-12 pb-6 px-6">
-                                    <div className="inline-block bg-muted px-4 py-1.5 rounded-full mb-4">
-                                        <span className="text-muted-foreground font-semibold text-xs">EM BREVE</span>
+                            {/* Plano Semestral */}
+                            <div className="professional-card border-4 border-green-400 relative overflow-hidden shadow-2xl hover:shadow-green-400/20 transition-all duration-300">
+                                <div className="absolute top-0 right-0 bg-gradient-to-r from-green-400 to-green-500 text-black px-6 py-2 text-sm font-extrabold shadow-xl">
+                                    <div className="flex items-center gap-2">
+                                        <Sparkles className="w-4 h-4" />
+                                        MELHOR CUSTO-BENEFÍCIO
                                     </div>
-                                    <h3 className="text-2xl font-bold mb-1">Preço Regular</h3>
-                                    <p className="text-muted-foreground text-sm mb-6">Após primeiras 100 vagas</p>
+                                </div>
+                                <div className="text-center pt-12 pb-6 px-6">
+                                    <div className="inline-block bg-green-100 dark:bg-green-900/30 px-4 py-1.5 rounded-full mb-4">
+                                        <span className="text-green-700 dark:text-green-400 font-bold text-sm">
+                                            PREÇO DE FUNDADOR
+                                        </span>
+                                    </div>
+                                    <h3 className="text-2xl font-extrabold mb-1">Plano Semestral</h3>
+                                    <p className="text-muted-foreground text-sm mb-6">Primeiros 100 Membros</p>
                                     <div className="mb-6">
-                                        <span className="text-5xl font-bold text-muted-foreground">€39</span>
-                                        <span className="text-base text-muted-foreground block mt-1">/trimestre</span>
+                                        <div className="flex items-center justify-center gap-3 mb-1">
+                                            <span className="text-xl text-muted-foreground line-through">R$449</span>
+                                            <span className="text-5xl font-extrabold text-green-600">R$329</span>
+                                        </div>
+                                        <span className="text-base text-muted-foreground">/semestre (R$54,83/mês)</span>
                                     </div>
                                     <ul className="space-y-2.5 text-left mb-6">
                                         <li className="flex items-start gap-2">
-                                            <CheckCircle className="w-5 h-5 text-muted-foreground flex-shrink-0 mt-0.5" />
-                                            <span className="text-sm text-muted-foreground">Todos os benefícios</span>
+                                            <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                                            <span className="text-sm">Acesso à plataforma restrita</span>
                                         </li>
                                         <li className="flex items-start gap-2">
-                                            <CheckCircle className="w-5 h-5 text-muted-foreground flex-shrink-0 mt-0.5" />
-                                            <span className="text-sm text-muted-foreground">Sem preço garantido</span>
+                                            <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                                            <span className="text-sm">Reuniões mensais no Zoom</span>
+                                        </li>
+                                        <li className="flex items-start gap-2">
+                                            <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                                            <span className="text-sm">Oportunidades exclusivas</span>
+                                        </li>
+                                        <li className="flex items-start gap-2">
+                                            <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                                            <span className="text-sm">Calculadora financeira</span>
+                                        </li>
+                                        <li className="flex items-start gap-2">
+                                            <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                                            <span className="text-sm">Relatórios com IA</span>
+                                        </li>
+                                        <li className="flex items-start gap-2">
+                                            <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                                            <span className="text-sm">Comunidade WhatsApp</span>
+                                        </li>
+                                        <li className="flex items-start gap-2 bg-green-50 dark:bg-green-900/20 p-2.5 rounded-lg -mx-2">
+                                            <Sparkles className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                                            <span className="text-sm font-bold text-green-700 dark:text-green-400">Preço garantido para sempre</span>
                                         </li>
                                     </ul>
-                                    <div className="block w-full py-4 text-base font-semibold rounded-xl bg-muted text-muted-foreground text-center">
-                                        Vagas fechadas
+
+                                    <div className="mb-4 p-3 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 dark:border-green-800">
+                                        <p className="text-xs text-green-700 dark:text-green-400 font-semibold">
+                                            Economize R$29 vs plano trimestral = <strong>R$58/ano</strong>
+                                        </p>
                                     </div>
+
+                                    <a
+                                        href="https://pay.hub.la/SzVlCNLHq17ZmOmCIkkW"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="block w-full py-4 text-lg font-extrabold rounded-xl bg-gradient-to-r from-green-400 to-green-500 hover:from-green-500 hover:to-green-600 text-black transition-all duration-300 shadow-xl hover:shadow-2xl text-center mb-3"
+                                    >
+                                        GARANTIR VAGA POR R$329
+                                    </a>
+                                    <p className="text-xs text-muted-foreground text-center">
+                                        Acesso imediato • Cancele quando quiser • 7 dias de garantia
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -815,7 +780,7 @@ export default async function InsiderLaunchPage() {
                                     a esta consultoria individual. Depois disso, este benefício exclusivo deixará de existir.
                                 </p>
                                 <a
-                                    href="https://hub.la/g/6C6Rh0Mn1oqJqGEcmIHl"
+                                    href="https://pay.hub.la/6C6Rh0Mn1oqJqGEcmIHl"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="inline-flex items-center justify-center px-12 py-5 text-xl font-extrabold rounded-xl bg-gradient-to-r from-yellow-400 to-orange-400 hover:from-yellow-500 hover:to-orange-500 text-black transition-all duration-300 shadow-2xl hover:scale-105"
@@ -1031,12 +996,12 @@ export default async function InsiderLaunchPage() {
 
                         <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
                             <a
-                                href="https://hub.la/g/6C6Rh0Mn1oqJqGEcmIHl"
+                                href="https://pay.hub.la/6C6Rh0Mn1oqJqGEcmIHl"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="inline-flex items-center justify-center px-16 py-6 text-xl font-extrabold rounded-xl bg-gradient-to-r from-yellow-400 to-orange-400 hover:from-yellow-500 hover:to-orange-500 text-black transition-all duration-300 shadow-2xl hover:shadow-yellow-400/50 hover:scale-105"
                             >
-                                SIM, QUERO GARANTIR POR €29
+                                SIM, QUERO GARANTIR POR R$179
                                 <Zap className="ml-3 h-7 w-7" />
                             </a>
                         </div>
