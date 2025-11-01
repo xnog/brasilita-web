@@ -165,7 +165,7 @@ export default async function InsiderLaunchPage() {
                                 rel="noopener noreferrer"
                                 className="inline-flex items-center justify-center px-12 py-5 text-lg font-bold rounded-xl bg-yellow-400 hover:bg-yellow-500 text-black transition-all duration-300 shadow-2xl hover:shadow-yellow-400/50 hover:scale-105"
                             >
-                                QUERO FAZER PARTE
+                                GARANTIR MINHA VAGA DE FUNDADOR
                                 <Zap className="ml-2 h-6 w-6" />
                             </a>
                         </div>
@@ -615,7 +615,7 @@ export default async function InsiderLaunchPage() {
                                         href="https://pay.hub.la/6C6Rh0Mn1oqJqGEcmIHl"
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="block w-full py-4 text-lg font-extrabold rounded-xl bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-black transition-all duration-300 shadow-xl hover:shadow-2xl text-center mb-3"
+                                        className="block w-full px-6 py-4 text-base md:text-lg font-extrabold rounded-xl bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-black transition-all duration-300 shadow-xl hover:shadow-2xl text-center mb-3"
                                     >
                                         GARANTIR VAGA POR R$179
                                     </a>
@@ -689,7 +689,7 @@ export default async function InsiderLaunchPage() {
                                         href="https://pay.hub.la/SzVlCNLHq17ZmOmCIkkW"
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="block w-full py-4 text-lg font-extrabold rounded-xl bg-gradient-to-r from-green-400 to-green-500 hover:from-green-500 hover:to-green-600 text-black transition-all duration-300 shadow-xl hover:shadow-2xl text-center mb-3"
+                                        className="block w-full px-6 py-4 text-base md:text-lg font-extrabold rounded-xl bg-gradient-to-r from-green-400 to-green-500 hover:from-green-500 hover:to-green-600 text-black transition-all duration-300 shadow-xl hover:shadow-2xl text-center mb-3"
                                     >
                                         GARANTIR VAGA POR R$249
                                     </a>
@@ -846,7 +846,7 @@ export default async function InsiderLaunchPage() {
                                     rel="noopener noreferrer"
                                     className="inline-flex items-center justify-center px-12 py-5 text-xl font-extrabold rounded-xl bg-gradient-to-r from-yellow-400 to-orange-400 hover:from-yellow-500 hover:to-orange-500 text-black transition-all duration-300 shadow-2xl hover:scale-105"
                                 >
-                                    GARANTIR VAGA + BÔNUS AGORA
+                                    SIM, QUERO VAGA + CONSULTORIA INDIVIDUAL
                                     <Zap className="ml-3 h-7 w-7" />
                                 </a>
                                 <p className="text-sm text-muted-foreground mt-4">
@@ -1062,7 +1062,7 @@ export default async function InsiderLaunchPage() {
                                 rel="noopener noreferrer"
                                 className="inline-flex items-center justify-center px-16 py-6 text-xl font-extrabold rounded-xl bg-gradient-to-r from-yellow-400 to-orange-400 hover:from-yellow-500 hover:to-orange-500 text-black transition-all duration-300 shadow-2xl hover:shadow-yellow-400/50 hover:scale-105"
                             >
-                                SIM, QUERO GARANTIR POR R$179
+                                SIM, QUERO SER FUNDADOR POR R$179
                                 <Zap className="ml-3 h-7 w-7" />
                             </a>
                         </div>
