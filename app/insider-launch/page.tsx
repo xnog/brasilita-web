@@ -189,6 +189,39 @@ export default async function InsiderLaunchPage() {
                 </div>
             </section>
 
+            {/* Social Proof Section - Números Reais */}
+            <section className="py-12 bg-primary/5">
+                <div className="container mx-auto container-padding">
+                    <div className="text-center mb-8">
+                        <p className="text-lg text-muted-foreground">
+                            Seja um dos primeiros 100 membros fundadores
+                        </p>
+                    </div>
+
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-5xl mx-auto">
+                        <div className="text-center">
+                            <p className="text-4xl md:text-5xl font-bold text-primary mb-2">+220k</p>
+                            <p className="text-sm text-muted-foreground">Seguidores Combinados</p>
+                        </div>
+
+                        <div className="text-center">
+                            <p className="text-4xl md:text-5xl font-bold text-primary mb-2">100</p>
+                            <p className="text-sm text-muted-foreground">Vagas de Fundador</p>
+                        </div>
+
+                        <div className="text-center">
+                            <p className="text-4xl md:text-5xl font-bold text-primary mb-2">R$179</p>
+                            <p className="text-sm text-muted-foreground">Por Trimestre</p>
+                        </div>
+
+                        <div className="text-center">
+                            <p className="text-4xl md:text-5xl font-bold text-primary mb-2">7 dias</p>
+                            <p className="text-sm text-muted-foreground">Garantia Total</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             {/* VSL Video Section - MOVIDO PARA CIMA */}
             <section className="section-padding bg-muted/50">
                 <div className="container mx-auto container-padding">
