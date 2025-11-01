@@ -742,14 +742,15 @@ export default async function InsiderLaunchPage() {
                             <div className="text-center mb-8">
                                 <h2 className="text-4xl md:text-5xl font-extrabold mb-6 text-foreground">
                                     Sessão de Consultoria Individual com Olavo
-                                    <span className="block text-yellow-600 mt-3 text-3xl">
-                                        (Valor: R$ 600)
-                                    </span>
                                 </h2>
-                                <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+                                <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed mb-6">
                                     Os <strong className="text-foreground">10 primeiros membros</strong> que garantirem sua vaga
-                                    ganharão uma <strong className="text-foreground">sessão privada de 45 minutos</strong> com nosso
-                                    especialista Olavo Ferenshitz
+                                    ganharão <strong className="text-green-600">gratuitamente</strong> uma <strong className="text-foreground">sessão privada de 45 minutos</strong> com nosso
+                                    especialista Olavo Ferenshitz.
+                                </p>
+                                <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                                    Essa consultoria individual normalmente custa <strong className="text-foreground">R$ 600</strong>,
+                                    mas você recebe como bônus por ser um dos fundadores.
                                 </p>
                             </div>
 
@@ -837,8 +838,8 @@ export default async function InsiderLaunchPage() {
                                     Este bônus não será oferecido novamente
                                 </p>
                                 <p className="text-lg text-muted-foreground mb-6">
-                                    Apenas os <strong className="text-foreground">10 primeiros compradores</strong> terão acesso
-                                    a esta consultoria individual. Depois disso, este benefício exclusivo deixará de existir.
+                                    Apenas os <strong className="text-foreground">10 primeiros membros</strong> receberão esta
+                                    consultoria individual gratuitamente. Depois disso, este benefício exclusivo deixará de existir.
                                 </p>
                                 <a
                                     href="https://pay.hub.la/6C6Rh0Mn1oqJqGEcmIHl"
