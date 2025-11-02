@@ -447,7 +447,7 @@ export default async function InsiderLaunchPage() {
                                         <ul className="text-sm text-muted-foreground space-y-1">
                                             <li>• Do clique ao contrato: a jornada completa de compra</li>
                                             <li>• Como funcionam os anúncios, corretores e imobiliárias</li>
-                                            <li>• O papel do notário e da "visura catastale"</li>
+                                            <li>• O papel do notário e da &ldquo;visura catastale&rdquo;</li>
                                             <li>• Checklist antes da proposta</li>
                                         </ul>
                                     </div>
