@@ -1,7 +1,7 @@
 import { auth } from "@/lib/auth";
 import Link from "next/link";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { User, CheckSquare, ArrowRight, Home, Search, Settings, Handshake, Heart, HelpCircle, ShoppingCart } from "lucide-react";
+import { User, CheckSquare, ArrowRight, Home, Search, Settings, Handshake, Heart, HelpCircle, ShoppingCart, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { db } from "@/lib/db";
 import { userProfiles, userPropertyInterests } from "@/lib/db/schema";
@@ -167,6 +167,46 @@ export default async function DashboardPage() {
                         </CardContent>
                     </Card>
                 </div>
+
+                {/* Brasilità Insider Launch Card */}
+                <Card className="mb-8 bg-gradient-to-br from-yellow-500/10 to-amber-500/10 border-yellow-500/30">
+                    <CardHeader>
+                        <CardTitle className="flex items-center gap-3 text-xl">
+                            <Sparkles className="h-6 w-6 text-yellow-600" />
+                            Brasilità Insider - Lançamento Especial
+                        </CardTitle>
+                        <CardDescription className="text-base">
+                            Junte-se à primeira comunidade em português dedicada ao mercado imobiliário italiano
+                        </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
+                            <div className="space-y-2">
+                                <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-sm">
+                                    <span className="flex items-center gap-1">
+                                        📚 <strong>Curso</strong> completo
+                                    </span>
+                                    <span className="flex items-center gap-1">
+                                        💬 <strong>Comunidade</strong> VIP WhatsApp
+                                    </span>
+                                    <span className="flex items-center gap-1">
+                                        🎥 <strong>Lives</strong> mensais
+                                    </span>
+                                </div>
+                                <p className="text-sm text-muted-foreground">
+                                    <strong className="text-yellow-600">Primeiros 100:</strong> apenas R$179/trimestre - Vagas limitadas!
+                                </p>
+                            </div>
+                            <Button size="lg" className="shrink-0 bg-yellow-500 hover:bg-yellow-600 text-black font-bold" asChild>
+                                <Link href="/insider-launch">
+                                    <Sparkles className="h-4 w-4 mr-2" />
+                                    Saiba Mais
+                                    <ArrowRight className="h-4 w-4 ml-2" />
+                                </Link>
+                            </Button>
+                        </div>
+                    </CardContent>
+                </Card>
 
                 {/* Featured Section - Properties */}
                 <Card className="mb-8 bg-gradient-to-r from-green-500/10 to-green-500/5 border-green-500/20">

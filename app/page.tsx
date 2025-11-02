@@ -1,11 +1,9 @@
-import { Home, Key, MapPin, CheckCircle, Users, User, TrendingUp, Shield, Clock, Award, Globe } from "lucide-react";
+import { Home, Key, MapPin, CheckCircle, Users, User, TrendingUp, Shield, Clock, Award, Globe, Sparkles, ArrowRight } from "lucide-react";
 import { auth } from "@/lib/auth";
 import { LandingHeader } from "@/components/layout/landing-header";
 import { LandingFooter } from "@/components/layout/landing-footer";
 import { PrimaryCTA } from "@/components/ui/primary-cta";
-// Imports commented out while Insider banner is hidden
-// import Link from "next/link";
-// import { Sparkles, ArrowRight } from "lucide-react";
+import Link from "next/link";
 
 export default async function HomePage() {
   const session = await auth();
@@ -16,8 +14,8 @@ export default async function HomePage() {
 
       {/* Hero Section */}
       <section className="section-padding relative bg-cover bg-center bg-no-repeat" style={{ backgroundImage: 'url(/bg.jpeg)' }}>
-        {/* Enhanced overlay for better text readability */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-black/70"></div>
+        {/* Enhanced overlay for better text readability - gradient transitions to primary color */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-primary"></div>
         <div className="container mx-auto container-padding text-center relative z-10">
           <div className="max-w-4xl mx-auto">
             <div className="mb-6">
@@ -40,8 +38,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Brasilità Insider Launch Banner - Commented out temporarily */}
-      {/* 
+      {/* Brasilità Insider Launch Banner */}
       <section className="relative bg-gradient-to-br from-primary via-primary/95 to-primary/90 py-12 md:py-16 overflow-hidden">
         <div className="absolute inset-0 opacity-10">
           <div className="absolute inset-0" style={{
@@ -62,7 +59,7 @@ export default async function HomePage() {
                   <span className="text-yellow-400">Brasilità Insider</span>
                 </h2>
                 <p className="text-lg md:text-xl text-white/90 mb-6 leading-relaxed">
-                  A primeira comunidade em português dedicada a ensinar brasileiros a investir 
+                  A primeira comunidade em português dedicada a ensinar brasileiros a investir
                   no mercado imobiliário italiano com segurança e autonomia.
                 </p>
                 <ul className="space-y-3 mb-8">
@@ -80,10 +77,10 @@ export default async function HomePage() {
                   </li>
                   <li className="flex items-start gap-3">
                     <CheckCircle className="w-6 h-6 text-green-400 flex-shrink-0 mt-0.5" />
-                    <span className="text-white/90"><strong className="text-yellow-400">Primeiros 100:</strong> apenas €29/trimestre</span>
+                    <span className="text-white/90"><strong className="text-yellow-400">Primeiros 100:</strong> apenas R$179/trimestre</span>
                   </li>
                 </ul>
-                <Link 
+                <Link
                   href="/insider-launch"
                   className="inline-flex items-center justify-center px-8 py-4 text-lg font-bold rounded-xl bg-yellow-400 hover:bg-yellow-500 text-black transition-all duration-300 shadow-2xl hover:shadow-yellow-400/50 hover:scale-105"
                 >
@@ -96,11 +93,11 @@ export default async function HomePage() {
                 <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20 shadow-2xl">
                   <div className="space-y-6">
                     <div className="text-center pb-6 border-b border-white/20">
-                      <div className="text-5xl md:text-6xl font-bold text-yellow-400 mb-2">€29</div>
+                      <div className="text-5xl md:text-6xl font-bold text-yellow-400 mb-2">R$179</div>
                       <div className="text-white/70 text-sm">por trimestre</div>
                       <div className="text-white font-semibold mt-2">Apenas para os primeiros 100</div>
                     </div>
-                    
+
                     <div className="space-y-4">
                       <div className="flex items-center justify-between p-4 bg-white/5 rounded-lg">
                         <span className="text-white/90">Curso Completo</span>
@@ -126,7 +123,6 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
-      */}
 
       {/* Why Choose Us - Diferenciais */}
       <section id="diferenciais" className="bg-muted/30 section-padding">
