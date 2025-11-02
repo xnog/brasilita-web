@@ -13,7 +13,7 @@ export const metadata: Metadata = {
         "comunidade investimento Itália",
         "comprar imóvel Itália",
         "investir na Itália",
-        "curso imóveis Itália",
+        "aulas imóveis Itália",
         "consultoria imobiliária Itália",
         "brasileiros na Itália",
         "mercado imobiliário italiano",
@@ -318,6 +318,17 @@ export default async function InsiderLaunchPage() {
                         </div>
 
                         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            {/* Aulas Gravadas */}
+                            <div className="professional-card text-center">
+                                <div className="w-16 h-16 bg-gradient-to-br from-indigo-500/10 to-indigo-600/10 rounded-xl flex items-center justify-center mx-auto mb-4">
+                                    <BookOpen className="w-8 h-8 text-indigo-600" />
+                                </div>
+                                <h3 className="text-lg font-semibold mb-3">Aulas em 9 Módulos</h3>
+                                <p className="text-muted-foreground text-sm">
+                                    Conteúdo completo sobre mercado imobiliário italiano, burocracia, impostos e estratégias
+                                </p>
+                            </div>
+
                             {/* Comunidade WhatsApp */}
                             <div className="professional-card text-center">
                                 <div className="w-16 h-16 bg-gradient-to-br from-orange-500/10 to-orange-600/10 rounded-xl flex items-center justify-center mx-auto mb-4">
@@ -362,27 +373,202 @@ export default async function InsiderLaunchPage() {
                                 </p>
                             </div>
 
-                            {/* Calculadora */}
+                            {/* Calculadora e Ferramentas */}
                             <div className="professional-card text-center">
                                 <div className="w-16 h-16 bg-gradient-to-br from-green-500/10 to-green-600/10 rounded-xl flex items-center justify-center mx-auto mb-4">
                                     <Calculator className="w-8 h-8 text-green-600" />
                                 </div>
-                                <h3 className="text-lg font-semibold mb-3">Calculadora Financeira</h3>
+                                <h3 className="text-lg font-semibold mb-3">Ferramentas Exclusivas</h3>
                                 <p className="text-muted-foreground text-sm">
-                                    Ferramenta exclusiva para planejar sua compra com todos os custos e impostos
+                                    Calculadora financeira e relatórios com IA sobre regiões italianas
                                 </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* Módulos das Aulas */}
+            <section className="bg-muted/30 section-padding">
+                <div className="container mx-auto container-padding">
+                    <div className="max-w-5xl mx-auto">
+                        <div className="text-center mb-12">
+                            <h2 className="text-3xl md:text-5xl font-extrabold mb-4 text-foreground">
+                                Estrutura dos Módulos
+                            </h2>
+                            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                                Conteúdo completo e estruturado para você dominar o mercado imobiliário italiano
+                            </p>
+                        </div>
+
+                        <div className="space-y-4">
+                            {/* Módulo 1 */}
+                            <div className="professional-card hover:shadow-lg transition-shadow">
+                                <div className="flex items-start gap-4">
+                                    <div className="w-12 h-12 bg-gradient-to-br from-blue-500/10 to-blue-600/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                                        <BookOpen className="w-6 h-6 text-blue-600" />
+                                    </div>
+                                    <div className="flex-1">
+                                        <h3 className="text-lg font-bold mb-2">Módulo 1 — Bem-vindo</h3>
+                                        <ul className="text-sm text-muted-foreground space-y-1">
+                                            <li>• Boas-vindas ao Insider: visão, propósito e o que você vai descobrir</li>
+                                            <li>• A Itália que os brasileiros não veem: mentalidade, demografia e a verdade sobre o mercado imobiliário</li>
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
 
-                            {/* Relatórios IA */}
-                            <div className="professional-card text-center">
-                                <div className="w-16 h-16 bg-gradient-to-br from-blue-500/10 to-blue-600/10 rounded-xl flex items-center justify-center mx-auto mb-4">
-                                    <TrendingUp className="w-8 h-8 text-blue-600" />
+                            {/* Módulo 2 */}
+                            <div className="professional-card hover:shadow-lg transition-shadow">
+                                <div className="flex items-start gap-4">
+                                    <div className="w-12 h-12 bg-gradient-to-br from-green-500/10 to-green-600/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                                        <TrendingUp className="w-6 h-6 text-green-600" />
+                                    </div>
+                                    <div className="flex-1">
+                                        <h3 className="text-lg font-bold mb-2">Módulo 2 — Panorama do Mercado Imobiliário Italiano</h3>
+                                        <ul className="text-sm text-muted-foreground space-y-1">
+                                            <li>• Por que existem imóveis tão baratos na Itália?</li>
+                                            <li>• O que os italianos fazem com seus imóveis</li>
+                                            <li>• Taxa de natalidade e herança: a raiz do fenômeno</li>
+                                            <li>• O mapa do valor do metro quadrado na Itália (por regiões)</li>
+                                        </ul>
+                                    </div>
                                 </div>
-                                <h3 className="text-lg font-semibold mb-3">Relatórios com IA</h3>
-                                <p className="text-muted-foreground text-sm">
-                                    Análises de regiões italianas geradas por Inteligência Artificial
-                                </p>
                             </div>
+
+                            {/* Módulo 3 */}
+                            <div className="professional-card hover:shadow-lg transition-shadow">
+                                <div className="flex items-start gap-4">
+                                    <div className="w-12 h-12 bg-gradient-to-br from-purple-500/10 to-purple-600/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                                        <Target className="w-6 h-6 text-purple-600" />
+                                    </div>
+                                    <div className="flex-1">
+                                        <h3 className="text-lg font-bold mb-2">Módulo 3 — Como Comprar um Imóvel na Itália</h3>
+                                        <ul className="text-sm text-muted-foreground space-y-1">
+                                            <li>• Do clique ao contrato: a jornada completa de compra</li>
+                                            <li>• Como funcionam os anúncios, corretores e imobiliárias</li>
+                                            <li>• O papel do notário e da "visura catastale"</li>
+                                            <li>• Checklist antes da proposta</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Módulo 4 */}
+                            <div className="professional-card hover:shadow-lg transition-shadow">
+                                <div className="flex items-start gap-4">
+                                    <div className="w-12 h-12 bg-gradient-to-br from-orange-500/10 to-orange-600/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                                        <Shield className="w-6 h-6 text-orange-600" />
+                                    </div>
+                                    <div className="flex-1">
+                                        <h3 className="text-lg font-bold mb-2">Módulo 4 — Burocracia e Documentação</h3>
+                                        <ul className="text-sm text-muted-foreground space-y-1">
+                                            <li>• Como comprar com ou sem cidadania</li>
+                                            <li>• Fiscal Code, conta bancária, SPID e outros cadastros</li>
+                                            <li>• Registro no Catasto e Imposta di Registro</li>
+                                            <li>• Erros que podem travar seu contrato</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Módulo 5 */}
+                            <div className="professional-card hover:shadow-lg transition-shadow">
+                                <div className="flex items-start gap-4">
+                                    <div className="w-12 h-12 bg-gradient-to-br from-red-500/10 to-red-600/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                                        <Calculator className="w-6 h-6 text-red-600" />
+                                    </div>
+                                    <div className="flex-1">
+                                        <h3 className="text-lg font-bold mb-2">Módulo 5 — Finanças, Taxas e Impostos</h3>
+                                        <ul className="text-sm text-muted-foreground space-y-1">
+                                            <li>• IMU, TARI e taxas municipais explicadas de forma simples</li>
+                                            <li>• O que é Cedolare Secca e como declarar aluguel</li>
+                                            <li>• Custo real de manter um imóvel na Itália</li>
+                                            <li>• Comparativo: investir na Itália x investir no Brasil</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Módulo 6 */}
+                            <div className="professional-card hover:shadow-lg transition-shadow">
+                                <div className="flex items-start gap-4">
+                                    <div className="w-12 h-12 bg-gradient-to-br from-yellow-500/10 to-yellow-600/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                                        <Sparkles className="w-6 h-6 text-yellow-600" />
+                                    </div>
+                                    <div className="flex-1">
+                                        <h3 className="text-lg font-bold mb-2">Módulo 6 — Estratégias de Investimento</h3>
+                                        <ul className="text-sm text-muted-foreground space-y-1">
+                                            <li>• Aluguel tradicional (long stay): vantagens e riscos</li>
+                                            <li>• Turismo e locação de curta duração</li>
+                                            <li>• Reforma e revenda: como gerar lucro com imóveis baratos</li>
+                                            <li>• Rent-to-own e oportunidades fora do radar</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Módulo 7 */}
+                            <div className="professional-card hover:shadow-lg transition-shadow">
+                                <div className="flex items-start gap-4">
+                                    <div className="w-12 h-12 bg-gradient-to-br from-pink-500/10 to-pink-600/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                                        <Globe className="w-6 h-6 text-pink-600" />
+                                    </div>
+                                    <div className="flex-1">
+                                        <h3 className="text-lg font-bold mb-2">Módulo 7 — Morar na Itália</h3>
+                                        <ul className="text-sm text-muted-foreground space-y-1">
+                                            <li>• Como escolher a cidade certa para viver</li>
+                                            <li>• Diferenças entre norte, centro e sul</li>
+                                            <li>• Custo de vida real em 2025</li>
+                                            <li>• Como funciona o aluguel residencial e o contrato 4+4</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Módulo 8 */}
+                            <div className="professional-card hover:shadow-lg transition-shadow">
+                                <div className="flex items-start gap-4">
+                                    <div className="w-12 h-12 bg-gradient-to-br from-indigo-500/10 to-indigo-600/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                                        <CheckCircle className="w-6 h-6 text-indigo-600" />
+                                    </div>
+                                    <div className="flex-1">
+                                        <h3 className="text-lg font-bold mb-2">Módulo 8 — Casos Reais</h3>
+                                        <ul className="text-sm text-muted-foreground space-y-1">
+                                            <li>• Como encontramos um imóvel de €19.000 que rende 15% ao ano</li>
+                                            <li>• Erro real de um comprador brasileiro</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Módulo 9 */}
+                            <div className="professional-card hover:shadow-lg transition-shadow">
+                                <div className="flex items-start gap-4">
+                                    <div className="w-12 h-12 bg-gradient-to-br from-teal-500/10 to-teal-600/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                                        <Zap className="w-6 h-6 text-teal-600" />
+                                    </div>
+                                    <div className="flex-1">
+                                        <h3 className="text-lg font-bold mb-2">Módulo 9 — Encerramento</h3>
+                                        <p className="text-sm text-muted-foreground">Conclusão e próximos passos na sua jornada</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="mt-8 text-center">
+                            <p className="text-sm text-muted-foreground mb-4">
+                                + Acesso vitalício a todos os módulos e atualizações futuras
+                            </p>
+                            <a
+                                href="https://pay.hub.la/6C6Rh0Mn1oqJqGEcmIHl"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center justify-center px-8 py-4 text-lg font-bold rounded-xl bg-yellow-400 hover:bg-yellow-500 text-black transition-all duration-300 shadow-2xl hover:shadow-yellow-400/50 hover:scale-105"
+                            >
+                                GARANTIR MINHA VAGA AGORA
+                                <Sparkles className="ml-2 h-5 w-5" />
+                            </a>
                         </div>
                     </div>
                 </div>

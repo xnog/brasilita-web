@@ -65,7 +65,7 @@ export default async function HomePage() {
                 <ul className="space-y-3 mb-8">
                   <li className="flex items-start gap-3">
                     <CheckCircle className="w-6 h-6 text-green-400 flex-shrink-0 mt-0.5" />
-                    <span className="text-white/90">Curso completo em módulos sobre o mercado italiano</span>
+                    <span className="text-white/90">Aulas completas em módulos sobre o mercado italiano</span>
                   </li>
                   <li className="flex items-start gap-3">
                     <CheckCircle className="w-6 h-6 text-green-400 flex-shrink-0 mt-0.5" />
@@ -100,7 +100,7 @@ export default async function HomePage() {
 
                     <div className="space-y-4">
                       <div className="flex items-center justify-between p-4 bg-white/5 rounded-lg">
-                        <span className="text-white/90">Curso Completo</span>
+                        <span className="text-white/90">Aulas Completas</span>
                         <CheckCircle className="w-5 h-5 text-green-400" />
                       </div>
                       <div className="flex items-center justify-between p-4 bg-white/5 rounded-lg">

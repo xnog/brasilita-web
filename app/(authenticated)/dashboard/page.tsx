@@ -184,7 +184,7 @@ export default async function DashboardPage() {
                             <div className="space-y-2">
                                 <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-sm">
                                     <span className="flex items-center gap-1">
-                                        📚 <strong>Curso</strong> completo
+                                        📚 <strong>Aulas</strong> completas
                                     </span>
                                     <span className="flex items-center gap-1">
                                         💬 <strong>Comunidade</strong> VIP WhatsApp
