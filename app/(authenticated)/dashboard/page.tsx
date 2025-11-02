@@ -194,7 +194,7 @@ export default async function DashboardPage() {
                                     </span>
                                 </div>
                                 <p className="text-sm text-muted-foreground">
-                                    <strong className="text-yellow-600">Primeiros 100:</strong> apenas R$179/trimestre - Vagas limitadas!
+                                    <strong className="text-yellow-600">Vagas limitadas</strong> - Seja um dos primeiros membros fundadores
                                 </p>
                             </div>
                             <Button size="lg" className="shrink-0 bg-yellow-500 hover:bg-yellow-600 text-black font-bold" asChild>

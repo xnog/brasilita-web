@@ -12,113 +12,80 @@ export default async function HomePage() {
       {/* Header */}
       <LandingHeader session={session} />
 
-      {/* Hero Section */}
-      <section className="section-padding relative bg-cover bg-center bg-no-repeat" style={{ backgroundImage: 'url(/bg.jpeg)' }}>
-        {/* Enhanced overlay for better text readability - gradient transitions to primary color */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-primary"></div>
+      {/* Hero Section - Brasilità Insider Launch */}
+      <section className="section-padding relative bg-cover bg-center bg-no-repeat" style={{ backgroundImage: 'url(/bg2-optimized.jpg)' }}>
+        {/* Overlay with subtle gradient */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/35 to-black/50"></div>
+
         <div className="container mx-auto container-padding text-center relative z-10">
-          <div className="max-w-4xl mx-auto">
-            <div className="mb-6">
-              <span className="inline-flex items-center px-4 py-2 rounded-full bg-white/90 backdrop-blur-md text-gray-800 text-sm font-medium mb-4 shadow-xl border border-white/50">
-                <Award className="w-4 h-4 mr-2" />
-                O único marketplace de imóveis italianos para brasileiros
+          <div className="max-w-5xl mx-auto">
+            {/* Launch Badge */}
+            <div className="mb-8">
+              <span className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-yellow-400 text-black text-sm md:text-base font-bold shadow-2xl animate-pulse">
+                <Sparkles className="w-5 h-5" />
+                <span>LANÇAMENTO 02/11 • VAGAS LIMITADAS</span>
               </span>
             </div>
-            <h1 className="text-3xl md:text-5xl font-bold mb-6 text-white leading-tight text-shadow-hero">
-              Realize seu sonho de ter uma<br />
-              <span className="text-yellow-400">casa na Itália</span>
+
+            {/* Main Headline */}
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold mb-6 text-white leading-tight text-shadow-hero">
+              Brasilità <span className="text-yellow-400">Insider</span>
             </h1>
-            <p className="text-lg md:text-xl text-white mb-8 max-w-3xl mx-auto leading-relaxed text-shadow-hero-subtitle">
-              Conectamos você a imóveis e profissionais na Itália, eliminando barreiras de idioma e burocracia.
+
+            {/* Subheadline */}
+            <p className="text-xl md:text-2xl text-white/95 mb-4 max-w-4xl mx-auto leading-relaxed text-shadow-hero-subtitle font-medium">
+              A primeira comunidade em português para brasileiros que querem investir no mercado imobiliário italiano
             </p>
-            <div className="flex justify-center mb-12">
-              <PrimaryCTA href="/auth/signup" />
+
+            {/* Value Props */}
+            <div className="flex flex-wrap items-center justify-center gap-6 mb-10 text-white/90">
+              <div className="flex items-center gap-2">
+                <CheckCircle className="w-5 h-5 text-green-400" />
+                <span className="text-sm md:text-base font-medium">Aulas em 9 módulos</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <CheckCircle className="w-5 h-5 text-green-400" />
+                <span className="text-sm md:text-base font-medium">Comunidade exclusiva</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <CheckCircle className="w-5 h-5 text-green-400" />
+                <span className="text-sm md:text-base font-medium">Consultoria mensal</span>
+              </div>
+            </div>
+
+            {/* CTA Button */}
+            <div className="flex justify-center">
+              <Link
+                href="/insider-launch"
+                className="inline-flex items-center justify-center px-10 py-5 text-lg md:text-xl font-bold rounded-2xl bg-yellow-400 hover:bg-yellow-500 text-black transition-all duration-300 shadow-2xl hover:shadow-yellow-400/50 hover:scale-105"
+              >
+                QUERO SABER MAIS
+                <ArrowRight className="ml-3 h-6 w-6" />
+              </Link>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Brasilità Insider Launch Banner */}
-      <section className="relative bg-gradient-to-br from-primary via-primary/95 to-primary/90 py-12 md:py-16 overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute inset-0" style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-          }} />
-        </div>
-
-        <div className="container mx-auto container-padding relative z-10">
-          <div className="max-w-6xl mx-auto">
-            <div className="grid lg:grid-cols-2 gap-8 items-center">
-              <div className="text-white">
-                <div className="inline-flex items-center px-4 py-2 rounded-full bg-yellow-400 text-black text-xs md:text-sm font-bold mb-4 shadow-xl animate-pulse">
-                  <Sparkles className="w-4 h-4 mr-2" />
-                  LANÇAMENTO 02/11 - VAGAS LIMITADAS
-                </div>
-                <h2 className="text-3xl md:text-5xl font-bold mb-4 leading-tight">
-                  Apresentamos o<br />
-                  <span className="text-yellow-400">Brasilità Insider</span>
-                </h2>
-                <p className="text-lg md:text-xl text-white/90 mb-6 leading-relaxed">
-                  A primeira comunidade em português dedicada a ensinar brasileiros a investir
-                  no mercado imobiliário italiano com segurança e autonomia.
-                </p>
-                <ul className="space-y-3 mb-8">
-                  <li className="flex items-start gap-3">
-                    <CheckCircle className="w-6 h-6 text-green-400 flex-shrink-0 mt-0.5" />
-                    <span className="text-white/90">Aulas completas em módulos sobre o mercado italiano</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <CheckCircle className="w-6 h-6 text-green-400 flex-shrink-0 mt-0.5" />
-                    <span className="text-white/90">Comunidade exclusiva no WhatsApp</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <CheckCircle className="w-6 h-6 text-green-400 flex-shrink-0 mt-0.5" />
-                    <span className="text-white/90">Lives mensais e acesso a oportunidades exclusivas</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <CheckCircle className="w-6 h-6 text-green-400 flex-shrink-0 mt-0.5" />
-                    <span className="text-white/90"><strong className="text-yellow-400">Primeiros 100:</strong> apenas R$179/trimestre</span>
-                  </li>
-                </ul>
-                <Link
-                  href="/insider-launch"
-                  className="inline-flex items-center justify-center px-8 py-4 text-lg font-bold rounded-xl bg-yellow-400 hover:bg-yellow-500 text-black transition-all duration-300 shadow-2xl hover:shadow-yellow-400/50 hover:scale-105"
-                >
-                  QUERO SABER MAIS
-                  <ArrowRight className="ml-2 h-5 w-5" />
-                </Link>
-              </div>
-
-              <div className="relative">
-                <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20 shadow-2xl">
-                  <div className="space-y-6">
-                    <div className="text-center pb-6 border-b border-white/20">
-                      <div className="text-5xl md:text-6xl font-bold text-yellow-400 mb-2">R$179</div>
-                      <div className="text-white/70 text-sm">por trimestre</div>
-                      <div className="text-white font-semibold mt-2">Apenas para os primeiros 100</div>
-                    </div>
-
-                    <div className="space-y-4">
-                      <div className="flex items-center justify-between p-4 bg-white/5 rounded-lg">
-                        <span className="text-white/90">Aulas Completas</span>
-                        <CheckCircle className="w-5 h-5 text-green-400" />
-                      </div>
-                      <div className="flex items-center justify-between p-4 bg-white/5 rounded-lg">
-                        <span className="text-white/90">Comunidade VIP</span>
-                        <CheckCircle className="w-5 h-5 text-green-400" />
-                      </div>
-                      <div className="flex items-center justify-between p-4 bg-white/5 rounded-lg">
-                        <span className="text-white/90">Lives Mensais</span>
-                        <CheckCircle className="w-5 h-5 text-green-400" />
-                      </div>
-                      <div className="flex items-center justify-between p-4 bg-white/5 rounded-lg">
-                        <span className="text-white/90">Garantia 7 Dias</span>
-                        <CheckCircle className="w-5 h-5 text-green-400" />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+      {/* Marketplace Section */}
+      <section className="bg-background section-padding">
+        <div className="container mx-auto container-padding text-center">
+          <div className="max-w-4xl mx-auto">
+            <div className="mb-6">
+              <span className="inline-flex items-center px-4 py-2 rounded-full bg-muted text-foreground text-sm font-medium mb-4 shadow-lg border border-border">
+                <Award className="w-4 h-4 mr-2" />
+                O único marketplace de imóveis italianos para brasileiros
+              </span>
+            </div>
+            <h2 className="text-3xl md:text-5xl font-bold mb-6 text-foreground leading-tight">
+              Realize seu sonho de ter uma<br />
+              <span className="text-primary">casa na Itália</span>
+            </h2>
+            <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-3xl mx-auto leading-relaxed">
+              Conectamos você a imóveis e profissionais na Itália, eliminando barreiras de idioma e burocracia.
+            </p>
+            <div className="flex justify-center">
+              <PrimaryCTA href="/auth/signup" />
             </div>
           </div>
         </div>
