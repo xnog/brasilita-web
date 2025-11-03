@@ -9,8 +9,6 @@ import { Calculator, Euro } from "lucide-react";
 interface CostItem {
     item: string;
     calculatedValue: number;
-    percentage?: number;
-    fixedValue?: number;
     observations: string;
     entity: 'brasilita' | 'notario' | 'imobiliaria' | 'imposto' | 'total';
 }
@@ -26,7 +24,7 @@ export function CostEstimationClient() {
     const getEntityLabel = (entity: string) => {
         switch (entity) {
             case 'brasilita': return 'Brasilità';
-            case 'notario': return 'Notário';
+            case 'notario': return 'Notaio';
             case 'imobiliaria': return 'Imobiliária';
             case 'imposto': return 'Impostos';
             case 'total': return '';
@@ -45,38 +43,44 @@ export function CostEstimationClient() {
     };
 
     const calculateCosts = (): CostItem[] => {
+        // Impostos governamentais (não sujeitos a IVA)
         const impostoRegistro = valorImovel * 0.09;
         const impostoIpotecaria = 50;
         const impostoCatastale = 50;
         const tassaArchivio = 27.50;
+
+        // Honorários do notaio (sujeitos a IVA de 22%)
         const onorarioNotaio = valorImovel * 0.03;
         const contribuitoCassa = onorarioNotaio * 0.05;
         const contribuitoConsiglio = 17.05;
         const visureSpese = 200;
 
-        const subtotaleImponibile = impostoRegistro + impostoIpotecaria + impostoCatastale +
-            tassaArchivio + onorarioNotaio + contribuitoCassa +
-            contribuitoConsiglio + visureSpese;
-
-        const ivaNotaio = subtotaleImponibile * 0.22;
+        // IMPORTANTE: IVA de 22% é aplicado APENAS sobre honorários de serviços (notaio e agência)
+        // Os impostos governamentais (Imposta di Registro, Ipotecaria, Catastale, Tassa Archivio)
+        // NÃO são incluídos na base de cálculo do IVA
+        const subtotaleNotarioSemIVA = onorarioNotaio + contribuitoCassa + contribuitoConsiglio + visureSpese;
+        const ivaNotaio = subtotaleNotarioSemIVA * 0.22;
         const ivaAgencia = comissaoAgencia * 0.22;
+
+        const subtotaleImponibile = impostoRegistro + impostoIpotecaria + impostoCatastale +
+            tassaArchivio + subtotaleNotarioSemIVA;
 
         const totalGeral = valorImovel + subtotaleImponibile + ivaNotaio +
             comissaoAgencia + ivaAgencia;
 
         return [
             { item: "Imóvel", calculatedValue: valorImovel, observations: "", entity: "total" },
-            { item: "Imposta di Registro", calculatedValue: impostoRegistro, percentage: 9, observations: "9%", entity: "imposto" },
-            { item: "Imposta Ipotecaria", calculatedValue: impostoIpotecaria, fixedValue: 50, observations: "Fixo", entity: "imposto" },
-            { item: "Imposta Catastale", calculatedValue: impostoCatastale, fixedValue: 50, observations: "Fixo", entity: "imposto" },
-            { item: "Tassa Archivio", calculatedValue: tassaArchivio, fixedValue: 27.50, observations: "Fixo", entity: "imposto" },
-            { item: "Onorario Notaio", calculatedValue: onorarioNotaio, percentage: 3.0, observations: "3%", entity: "notario" },
-            { item: "Contributo Cassa N.N.", calculatedValue: contribuitoCassa, percentage: 5.0, observations: "5%", entity: "notario" },
-            { item: "Contributo Consiglio N.N.", calculatedValue: contribuitoConsiglio, fixedValue: 17.05, observations: "Fixo", entity: "notario" },
-            { item: "Visure e spese de studio", calculatedValue: visureSpese, fixedValue: 200, observations: "Fixo", entity: "notario" },
-            { item: "IVA 22% (Notário)", calculatedValue: ivaNotaio, percentage: 22.0, observations: "22%", entity: "notario" },
+            { item: "Imposta di Registro", calculatedValue: impostoRegistro, observations: "9%", entity: "imposto" },
+            { item: "Imposta Ipotecaria", calculatedValue: impostoIpotecaria, observations: "Fixo", entity: "imposto" },
+            { item: "Imposta Catastale", calculatedValue: impostoCatastale, observations: "Fixo", entity: "imposto" },
+            { item: "Tassa Archivio", calculatedValue: tassaArchivio, observations: "Fixo", entity: "imposto" },
+            { item: "Onorario Notaio", calculatedValue: onorarioNotaio, observations: "3%", entity: "notario" },
+            { item: "Contributo Cassa N.N.", calculatedValue: contribuitoCassa, observations: "5%", entity: "notario" },
+            { item: "Contributo Consiglio N.N.", calculatedValue: contribuitoConsiglio, observations: "Fixo", entity: "notario" },
+            { item: "Visure e spese de studio", calculatedValue: visureSpese, observations: "Fixo", entity: "notario" },
+            { item: "IVA 22% (Notaio)", calculatedValue: ivaNotaio, observations: "22%", entity: "notario" },
             { item: "Comissione Agenzia Immobiliare", calculatedValue: comissaoAgencia, observations: "", entity: "imobiliaria" },
-            { item: "IVA 22% (Imobiliária)", calculatedValue: ivaAgencia, percentage: 22.0, observations: "22%", entity: "imobiliaria" },
+            { item: "IVA 22% (Imobiliária)", calculatedValue: ivaAgencia, observations: "22%", entity: "imobiliaria" },
             { item: "Total geral", calculatedValue: totalGeral, observations: "", entity: "total" }
         ];
     };
@@ -221,7 +225,7 @@ export function CostEstimationClient() {
                             <CardContent>
                                 <div className="text-center">
                                     <div className={`inline-block px-3 py-1 text-sm font-medium rounded-full mb-2 ${getEntityColor('notario')}`}>
-                                        Notário
+                                        Notaio
                                     </div>
                                     <p className="text-2xl font-bold text-green-600">
                                         {formatCurrency(entityTotals.notario)}
