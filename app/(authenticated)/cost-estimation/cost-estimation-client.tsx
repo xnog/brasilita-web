@@ -61,12 +61,8 @@ export function CostEstimationClient() {
         const ivaNotaio = subtotaleImponibile * 0.22;
         const ivaAgencia = comissaoAgencia * 0.22;
 
-        const assessoriaFixo = 2500;
-        const assessoriaVariavel = valorImovel * 0.015;
-
         const totalGeral = valorImovel + subtotaleImponibile + ivaNotaio +
-            comissaoAgencia + ivaAgencia + assessoriaFixo +
-            assessoriaVariavel;
+            comissaoAgencia + ivaAgencia;
 
         return [
             { item: "Imóvel", calculatedValue: valorImovel, observations: "", entity: "total" },
@@ -81,8 +77,6 @@ export function CostEstimationClient() {
             { item: "IVA 22% (Notário)", calculatedValue: ivaNotaio, percentage: 22.0, observations: "22%", entity: "notario" },
             { item: "Comissione Agenzia Immobiliare", calculatedValue: comissaoAgencia, observations: "", entity: "imobiliaria" },
             { item: "IVA 22% (Imobiliária)", calculatedValue: ivaAgencia, percentage: 22.0, observations: "22%", entity: "imobiliaria" },
-            { item: "Assessoria Brasilità Fixo", calculatedValue: assessoriaFixo, fixedValue: 2500, observations: "", entity: "brasilita" },
-            { item: "Assessoria Brasilità Variável", calculatedValue: assessoriaVariavel, percentage: 1.5, observations: "1,5%", entity: "brasilita" },
             { item: "Total geral", calculatedValue: totalGeral, observations: "", entity: "total" }
         ];
     };
@@ -222,20 +216,7 @@ export function CostEstimationClient() {
                 {/* Summary by Entity */}
                 <div className="mt-8">
                     <h3 className="text-xl font-semibold mb-4">Resumo por Responsável</h3>
-                    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                        <Card>
-                            <CardContent>
-                                <div className="text-center">
-                                    <div className={`inline-block px-3 py-1 text-sm font-medium rounded-full mb-2 ${getEntityColor('brasilita')}`}>
-                                        Brasilità
-                                    </div>
-                                    <p className="text-2xl font-bold text-blue-600">
-                                        {formatCurrency(entityTotals.brasilita)}
-                                    </p>
-                                </div>
-                            </CardContent>
-                        </Card>
-
+                    <div className="grid gap-4 md:grid-cols-3">
                         <Card>
                             <CardContent>
                                 <div className="text-center">
