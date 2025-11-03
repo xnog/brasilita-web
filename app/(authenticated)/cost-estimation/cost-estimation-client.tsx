@@ -300,7 +300,7 @@ export function CostEstimationClient() {
                         <p className="text-sm text-orange-800 dark:text-orange-200">
                             <strong>Nota:</strong> Esta é uma estimativa baseada em valores médios e pode variar conforme
                             o local, tipo de imóvel e condições específicas da transação. Para um cálculo preciso,
-                            consulte um profissional especializado em direito imobiliário italiano.
+                            é necessário consultar a imobiliária e o notaio correspondente.
                         </p>
                     </CardContent>
                 </Card>
