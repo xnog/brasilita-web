@@ -13,19 +13,17 @@ import {
     Calendar,
     Euro,
     Hash,
-    Check,
     X,
-    Phone,
     Building2,
     HelpCircle,
     Home,
     CreditCard,
-    Key
+    Key,
+    MessageCircle
 } from "lucide-react";
 import { PropertyDetailImage } from "./property-detail-image";
 import { PropertyMap } from "./property-map";
 import { getPropertyCode } from "@/lib/utils";
-import { generatePropertyNegotiationMessage, openWhatsApp, WHATSAPP_PHONE, getFormattedPhoneNumber } from "@/lib/services/whatsapp-messages";
 import ReactMarkdown from "react-markdown";
 import { parsePropertyImages, parsePropertyFeatures } from "@/lib/utils/property-parsing";
 
@@ -48,7 +46,6 @@ export function PropertyDetailContent({
     onClose
 }: PropertyDetailContentProps) {
     const [loading, setLoading] = useState(false);
-    const [wantsToProceed, setWantsToProceed] = useState(false);
 
     // Memoizar parsing para melhor performance
     const images = useMemo(() => parsePropertyImages(property.images), [property.images]);
@@ -59,44 +56,6 @@ export function PropertyDetailContent({
         try {
             onToggleInterest(property.id, !property.isInterested);
         } finally {
-            setLoading(false);
-        }
-    };
-
-
-
-    const handleProceedToNegotiation = async () => {
-        setLoading(true);
-
-        try {
-            // Registrar o interesse em prosseguir no banco de dados
-            const response = await fetch('/api/properties/interest', {
-                method: 'PATCH',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    propertyId: property.id,
-                    wantsToProceed: true
-                })
-            });
-
-            if (!response.ok) {
-                console.error('Erro ao registrar interesse em prosseguir');
-                // Continue mesmo se houver erro no registro, não queremos bloquear o usuário
-            } else {
-                // Atualizar o estado local se o registro foi bem-sucedido
-                setWantsToProceed(true);
-            }
-        } catch (error) {
-            console.error('Erro ao registrar interesse:', error);
-            // Continue mesmo se houver erro, não queremos bloquear o usuário
-        } finally {
-            // Criar mensagem pré-preenchida para WhatsApp usando a função utilitária
-            const message = generatePropertyNegotiationMessage(property);
-
-            // Abrir WhatsApp sempre, independente do resultado do registro
-            openWhatsApp(message);
             setLoading(false);
         }
     };
@@ -357,79 +316,21 @@ export function PropertyDetailContent({
                                     {property.isInterested ? "Favoritado" : "Adicionar aos Favoritos"}
                                 </Button>
 
-                                {/* Negotiation Flow */}
+                                {/* Interest Flow - Advisory */}
                                 <div className="space-y-2">
                                     <Button
-                                        onClick={handleProceedToNegotiation}
+                                        onClick={() => window.location.href = `/advisory?propertyId=${property.id}`}
                                         disabled={loading}
-                                        className="w-full bg-green-500 hover:bg-green-600 text-white"
+                                        className="w-full bg-emerald-600 hover:bg-emerald-700 text-white"
                                         size="lg"
                                     >
-                                        <Phone className="h-5 w-5 mr-2" />
-                                        Entrar em Contato
+                                        <MessageCircle className="h-5 w-5 mr-2" />
+                                        Estou Interessado
                                     </Button>
                                     <p className="text-xs text-center text-slate-500">
-                                        Conecte-se diretamente com nossa equipe
+                                        Conheça nossa assessoria para comprar com segurança
                                     </p>
                                 </div>
-
-                                {/* Success Message */}
-                                {wantsToProceed && (
-                                    <div className="p-6 bg-emerald-50 rounded-xl border border-emerald-200 shadow-sm">
-                                        <div className="text-center space-y-4">
-                                            <Check className="h-12 w-12 text-emerald-600 mx-auto" />
-                                            <div className="space-y-3">
-                                                <h4 className="text-xl font-bold text-emerald-900">
-                                                    Contato iniciado com sucesso!
-                                                </h4>
-                                                <div className="text-emerald-800 space-y-3 leading-relaxed">
-                                                    <p>
-                                                        Você foi redirecionado para o WhatsApp da nossa equipe.
-                                                        Continue a conversa por lá para receber todas as informações
-                                                        sobre este imóvel e dar os próximos passos.
-                                                    </p>
-
-                                                    <div className="p-4 bg-emerald-100 rounded-lg border border-emerald-300">
-                                                        <p className="text-sm font-medium text-emerald-800 mb-2">
-                                                            📱 Se o WhatsApp não abrir automaticamente:
-                                                        </p>
-                                                        <div className="flex items-center justify-center gap-2">
-                                                            <span className="text-emerald-700 font-semibold">
-                                                                {getFormattedPhoneNumber()}
-                                                            </span>
-                                                            <button
-                                                                onClick={() => navigator.clipboard.writeText(`+${WHATSAPP_PHONE}`)}
-                                                                className="text-xs bg-emerald-200 hover:bg-emerald-300 text-emerald-800 px-2 py-1 rounded transition-colors"
-                                                                title="Copiar número"
-                                                            >
-                                                                Copiar
-                                                            </button>
-                                                        </div>
-                                                    </div>
-
-                                                    <p>
-                                                        Você pode acompanhar seus imóveis de interesse acessando o{" "}
-                                                        <a
-                                                            href="/dashboard"
-                                                            className="font-semibold text-emerald-700 hover:text-emerald-900 underline decoration-emerald-300 hover:decoration-emerald-500 transition-colors"
-                                                        >
-                                                            dashboard
-                                                        </a>.
-                                                    </p>
-                                                    <p className="pt-2">
-                                                        A Brasilità está aqui para tornar o sonho do seu imóvel na Itália uma realidade.
-                                                    </p>
-                                                    <div className="pt-2 space-y-1">
-                                                        <p className="font-medium">Boa sorte na sua jornada!</p>
-                                                        <p className="text-emerald-700 font-semibold">
-                                                            Equipe Brasilità - do sonho à chave.
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                )}
                             </div>
                         </div>
                     </div>
