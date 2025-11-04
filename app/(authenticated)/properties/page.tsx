@@ -142,7 +142,7 @@ export default async function PropertiesPage() {
                         <div className="mb-8">
                             <h1 className="text-3xl font-bold text-foreground mb-2">Imóveis Selecionados</h1>
                             <p className="text-muted-foreground mb-3">
-                                Lista curada por especialistas baseada no seu perfil
+                                Imóveis de imobiliárias italianas. Assessoramos você em todo o processo de compra.
                             </p>
                         </div>
 

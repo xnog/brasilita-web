@@ -358,7 +358,7 @@ export default async function DashboardPage() {
                                 </p>
                             </div>
                             <Button size="lg" className="shrink-0 bg-purple-600 hover:bg-purple-700" asChild>
-                                <Link href="/services/property-purchase">
+                                <Link href="/advisory">
                                     <ShoppingCart className="h-4 w-4 mr-2" />
                                     Saiba Mais
                                     <ArrowRight className="h-4 w-4 ml-2" />
