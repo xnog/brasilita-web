@@ -299,10 +299,8 @@ export function PropertyDetailContent({
                                 </div>
                             </div>
 
-
-
                             {/* Action Buttons */}
-                            <div className="space-y-3">
+                            <div className="space-y-3 mt-3">
                                 <Button
                                     onClick={handleToggleInterest}
                                     disabled={loading}
