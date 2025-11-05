@@ -60,21 +60,27 @@ export function PropertyDetailContent({
         }
     };
 
-    const handleProceedToAdvisory = () => {
-        // Marcar wantsToProceed no banco de dados (fire and forget)
-        fetch('/api/properties/interest', {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                propertyId: property.id,
-                wantsToProceed: true
-            })
-        }).catch(error => console.error('Erro ao registrar interesse:', error));
-
-        // Redirecionar imediatamente
-        window.location.href = `/advisory?propertyId=${property.id}`;
+    const handleProceedToAdvisory = async () => {
+        setLoading(true);
+        try {
+            // Marcar wantsToProceed no banco de dados
+            await fetch('/api/properties/interest', {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    propertyId: property.id,
+                    wantsToProceed: true
+                })
+            });
+        } catch (error) {
+            console.error('Erro ao registrar interesse:', error);
+        } finally {
+            // Redirecionar após a request
+            window.location.href = `/advisory?propertyId=${property.id}`;
+            setLoading(false);
+        }
     };
 
     // Memoizar formatações para evitar re-computação
