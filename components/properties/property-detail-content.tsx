@@ -60,6 +60,23 @@ export function PropertyDetailContent({
         }
     };
 
+    const handleProceedToAdvisory = () => {
+        // Marcar wantsToProceed no banco de dados (fire and forget)
+        fetch('/api/properties/interest', {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                propertyId: property.id,
+                wantsToProceed: true
+            })
+        }).catch(error => console.error('Erro ao registrar interesse:', error));
+
+        // Redirecionar imediatamente
+        window.location.href = `/advisory?propertyId=${property.id}`;
+    };
+
     // Memoizar formatações para evitar re-computação
     const formattedPrice = useMemo(() => {
         return new Intl.NumberFormat('pt-BR', {
@@ -317,7 +334,7 @@ export function PropertyDetailContent({
                                 {/* Interest Flow - Advisory */}
                                 <div className="space-y-2">
                                     <Button
-                                        onClick={() => window.location.href = `/advisory?propertyId=${property.id}`}
+                                        onClick={handleProceedToAdvisory}
                                         disabled={loading}
                                         className="w-full bg-emerald-600 hover:bg-emerald-700 text-white"
                                         size="lg"
