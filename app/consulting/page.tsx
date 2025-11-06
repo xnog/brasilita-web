@@ -147,7 +147,7 @@ export default async function ConsultoriaPage() {
                                 <div className="flex flex-wrap items-center gap-6 text-white/80 text-sm mb-8">
                                     <div className="flex items-center gap-2">
                                         <Users className="w-5 h-5 text-green-400" />
-                                        <span>+200k seguidores</span>
+                                        <span>+220k seguidores</span>
                                     </div>
                                     <div className="flex items-center gap-2">
                                         <Globe className="w-5 h-5 text-green-400" />
@@ -213,6 +213,32 @@ export default async function ConsultoriaPage() {
                                     VAGAS LIMITADAS
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* VSL Section */}
+            <section className="section-padding bg-background">
+                <div className="container mx-auto container-padding">
+                    <div className="max-w-5xl mx-auto">
+                        <div className="text-center mb-8">
+                            <h2 className="text-3xl md:text-4xl font-extrabold mb-4 text-foreground">
+                                Veja como podemos te ajudar
+                            </h2>
+                            <p className="text-lg text-muted-foreground">
+                                Assista ao vídeo e descubra como nossa consultoria pode transformar seu projeto na Itália
+                            </p>
+                        </div>
+
+                        <div className="relative w-full aspect-video rounded-2xl overflow-hidden shadow-2xl border-4 border-primary/20">
+                            <iframe
+                                className="absolute inset-0 w-full h-full"
+                                src="https://www.youtube.com/embed/GgKrAeX7khc"
+                                title="Consultoria Brasilità - Morar ou Investir na Itália"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowFullScreen
+                            />
                         </div>
                     </div>
                 </div>
@@ -622,12 +648,6 @@ export default async function ConsultoriaPage() {
                                 </p>
                             </div>
 
-                            <div className="professional-card">
-                                <h3 className="font-bold mb-2 text-lg">Vocês oferecem garantia?</h3>
-                                <p className="text-muted-foreground">
-                                    Sim. Se você participar da consultoria e sentir que não agregou valor, devolvemos 100% do seu investimento, sem perguntas.
-                                </p>
-                            </div>
                         </div>
                     </div>
                 </div>
