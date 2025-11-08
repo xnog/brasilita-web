@@ -160,12 +160,12 @@ export default async function InsiderLaunchPage() {
                         {/* CTA Button */}
                         <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
                             <a
-                                href="https://pay.hub.la/6C6Rh0Mn1oqJqGEcmIHl"
+                                href="https://hub.la/g/6C6Rh0Mn1oqJqGEcmIHl"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="inline-flex items-center justify-center px-12 py-5 text-lg font-bold rounded-xl bg-yellow-400 hover:bg-yellow-500 text-black transition-all duration-300 shadow-2xl hover:shadow-yellow-400/50 hover:scale-105"
                             >
-                                GARANTIR MINHA VAGA DE FUNDADOR
+                                ENTRAR NA LISTA DE ESPERA
                                 <Zap className="ml-2 h-6 w-6" />
                             </a>
                         </div>
@@ -174,15 +174,15 @@ export default async function InsiderLaunchPage() {
                         <div className="flex flex-wrap items-center justify-center gap-6 text-white/80 text-sm">
                             <div className="flex items-center gap-2">
                                 <CheckCircle className="w-5 h-5 text-green-400" />
-                                <span>Primeiros 100: R$179/trimestre</span>
+                                <span>Lista de espera</span>
                             </div>
                             <div className="flex items-center gap-2">
                                 <CheckCircle className="w-5 h-5 text-green-400" />
-                                <span>Cancelamento grátis em 7 dias</span>
+                                <span>Vagas limitadas</span>
                             </div>
                             <div className="flex items-center gap-2">
                                 <CheckCircle className="w-5 h-5 text-green-400" />
-                                <span>Acesso à plataforma restrita</span>
+                                <span>Seja notificado da próxima turma</span>
                             </div>
                         </div>
                     </div>
@@ -194,7 +194,7 @@ export default async function InsiderLaunchPage() {
                 <div className="container mx-auto container-padding">
                     <div className="text-center mb-8">
                         <p className="text-lg text-muted-foreground">
-                            Seja um dos primeiros 100 membros fundadores
+                            Entre na lista de espera para a próxima turma
                         </p>
                     </div>
 
@@ -206,17 +206,17 @@ export default async function InsiderLaunchPage() {
 
                         <div className="text-center">
                             <p className="text-4xl md:text-5xl font-bold text-primary mb-2">100</p>
-                            <p className="text-sm text-muted-foreground">Vagas de Fundador</p>
+                            <p className="text-sm text-muted-foreground">Vagas por Turma</p>
                         </div>
 
                         <div className="text-center">
-                            <p className="text-4xl md:text-5xl font-bold text-primary mb-2">R$179</p>
-                            <p className="text-sm text-muted-foreground">Por Trimestre</p>
+                            <p className="text-4xl md:text-5xl font-bold text-primary mb-2">9</p>
+                            <p className="text-sm text-muted-foreground">Módulos de Conteúdo</p>
                         </div>
 
                         <div className="text-center">
-                            <p className="text-4xl md:text-5xl font-bold text-primary mb-2">7 dias</p>
-                            <p className="text-sm text-muted-foreground">Garantia Total</p>
+                            <p className="text-4xl md:text-5xl font-bold text-primary mb-2">VIP</p>
+                            <p className="text-sm text-muted-foreground">Comunidade Exclusiva</p>
                         </div>
                     </div>
                 </div>
@@ -561,12 +561,12 @@ export default async function InsiderLaunchPage() {
                                 + Acesso vitalício a todos os módulos e atualizações futuras
                             </p>
                             <a
-                                href="https://pay.hub.la/6C6Rh0Mn1oqJqGEcmIHl"
+                                href="https://hub.la/g/6C6Rh0Mn1oqJqGEcmIHl"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="inline-flex items-center justify-center px-8 py-4 text-lg font-bold rounded-xl bg-yellow-400 hover:bg-yellow-500 text-black transition-all duration-300 shadow-2xl hover:shadow-yellow-400/50 hover:scale-105"
                             >
-                                GARANTIR MINHA VAGA AGORA
+                                ENTRAR NA LISTA DE ESPERA
                                 <Sparkles className="ml-2 h-5 w-5" />
                             </a>
                         </div>
@@ -729,10 +729,10 @@ export default async function InsiderLaunchPage() {
                     <div className="max-w-6xl mx-auto">
                         <div className="text-center mb-12">
                             <h2 className="text-3xl md:text-5xl font-extrabold mb-4 text-foreground">
-                                Garanta sua vaga com desconto de fundador
+                                Entre na lista de espera para a próxima turma
                             </h2>
                             <p className="text-xl text-muted-foreground">
-                                Investimento muito menor que o risco de errar sozinho
+                                Seja notificado quando abrirmos novas vagas
                             </p>
                         </div>
 
@@ -798,12 +798,12 @@ export default async function InsiderLaunchPage() {
                                     </div>
 
                                     <a
-                                        href="https://pay.hub.la/6C6Rh0Mn1oqJqGEcmIHl"
+                                        href="https://hub.la/g/6C6Rh0Mn1oqJqGEcmIHl"
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="block w-full px-6 py-4 text-base md:text-lg font-extrabold rounded-xl bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-black transition-all duration-300 shadow-xl hover:shadow-2xl text-center mb-3"
                                     >
-                                        GARANTIR VAGA POR R$179
+                                        ENTRAR NA LISTA DE ESPERA
                                     </a>
                                     <p className="text-xs text-muted-foreground text-center">
                                         Acesso imediato • Cancele quando quiser • 7 dias de garantia
@@ -872,12 +872,12 @@ export default async function InsiderLaunchPage() {
                                     </div>
 
                                     <a
-                                        href="https://pay.hub.la/SzVlCNLHq17ZmOmCIkkW"
+                                        href="https://hub.la/g/6C6Rh0Mn1oqJqGEcmIHl"
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="block w-full px-6 py-4 text-base md:text-lg font-extrabold rounded-xl bg-gradient-to-r from-green-400 to-green-500 hover:from-green-500 hover:to-green-600 text-black transition-all duration-300 shadow-xl hover:shadow-2xl text-center mb-3"
                                     >
-                                        GARANTIR VAGA POR R$249
+                                        ENTRAR NA LISTA DE ESPERA
                                     </a>
                                     <p className="text-xs text-muted-foreground text-center">
                                         Acesso imediato • Cancele quando quiser • 7 dias de garantia
@@ -892,11 +892,10 @@ export default async function InsiderLaunchPage() {
                                 <div className="w-20 h-20 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center mx-auto mb-6">
                                     <Shield className="w-10 h-10 text-green-600" />
                                 </div>
-                                <h3 className="text-2xl font-bold mb-4">Cancelamento Grátis em 7 Dias</h3>
+                                <h3 className="text-2xl font-bold mb-4">Lista de Espera</h3>
                                 <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                                    Você tem <strong>7 dias para testar o Brasilità Insider</strong>.
-                                    Se não for para você, basta cancelar e devolvemos <strong>100% do seu dinheiro</strong>,
-                                    sem perguntas, sem burocracias.
+                                    Cadastre-se na <strong>lista de espera</strong> e seja um dos primeiros a saber
+                                    quando abrirmos novas vagas para a próxima turma do <strong>Brasilità Insider</strong>.
                                 </p>
                             </div>
                         </div>
@@ -1026,7 +1025,7 @@ export default async function InsiderLaunchPage() {
                         {/* Urgência Visual */}
                         <div className="inline-flex items-center px-6 py-3 rounded-full bg-red-500 text-white text-sm font-bold mb-6 shadow-2xl animate-pulse">
                             <Target className="w-5 h-5 mr-2" />
-                            APENAS 100 VAGAS COM ESTE PREÇO
+                            VAGAS LIMITADAS - ENTRE NA LISTA DE ESPERA
                         </div>
 
                         <h2 className="text-4xl md:text-6xl font-extrabold mb-6 text-white leading-tight">
@@ -1103,12 +1102,12 @@ export default async function InsiderLaunchPage() {
 
                         <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
                             <a
-                                href="https://pay.hub.la/6C6Rh0Mn1oqJqGEcmIHl"
+                                href="https://hub.la/g/6C6Rh0Mn1oqJqGEcmIHl"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="inline-flex items-center justify-center px-16 py-6 text-xl font-extrabold rounded-xl bg-gradient-to-r from-yellow-400 to-orange-400 hover:from-yellow-500 hover:to-orange-500 text-black transition-all duration-300 shadow-2xl hover:shadow-yellow-400/50 hover:scale-105"
                             >
-                                SIM, QUERO SER FUNDADOR POR R$179
+                                SIM, QUERO ENTRAR NA LISTA DE ESPERA
                                 <Zap className="ml-3 h-7 w-7" />
                             </a>
                         </div>
@@ -1116,20 +1115,20 @@ export default async function InsiderLaunchPage() {
                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-white/90 text-sm max-w-2xl mx-auto mb-6">
                             <div className="flex flex-col items-center gap-2 bg-white/10 backdrop-blur-sm rounded-lg p-4">
                                 <CheckCircle className="w-7 h-7 text-green-400" />
-                                <span className="font-semibold">Acesso imediato</span>
+                                <span className="font-semibold">Entre na lista de espera</span>
                             </div>
                             <div className="flex flex-col items-center gap-2 bg-white/10 backdrop-blur-sm rounded-lg p-4">
                                 <CheckCircle className="w-7 h-7 text-green-400" />
-                                <span className="font-semibold">7 dias de garantia</span>
+                                <span className="font-semibold">Seja notificado</span>
                             </div>
                             <div className="flex flex-col items-center gap-2 bg-white/10 backdrop-blur-sm rounded-lg p-4">
                                 <CheckCircle className="w-7 h-7 text-green-400" />
-                                <span className="font-semibold">Cancele quando quiser</span>
+                                <span className="font-semibold">Vagas limitadas</span>
                             </div>
                         </div>
 
                         <p className="text-white/70 text-sm max-w-2xl mx-auto">
-                            Pagamento 100% seguro via Hubla • Seus dados são protegidos com criptografia de ponta
+                            Cadastro 100% seguro via Hubla • Seus dados são protegidos com criptografia de ponta
                         </p>
                     </div>
                 </div>
