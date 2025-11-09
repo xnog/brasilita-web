@@ -61,7 +61,7 @@ export async function createClintContact(
 
     // Remove campos undefined para enviar apenas o necessário
     const cleanContact = Object.fromEntries(
-      Object.entries(contact).filter(([_, v]) => v !== undefined && v !== '')
+      Object.entries(contact).filter(([, v]) => v !== undefined && v !== '')
     );
 
     const response = await fetch(`${clintApiUrl}/contacts`, {
