@@ -6,6 +6,8 @@ import { db } from "./db";
 import { users } from "./db/schema";
 import { eq } from "drizzle-orm";
 import bcrypt from "bcryptjs";
+import { addSubscriberToListmonk } from "./integrations/listmonk";
+import { createClintContact } from "./integrations/clint";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
     adapter: DrizzleAdapter(db),
@@ -71,6 +73,24 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                 session.user.id = token.id as string;
             }
             return session;
+        },
+    },
+    events: {
+        async createUser({ user }) {
+            // Integração com Listmonk - adicionar à lista "Brasilità"
+            if (user.email && user.name) {
+                addSubscriberToListmonk(user.email, user.name).catch(err => {
+                    console.error('Erro ao adicionar usuário ao Listmonk:', err);
+                });
+
+                // Integração com Clint CRM - criar contato
+                createClintContact(
+                    user.name,
+                    user.email
+                ).catch(err => {
+                    console.error('Erro ao criar contato no Clint CRM:', err);
+                });
+            }
         },
     },
 });

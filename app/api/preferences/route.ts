@@ -3,6 +3,7 @@ import { db } from "@/lib/db";
 import { userProfiles, userProfileRegions } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
+import { updateClintContactPreferences } from "@/lib/integrations/clint";
 
 export async function GET() {
     try {
@@ -73,6 +74,24 @@ export async function POST(request: Request) {
 
         // Matching automático foi removido - agora usa filtros dinâmicos
 
+        // Integração com Clint CRM - atualizar preferências do contato
+        if (session.user.email) {
+            updateClintContactPreferences(session.user.email, {
+                propertyType: data.propertyType,
+                location: data.location,
+                buyerProfile: data.buyerProfile,
+                usageType: data.usageType,
+                investmentBudget: data.investmentBudget,
+                hasFinancing: data.hasFinancing,
+                phone: data.phone,
+                investmentGoal: data.investmentGoal,
+                regions: data.regions
+            }).catch(err => {
+                console.error('Erro ao atualizar preferências no Clint CRM:', err);
+                // Não falha a operação se Clint falhar
+            });
+        }
+
         return NextResponse.json({ ...profile[0], regions: data.regions || [] });
     } catch (error) {
         console.error("Error creating user profile:", error);
@@ -124,6 +143,24 @@ export async function PUT(request: Request) {
         }
 
         // Matching automático foi removido - agora usa filtros dinâmicos
+
+        // Integração com Clint CRM - atualizar preferências do contato
+        if (session.user.email) {
+            updateClintContactPreferences(session.user.email, {
+                propertyType: data.propertyType,
+                location: data.location,
+                buyerProfile: data.buyerProfile,
+                usageType: data.usageType,
+                investmentBudget: data.investmentBudget,
+                hasFinancing: data.hasFinancing,
+                phone: data.phone,
+                investmentGoal: data.investmentGoal,
+                regions: data.regions
+            }).catch(err => {
+                console.error('Erro ao atualizar preferências no Clint CRM:', err);
+                // Não falha a operação se Clint falhar
+            });
+        }
 
         return NextResponse.json({ ...profile[0], regions: data.regions || [] });
     } catch (error) {

@@ -3,6 +3,8 @@ import { db } from "@/lib/db";
 import { users } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
 import bcrypt from "bcryptjs";
+import { addSubscriberToListmonk } from "@/lib/integrations/listmonk";
+import { createClintContact } from "@/lib/integrations/clint";
 
 export async function POST(request: NextRequest) {
     try {
@@ -40,6 +42,28 @@ export async function POST(request: NextRequest) {
         // Remover a senha da resposta
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { password: _, ...userWithoutPassword } = newUser[0];
+
+        // Integração com Listmonk - adicionar à lista "Brasilità"
+        addSubscriberToListmonk(email, name).then(result => {
+            if (result.success) {
+                console.log(`✅ Usuário ${email} adicionado ao Listmonk`);
+            } else {
+                console.error(`❌ Falha ao adicionar ${email} ao Listmonk:`, result.error);
+            }
+        }).catch(err => {
+            console.error('❌ Erro ao adicionar usuário ao Listmonk:', err);
+        });
+
+        // Integração com Clint CRM - criar contato
+        createClintContact(name, email).then(result => {
+            if (result.success) {
+                console.log(`✅ Contato ${email} criado no Clint CRM`);
+            } else {
+                console.error(`❌ Falha ao criar contato ${email} no Clint:`, result.error);
+            }
+        }).catch(err => {
+            console.error('❌ Erro ao criar contato no Clint CRM:', err);
+        });
 
         return NextResponse.json(
             {
