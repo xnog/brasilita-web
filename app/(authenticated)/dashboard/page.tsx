@@ -173,7 +173,7 @@ export default async function DashboardPage() {
                     <CardHeader>
                         <CardTitle className="flex items-center gap-3 text-xl">
                             <Sparkles className="h-6 w-6 text-yellow-600" />
-                            Brasilità Insider - Lançamento Especial
+                            Brasilità Insider - Comunidade Exclusiva
                         </CardTitle>
                         <CardDescription className="text-base">
                             Junte-se à primeira comunidade em português dedicada ao mercado imobiliário italiano
@@ -194,11 +194,11 @@ export default async function DashboardPage() {
                                     </span>
                                 </div>
                                 <p className="text-sm text-muted-foreground">
-                                    <strong className="text-yellow-600">Vagas limitadas</strong> - Seja um dos primeiros membros fundadores
+                                    Junte-se à comunidade exclusiva de investidores no mercado imobiliário italiano
                                 </p>
                             </div>
                             <Button size="lg" className="shrink-0 bg-yellow-500 hover:bg-yellow-600 text-black font-bold" asChild>
-                                <Link href="/insider-launch">
+                                <Link href="/insider">
                                     <Sparkles className="h-4 w-4 mr-2" />
                                     Saiba Mais
                                     <ArrowRight className="h-4 w-4 ml-2" />

@@ -21,9 +21,9 @@ export default async function HomePage() {
           <div className="max-w-5xl mx-auto">
             {/* Launch Badge */}
             <div className="mb-8">
-              <span className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-yellow-400 text-black text-sm md:text-base font-bold shadow-2xl animate-pulse">
+              <span className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-yellow-400 text-black text-sm md:text-base font-bold shadow-2xl">
                 <Sparkles className="w-5 h-5" />
-                <span>LANÇAMENTO 02/11 • VAGAS LIMITADAS</span>
+                <span>COMUNIDADE EXCLUSIVA</span>
               </span>
             </div>
 
@@ -56,7 +56,7 @@ export default async function HomePage() {
             {/* CTA Button */}
             <div className="flex justify-center">
               <Link
-                href="/insider-launch"
+                href="/insider"
                 className="inline-flex items-center justify-center px-10 py-5 text-lg md:text-xl font-bold rounded-2xl bg-yellow-400 hover:bg-yellow-500 text-black transition-all duration-300 shadow-2xl hover:shadow-yellow-400/50 hover:scale-105"
               >
                 QUERO SABER MAIS
