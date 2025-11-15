@@ -23,6 +23,7 @@ import {
 } from "lucide-react";
 import { PropertyDetailImage } from "./property-detail-image";
 import { PropertyMap } from "./property-map";
+import { InsiderInterestModal } from "./insider-interest-modal";
 import { getPropertyCode } from "@/lib/utils";
 import ReactMarkdown from "react-markdown";
 import { parsePropertyImages, parsePropertyFeatures } from "@/lib/utils/property-parsing";
@@ -46,6 +47,7 @@ export function PropertyDetailContent({
     onClose
 }: PropertyDetailContentProps) {
     const [loading, setLoading] = useState(false);
+    const [showInsiderModal, setShowInsiderModal] = useState(false);
 
     // Memoizar parsing para melhor performance
     const images = useMemo(() => parsePropertyImages(property.images), [property.images]);
@@ -60,10 +62,12 @@ export function PropertyDetailContent({
         }
     };
 
-    const handleProceedToAdvisory = async () => {
-        setLoading(true);
+    const handleShowInterest = async () => {
+        // Open the Insider modal when user clicks "Estou Interessado"
+        setShowInsiderModal(true);
+
+        // Mark wantsToProceed in the database
         try {
-            // Marcar wantsToProceed no banco de dados
             await fetch('/api/properties/interest', {
                 method: 'PATCH',
                 headers: {
@@ -76,12 +80,9 @@ export function PropertyDetailContent({
             });
         } catch (error) {
             console.error('Erro ao registrar interesse:', error);
-        } finally {
-            // Redirecionar após a request
-            window.location.href = `/advisory?propertyId=${property.id}`;
-            setLoading(false);
         }
     };
+
 
     // Memoizar formatações para evitar re-computação
     const formattedPrice = useMemo(() => {
@@ -220,6 +221,82 @@ export function PropertyDetailContent({
                             )}
                         </div>
 
+                        {/* Sidebar - Show on mobile before description */}
+                        <div className="lg:hidden">
+                            <div className="bg-white rounded-xl p-6 shadow-sm">
+                                {/* Additional Info */}
+                                <div className="bg-slate-50 rounded-xl p-4 space-y-3">
+                                    <h4 className="font-semibold text-slate-900">Informações Adicionais</h4>
+
+                                    <div className="space-y-2 text-sm">
+                                        <div className="flex items-center gap-2">
+                                            <Hash className="h-4 w-4 text-slate-500" />
+                                            <span className="text-slate-600">
+                                                Código <span className="font-mono font-semibold text-slate-800">{getPropertyCode(property.id)}</span>
+                                            </span>
+                                        </div>
+
+                                        <div className="flex items-center gap-2">
+                                            <Calendar className="h-4 w-4 text-slate-500" />
+                                            <span className="text-slate-600">
+                                                Anunciado em {formattedDate}
+                                            </span>
+                                        </div>
+
+                                        {property.realEstate && (
+                                            <div className="flex items-center gap-2">
+                                                <Building2 className="h-4 w-4 text-slate-500" />
+                                                <span className="text-slate-600">
+                                                    Anúncio de <span className="font-medium text-slate-800">{property.realEstate}</span>
+                                                </span>
+                                            </div>
+                                        )}
+
+                                        {property.area && (
+                                            <div className="flex items-center gap-2">
+                                                <Euro className="h-4 w-4 text-slate-500" />
+                                                <span className="text-slate-600">
+                                                    €{pricePerSqm}/m²
+                                                </span>
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+
+                                {/* Action Buttons */}
+                                <div className="space-y-3 mt-3">
+                                    <Button
+                                        onClick={handleToggleInterest}
+                                        disabled={loading}
+                                        className={property.isInterested
+                                            ? "w-full bg-emerald-500 hover:bg-emerald-600 text-white"
+                                            : "w-full bg-slate-100 text-slate-700 hover:bg-emerald-50"
+                                        }
+                                        size="lg"
+                                    >
+                                        <ThumbsUp className="h-5 w-5 mr-2" />
+                                        {property.isInterested ? "Favoritado" : "Adicionar aos Favoritos"}
+                                    </Button>
+
+                                    {/* Interest Flow - Advisory */}
+                                    <div className="space-y-2">
+                                        <Button
+                                            onClick={handleShowInterest}
+                                            disabled={loading}
+                                            className="w-full bg-emerald-600 hover:bg-emerald-700 text-white"
+                                            size="lg"
+                                        >
+                                            <MessageCircle className="h-5 w-5 mr-2" />
+                                            Estou Interessado
+                                        </Button>
+                                        <p className="text-xs text-center text-slate-500">
+                                            Conheça nossa assessoria para comprar com segurança
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         {/* Description */}
                         <div className="space-y-3">
                             <h3 className="text-lg font-semibold text-slate-900">Descrição</h3>
@@ -281,7 +358,7 @@ export function PropertyDetailContent({
                     </div>
 
                     {/* Sidebar */}
-                    <div className="space-y-4">
+                    <div className="space-y-4 hidden lg:block">
                         <div className="bg-white rounded-xl p-6 shadow-sm">
                             {/* Additional Info */}
                             <div className="bg-slate-50 rounded-xl p-4 space-y-3">
@@ -340,7 +417,7 @@ export function PropertyDetailContent({
                                 {/* Interest Flow - Advisory */}
                                 <div className="space-y-2">
                                     <Button
-                                        onClick={handleProceedToAdvisory}
+                                        onClick={handleShowInterest}
                                         disabled={loading}
                                         className="w-full bg-emerald-600 hover:bg-emerald-700 text-white"
                                         size="lg"
@@ -348,15 +425,19 @@ export function PropertyDetailContent({
                                         <MessageCircle className="h-5 w-5 mr-2" />
                                         Estou Interessado
                                     </Button>
-                                    <p className="text-xs text-center text-slate-500">
-                                        Conheça nossa assessoria para comprar com segurança
-                                    </p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+            {/* Insider Interest Modal */}
+            <InsiderInterestModal
+                property={property}
+                isOpen={showInsiderModal}
+                onClose={() => setShowInsiderModal(false)}
+            />
         </div>
     );
 }
