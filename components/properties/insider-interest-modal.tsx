@@ -140,29 +140,29 @@ export function InsiderInterestModal({ property, isOpen, onClose }: InsiderInter
                                 A compra de imóveis na Itália envolve <strong className="text-slate-900">burocracia complexa, impostos específicos e riscos</strong> que podem custar milhares de euros.
                             </p>
 
-                            <div className="bg-slate-50 border-l-4 border-slate-300 p-4 rounded-r-lg">
-                                <p className="text-slate-800 font-medium mb-2">
-                                    A Brasilità Insider foi criada para ajudar brasileiros a comprarem com segurança:
-                                </p>
-                                <ul className="space-y-2 text-sm text-slate-600">
-                                    <li className="flex items-start gap-2">
-                                        <CheckCircle2 className="h-4 w-4 text-emerald-600 mt-0.5 flex-shrink-0" />
-                                        <span>Consultoria mensal ao vivo com especialistas</span>
-                                    </li>
-                                    <li className="flex items-start gap-2">
-                                        <CheckCircle2 className="h-4 w-4 text-emerald-600 mt-0.5 flex-shrink-0" />
-                                        <span>Curso completo sobre o processo de compra</span>
-                                    </li>
-                                    <li className="flex items-start gap-2">
-                                        <CheckCircle2 className="h-4 w-4 text-emerald-600 mt-0.5 flex-shrink-0" />
-                                        <span>Ferramentas e calculadoras exclusivas</span>
-                                    </li>
-                                    <li className="flex items-start gap-2">
-                                        <CheckCircle2 className="h-4 w-4 text-emerald-600 mt-0.5 flex-shrink-0" />
-                                        <span>Comunidade ativa de brasileiros investindo na Itália</span>
-                                    </li>
-                                </ul>
-                            </div>
+                        <div className="bg-slate-50 border-l-4 border-slate-300 p-4 rounded-r-lg">
+                            <p className="text-slate-800 font-medium mb-2">
+                                A Brasilità Insider foi criada para ajudar brasileiros a comprarem com segurança:
+                            </p>
+                            <ul className="space-y-2 text-sm text-slate-600">
+                                <li className="flex items-start gap-2">
+                                    <CheckCircle2 className="h-4 w-4 text-emerald-600 mt-0.5 flex-shrink-0" />
+                                    <span>Consultoria ao vivo com especialistas</span>
+                                </li>
+                                <li className="flex items-start gap-2">
+                                    <CheckCircle2 className="h-4 w-4 text-emerald-600 mt-0.5 flex-shrink-0" />
+                                    <span>Curso completo sobre o processo de compra</span>
+                                </li>
+                                <li className="flex items-start gap-2">
+                                    <CheckCircle2 className="h-4 w-4 text-emerald-600 mt-0.5 flex-shrink-0" />
+                                    <span>Ferramentas exclusivas</span>
+                                </li>
+                                <li className="flex items-start gap-2">
+                                    <CheckCircle2 className="h-4 w-4 text-emerald-600 mt-0.5 flex-shrink-0" />
+                                    <span>Comunidade ativa de brasileiros investindo na Itália</span>
+                                </li>
+                            </ul>
+                        </div>
                         </div>
 
                         {/* Action Buttons */}
