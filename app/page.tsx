@@ -12,80 +12,96 @@ export default async function HomePage() {
       {/* Header */}
       <LandingHeader session={session} />
 
-      {/* Hero Section - Brasilità Insider Launch */}
+      {/* Hero Section - Main */}
       <section className="section-padding relative bg-cover bg-center bg-no-repeat" style={{ backgroundImage: 'url(/bg2-optimized.jpg)' }}>
         {/* Overlay with subtle gradient */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/35 to-black/50"></div>
 
         <div className="container mx-auto container-padding text-center relative z-10">
           <div className="max-w-5xl mx-auto">
-            {/* Launch Badge */}
+            {/* Badge */}
             <div className="mb-8">
               <span className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-yellow-400 text-black text-sm md:text-base font-bold shadow-2xl">
-                <Sparkles className="w-5 h-5" />
-                <span>COMUNIDADE EXCLUSIVA</span>
+                <Award className="w-5 h-5" />
+                <span>O ÚNICO MARKETPLACE DE IMÓVEIS ITALIANOS PARA BRASILEIROS</span>
               </span>
             </div>
 
             {/* Main Headline */}
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold mb-6 text-white leading-tight text-shadow-hero">
-              Brasilità <span className="text-yellow-400">Insider</span>
+            <h1 className="text-3xl md:text-5xl lg:text-6xl font-extrabold mb-6 text-white leading-tight text-shadow-hero">
+              Realize seu sonho de ter uma <span className="text-yellow-400">casa na Itália</span>
             </h1>
 
             {/* Subheadline */}
             <p className="text-xl md:text-2xl text-white/95 mb-4 max-w-4xl mx-auto leading-relaxed text-shadow-hero-subtitle font-medium">
-              A primeira comunidade em português para brasileiros que querem investir no mercado imobiliário italiano
+              Conectamos você a imóveis e profissionais na Itália, eliminando barreiras de idioma e burocracia.
             </p>
 
             {/* Value Props */}
             <div className="flex flex-wrap items-center justify-center gap-6 mb-10 text-white/90">
               <div className="flex items-center gap-2">
                 <CheckCircle className="w-5 h-5 text-green-400" />
-                <span className="text-sm md:text-base font-medium">Aulas em 9 módulos</span>
+                <span className="text-sm md:text-base font-medium">Suporte em português</span>
               </div>
               <div className="flex items-center gap-2">
                 <CheckCircle className="w-5 h-5 text-green-400" />
-                <span className="text-sm md:text-base font-medium">Comunidade exclusiva</span>
+                <span className="text-sm md:text-base font-medium">Profissionais locais</span>
               </div>
               <div className="flex items-center gap-2">
                 <CheckCircle className="w-5 h-5 text-green-400" />
-                <span className="text-sm md:text-base font-medium">Consultoria mensal</span>
+                <span className="text-sm md:text-base font-medium">Processo transparente</span>
               </div>
             </div>
 
             {/* CTA Button */}
             <div className="flex justify-center">
-              <Link
-                href="/insider"
-                className="inline-flex items-center justify-center px-10 py-5 text-lg md:text-xl font-bold rounded-2xl bg-yellow-400 hover:bg-yellow-500 text-black transition-all duration-300 shadow-2xl hover:shadow-yellow-400/50 hover:scale-105"
-              >
-                QUERO SABER MAIS
-                <ArrowRight className="ml-3 h-6 w-6" />
-              </Link>
+              <PrimaryCTA href="/auth/signup" variant="large" />
             </div>
           </div>
         </div>
       </section>
 
-      {/* Marketplace Section */}
+      {/* Brasilità Insider Section */}
       <section className="bg-background section-padding">
         <div className="container mx-auto container-padding text-center">
           <div className="max-w-4xl mx-auto">
             <div className="mb-6">
-              <span className="inline-flex items-center px-4 py-2 rounded-full bg-muted text-foreground text-sm font-medium mb-4 shadow-lg border border-border">
-                <Award className="w-4 h-4 mr-2" />
-                O único marketplace de imóveis italianos para brasileiros
+              <span className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-yellow-400 text-black text-sm md:text-base font-bold shadow-2xl">
+                <Sparkles className="w-5 h-5" />
+                <span>COMUNIDADE EXCLUSIVA</span>
               </span>
             </div>
             <h2 className="text-3xl md:text-5xl font-bold mb-6 text-foreground leading-tight">
-              Realize seu sonho de ter uma<br />
-              <span className="text-primary">casa na Itália</span>
+              Brasilità <span className="text-primary">Insider</span>
             </h2>
-            <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-3xl mx-auto leading-relaxed">
-              Conectamos você a imóveis e profissionais na Itália, eliminando barreiras de idioma e burocracia.
+            <p className="text-lg md:text-xl text-muted-foreground mb-4 max-w-3xl mx-auto leading-relaxed">
+              A primeira comunidade em português para brasileiros que querem investir no mercado imobiliário italiano
             </p>
+
+            {/* Value Props */}
+            <div className="flex flex-wrap items-center justify-center gap-6 mb-8 text-muted-foreground">
+              <div className="flex items-center gap-2">
+                <CheckCircle className="w-5 h-5 text-green-600" />
+                <span className="text-sm md:text-base font-medium">Aulas em 9 módulos</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <CheckCircle className="w-5 h-5 text-green-600" />
+                <span className="text-sm md:text-base font-medium">Comunidade exclusiva</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <CheckCircle className="w-5 h-5 text-green-600" />
+                <span className="text-sm md:text-base font-medium">Consultoria mensal</span>
+              </div>
+            </div>
+
             <div className="flex justify-center">
-              <PrimaryCTA href="/auth/signup" />
+              <Link
+                href="/insider"
+                className="inline-flex items-center justify-center px-10 py-5 text-lg md:text-xl font-bold rounded-2xl bg-primary hover:bg-primary/90 text-primary-foreground transition-all duration-300 shadow-xl hover:scale-105"
+              >
+                QUERO SABER MAIS
+                <ArrowRight className="ml-3 h-6 w-6" />
+              </Link>
             </div>
           </div>
         </div>
