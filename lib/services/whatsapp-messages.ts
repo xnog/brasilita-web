@@ -1,7 +1,7 @@
 import { Property } from "@/lib/db/schema";
 import { getPropertyCode } from "@/lib/utils";
 
-export const WHATSAPP_PHONE = "393514295913";
+export const WHATSAPP_PHONE = "393515295913";
 
 export const getFormattedPhoneNumber = () => {
     return `+${WHATSAPP_PHONE.replace(/(\d{2})(\d{3})(\d{3})(\d{4})/, '$1 $2 $3 $4')}`;
