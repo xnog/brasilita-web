@@ -2,6 +2,7 @@ import { CheckCircle, Users, TrendingUp, Globe, Calendar, Sparkles, Shield, Targ
 import Image from "next/image";
 import { LandingHeader } from "@/components/layout/landing-header";
 import { LandingFooter } from "@/components/layout/landing-footer";
+import { MetaPixel } from "@/components/analytics/meta-pixel";
 import { auth } from "@/lib/auth";
 import type { Metadata } from "next";
 
@@ -117,6 +118,9 @@ export default async function InsiderLaunchPage() {
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
             />
+
+            {/* Meta Pixel */}
+            <MetaPixel />
 
             <LandingHeader session={session} />
 
