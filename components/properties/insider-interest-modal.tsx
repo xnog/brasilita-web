@@ -95,7 +95,7 @@ export function InsiderInterestModal({ property, isOpen, onClose }: InsiderInter
 
                     <DialogHeader>
                         <DialogTitle className="text-2xl font-bold text-slate-900">
-                            Interessado neste imóvel?
+                            Encontrou um imóvel interessante? Ótimo!
                         </DialogTitle>
                         <DialogDescription className="sr-only">
                             Conheça a Brasilità Insider e tenha suporte completo para sua compra
@@ -137,32 +137,44 @@ export function InsiderInterestModal({ property, isOpen, onClose }: InsiderInter
                         {/* Main Message */}
                         <div className="space-y-4">
                             <p className="text-slate-700 leading-relaxed">
-                                A compra de imóveis na Itália envolve <strong className="text-slate-900">burocracia complexa, impostos específicos e riscos</strong> que podem custar milhares de euros.
+                                Comprar na Itália é totalmente possível para brasileiros!
                             </p>
 
-                        <div className="bg-slate-50 border-l-4 border-slate-300 p-4 rounded-r-lg">
+                            <p className="text-slate-700 leading-relaxed">
+                                Mas para aproveitar oportunidades assim com tranquilidade, é importante saber exatamente como funciona o processo: documentos, etapas, impostos e a forma certa de negociar para não perder tempo nem dinheiro, e não cair em armadilhas!
+                            </p>
+
+                            <p className="text-slate-700 leading-relaxed">
+                                É por isso que criamos a <strong className="text-slate-900">Brasilità Insider</strong>, a primeira e única comunidade que prepara você para comprar seu imóvel na Itália com segurança e clareza, mesmo começando do zero.
+                            </p>
+
+                        <div className="bg-slate-50 border-l-4 border-emerald-400 p-4 rounded-r-lg">
                             <p className="text-slate-800 font-medium mb-2">
-                                A Brasilità Insider foi criada para ajudar brasileiros a comprarem com segurança:
+                                Dentro da Insider você tem acesso imediato a:
                             </p>
                             <ul className="space-y-2 text-sm text-slate-600">
                                 <li className="flex items-start gap-2">
                                     <CheckCircle2 className="h-4 w-4 text-emerald-600 mt-0.5 flex-shrink-0" />
-                                    <span>Consultoria ao vivo com especialistas</span>
+                                    <span>Consultorias ao vivo com especialistas que respondem suas dúvidas reais.</span>
                                 </li>
                                 <li className="flex items-start gap-2">
                                     <CheckCircle2 className="h-4 w-4 text-emerald-600 mt-0.5 flex-shrink-0" />
-                                    <span>Curso completo sobre o processo de compra</span>
+                                    <span>Guia prático completo, com o passo a passo da compra.</span>
                                 </li>
                                 <li className="flex items-start gap-2">
                                     <CheckCircle2 className="h-4 w-4 text-emerald-600 mt-0.5 flex-shrink-0" />
-                                    <span>Ferramentas exclusivas</span>
+                                    <span>Ferramentas exclusivas para facilitar cada etapa.</span>
                                 </li>
                                 <li className="flex items-start gap-2">
                                     <CheckCircle2 className="h-4 w-4 text-emerald-600 mt-0.5 flex-shrink-0" />
-                                    <span>Comunidade ativa de brasileiros investindo na Itália</span>
+                                    <span>Uma comunidade ativa de brasileiros que já estão investindo na Itália.</span>
                                 </li>
                             </ul>
                         </div>
+
+                            <p className="text-slate-700 leading-relaxed">
+                                Assim você aprende rápido, evita erros caros e compra com muito mais confiança, inclusive este imóvel que você acabou de ver.
+                            </p>
                         </div>
 
                         {/* Action Buttons */}
@@ -172,7 +184,7 @@ export function InsiderInterestModal({ property, isOpen, onClose }: InsiderInter
                                 className="w-full bg-emerald-600 hover:bg-emerald-700 text-white text-base py-6"
                                 size="lg"
                             >
-                                Conhecer a Brasilità Insider
+                                Quero comprar com segurança
                             </Button>
 
                             <Button
