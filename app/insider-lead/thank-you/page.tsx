@@ -1,4 +1,4 @@
-import { CheckCircle, Calendar, Clock, MessageCircle, Bell, Users, Sparkles } from "lucide-react";
+import { CheckCircle, Calendar, MessageCircle, Bell, Users, Sparkles } from "lucide-react";
 import { LandingHeader } from "@/components/layout/landing-header";
 import { LandingFooter } from "@/components/layout/landing-footer";
 import { auth } from "@/lib/auth";

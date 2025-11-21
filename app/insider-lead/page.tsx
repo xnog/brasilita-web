@@ -1,4 +1,4 @@
-import { CheckCircle, Users, Globe, TrendingUp, Calendar, Sparkles, Video, Clock, Target, Zap, Instagram } from "lucide-react";
+import { CheckCircle, Users, Globe, TrendingUp, Calendar, Sparkles, Video, Clock, Instagram } from "lucide-react";
 import Image from "next/image";
 import { LandingHeader } from "@/components/layout/landing-header";
 import { LandingFooter } from "@/components/layout/landing-footer";
