@@ -1,4 +1,4 @@
-import { CheckCircle, Users, Globe, TrendingUp, Calendar, Sparkles, Video, Clock, Instagram } from "lucide-react";
+import { CheckCircle, Users, Globe, TrendingUp, Calendar, Sparkles, Video, Clock, Target, Zap, Instagram } from "lucide-react";
 import Image from "next/image";
 import { LandingHeader } from "@/components/layout/landing-header";
 import { LandingFooter } from "@/components/layout/landing-footer";
@@ -8,24 +8,23 @@ import { auth } from "@/lib/auth";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-    title: "Evento Gratuito: O Método Completo Para Comprar Seu Imóvel na Itália | Brasilità",
-    description: "Aula ao vivo gratuita em 02 de Novembro revelando o passo a passo para investir no mercado imobiliário italiano com segurança. Mesmo morando no Brasil e sem cair em armadilhas.",
+    title: "Evento Gratuito: O Guia Completo Para Investir em Imóveis na Itália | Brasilità",
+    description: "Evento ao vivo gratuito em 30 de Novembro revelando o passo a passo para investir no mercado imobiliário italiano com segurança. Mesmo morando no Brasil e sem cair em armadilhas.",
     keywords: [
-        "comprar imóvel na Itália",
-        "investir na Itália",
+        "investir em imóveis na Itália",
+        "comprar imóvel Itália",
         "mercado imobiliário italiano",
         "imóvel Itália brasileiro",
         "como comprar casa na Itália",
         "investimento imobiliário Itália",
-        "curso imóveis Itália",
         "evento gratuito Itália",
         "Brasilità"
     ],
     authors: [{ name: "Brasilità" }],
     category: "Imóveis e Investimentos",
     openGraph: {
-        title: "O Método Completo Para Comprar Seu Imóvel na Itália em 2025",
-        description: "Aula ao vivo e gratuita em 02/11 às 16h. Descubra as 5 melhores regiões, custos reais e como evitar armadilhas.",
+        title: "O Guia Completo Para Investir em Imóveis na Itália",
+        description: "Evento ao vivo e gratuito em 30/11 às 16h. Descubra as 5 melhores regiões, custos reais e como evitar armadilhas.",
         type: "website",
         locale: "pt_BR",
         siteName: "Brasilità - Seu imóvel na Itália",
@@ -35,14 +34,14 @@ export const metadata: Metadata = {
                 url: "/og-insider-lead.jpg",
                 width: 1200,
                 height: 630,
-                alt: "Evento Brasilità - O Método Completo Para Comprar Seu Imóvel na Itália"
+                alt: "Evento Brasilità - O Guia Completo Para Investir em Imóveis na Itália"
             }
         ]
     },
     twitter: {
         card: "summary_large_image",
-        title: "O Método Completo Para Comprar Seu Imóvel na Itália em 2025",
-        description: "Aula ao vivo e gratuita em 02/11 às 16h. Descubra as 5 melhores regiões, custos reais e como evitar armadilhas.",
+        title: "O Guia Completo Para Investir em Imóveis na Itália",
+        description: "Evento ao vivo e gratuito em 30/11 às 16h. Descubra as 5 melhores regiões, custos reais e como evitar armadilhas.",
         images: ["/og-insider-lead.jpg"],
         creator: "@brasilita.it"
     },
@@ -62,18 +61,18 @@ export const metadata: Metadata = {
     }
 };
 
-export default async function InsiderEventPage() {
+export default async function InsiderCohort2PreLaunch() {
     const session = await auth();
-    const eventDate = new Date("2025-11-02T16:00:00-03:00"); // 02/11/2025 às 16h (horário de Brasília)
+    const launchDate = new Date("2025-11-30T16:00:00-03:00"); // 30 de Novembro de 2025 às 16h (horário de Brasília)
 
     // JSON-LD Structured Data for Event
     const eventJsonLd = {
         "@context": "https://schema.org",
         "@type": "Event",
-        "name": "O Método Completo Para Comprar Seu Imóvel na Itália em 2025",
-        "description": "Aula ao vivo e gratuita revelando o passo a passo baseado na análise de mais de 30 cidades italianas para investir com segurança no mercado imobiliário italiano",
-        "startDate": "2025-11-02T16:00:00-03:00",
-        "endDate": "2025-11-02T18:00:00-03:00",
+        "name": "O Guia Completo Para Investir em Imóveis na Itália",
+        "description": "Evento ao vivo e gratuito revelando o passo a passo baseado na análise de mais de 30 cidades italianas para investir com segurança no mercado imobiliário italiano",
+        "startDate": "2025-11-30T16:00:00-03:00",
+        "endDate": "2025-11-30T18:00:00-03:00",
         "eventStatus": "https://schema.org/EventScheduled",
         "eventAttendanceMode": "https://schema.org/OnlineEventAttendanceMode",
         "location": {
@@ -135,9 +134,9 @@ export default async function InsiderEventPage() {
                                 </div>
 
                                 <h1 className="text-4xl md:text-6xl font-extrabold mb-6 leading-tight">
-                                    O Método Completo Para Comprar Seu
+                                    O Guia Completo Para Investir em
                                     <span className="block text-yellow-400 mt-2">
-                                        Imóvel na Itália
+                                        Imóveis na Itália
                                     </span>
                                 </h1>
                                 <p className="text-lg md:text-xl text-yellow-400 font-semibold mb-6">
@@ -146,7 +145,7 @@ export default async function InsiderEventPage() {
 
                                 <div className="flex items-center gap-3 mb-6 text-xl">
                                     <Calendar className="w-6 h-6 text-yellow-400" />
-                                    <span className="font-semibold">02 de Novembro (Domingo)</span>
+                                    <span className="font-semibold">30 de Novembro (Domingo)</span>
                                 </div>
 
                                 <div className="flex items-center gap-3 mb-8 text-xl">
@@ -155,7 +154,7 @@ export default async function InsiderEventPage() {
                                 </div>
 
                                 <p className="text-xl md:text-2xl text-white/90 mb-8 leading-relaxed">
-                                    Aula ao vivo e gratuita revelando o passo a passo baseado na análise de mais de 30 cidades
+                                    Evento ao vivo e gratuito revelando o passo a passo baseado na análise de mais de 30 cidades
                                     italianas para investir com segurança no mercado imobiliário italiano
                                 </p>
 
@@ -195,7 +194,7 @@ export default async function InsiderEventPage() {
                                 <div className="flex flex-wrap items-center gap-6 text-white/80 text-sm">
                                     <div className="flex items-center gap-2">
                                         <Users className="w-5 h-5 text-green-400" />
-                                        <span>+220k seguidores</span>
+                                        <span>+238k seguidores</span>
                                     </div>
                                     <div className="flex items-center gap-2">
                                         <Globe className="w-5 h-5 text-green-400" />
@@ -212,7 +211,7 @@ export default async function InsiderEventPage() {
                             <div className="relative">
                                 {/* Countdown Timer */}
                                 <div className="mb-6">
-                                    <CountdownTimer targetDate={eventDate} />
+                                    <CountdownTimer targetDate={launchDate} />
                                 </div>
 
                                 {/* Registration Form */}
@@ -393,10 +392,10 @@ export default async function InsiderEventPage() {
                                         className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors mb-4"
                                     >
                                         <Instagram className="w-4 h-4" />
-                                        @duasmalaseumdestino
+                                        @duasmalaseumdestino (190k seguidores)
                                     </a>
                                     <p className="text-muted-foreground leading-relaxed">
-                                        Criador de conteúdo de viagens com mais de 180 mil seguidores, ex-policial militar por 12 anos
+                                        Criador de conteúdo de viagens com mais de 190 mil seguidores, ex-policial militar por 12 anos
                                         e especialista em vendas B2B. Na Brasilità, é responsável por oferecer
                                         suporte próximo e transparente a dezenas de famílias brasileiras que realizam o sonho
                                         de investir em imóveis italianos.
@@ -416,7 +415,7 @@ export default async function InsiderEventPage() {
                                         />
                                     </div>
                                     <h3 className="text-2xl font-bold mb-2">Olavo Ferenshitz</h3>
-                                    <p className="text-primary font-semibold mb-2">Co-fundador e Especialista</p>
+                                    <p className="text-primary font-semibold mb-2">Co-fundador & Especialista</p>
                                     <a
                                         href="https://www.instagram.com/nortedaitalia/"
                                         target="_blank"
@@ -424,12 +423,13 @@ export default async function InsiderEventPage() {
                                         className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors mb-4"
                                     >
                                         <Instagram className="w-4 h-4" />
-                                        @nortedaitalia
+                                        @nortedaitalia (25k seguidores)
                                     </a>
                                     <p className="text-muted-foreground leading-relaxed">
                                         Advogado e Planejador Financeiro CFP®, com experiência internacional no Brasil,
                                         EUA e Itália. Olavo é especialista em Investimentos Imobiliários na Itália e traz
-                                        toda sua expertise jurídica e financeira para garantir segurança e estratégia nos investimentos.
+                                        toda sua expertise jurídica e financeira para garantir segurança e estratégia nos
+                                        investimentos.
                                     </p>
                                 </div>
                             </div>
@@ -438,16 +438,16 @@ export default async function InsiderEventPage() {
                 </div>
             </section>
 
-            {/* Who Is This For Section */}
+            {/* Who Should Attend */}
             <section className="section-padding">
                 <div className="container mx-auto container-padding">
                     <div className="max-w-5xl mx-auto">
                         <div className="text-center mb-12">
                             <h2 className="text-3xl md:text-4xl font-extrabold mb-4 text-foreground">
-                                Este evento é para você se...
+                                Este evento é para você?
                             </h2>
                             <p className="text-lg text-muted-foreground">
-                                Identifique-se com pelo menos um desses perfis
+                                Este evento é perfeito se você se identifica com pelo menos um desses perfis
                             </p>
                         </div>
 
@@ -456,9 +456,10 @@ export default async function InsiderEventPage() {
                                 <div className="flex items-start gap-3">
                                     <CheckCircle className="w-6 h-6 text-blue-600 flex-shrink-0 mt-1" />
                                     <div>
-                                        <h3 className="font-bold mb-1 text-lg">Você tem o sonho de investir na Itália...</h3>
+                                        <h3 className="font-bold mb-1 text-lg">Você sonha em investir na Itália...</h3>
                                         <p className="text-sm text-muted-foreground">
-                                            Mas não sabe por onde começar, tem medo de cair em armadilhas ou acha que é complicado demais fazer do Brasil
+                                            Mas não sabe por onde começar, tem medo de cair em armadilhas ou acha
+                                            que é complicado demais fazer do Brasil
                                         </p>
                                     </div>
                                 </div>
@@ -470,7 +471,8 @@ export default async function InsiderEventPage() {
                                     <div>
                                         <h3 className="font-bold mb-1 text-lg">Você quer proteger seu patrimônio...</h3>
                                         <p className="text-sm text-muted-foreground">
-                                            Diversificar em moeda forte (Euro), economia estável e em um ativo tangível que valoriza com o tempo
+                                            Diversificar em moeda forte (Euro), economia estável e em um ativo tangível
+                                            que valoriza com o tempo
                                         </p>
                                     </div>
                                 </div>
@@ -482,7 +484,8 @@ export default async function InsiderEventPage() {
                                     <div>
                                         <h3 className="font-bold mb-1 text-lg">Você sonha em morar na Itália...</h3>
                                         <p className="text-sm text-muted-foreground">
-                                            E quer garantir sua casa antes de fazer a mudança, ou ter um pied-à-terre para suas estadias
+                                            E quer garantir sua casa antes de fazer a mudança, ou ter um
+                                            pied-à-terre para suas estadias
                                         </p>
                                     </div>
                                 </div>
@@ -492,33 +495,10 @@ export default async function InsiderEventPage() {
                                 <div className="flex items-start gap-3">
                                     <CheckCircle className="w-6 h-6 text-yellow-600 flex-shrink-0 mt-1" />
                                     <div>
-                                        <h3 className="font-bold mb-1 text-lg">Você busca renda passiva em Euro...</h3>
+                                        <h3 className="font-bold mb-1 text-lg">Você busca renda passiva em Euros...</h3>
                                         <p className="text-sm text-muted-foreground">
-                                            Através de aluguel de curta temporada (turismo) ou longa duração, aproveitando a alta demanda italiana
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="professional-card border-l-4 border-l-red-500">
-                                <div className="flex items-start gap-3">
-                                    <CheckCircle className="w-6 h-6 text-red-600 flex-shrink-0 mt-1" />
-                                    <div>
-                                        <h3 className="font-bold mb-1 text-lg">Você já pesquisou mas ficou perdido...</h3>
-                                        <p className="text-sm text-muted-foreground">
-                                            Com informações desencontradas, sites em italiano e medo de tomar decisões erradas que custem caro
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="professional-card border-l-4 border-l-orange-500">
-                                <div className="flex items-start gap-3">
-                                    <CheckCircle className="w-6 h-6 text-orange-600 flex-shrink-0 mt-1" />
-                                    <div>
-                                        <h3 className="font-bold mb-1 text-lg">Você tem capital para investir...</h3>
-                                        <p className="text-sm text-muted-foreground">
-                                            E quer fazer isso com inteligência, maximizando retorno e minimizando riscos com orientação de quem já fez
+                                            Através de aluguel de curta temporada (turismo) ou longa duração,
+                                            aproveitando a alta demanda italiana
                                         </p>
                                     </div>
                                 </div>
@@ -540,7 +520,7 @@ export default async function InsiderEventPage() {
 
                         <div className="grid md:grid-cols-3 gap-8 mb-12">
                             <div className="text-center">
-                                <div className="text-4xl font-bold text-primary mb-2">+220k</div>
+                                <div className="text-4xl font-bold text-primary mb-2">+238k</div>
                                 <div className="text-sm text-muted-foreground">Seguidores nas redes sociais</div>
                             </div>
                             <div className="text-center">
@@ -572,7 +552,7 @@ export default async function InsiderEventPage() {
                             Garanta Sua Vaga Gratuita Agora!
                         </h2>
                         <p className="text-xl text-white/90 mb-8">
-                            02 de Novembro às 16h - Aula ao vivo com tudo que você precisa saber
+                            30 de Novembro às 16h - Evento ao vivo com tudo que você precisa saber para investir com segurança
                         </p>
                         <a
                             href="#top"
@@ -582,7 +562,7 @@ export default async function InsiderEventPage() {
                             <Video className="ml-2 h-6 w-6" />
                         </a>
                         <p className="text-white/80 text-sm mt-4">
-                            ✓ 100% Gratuito ✓ Ao Vivo ✓ Com Bônus Exclusivo
+                            100% Gratuito • Ao Vivo • Com Bônus Exclusivo
                         </p>
                     </div>
                 </div>

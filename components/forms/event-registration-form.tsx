@@ -28,8 +28,8 @@ export function EventRegistrationForm() {
                 },
                 body: JSON.stringify({
                     ...formData,
-                    eventDate: "2025-11-02T16:00:00-03:00",
-                    eventName: "insider-launch-nov-2025", // Nome do evento para identificação
+                    eventDate: "2025-11-30T16:00:00-03:00",
+                    eventName: "insider-launch-2-nov-2025", // Nome do evento para identificação
                 }),
             });
 
