@@ -2,7 +2,6 @@
 
 import { useEffect } from 'react';
 import { usePathname } from 'next/navigation';
-import ReactPixel from 'react-facebook-pixel';
 
 const PIXEL_ID = '847001467717991';
 
@@ -10,17 +9,31 @@ export function MetaPixel() {
     const pathname = usePathname();
 
     useEffect(() => {
-        // Initialize Meta Pixel
-        ReactPixel.init(PIXEL_ID, undefined, {
-            autoConfig: true,
-            debug: false,
+        // Only run on client side
+        if (typeof window === 'undefined') return;
+
+        // Dynamic import to avoid SSR issues
+        import('react-facebook-pixel').then((module) => {
+            const ReactPixel = module.default;
+
+            // Initialize Meta Pixel
+            ReactPixel.init(PIXEL_ID, undefined, {
+                autoConfig: true,
+                debug: false,
+            });
+            ReactPixel.pageView();
         });
-        ReactPixel.pageView();
     }, []);
 
     // Track page views on route changes
     useEffect(() => {
-        ReactPixel.pageView();
+        // Only run on client side
+        if (typeof window === 'undefined') return;
+
+        import('react-facebook-pixel').then((module) => {
+            const ReactPixel = module.default;
+            ReactPixel.pageView();
+        });
     }, [pathname]);
 
     return null;

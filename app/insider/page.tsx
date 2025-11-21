@@ -304,6 +304,22 @@ export default async function InsiderLaunchPage() {
                                 para você ter o suporte necessário sem precisar pagar o preço de uma assessoria completa que não te dá nenhuma certeza de sucesso no negócio.
                             </p>
                         </div>
+
+                        {/* CTA Button */}
+                        <div className="text-center mt-10">
+                            <a
+                                href="https://pay.hub.la/6C6Rh0Mn1oqJqGEcmIHl"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center justify-center px-10 py-5 text-lg font-bold rounded-xl bg-yellow-400 hover:bg-yellow-500 text-black transition-all duration-300 shadow-2xl hover:shadow-yellow-400/50 hover:scale-105"
+                            >
+                                QUERO EVITAR ESSES ERROS
+                                <Zap className="ml-2 h-6 w-6" />
+                            </a>
+                            <p className="text-sm text-muted-foreground mt-3">
+                                A partir de R$179/trimestre • Acesso imediato
+                            </p>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -387,6 +403,22 @@ export default async function InsiderLaunchPage() {
                                     Calculadora financeira e relatórios com IA sobre regiões italianas
                                 </p>
                             </div>
+                        </div>
+
+                        {/* CTA Button */}
+                        <div className="text-center mt-10">
+                            <a
+                                href="https://pay.hub.la/6C6Rh0Mn1oqJqGEcmIHl"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center justify-center px-10 py-5 text-lg font-bold rounded-xl bg-yellow-400 hover:bg-yellow-500 text-black transition-all duration-300 shadow-2xl hover:shadow-yellow-400/50 hover:scale-105"
+                            >
+                                QUERO ACESSO COMPLETO
+                                <Sparkles className="ml-2 h-6 w-6" />
+                            </a>
+                            <p className="text-sm text-muted-foreground mt-3">
+                                Acesso imediato a todos os benefícios • 7 dias de garantia
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -653,6 +685,22 @@ export default async function InsiderLaunchPage() {
                                 </div>
                             </div>
                         </div>
+
+                        {/* CTA Button */}
+                        <div className="text-center mt-10">
+                            <a
+                                href="https://pay.hub.la/6C6Rh0Mn1oqJqGEcmIHl"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center justify-center px-10 py-5 text-lg font-bold rounded-xl bg-yellow-400 hover:bg-yellow-500 text-black transition-all duration-300 shadow-2xl hover:shadow-yellow-400/50 hover:scale-105"
+                            >
+                                COMEÇAR MINHA JORNADA AGORA
+                                <Target className="ml-2 h-6 w-6" />
+                            </a>
+                            <p className="text-sm text-muted-foreground mt-3">
+                                Junte-se aos especialistas • Cancele quando quiser
+                            </p>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -722,6 +770,22 @@ export default async function InsiderLaunchPage() {
                                     </div>
                                 </div>
                             </div>
+                        </div>
+
+                        {/* CTA Button */}
+                        <div className="text-center mt-10">
+                            <a
+                                href="https://pay.hub.la/6C6Rh0Mn1oqJqGEcmIHl"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center justify-center px-10 py-5 text-lg font-bold rounded-xl bg-yellow-400 hover:bg-yellow-500 text-black transition-all duration-300 shadow-2xl hover:shadow-yellow-400/50 hover:scale-105"
+                            >
+                                SIM, ESTE É O MEU PERFIL
+                                <CheckCircle className="ml-2 h-6 w-6" />
+                            </a>
+                            <p className="text-sm text-muted-foreground mt-3">
+                                Comece sua jornada hoje • Garantia de 7 dias
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -893,6 +957,22 @@ export default async function InsiderLaunchPage() {
                                     sem perguntas, sem burocracias.
                                 </p>
                             </div>
+                        </div>
+
+                        {/* CTA After Guarantee */}
+                        <div className="text-center mt-10">
+                            <a
+                                href="https://pay.hub.la/6C6Rh0Mn1oqJqGEcmIHl"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center justify-center px-12 py-5 text-lg font-bold rounded-xl bg-yellow-400 hover:bg-yellow-500 text-black transition-all duration-300 shadow-2xl hover:shadow-yellow-400/50 hover:scale-105"
+                            >
+                                QUERO COMEÇAR SEM RISCOS
+                                <Shield className="ml-2 h-6 w-6" />
+                            </a>
+                            <p className="text-sm text-muted-foreground mt-3">
+                                Teste por 7 dias sem compromisso • Reembolso garantido
+                            </p>
                         </div>
                     </div>
                 </div>
