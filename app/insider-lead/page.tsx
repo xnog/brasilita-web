@@ -8,23 +8,23 @@ import { auth } from "@/lib/auth";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-    title: "Evento Gratuito: O Guia Completo Para Investir em Imóveis na Itália | Brasilità",
-    description: "Evento ao vivo gratuito em 30 de Novembro revelando o passo a passo para investir no mercado imobiliário italiano com segurança. Mesmo morando no Brasil e sem cair em armadilhas.",
+    title: "Evento Gratuito: Cidadania Italiana e Imóveis - O Guia Completo | Brasilità",
+    description: "Evento ao vivo gratuito em 30 de Novembro revelando como conquistar sua cidadania italiana e garantir seu imóvel na Itália. Com orientação jurídica especializada.",
     keywords: [
-        "investir em imóveis na Itália",
+        "cidadania italiana",
+        "imóveis na Itália",
         "comprar imóvel Itália",
-        "mercado imobiliário italiano",
-        "imóvel Itália brasileiro",
-        "como comprar casa na Itália",
-        "investimento imobiliário Itália",
-        "evento gratuito Itália",
+        "processo cidadania italiana",
+        "residência na Itália",
+        "advogada cidadania italiana",
+        "evento gratuito cidadania",
         "Brasilità"
     ],
     authors: [{ name: "Brasilità" }],
     category: "Imóveis e Investimentos",
     openGraph: {
-        title: "O Guia Completo Para Investir em Imóveis na Itália",
-        description: "Evento ao vivo e gratuito em 30/11 às 16h. Descubra as 5 melhores regiões, custos reais e como evitar armadilhas.",
+        title: "Cidadania Italiana e Imóveis - O Guia Completo",
+        description: "Evento ao vivo e gratuito em 30/11 às 16h. Descubra como conquistar sua cidadania e garantir seu imóvel na Itália.",
         type: "website",
         locale: "pt_BR",
         siteName: "Brasilità - Seu imóvel na Itália",
@@ -34,14 +34,14 @@ export const metadata: Metadata = {
                 url: "/og-insider-lead.jpg",
                 width: 1200,
                 height: 630,
-                alt: "Evento Brasilità - O Guia Completo Para Investir em Imóveis na Itália"
+                alt: "Evento Brasilità - Cidadania Italiana e Imóveis"
             }
         ]
     },
     twitter: {
         card: "summary_large_image",
-        title: "O Guia Completo Para Investir em Imóveis na Itália",
-        description: "Evento ao vivo e gratuito em 30/11 às 16h. Descubra as 5 melhores regiões, custos reais e como evitar armadilhas.",
+        title: "Cidadania Italiana e Imóveis - O Guia Completo",
+        description: "Evento ao vivo e gratuito em 30/11 às 16h. Descubra como conquistar sua cidadania e garantir seu imóvel na Itália.",
         images: ["/og-insider-lead.jpg"],
         creator: "@brasilita.it"
     },
@@ -69,8 +69,8 @@ export default async function InsiderCohort2PreLaunch() {
     const eventJsonLd = {
         "@context": "https://schema.org",
         "@type": "Event",
-        "name": "O Guia Completo Para Investir em Imóveis na Itália",
-        "description": "Evento ao vivo e gratuito revelando o passo a passo baseado na análise de mais de 30 cidades italianas para investir com segurança no mercado imobiliário italiano",
+        "name": "Cidadania Italiana e Imóveis: O Guia Completo",
+        "description": "Evento ao vivo e gratuito revelando como conquistar sua cidadania italiana e garantir seu imóvel na Itália com orientação jurídica especializada",
         "startDate": "2025-11-30T16:00:00-03:00",
         "endDate": "2025-11-30T18:00:00-03:00",
         "eventStatus": "https://schema.org/EventScheduled",
@@ -100,6 +100,10 @@ export default async function InsiderCohort2PreLaunch() {
             {
                 "@type": "Person",
                 "name": "Olavo Ferenshitz"
+            },
+            {
+                "@type": "Person",
+                "name": "Silvana Beckhauser"
             }
         ]
     };
@@ -115,7 +119,7 @@ export default async function InsiderCohort2PreLaunch() {
             <LandingHeader session={session} />
 
             {/* Hero Section */}
-            <section className="relative bg-gradient-to-br from-primary via-primary/95 to-primary/90 section-padding overflow-hidden">
+            <section className="relative bg-gradient-to-br from-slate-800 via-slate-900 to-slate-950 section-padding overflow-hidden">
                 {/* Background Pattern */}
                 <div className="absolute inset-0 opacity-10">
                     <div className="absolute inset-0" style={{
@@ -128,34 +132,34 @@ export default async function InsiderCohort2PreLaunch() {
                         <div className="grid lg:grid-cols-2 gap-12 items-center">
                             {/* Left Column - Content */}
                             <div className="text-white">
-                                <div className="inline-flex items-center px-4 py-2 rounded-full bg-yellow-400 text-black text-xs md:text-sm font-bold mb-6 shadow-xl animate-pulse">
+                                <div className="inline-flex items-center px-4 py-2 rounded-full bg-emerald-500 text-white text-xs md:text-sm font-bold mb-6 shadow-xl animate-pulse">
                                     <Sparkles className="w-4 h-4 mr-2" />
                                     EVENTO ONLINE GRATUITO
                                 </div>
 
                                 <h1 className="text-4xl md:text-6xl font-extrabold mb-6 leading-tight">
-                                    O Guia Completo Para Investir em
-                                    <span className="block text-yellow-400 mt-2">
-                                        Imóveis na Itália
+                                    Cidadania Italiana e Imóveis:
+                                    <span className="block text-emerald-400 mt-2">
+                                        O Guia Completo Para Brasileiros
                                     </span>
                                 </h1>
-                                <p className="text-lg md:text-xl text-yellow-400 font-semibold mb-6">
-                                    Mesmo morando no Brasil e sem cair em armadilhas
+                                <p className="text-lg md:text-xl text-emerald-300 font-semibold mb-6">
+                                    Descubra como realizar o duplo sonho: conquistar sua cidadania e ter seu imóvel na Itália
                                 </p>
 
                                 <div className="flex items-center gap-3 mb-6 text-xl">
-                                    <Calendar className="w-6 h-6 text-yellow-400" />
+                                    <Calendar className="w-6 h-6 text-emerald-400" />
                                     <span className="font-semibold">30 de Novembro (Domingo)</span>
                                 </div>
 
                                 <div className="flex items-center gap-3 mb-8 text-xl">
-                                    <Clock className="w-6 h-6 text-yellow-400" />
+                                    <Clock className="w-6 h-6 text-emerald-400" />
                                     <span className="font-semibold">16:00h (Horário de Brasília)</span>
                                 </div>
 
                                 <p className="text-xl md:text-2xl text-white/90 mb-8 leading-relaxed">
-                                    Evento ao vivo e gratuito revelando o passo a passo baseado na análise de mais de 30 cidades
-                                    italianas para investir com segurança no mercado imobiliário italiano
+                                    Evento ao vivo e gratuito com orientação jurídica especializada sobre como navegar o processo
+                                    de cidadania italiana e planejar seu futuro imobiliário na Europa
                                 </p>
 
                                 {/* Benefits */}
@@ -163,29 +167,36 @@ export default async function InsiderCohort2PreLaunch() {
                                     <div className="flex items-start gap-3">
                                         <CheckCircle className="w-6 h-6 text-green-400 flex-shrink-0 mt-1" />
                                         <div>
-                                            <p className="text-white font-semibold">As 5 Melhores Regiões para Investir</p>
-                                            <p className="text-white/80 text-sm">Onde o seu dinheiro rende mais e valoriza melhor</p>
+                                            <p className="text-white font-semibold">Processo de Cidadania Italiana Explicado</p>
+                                            <p className="text-white/80 text-sm">Passo a passo, documentos e prazos com advogada especialista</p>
                                         </div>
                                     </div>
                                     <div className="flex items-start gap-3">
                                         <CheckCircle className="w-6 h-6 text-green-400 flex-shrink-0 mt-1" />
                                         <div>
-                                            <p className="text-white font-semibold">Custos Reais e Impostos Detalhados</p>
-                                            <p className="text-white/80 text-sm">Saiba exatamente quanto precisa investir (sem surpresas)</p>
+                                            <p className="text-white font-semibold">Imóvel Para Quem Tem Cidadania</p>
+                                            <p className="text-white/80 text-sm">Como comprar seu imóvel após conquistar a cidadania</p>
                                         </div>
                                     </div>
                                     <div className="flex items-start gap-3">
                                         <CheckCircle className="w-6 h-6 text-green-400 flex-shrink-0 mt-1" />
                                         <div>
-                                            <p className="text-white font-semibold">Processo Completo de Compra</p>
-                                            <p className="text-white/80 text-sm">Do Brasil até a escritura, passo a passo</p>
+                                            <p className="text-white font-semibold">Melhores Regiões Para Viver e Investir</p>
+                                            <p className="text-white/80 text-sm">Onde morar e investir quando conquistar sua cidadania</p>
                                         </div>
                                     </div>
                                     <div className="flex items-start gap-3">
                                         <CheckCircle className="w-6 h-6 text-green-400 flex-shrink-0 mt-1" />
                                         <div>
-                                            <p className="text-white font-semibold">Os 7 Erros Que Custam Caro</p>
-                                            <p className="text-white/80 text-sm">Armadilhas que você PRECISA evitar ao comprar</p>
+                                            <p className="text-white font-semibold">Planejando Sua Vida na Itália</p>
+                                            <p className="text-white/80 text-sm">Da cidadania ao seu próprio imóvel - o caminho completo</p>
+                                        </div>
+                                    </div>
+                                    <div className="flex items-start gap-3">
+                                        <CheckCircle className="w-6 h-6 text-green-400 flex-shrink-0 mt-1" />
+                                        <div>
+                                            <p className="text-white font-semibold">Erros Jurídicos Que Custam Caro</p>
+                                            <p className="text-white/80 text-sm">Armadilhas na compra e no processo de cidadania</p>
                                         </div>
                                     </div>
                                 </div>
@@ -202,7 +213,7 @@ export default async function InsiderCohort2PreLaunch() {
                                     </div>
                                     <div className="flex items-center gap-2">
                                         <TrendingUp className="w-5 h-5 text-green-400" />
-                                        <span>+30 cidades analisadas</span>
+                                        <span>Dezenas de brasileiros orientados</span>
                                     </div>
                                 </div>
                             </div>
@@ -215,10 +226,10 @@ export default async function InsiderCohort2PreLaunch() {
                                 </div>
 
                                 {/* Registration Form */}
-                                <div className="bg-white rounded-2xl p-8 shadow-2xl border-4 border-yellow-400">
+                                <div className="bg-white rounded-2xl p-8 shadow-2xl border-4 border-emerald-500">
                                     <div className="text-center mb-6">
-                                        <div className="w-16 h-16 bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                                            <Video className="w-8 h-8 text-black" />
+                                        <div className="w-16 h-16 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                                            <Video className="w-8 h-8 text-white" />
                                         </div>
                                         <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-2">
                                             Garanta Sua Vaga Grátis
@@ -259,87 +270,117 @@ export default async function InsiderCohort2PreLaunch() {
                                 O que você vai aprender neste evento
                             </h2>
                             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                                Conteúdo prático e direto ao ponto, baseado em experiência real de quem vive e investe na Itália
+                                Conteúdo jurídico e prático com orientação especializada sobre cidadania italiana e imóveis
                             </p>
                         </div>
 
                         <div className="grid md:grid-cols-2 gap-6">
-                            <div className="professional-card">
+                            <div className="professional-card border-t-4 border-t-blue-500">
                                 <div className="flex items-start gap-4">
                                     <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center flex-shrink-0">
                                         <span className="text-white font-bold text-xl">1</span>
                                     </div>
                                     <div className="flex-1">
-                                        <h3 className="text-xl font-bold mb-2">As 5 Regiões Mais Rentáveis</h3>
+                                        <h3 className="text-xl font-bold mb-2">Seu Processo de Cidadania do Zero</h3>
                                         <p className="text-muted-foreground">
-                                            Descubra onde seu investimento tem melhor retorno, considerando valorização,
-                                            turismo e custos operacionais
+                                            Entenda os diferentes tipos de processos, documentação necessária, prazos reais
+                                            e como evitar erros que podem travar seu processo por anos
                                         </p>
                                     </div>
                                 </div>
                             </div>
 
-                            <div className="professional-card">
+                            <div className="professional-card border-t-4 border-t-green-500">
                                 <div className="flex items-start gap-4">
                                     <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-lg flex items-center justify-center flex-shrink-0">
                                         <span className="text-white font-bold text-xl">2</span>
                                     </div>
                                     <div className="flex-1">
-                                        <h3 className="text-xl font-bold mb-2">Custos Reais (Sem Esconder Nada)</h3>
+                                        <h3 className="text-xl font-bold mb-2">Residência na Itália: O Que Você Precisa Saber</h3>
                                         <p className="text-muted-foreground">
-                                            Quanto você realmente precisa ter: entrada, impostos, taxas notariais,
-                                            reformas e custos recorrentes
+                                            Como estabelecer residência legalmente, onde fazer, requisitos burocráticos
+                                            e praticidades para quem tem ou busca cidadania
                                         </p>
                                     </div>
                                 </div>
                             </div>
 
-                            <div className="professional-card">
+                            <div className="professional-card border-t-4 border-t-purple-500">
                                 <div className="flex items-start gap-4">
                                     <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg flex items-center justify-center flex-shrink-0">
                                         <span className="text-white font-bold text-xl">3</span>
                                     </div>
                                     <div className="flex-1">
-                                        <h3 className="text-xl font-bold mb-2">Processo Completo Passo a Passo</h3>
+                                        <h3 className="text-xl font-bold mb-2">Planejamento: Cidadania e Imóvel</h3>
                                         <p className="text-muted-foreground">
-                                            Do momento que você encontra o imóvel até assinar a escritura:
-                                            documentos, prazos e como fazer do Brasil
+                                            Como planejar sua jornada completa: da cidadania até ter seu próprio
+                                            imóvel na Itália, com todos os passos práticos
                                         </p>
                                     </div>
                                 </div>
                             </div>
 
-                            <div className="professional-card">
+                            <div className="professional-card border-t-4 border-t-red-500">
                                 <div className="flex items-start gap-4">
                                     <div className="w-12 h-12 bg-gradient-to-br from-red-500 to-red-600 rounded-lg flex items-center justify-center flex-shrink-0">
                                         <span className="text-white font-bold text-xl">4</span>
                                     </div>
                                     <div className="flex-1">
-                                        <h3 className="text-xl font-bold mb-2">Os 7 Erros Fatais (E Como Evitá-los)</h3>
+                                        <h3 className="text-xl font-bold mb-2">Melhores Regiões Para Sua Nova Vida</h3>
                                         <p className="text-muted-foreground">
-                                            Armadilhas que já custaram milhares de euros para outros brasileiros -
-                                            e que você vai aprender a identificar antes que seja tarde
+                                            Onde morar levando em conta custo de vida, qualidade, proximidade com consulados,
+                                            facilidade para cidadania e oportunidades imobiliárias
                                         </p>
                                     </div>
                                 </div>
                             </div>
 
-                            <div className="professional-card">
+                            <div className="professional-card border-t-4 border-t-yellow-500">
                                 <div className="flex items-start gap-4">
                                     <div className="w-12 h-12 bg-gradient-to-br from-yellow-500 to-yellow-600 rounded-lg flex items-center justify-center flex-shrink-0">
                                         <span className="text-white font-bold text-xl">5</span>
                                     </div>
                                     <div className="flex-1">
-                                        <h3 className="text-xl font-bold mb-2">Rentabilidade Real com Números</h3>
+                                        <h3 className="text-xl font-bold mb-2">Comprar Imóvel na Itália: Guia Prático</h3>
                                         <p className="text-muted-foreground">
-                                            Casos reais de brasileiros que compraram: quanto investiram,
-                                            quanto estão ganhando e em quanto tempo se paga
+                                            Processo de compra, custos reais, impostos, documentação necessária
+                                            e diferenças entre comprar com ou sem cidadania
                                         </p>
                                     </div>
                                 </div>
                             </div>
 
-                            <div className="professional-card">
+                            <div className="professional-card border-t-4 border-t-indigo-500">
+                                <div className="flex items-start gap-4">
+                                    <div className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                                        <span className="text-white font-bold text-xl">6</span>
+                                    </div>
+                                    <div className="flex-1">
+                                        <h3 className="text-xl font-bold mb-2">Erros Jurídicos Que Custam Milhares</h3>
+                                        <p className="text-muted-foreground">
+                                            Armadilhas comuns na documentação de cidadania e na compra de imóveis
+                                            que já custaram caro para outros brasileiros
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="professional-card border-t-4 border-t-teal-500">
+                                <div className="flex items-start gap-4">
+                                    <div className="w-12 h-12 bg-gradient-to-br from-teal-500 to-teal-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                                        <span className="text-white font-bold text-xl">7</span>
+                                    </div>
+                                    <div className="flex-1">
+                                        <h3 className="text-xl font-bold mb-2">Documentação e Burocracia Explicada</h3>
+                                        <p className="text-muted-foreground">
+                                            Todos os documentos necessários tanto para cidadania quanto para compra
+                                            de imóvel, sem termos complicados
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="professional-card border-t-4 border-t-orange-500">
                                 <div className="flex items-start gap-4">
                                     <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-600 rounded-lg flex items-center justify-center flex-shrink-0">
                                         <Sparkles className="w-6 h-6 text-white" />
@@ -361,17 +402,47 @@ export default async function InsiderCohort2PreLaunch() {
             {/* Hosts Section */}
             <section className="bg-muted/30 section-padding">
                 <div className="container mx-auto container-padding">
-                    <div className="max-w-5xl mx-auto">
+                    <div className="max-w-6xl mx-auto">
                         <div className="text-center mb-12">
                             <h2 className="text-3xl md:text-4xl font-extrabold mb-4 text-foreground">
                                 Quem vai te guiar nesta jornada
                             </h2>
                             <p className="text-lg text-muted-foreground">
-                                Conheça os especialistas que vão compartilhar sua experiência real no mercado italiano
+                                Especialistas com décadas de experiência em cidadania italiana e mercado imobiliário
                             </p>
                         </div>
 
-                        <div className="grid md:grid-cols-2 gap-8">
+                        <div className="grid md:grid-cols-3 gap-8">
+                            {/* Silvana */}
+                            <div className="professional-card">
+                                <div className="flex flex-col items-center text-center">
+                                    <div className="relative w-32 h-32 mb-4 rounded-full overflow-hidden">
+                                        <Image
+                                            src="/Silvana.png"
+                                            alt="Silvana Beckhauser"
+                                            fill
+                                            className="object-cover"
+                                        />
+                                    </div>
+                                    <h3 className="text-2xl font-bold mb-2">Silvana Beckhauser</h3>
+                                    <p className="text-primary font-semibold mb-2">Advogada Especialista em Cidadania Italiana</p>
+                                    <a
+                                        href="https://www.instagram.com/advbeckhauser/"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors mb-4"
+                                    >
+                                        <Instagram className="w-4 h-4" />
+                                        @advbeckhauser (3.5k)
+                                    </a>
+                                    <p className="text-muted-foreground leading-relaxed">
+                                        Advogada especialista em Direito Internacional com mais de 17 anos de experiência
+                                        em processos de cidadania italiana. Já orientou centenas de famílias brasileiras
+                                        a conquistarem seu passaporte europeu com segurança jurídica.
+                                    </p>
+                                </div>
+                            </div>
+
                             {/* Aloisio */}
                             <div className="professional-card">
                                 <div className="flex flex-col items-center text-center">
@@ -392,13 +463,12 @@ export default async function InsiderCohort2PreLaunch() {
                                         className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors mb-4"
                                     >
                                         <Instagram className="w-4 h-4" />
-                                        @duasmalaseumdestino (190k seguidores)
+                                        @duasmalaseumdestino (190k)
                                     </a>
                                     <p className="text-muted-foreground leading-relaxed">
-                                        Criador de conteúdo de viagens com mais de 190 mil seguidores, ex-policial militar por 12 anos
-                                        e especialista em vendas B2B. Na Brasilità, é responsável por oferecer
-                                        suporte próximo e transparente a dezenas de famílias brasileiras que realizam o sonho
-                                        de investir em imóveis italianos.
+                                        Morador da Itália e especialista em ajudar brasileiros a realizarem o sonho de
+                                        ter uma vida e imóvel na Itália. Combina experiência prática de quem vive no país
+                                        com profundo conhecimento do mercado imobiliário italiano.
                                     </p>
                                 </div>
                             </div>
@@ -415,7 +485,7 @@ export default async function InsiderCohort2PreLaunch() {
                                         />
                                     </div>
                                     <h3 className="text-2xl font-bold mb-2">Olavo Ferenshitz</h3>
-                                    <p className="text-primary font-semibold mb-2">Co-fundador & Especialista</p>
+                                    <p className="text-primary font-semibold mb-2">Co-fundador & Especialista Imobiliário</p>
                                     <a
                                         href="https://www.instagram.com/nortedaitalia/"
                                         target="_blank"
@@ -423,13 +493,12 @@ export default async function InsiderCohort2PreLaunch() {
                                         className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors mb-4"
                                     >
                                         <Instagram className="w-4 h-4" />
-                                        @nortedaitalia (25k seguidores)
+                                        @nortedaitalia (25k)
                                     </a>
                                     <p className="text-muted-foreground leading-relaxed">
-                                        Advogado e Planejador Financeiro CFP®, com experiência internacional no Brasil,
-                                        EUA e Itália. Olavo é especialista em Investimentos Imobiliários na Itália e traz
-                                        toda sua expertise jurídica e financeira para garantir segurança e estratégia nos
-                                        investimentos.
+                                        Advogado e Planejador Financeiro CFP® especializado em investimentos imobiliários
+                                        na Itália. Traz expertise jurídica e financeira para garantir segurança nas
+                                        decisões de compra e investimento.
                                     </p>
                                 </div>
                             </div>
@@ -456,10 +525,10 @@ export default async function InsiderCohort2PreLaunch() {
                                 <div className="flex items-start gap-3">
                                     <CheckCircle className="w-6 h-6 text-blue-600 flex-shrink-0 mt-1" />
                                     <div>
-                                        <h3 className="font-bold mb-1 text-lg">Você sonha em investir na Itália...</h3>
+                                        <h3 className="font-bold mb-1 text-lg">Você está no processo de cidadania italiana...</h3>
                                         <p className="text-sm text-muted-foreground">
-                                            Mas não sabe por onde começar, tem medo de cair em armadilhas ou acha
-                                            que é complicado demais fazer do Brasil
+                                            Mas está perdido com documentação, prazos, ou não sabe se está fazendo tudo certo
+                                            e quer evitar erros que podem custar anos de atraso
                                         </p>
                                     </div>
                                 </div>
@@ -469,10 +538,10 @@ export default async function InsiderCohort2PreLaunch() {
                                 <div className="flex items-start gap-3">
                                     <CheckCircle className="w-6 h-6 text-green-600 flex-shrink-0 mt-1" />
                                     <div>
-                                        <h3 className="font-bold mb-1 text-lg">Você quer proteger seu patrimônio...</h3>
+                                        <h3 className="font-bold mb-1 text-lg">Você sonha em morar na Itália...</h3>
                                         <p className="text-sm text-muted-foreground">
-                                            Diversificar em moeda forte (Euro), economia estável e em um ativo tangível
-                                            que valoriza com o tempo
+                                            E quer planejar sua jornada: primeiro conquistar sua cidadania,
+                                            depois ter seu próprio imóvel para uma vida estável na Europa
                                         </p>
                                     </div>
                                 </div>
@@ -482,10 +551,10 @@ export default async function InsiderCohort2PreLaunch() {
                                 <div className="flex items-start gap-3">
                                     <CheckCircle className="w-6 h-6 text-purple-600 flex-shrink-0 mt-1" />
                                     <div>
-                                        <h3 className="font-bold mb-1 text-lg">Você sonha em morar na Itália...</h3>
+                                        <h3 className="font-bold mb-1 text-lg">Você já tem cidadania ou está próximo...</h3>
                                         <p className="text-sm text-muted-foreground">
-                                            E quer garantir sua casa antes de fazer a mudança, ou ter um
-                                            pied-à-terre para suas estadias
+                                            E agora quer saber os próximos passos: onde morar, como comprar imóvel,
+                                            custos reais e onde estabelecer sua residência
                                         </p>
                                     </div>
                                 </div>
@@ -495,10 +564,10 @@ export default async function InsiderCohort2PreLaunch() {
                                 <div className="flex items-start gap-3">
                                     <CheckCircle className="w-6 h-6 text-yellow-600 flex-shrink-0 mt-1" />
                                     <div>
-                                        <h3 className="font-bold mb-1 text-lg">Você busca renda passiva em Euros...</h3>
+                                        <h3 className="font-bold mb-1 text-lg">Você quer planejar estrategicamente...</h3>
                                         <p className="text-sm text-muted-foreground">
-                                            Através de aluguel de curta temporada (turismo) ou longa duração,
-                                            aproveitando a alta demanda italiana
+                                            Seu caminho completo desde o início do processo de cidadania até
+                                            ter seu próprio imóvel na Itália
                                         </p>
                                     </div>
                                 </div>
@@ -528,16 +597,17 @@ export default async function InsiderCohort2PreLaunch() {
                                 <div className="text-sm text-muted-foreground">Vivendo e investindo na Itália</div>
                             </div>
                             <div className="text-center">
-                                <div className="text-4xl font-bold text-primary mb-2">+30</div>
-                                <div className="text-sm text-muted-foreground">Cidades analisadas em profundidade</div>
+                                <div className="text-4xl font-bold text-primary mb-2">Dezenas</div>
+                                <div className="text-sm text-muted-foreground">De brasileiros já orientados</div>
                             </div>
                         </div>
 
                         <div className="professional-card text-center">
                             <p className="text-lg text-muted-foreground leading-relaxed">
-                                Somos a <strong className="text-foreground">única plataforma em português</strong> especializada
-                                em conectar brasileiros ao mercado imobiliário italiano. Nossa equipe vive na Itália e
-                                acompanha o mercado diariamente, trazendo informações atualizadas e confiáveis.
+                                Combinamos <strong className="text-foreground">expertise jurídica em cidadania italiana</strong> com
+                                <strong className="text-foreground"> conhecimento profundo do mercado imobiliário</strong>. Nossa equipe
+                                une advogados especializados com moradores da Itália que conhecem a realidade prática de construir
+                                uma vida no país.
                             </p>
                         </div>
                     </div>
@@ -545,18 +615,18 @@ export default async function InsiderCohort2PreLaunch() {
             </section>
 
             {/* Final CTA */}
-            <section className="bg-gradient-to-r from-primary via-primary/95 to-primary/90 py-16">
+            <section className="bg-gradient-to-r from-slate-800 via-slate-900 to-slate-950 py-16">
                 <div className="container mx-auto container-padding text-center">
                     <div className="max-w-3xl mx-auto">
                         <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">
                             Garanta Sua Vaga Gratuita Agora!
                         </h2>
                         <p className="text-xl text-white/90 mb-8">
-                            30 de Novembro às 16h - Evento ao vivo com tudo que você precisa saber para investir com segurança
+                            30 de Novembro às 16h - Evento ao vivo com orientação jurídica especializada sobre cidadania italiana e imóveis
                         </p>
                         <a
                             href="#top"
-                            className="inline-flex items-center justify-center px-12 py-5 text-lg font-bold rounded-xl bg-yellow-400 hover:bg-yellow-500 text-black transition-all duration-300 shadow-2xl hover:shadow-yellow-400/50 hover:scale-105"
+                            className="inline-flex items-center justify-center px-12 py-5 text-lg font-bold rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white transition-all duration-300 shadow-2xl hover:shadow-emerald-500/50 hover:scale-105"
                         >
                             QUERO PARTICIPAR GRATUITAMENTE
                             <Video className="ml-2 h-6 w-6" />
