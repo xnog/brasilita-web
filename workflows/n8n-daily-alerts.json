@@ -1,5 +1,5 @@
 {
-  "name": "Brasilita - Email Diário de Alertas",
+  "name": "Daily alerts",
   "nodes": [
     {
       "parameters": {
@@ -12,74 +12,59 @@
           ]
         }
       },
-      "name": "Cron - Diário 10h",
+      "name": "Cron - Daily 10am",
       "type": "n8n-nodes-base.scheduleTrigger",
       "typeVersion": 1.2,
       "position": [
-        240,
-        300
-      ]
+        -1968,
+        144
+      ],
+      "id": "092dc84e-ebef-49d2-8659-1a6b6b0e536c"
     },
     {
       "parameters": {
-        "url": "https://brasilita.com/api/emails/daily-alerts/alerts",
-        "authentication": "genericCredentialType",
-        "genericAuthType": "httpHeaderAuth",
-        "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
+        "assignments": {
+          "assignments": [
             {
-              "name": "x-api-key",
-              "value": "={{$env.BRASILITA_EMAIL_API_KEY}}"
+              "id": "page-init",
+              "name": "page",
+              "value": 1,
+              "type": "number"
             }
           ]
         },
         "options": {}
       },
-      "name": "Buscar Alertas Ativos",
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
+      "name": "Initialize Page",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
       "position": [
-        460,
-        300
-      ]
+        -1744,
+        144
+      ],
+      "id": "75fa764a-99f2-4258-877c-b50ad7d6971d"
     },
     {
       "parameters": {
-        "batchSize": 50,
-        "options": {}
-      },
-      "name": "Split em Lotes de 50",
-      "type": "n8n-nodes-base.splitInBatches",
-      "typeVersion": 3,
-      "position": [
-        680,
-        300
-      ]
-    },
-    {
-      "parameters": {
-        "url": "=https://brasilita.com/api/emails/daily-alerts/render?alertId={{$json.alertId}}",
+        "url": "=https://brasilita.com/api/emails/daily-alerts/alerts?page={{$json.page}}&limit=50",
         "authentication": "genericCredentialType",
         "genericAuthType": "httpHeaderAuth",
-        "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
-            {
-              "name": "x-api-key",
-              "value": "={{$env.BRASILITA_EMAIL_API_KEY}}"
-            }
-          ]
-        },
         "options": {}
       },
-      "name": "Renderizar Email de Alerta",
+      "name": "Fetch Active Alerts",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        900,
-        300
-      ]
+        -1520,
+        144
+      ],
+      "id": "c192043f-c8f7-44a0-9312-6f44703b2de3",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "3exN5NrsjqTpnOsO",
+          "name": "Header Auth account"
+        }
+      }
     },
     {
       "parameters": {
@@ -91,8 +76,8 @@
           },
           "conditions": [
             {
-              "leftValue": "={{$json.propertiesCount}}",
-              "rightValue": "0",
+              "leftValue": "={{$json.alerts.length}}",
+              "rightValue": 0,
               "operator": {
                 "type": "number",
                 "operation": "gt"
@@ -103,154 +88,268 @@
         },
         "options": {}
       },
-      "name": "Tem Novas Propriedades?",
+      "name": "Has Alerts?",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2,
       "position": [
-        1120,
-        300
-      ]
+        -1296,
+        96
+      ],
+      "id": "74b75dc2-132d-45ea-8983-2df559f6e69f"
     },
     {
       "parameters": {
-        "fromEmail": "noreply@brasilita.com",
-        "toEmail": "={{$json.userEmail}}",
-        "subject": "=Brasilità: {{$json.propertiesCount}} novos imóveis no seu alerta \"{{$json.alertName}}\"",
-        "bodyHtml": "={{$json.html}}",
-        "additionalFields": {
-          "senderName": "Brasilità",
-          "replyTo": "contato@brasilita.com"
-        }
+        "fieldToSplitOut": "alerts",
+        "options": {}
       },
-      "name": "Enviar Email via SES",
-      "type": "n8n-nodes-base.awsSes",
+      "name": "Extract Alerts",
+      "type": "n8n-nodes-base.splitOut",
       "typeVersion": 1,
       "position": [
-        1340,
-        200
+        -1072,
+        96
       ],
+      "id": "f46faccc-5c09-4d68-b2cd-a81b864d8a56"
+    },
+    {
+      "parameters": {
+        "amount": 1
+      },
+      "name": "Wait Between Emails",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        -848,
+        96
+      ],
+      "webhookId": "wait-webhook-id-email",
+      "id": "2d95dfd3-7e40-4d20-8445-34e9b5638f9c"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://www.brasilita.com/api/emails/daily-alerts/send",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "content-type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"alertId\": \"{{$json.alertId}}\"\n}",
+        "options": {}
+      },
+      "name": "Send Alert Email",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -624,
+        96
+      ],
+      "id": "0aa7258b-20dd-4af9-84c1-e028e8e8fb7c",
       "credentials": {
-        "aws": {
-          "id": "1",
-          "name": "AWS SES"
+        "httpHeaderAuth": {
+          "id": "3exN5NrsjqTpnOsO",
+          "name": "Header Auth account"
         }
       }
     },
     {
       "parameters": {
-        "amount": 100,
-        "unit": "milliseconds"
+        "amount": 2
       },
-      "name": "Wait 100ms",
+      "name": "Wait Before Next Page",
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
       "position": [
-        1560,
-        200
+        48,
+        96
       ],
-      "webhookId": "wait-webhook-id-alerts"
+      "webhookId": "wait-webhook-id-next-page",
+      "id": "5b1d2f71-470e-495b-83bd-6f827a17d655"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get API response from 'Fetch Active Alerts' node\nconst apiResponse = $('Fetch Active Alerts').first().json;\n\n// Increment page for next iteration\nconst nextPage = apiResponse.pagination.currentPage + 1;\n\n// Return object with updated page and hasNextPage flag\nreturn {\n  page: nextPage,\n  hasMore: apiResponse.pagination.hasNextPage || false\n};"
+      },
+      "name": "Increment Page",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -400,
+        96
+      ],
+      "id": "e74da429-a8eb-4b7f-a269-2a3f6e353198"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "leftValue": "={{$json.hasMore}}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "name": "Has More Pages?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        -176,
+        96
+      ],
+      "id": "931105fa-2608-4e6d-baad-9ebfeb08bccf"
     },
     {
       "parameters": {},
-      "name": "No Operation",
+      "name": "End",
       "type": "n8n-nodes-base.noOp",
       "typeVersion": 1,
       "position": [
-        1340,
-        400
-      ]
+        48,
+        288
+      ],
+      "id": "fff15b78-44c2-493b-91c6-9d5b1b615a52"
     }
   ],
+  "pinData": {},
   "connections": {
-    "Cron - Diário 10h": {
+    "Cron - Daily 10am": {
       "main": [
         [
           {
-            "node": "Buscar Alertas Ativos",
+            "node": "Initialize Page",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Buscar Alertas Ativos": {
+    "Initialize Page": {
       "main": [
         [
           {
-            "node": "Split em Lotes de 50",
+            "node": "Fetch Active Alerts",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Split em Lotes de 50": {
+    "Fetch Active Alerts": {
       "main": [
         [
           {
-            "node": "Renderizar Email de Alerta",
+            "node": "Has Alerts?",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Renderizar Email de Alerta": {
+    "Has Alerts?": {
       "main": [
         [
           {
-            "node": "Tem Novas Propriedades?",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Tem Novas Propriedades?": {
-      "main": [
-        [
-          {
-            "node": "Enviar Email via SES",
+            "node": "Extract Alerts",
             "type": "main",
             "index": 0
           }
         ],
         [
           {
-            "node": "No Operation",
+            "node": "Increment Page",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Enviar Email via SES": {
+    "Extract Alerts": {
       "main": [
         [
           {
-            "node": "Wait 100ms",
+            "node": "Wait Between Emails",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Wait 100ms": {
+    "Wait Between Emails": {
       "main": [
         [
           {
-            "node": "Split em Lotes de 50",
+            "node": "Send Alert Email",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "No Operation": {
+    "Send Alert Email": {
       "main": [
         [
           {
-            "node": "Split em Lotes de 50",
+            "node": "Increment Page",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Increment Page": {
+      "main": [
+        [
+          {
+            "node": "Has More Pages?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Has More Pages?": {
+      "main": [
+        [
+          {
+            "node": "Wait Before Next Page",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "End",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait Before Next Page": {
+      "main": [
+        [
+          {
+            "node": "Fetch Active Alerts",
             "type": "main",
             "index": 0
           }
@@ -258,12 +357,15 @@
       ]
     }
   },
+  "active": true,
   "settings": {
     "executionOrder": "v1"
   },
-  "staticData": null,
-  "tags": [],
-  "triggerCount": 0,
-  "updatedAt": "2025-01-24T00:00:00.000Z",
-  "versionId": "1"
+  "versionId": "92f81051-3d8e-41ae-a336-ad0335551f6c",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "a0fe618831310e85c2efc6bcdfcba580d205b48a83b9b2f4b77a76183f679409"
+  },
+  "id": "8Ea2Q9IJGbDL1u2g",
+  "tags": []
 }
