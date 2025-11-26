@@ -1,17 +1,50 @@
 import { db } from "@/lib/db";
 import { propertyNotifications, users } from "@/lib/db/schema";
 import { and, eq, isNotNull } from "drizzle-orm";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 /**
- * GET /api/emails/daily-alerts/alerts
+ * GET /api/emails/daily-alerts/alerts?page=1&limit=50
  *
- * Retorna lista de alertas ativos para processamento diário.
+ * Retorna lista paginada de alertas ativos para processamento diário.
  * Protegido por API Key no middleware.
  */
-export async function GET() {
+export async function GET(request: NextRequest) {
     try {
-        // Buscar todos os alertas ativos com informações do usuário
+        // Extrair parâmetros de paginação
+        const { searchParams } = new URL(request.url);
+        const page = parseInt(searchParams.get("page") || "1");
+        const limit = parseInt(searchParams.get("limit") || "50");
+        
+        // Validar parâmetros
+        if (page < 1 || limit < 1 || limit > 100) {
+            return NextResponse.json(
+                { success: false, error: "Invalid pagination parameters. page >= 1, limit between 1-100" },
+                { status: 400 }
+            );
+        }
+
+        const offset = (page - 1) * limit;
+
+        // Buscar total de alertas ativos
+        const totalAlertsResult = await db
+            .select({
+                alertId: propertyNotifications.id,
+            })
+            .from(propertyNotifications)
+            .innerJoin(users, eq(propertyNotifications.userId, users.id))
+            .where(
+                and(
+                    eq(propertyNotifications.isActive, true),
+                    isNotNull(users.email)
+                )
+            );
+        
+        const totalAlerts = totalAlertsResult.length;
+        const totalPages = Math.ceil(totalAlerts / limit);
+        const hasMore = page < totalPages;
+
+        // Buscar alertas da página atual
         const activeAlerts = await db
             .select({
                 alertId: propertyNotifications.id,
@@ -29,11 +62,18 @@ export async function GET() {
                     eq(propertyNotifications.isActive, true),
                     isNotNull(users.email)
                 )
-            );
+            )
+            .limit(limit)
+            .offset(offset);
 
-        // Retornar apenas dados essenciais para o N8N fazer loop
+        // Retornar dados essenciais para o N8N fazer loop
         return NextResponse.json({
             success: true,
+            page,
+            limit,
+            total: totalAlerts,
+            totalPages,
+            hasMore,
             count: activeAlerts.length,
             alerts: activeAlerts.map(alert => ({
                 alertId: alert.alertId,
