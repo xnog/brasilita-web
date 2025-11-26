@@ -32,7 +32,6 @@ export async function sendEmail({
     replyTo = 'contato@brasilita.com',
 }: SendEmailParams) {
     try {
-        to = 'xnogueira@gmail.com'
         const info = await transporter.sendMail({
             from,
             to,
