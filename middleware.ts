@@ -1,17 +1,37 @@
 import { auth } from "@/lib/auth";
 import { NextResponse } from "next/server";
 
+// Rotas públicas que não precisam de autenticação
+const publicRoutes = [
+    "/",
+    "/auth/signin",
+    "/auth/signup",
+    "/api/auth",
+    "/privacy-policy",
+];
+
+// Rotas com autenticação via API Key (N8N)
+const apiKeyRoutes = ["/api/emails"];
+
 export default auth((req) => {
     const { pathname } = req.nextUrl;
 
-    // Rotas públicas que não precisam de autenticação
-    const publicRoutes = [
-        "/",
-        "/auth/signin",
-        "/auth/signup",
-        "/api/auth",
-        "/privacy-policy",
-    ];
+    // Verificar se é rota com API Key
+    const isApiKeyRoute = apiKeyRoutes.some(route => pathname.startsWith(route));
+
+    if (isApiKeyRoute) {
+        const apiKey = req.headers.get("x-api-key");
+
+        if (apiKey && apiKey === process.env.EMAIL_API_SECRET_KEY) {
+            return NextResponse.next();
+        }
+
+        // Se não tiver API Key válida, retorna 401
+        return NextResponse.json(
+            { error: "Unauthorized - Invalid or missing API key" },
+            { status: 401 }
+        );
+    }
 
     const isPublicRoute = publicRoutes.some(route =>
         pathname.startsWith(route) || pathname === route

@@ -13,6 +13,7 @@ frontend:
         - echo "LISTMONK_API_USER=$LISTMONK_API_USER" >> .env
         - echo "LISTMONK_API_KEY=$LISTMONK_API_KEY" >> .env
         - echo "LISTMONK_LIST_ID=$LISTMONK_LIST_ID" >> .env
+        - echo "BRASILITA_EMAIL_API_KEY=$BRASILITA_EMAIL_API_KEY" >> .env
         - npm ci --cache .npm --prefer-offline
     build:
       commands:

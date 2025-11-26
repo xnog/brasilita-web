@@ -1,0 +1,269 @@
+{
+  "name": "Brasilita - Email Semanal de Sugestões",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 9 * * 1"
+            }
+          ]
+        }
+      },
+      "name": "Cron - Segunda 9h",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        240,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://brasilita.com/api/emails/weekly-suggestions/users",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-api-key",
+              "value": "={{$env.BRASILITA_EMAIL_API_KEY}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Buscar Usuários",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        460,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "batchSize": 50,
+        "options": {}
+      },
+      "name": "Split em Lotes de 50",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        680,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "url": "=https://brasilita.com/api/emails/weekly-suggestions/render?userId={{$json.userId}}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-api-key",
+              "value": "={{$env.BRASILITA_EMAIL_API_KEY}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Renderizar Email",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        900,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "leftValue": "={{$json.propertiesCount}}",
+              "rightValue": "0",
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "name": "Tem Propriedades?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        1120,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "fromEmail": "noreply@brasilita.com",
+        "toEmail": "={{$json.userEmail}}",
+        "subject": "=Brasilità: {{$json.propertiesCount}} novos imóveis selecionados para você",
+        "bodyHtml": "={{$json.html}}",
+        "additionalFields": {
+          "senderName": "Brasilità",
+          "replyTo": "contato@brasilita.com"
+        }
+      },
+      "name": "Enviar Email via SES",
+      "type": "n8n-nodes-base.awsSes",
+      "typeVersion": 1,
+      "position": [
+        1340,
+        200
+      ],
+      "credentials": {
+        "aws": {
+          "id": "1",
+          "name": "AWS SES"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 100,
+        "unit": "milliseconds"
+      },
+      "name": "Wait 100ms",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1560,
+        200
+      ],
+      "webhookId": "wait-webhook-id"
+    },
+    {
+      "parameters": {},
+      "name": "No Operation",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1340,
+        400
+      ]
+    }
+  ],
+  "connections": {
+    "Cron - Segunda 9h": {
+      "main": [
+        [
+          {
+            "node": "Buscar Usuários",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Buscar Usuários": {
+      "main": [
+        [
+          {
+            "node": "Split em Lotes de 50",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split em Lotes de 50": {
+      "main": [
+        [
+          {
+            "node": "Renderizar Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Renderizar Email": {
+      "main": [
+        [
+          {
+            "node": "Tem Propriedades?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tem Propriedades?": {
+      "main": [
+        [
+          {
+            "node": "Enviar Email via SES",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Enviar Email via SES": {
+      "main": [
+        [
+          {
+            "node": "Wait 100ms",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait 100ms": {
+      "main": [
+        [
+          {
+            "node": "Split em Lotes de 50",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "No Operation": {
+      "main": [
+        [
+          {
+            "node": "Split em Lotes de 50",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-01-24T00:00:00.000Z",
+  "versionId": "1"
+}
