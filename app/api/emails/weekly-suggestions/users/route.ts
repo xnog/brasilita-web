@@ -1,6 +1,6 @@
 import { db } from "@/lib/db";
 import { users, userProfiles } from "@/lib/db/schema";
-import { eq, isNotNull } from "drizzle-orm";
+import { eq, isNotNull, count } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 
 /**
@@ -19,7 +19,7 @@ export async function GET(request: NextRequest) {
         // Validar parâmetros
         if (page < 1 || limit < 1 || limit > 100) {
             return NextResponse.json(
-                { success: false, error: "Invalid pagination parameters. page >= 1, limit between 1-100" },
+                { error: "Invalid pagination parameters. page >= 1, limit between 1-100" },
                 { status: 400 }
             );
         }
@@ -27,17 +27,14 @@ export async function GET(request: NextRequest) {
         const offset = (page - 1) * limit;
 
         // Buscar total de usuários com perfis
-        const totalUsersResult = await db
-            .select({
-                userId: users.id,
-            })
+        const [totalCountResult] = await db
+            .select({ count: count() })
             .from(users)
             .innerJoin(userProfiles, eq(users.id, userProfiles.userId))
             .where(isNotNull(users.email));
 
-        const totalUsers = totalUsersResult.length;
-        const totalPages = Math.ceil(totalUsers / limit);
-        const hasMore = page < totalPages;
+        const totalCount = totalCountResult.count;
+        const totalPages = Math.ceil(totalCount / limit);
 
         // Buscar usuários da página atual
         const usersWithProfiles = await db
@@ -52,21 +49,21 @@ export async function GET(request: NextRequest) {
             .limit(limit)
             .offset(offset);
 
-        // Retornar dados essenciais para o N8N fazer loop
         return NextResponse.json({
-            success: true,
-            page,
-            limit,
-            total: totalUsers,
-            totalPages,
-            hasMore,
-            count: usersWithProfiles.length,
             users: usersWithProfiles,
+            pagination: {
+                currentPage: page,
+                totalPages: totalPages,
+                totalCount: totalCount,
+                hasNextPage: page < totalPages,
+                hasPrevPage: page > 1,
+                limit: limit
+            }
         });
     } catch (error) {
         console.error("Error fetching users for weekly suggestions:", error);
         return NextResponse.json(
-            { success: false, error: "Internal server error" },
+            { error: "Internal server error" },
             { status: 500 }
         );
     }
