@@ -28,7 +28,7 @@ export async function sendEmail({
     to,
     subject,
     html,
-    from = 'noreply@brasilita.com',
+    from = 'Brasilità <noreply@brasilita.com>',
     replyTo = 'contato@brasilita.com',
 }: SendEmailParams) {
     try {
