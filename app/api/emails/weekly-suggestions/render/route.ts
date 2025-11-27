@@ -1,6 +1,6 @@
 import { db } from "@/lib/db";
-import { properties, userProfiles, userProfileRegions } from "@/lib/db/schema";
-import { and, desc, eq, gte, inArray, isNotNull, lte, sql } from "drizzle-orm";
+import { properties, userProfiles } from "@/lib/db/schema";
+import { and, desc, eq, gte, inArray, lte, sql } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 import { render } from "@react-email/components";
 import WeeklySuggestionsEmail from "@/emails/weekly-suggestions";
