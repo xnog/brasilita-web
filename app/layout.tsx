@@ -28,9 +28,9 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/logo.svg",
-        width: 800,
-        height: 600,
+        url: "/logo.png",
+        width: 1200,
+        height: 630,
         alt: "Brasilità - Seu imóvel na Itália"
       }
     ],
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Brasilità - Seu imóvel na Itália",
     description: "Assessoria completa para brasileiros que desejam investir no mercado imobiliário italiano",
-    images: ["/logo.svg"]
+    images: ["/logo.png"]
   }
 };
 
