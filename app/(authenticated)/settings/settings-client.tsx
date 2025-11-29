@@ -3,7 +3,9 @@
 import { ChangePasswordForm } from "@/components/auth/change-password-form";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { User } from "lucide-react";
+import { Switch } from "@/components/ui/switch";
+import { User, Mail } from "lucide-react";
+import { useState } from "react";
 
 interface SettingsClientProps {
     userHasPassword: boolean;
@@ -12,9 +14,40 @@ interface SettingsClientProps {
         name?: string | null;
         email?: string | null;
     } | null;
+    emailPreferences: {
+        weeklySuggestions?: boolean;
+    };
 }
 
-export function SettingsClient({ userHasPassword, loginProvider, userInfo }: SettingsClientProps) {
+export function SettingsClient({ userHasPassword, loginProvider, userInfo, emailPreferences }: SettingsClientProps) {
+    const [weeklySuggestions, setWeeklySuggestions] = useState(emailPreferences.weeklySuggestions ?? true);
+    const [isUpdating, setIsUpdating] = useState(false);
+
+    const handleToggleWeeklySuggestions = async (checked: boolean) => {
+        setIsUpdating(true);
+        try {
+            const response = await fetch("/api/user/email-preferences", {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ weeklySuggestions: checked }),
+            });
+
+            if (!response.ok) {
+                throw new Error("Erro ao atualizar preferências");
+            }
+
+            setWeeklySuggestions(checked);
+        } catch (error) {
+            console.error("Erro ao atualizar preferências:", error);
+            // Revert on error
+            setWeeklySuggestions(!checked);
+        } finally {
+            setIsUpdating(false);
+        }
+    };
+
     const getProviderName = (provider: string) => {
         switch (provider.toLowerCase()) {
             case 'google':
@@ -75,6 +108,33 @@ export function SettingsClient({ userHasPassword, loginProvider, userInfo }: Set
                             <Badge variant={getProviderBadgeVariant(loginProvider)} className="text-xs">
                                 {getProviderName(loginProvider)}
                             </Badge>
+                        </div>
+                    </CardContent>
+                </Card>
+
+                {/* Email Preferences */}
+                <Card>
+                    <CardHeader>
+                        <CardTitle className="flex items-center gap-2">
+                            <Mail className="h-5 w-5" />
+                            Preferências de Email
+                        </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <div className="flex items-center justify-between">
+                            <div className="space-y-0.5">
+                                <label className="text-sm font-medium cursor-pointer">
+                                    Sugestões Semanais
+                                </label>
+                                <p className="text-sm text-muted-foreground">
+                                    Receba até 3 imóveis selecionados toda segunda-feira às 9h
+                                </p>
+                            </div>
+                            <Switch
+                                checked={weeklySuggestions}
+                                onCheckedChange={handleToggleWeeklySuggestions}
+                                disabled={isUpdating}
+                            />
                         </div>
                     </CardContent>
                 </Card>

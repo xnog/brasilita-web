@@ -1,6 +1,6 @@
 import { db } from "@/lib/db";
 import { users, userProfiles } from "@/lib/db/schema";
-import { eq, isNotNull, count } from "drizzle-orm";
+import { eq, isNotNull, count, and, sql } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 
 /**
@@ -26,17 +26,23 @@ export async function GET(request: NextRequest) {
 
         const offset = (page - 1) * limit;
 
-        // Buscar total de usuários com perfis
+        // Buscar total de usuários com perfis e weeklySuggestions ativado
         const [totalCountResult] = await db
             .select({ count: count() })
             .from(users)
             .innerJoin(userProfiles, eq(users.id, userProfiles.userId))
-            .where(isNotNull(users.email));
+            .where(
+                and(
+                    isNotNull(users.email),
+                    // Filtrar apenas usuários com weeklySuggestions ativado
+                    sql`(${userProfiles.emailPreferences}->>'weeklySuggestions')::boolean = true`
+                )
+            );
 
         const totalCount = totalCountResult.count;
         const totalPages = Math.ceil(totalCount / limit);
 
-        // Buscar usuários da página atual
+        // Buscar usuários da página atual com weeklySuggestions ativado
         const usersWithProfiles = await db
             .select({
                 userId: users.id,
@@ -45,7 +51,13 @@ export async function GET(request: NextRequest) {
             })
             .from(users)
             .innerJoin(userProfiles, eq(users.id, userProfiles.userId))
-            .where(isNotNull(users.email))
+            .where(
+                and(
+                    isNotNull(users.email),
+                    // Filtrar apenas usuários com weeklySuggestions ativado
+                    sql`(${userProfiles.emailPreferences}->>'weeklySuggestions')::boolean = true`
+                )
+            )
             .limit(limit)
             .offset(offset);
 

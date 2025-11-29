@@ -86,13 +86,21 @@ export default function WeeklySuggestionsEmail({
                 </Text>
               </Section>
             ) : (
-              properties.map((property) => (
-                <PropertyCard
-                  key={property.id}
-                  property={property}
-                  baseUrl={baseUrl}
-                />
-              ))
+              <>
+                {properties.map((property) => (
+                  <PropertyCard
+                    key={property.id}
+                    property={property}
+                    baseUrl={baseUrl}
+                  />
+                ))}
+
+                <Section style={ctaSection}>
+                  <a href={`${baseUrl}/properties`} style={ctaButton}>
+                    Ver mais imóveis
+                  </a>
+                </Section>
+              </>
             )}
 
             <Text style={signature}>
@@ -106,7 +114,13 @@ export default function WeeklySuggestionsEmail({
           </Section>
         </Container>
 
-        <EmailFooter baseUrl={baseUrl} />
+        <EmailFooter
+          baseUrl={baseUrl}
+          manageLink={{
+            href: `${baseUrl}/settings`,
+            text: 'Preferências de Email'
+          }}
+        />
       </Body>
     </Html>
   );
@@ -179,4 +193,22 @@ const emptyText = {
   fontSize: '16px',
   lineHeight: '24px',
   margin: '0',
+};
+
+const ctaSection = {
+  textAlign: 'center' as const,
+  marginTop: '32px',
+  marginBottom: '24px',
+};
+
+const ctaButton = {
+  backgroundColor: '#1a1917',
+  borderRadius: '6px',
+  color: '#ffffff',
+  display: 'inline-block',
+  fontSize: '16px',
+  fontWeight: '600',
+  padding: '14px 32px',
+  textDecoration: 'none',
+  textAlign: 'center' as const,
 };

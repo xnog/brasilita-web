@@ -2,10 +2,15 @@ import { Link, Section, Text } from '@react-email/components';
 
 interface EmailFooterProps {
   baseUrl?: string;
+  manageLink?: {
+    href: string;
+    text: string;
+  };
 }
 
 export function EmailFooter({
   baseUrl = 'https://brasilita.com',
+  manageLink,
 }: EmailFooterProps) {
   return (
     <Section style={footerContainer}>
@@ -17,6 +22,14 @@ export function EmailFooter({
           <Link href={`${baseUrl}/privacy-policy`} style={link}>
             Política de Privacidade
           </Link>
+          {manageLink && (
+            <>
+              {' · '}
+              <Link href={manageLink.href} style={link}>
+                {manageLink.text}
+              </Link>
+            </>
+          )}
         </Text>
         <Text style={footerTextSmall}>
           Esta é uma mensagem automática. Por favor, não responda.

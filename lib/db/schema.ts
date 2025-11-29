@@ -96,6 +96,7 @@ export const userProfiles = pgTable("user_profile", {
     hasFinancing: boolean("hasFinancing"), // whether the user already has the money to buy
     phone: text("phone"), // user's phone number
     investmentGoal: text("investmentGoal"), // user's objective/intention for the property investment
+    emailPreferences: jsonb("emailPreferences").default({ weeklySuggestions: true }), // Email notification preferences
     createdAt: timestamp("createdAt", { mode: "date" }).defaultNow(),
     updatedAt: timestamp("updatedAt", { mode: "date" }).defaultNow(),
 }, (table) => ({

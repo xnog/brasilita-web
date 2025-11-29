@@ -59,6 +59,17 @@ export async function POST(request: NextRequest) {
             );
         }
 
+        // Verificar se o usuário desativou as sugestões semanais
+        const emailPrefs = userProfile.emailPreferences as { weeklySuggestions?: boolean } | null;
+        if (emailPrefs?.weeklySuggestions === false) {
+            return NextResponse.json({
+                success: true,
+                sent: false,
+                userId,
+                message: "User has disabled weekly suggestions",
+            });
+        }
+
         // Construir condições de busca baseado no perfil
         const whereConditions = [
             eq(properties.isAvailable, true),
@@ -88,14 +99,14 @@ export async function POST(request: NextRequest) {
             whereConditions.push(eq(properties.isRentToOwn, true));
         }
 
-        // Buscar até 3 propriedades
+        // Buscar até 10 propriedades mais recentes
         const matchedProperties = await db.query.properties.findMany({
             where: and(...whereConditions),
             with: {
                 region: true,
             },
             orderBy: desc(properties.createdAt),
-            limit: 3,
+            limit: 10,
         });
 
         // Se não houver propriedades, não enviar email

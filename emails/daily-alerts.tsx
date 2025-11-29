@@ -85,12 +85,11 @@ export default function DailyAlertsEmail({
               />
             ))}
 
-            <Text style={text}>
-              <a href={`${baseUrl}/alerts`} style={link}>
-                Gerencie seus alertas
-              </a>{' '}
-              no painel de controle.
-            </Text>
+            <Section style={ctaSection}>
+              <a href={`${baseUrl}/properties`} style={ctaButton}>
+                Ver mais imóveis
+              </a>
+            </Section>
 
             <Text style={signature}>
               <span style={signatureBrand}>
@@ -103,7 +102,13 @@ export default function DailyAlertsEmail({
           </Section>
         </Container>
 
-        <EmailFooter baseUrl={baseUrl} />
+        <EmailFooter
+          baseUrl={baseUrl}
+          manageLink={{
+            href: `${baseUrl}/alerts`,
+            text: 'Gerenciar Alertas'
+          }}
+        />
       </Body>
     </Html>
   );
@@ -181,9 +186,22 @@ const alertNameText = {
   margin: '0',
 };
 
-const link = {
-  color: '#1a1917',
-  textDecoration: 'underline',
+const ctaSection = {
+  textAlign: 'center' as const,
+  marginTop: '32px',
+  marginBottom: '24px',
+};
+
+const ctaButton = {
+  backgroundColor: '#1a1917',
+  borderRadius: '6px',
+  color: '#ffffff',
+  display: 'inline-block',
+  fontSize: '16px',
+  fontWeight: '600',
+  padding: '14px 32px',
+  textDecoration: 'none',
+  textAlign: 'center' as const,
 };
 
 const signature = {
