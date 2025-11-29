@@ -19,7 +19,7 @@ export function EmailFooter({
           </Link>
         </Text>
         <Text style={footerTextSmall}>
-          Este é um email automático. Por favor, não responda a este email.
+          Esta é uma mensagem automática. Por favor, não responda.
         </Text>
       </Section>
     </Section>
