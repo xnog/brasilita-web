@@ -1,17 +1,19 @@
 import { db } from "@/lib/db";
 import { properties, userProfiles } from "@/lib/db/schema";
-import { and, desc, eq, gte, inArray, lte, sql } from "drizzle-orm";
+import { and, desc, eq, gte, sql } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 import { render } from "@react-email/components";
 import WeeklySuggestionsEmail from "@/emails/weekly-suggestions";
 import { sendEmail } from "@/lib/email";
+import { buildWhereClause, type PropertyFilters } from "@/lib/api/property-filters";
 
 /**
  * POST /api/emails/weekly-suggestions/send
  * Body: { userId: string }
  *
  * Renderiza E envia o email de sugestões semanais para um usuário específico.
- * Busca até 3 imóveis cadastrados nos últimos 7 dias que atendem ao perfil do usuário.
+ * Busca até 10 imóveis cadastrados nos últimos 7 dias que atendem ao perfil do usuário.
+ * Usa os MESMOS filtros da tela de listagem de imóveis (regiões + priceMax).
  * Se não houver imóveis, não envia email (retorna success: true, sent: false).
  * Protegido por API Key no middleware.
  */
@@ -70,38 +72,28 @@ export async function POST(request: NextRequest) {
             });
         }
 
-        // Construir condições de busca baseado no perfil
-        const whereConditions = [
-            eq(properties.isAvailable, true),
-            // Últimos 7 dias
-            gte(properties.createdAt, sql`NOW() - INTERVAL '7 days'`),
-        ];
+        // Construir filtros IDÊNTICOS à tela de listagem de imóveis
+        const filters: PropertyFilters = {
+            // Regiões de interesse
+            ...(userProfile.userProfileRegions.length > 0 && {
+                regions: userProfile.userProfileRegions.map(upr => upr.regionId)
+            }),
+            // Orçamento máximo (sem margem adicional, igual à listagem)
+            ...(userProfile.investmentBudget && {
+                priceMax: userProfile.investmentBudget
+            })
+        };
 
-        // Filtrar por regiões se o usuário tiver preferências
-        const regionIds = userProfile.userProfileRegions.map(upr => upr.regionId);
-        if (regionIds.length > 0) {
-            whereConditions.push(inArray(properties.regionId, regionIds));
-        }
+        // Usar a mesma função buildWhereClause da listagem
+        const whereClause = buildWhereClause(filters);
 
-        // Filtrar por tipo de propriedade
-        if (userProfile.propertyType) {
-            whereConditions.push(eq(properties.propertyType, userProfile.propertyType));
-        }
-
-        // Filtrar por orçamento
-        if (userProfile.investmentBudget) {
-            // Buscar imóveis até 20% acima do orçamento
-            whereConditions.push(lte(properties.price, Math.floor(userProfile.investmentBudget * 1.2)));
-        }
-
-        // Filtrar por tipo de uso (rent-to-own se for short_rental)
-        if (userProfile.usageType === 'short_rental') {
-            whereConditions.push(eq(properties.isRentToOwn, true));
-        }
+        // Adicionar filtro de data (últimos 7 dias) - específico do email
+        const dateCondition = gte(properties.createdAt, sql`NOW() - INTERVAL '7 days'`);
+        const finalWhereClause = and(whereClause, dateCondition);
 
         // Buscar até 10 propriedades mais recentes
         const matchedProperties = await db.query.properties.findMany({
-            where: and(...whereConditions),
+            where: finalWhereClause,
             with: {
                 region: true,
             },
