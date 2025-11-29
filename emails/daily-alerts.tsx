@@ -86,7 +86,7 @@ export default function DailyAlertsEmail({
             ))}
 
             <Text style={text}>
-              <a href={`${baseUrl}/dashboard/alerts`} style={link}>
+              <a href={`${baseUrl}/alerts`} style={link}>
                 Gerencie seus alertas
               </a>{' '}
               no painel de controle.

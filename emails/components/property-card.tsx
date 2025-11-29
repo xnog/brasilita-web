@@ -5,6 +5,7 @@ export interface PropertyData {
   title: string;
   price: number;
   location: string;
+  region?: string;
   area?: number;
   rooms?: number;
   bedrooms?: number;
@@ -42,7 +43,10 @@ export function PropertyCard({ property, baseUrl = 'https://brasilita.com' }: Pr
 
           <Text style={title}>{property.title}</Text>
 
-          <Text style={location}>{property.location}</Text>
+          <Text style={location}>
+            {property.location}
+            {property.region && ` • ${property.region}`}
+          </Text>
 
           {(property.area || property.rooms || property.bedrooms || property.bathrooms) && (
             <Row style={features}>

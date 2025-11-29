@@ -75,12 +75,14 @@ export async function POST(request: NextRequest) {
         const finalWhereClause = and(whereClause, dateCondition);
 
         // Buscar propriedades que atendem ao alerta
-        const matchedProperties = await db
-            .select()
-            .from(properties)
-            .where(finalWhereClause)
-            .orderBy(desc(properties.createdAt))
-            .limit(10); // Máximo 10 propriedades por email
+        const matchedProperties = await db.query.properties.findMany({
+            where: finalWhereClause,
+            with: {
+                region: true,
+            },
+            orderBy: desc(properties.createdAt),
+            limit: 10, // Máximo 10 propriedades por email
+        });
 
         // Se não houver propriedades novas, não enviar email
         if (matchedProperties.length === 0) {
@@ -99,9 +101,11 @@ export async function POST(request: NextRequest) {
             title: prop.title,
             price: prop.price,
             location: prop.location,
+            region: prop.region?.name || undefined,
             area: prop.area || undefined,
             rooms: prop.rooms || undefined,
             bedrooms: prop.bedrooms || undefined,
+            bathrooms: prop.bathrooms || undefined,
             images: prop.images as string[] || [],
         }));
 
@@ -119,7 +123,7 @@ export async function POST(request: NextRequest) {
         // Enviar email
         const emailResult = await sendEmail({
             to: alert.user.email,
-            subject: `Brasilità: ${propertiesData.length} novos imóveis`,
+            subject: `Brasilità: ${propertiesData.length} ${propertiesData.length === 1 ? 'novo imóvel' : 'novos imóveis'}`,
             html,
         });
 

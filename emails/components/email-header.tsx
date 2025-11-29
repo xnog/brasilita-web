@@ -1,4 +1,4 @@
-import { Img, Section } from '@react-email/components';
+import { Img, Link, Section } from '@react-email/components';
 
 interface EmailHeaderProps {
   baseUrl?: string;
@@ -7,12 +7,14 @@ interface EmailHeaderProps {
 export function EmailHeader({ baseUrl = 'https://brasilita.com' }: EmailHeaderProps) {
   return (
     <Section style={header}>
-      <Img
-        src={`${baseUrl}/logo-brasilita.png`}
-        width="120"
-        alt="Brasilità"
-        style={logo}
-      />
+      <Link href={baseUrl}>
+        <Img
+          src={`${baseUrl}/logo-brasilita.png`}
+          width="120"
+          alt="Brasilità"
+          style={logo}
+        />
+      </Link>
     </Section>
   );
 }
