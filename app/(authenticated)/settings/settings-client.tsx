@@ -97,7 +97,7 @@ export function SettingsClient({ userHasPassword, loginProvider, userInfo, email
                             <span className="text-muted-foreground w-20">Nome:</span>
                             <span className="font-medium">{userInfo?.name || 'Não informado'}</span>
                         </div>
-                        
+
                         <div className="flex items-center gap-4 text-sm">
                             <span className="text-muted-foreground w-20">Email:</span>
                             <span className="font-medium">{userInfo?.email || 'Não informado'}</span>
@@ -127,7 +127,7 @@ export function SettingsClient({ userHasPassword, loginProvider, userInfo, email
                                     Sugestões Semanais
                                 </label>
                                 <p className="text-sm text-muted-foreground">
-                                    Receba até 3 imóveis selecionados toda segunda-feira às 9h
+                                    Receba até 10 imóveis selecionados todo domingo às 9h
                                 </p>
                             </div>
                             <Switch

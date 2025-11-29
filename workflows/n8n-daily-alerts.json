@@ -46,7 +46,7 @@
     },
     {
       "parameters": {
-        "url": "=https://brasilita.com/api/emails/daily-alerts/alerts?page={{$json.page}}&limit=50",
+        "url": "=https://brasilita.com/api/emails/daily-alerts/alerts?page={{$json.page}}&limit=20",
         "authentication": "genericCredentialType",
         "genericAuthType": "httpHeaderAuth",
         "options": {}
@@ -112,9 +112,7 @@
       "id": "f46faccc-5c09-4d68-b2cd-a81b864d8a56"
     },
     {
-      "parameters": {
-        "amount": 1
-      },
+      "parameters": {},
       "name": "Wait Between Emails",
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
@@ -361,7 +359,7 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "92f81051-3d8e-41ae-a336-ad0335551f6c",
+  "versionId": "2cac5a4c-2fdd-465a-b7b8-9b189ad81e3e",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "a0fe618831310e85c2efc6bcdfcba580d205b48a83b9b2f4b77a76183f679409"

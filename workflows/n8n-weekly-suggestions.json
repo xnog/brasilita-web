@@ -1,5 +1,5 @@
 {
-  "name": "Weekly suggestions",
+  "name": "Weekly Suggestions",
   "nodes": [
     {
       "parameters": {
@@ -7,7 +7,7 @@
           "interval": [
             {
               "field": "cronExpression",
-              "expression": "0 9 * * 1"
+              "expression": "0 9 * * 0"
             }
           ]
         }
@@ -16,10 +16,10 @@
       "type": "n8n-nodes-base.scheduleTrigger",
       "typeVersion": 1.2,
       "position": [
-        -1968,
-        144
+        -672,
+        48
       ],
-      "id": "092dc84e-ebef-49d2-8659-1a6b6b0e536d"
+      "id": "8f259297-4ec0-4699-9f4e-5a6d40fa9812"
     },
     {
       "parameters": {
@@ -39,14 +39,14 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.3,
       "position": [
-        -1744,
-        144
+        -448,
+        48
       ],
-      "id": "75fa764a-99f2-4258-877c-b50ad7d6971e"
+      "id": "aafd58f0-2fb2-47e3-8836-8e3f26cf8c43"
     },
     {
       "parameters": {
-        "url": "=https://brasilita.com/api/emails/weekly-suggestions/users?page={{$json.page}}&limit=50",
+        "url": "=https://brasilita.com/api/emails/weekly-suggestions/users?page={{$json.page}}&limit=20",
         "authentication": "genericCredentialType",
         "genericAuthType": "httpHeaderAuth",
         "options": {}
@@ -55,10 +55,10 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        -1520,
-        144
+        -224,
+        48
       ],
-      "id": "c192043f-c8f7-44a0-9312-6f44703b2de4",
+      "id": "66cb2ded-0d09-4cea-b9e2-cef28d4d47b4",
       "credentials": {
         "httpHeaderAuth": {
           "id": "3exN5NrsjqTpnOsO",
@@ -72,7 +72,8 @@
           "options": {
             "caseSensitive": true,
             "leftValue": "",
-            "typeValidation": "strict"
+            "typeValidation": "strict",
+            "version": 1
           },
           "conditions": [
             {
@@ -81,7 +82,8 @@
               "operator": {
                 "type": "number",
                 "operation": "gt"
-              }
+              },
+              "id": "04b7d290-cabe-43d7-8f96-6ccaf39165fa"
             }
           ],
           "combinator": "and"
@@ -92,10 +94,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2,
       "position": [
-        -1296,
-        96
+        0,
+        0
       ],
-      "id": "74b75dc2-132d-45ea-8983-2df559f6e6a0"
+      "id": "57f7ee8d-4dff-4f97-9596-cfa7cd73b4d2"
     },
     {
       "parameters": {
@@ -106,24 +108,22 @@
       "type": "n8n-nodes-base.splitOut",
       "typeVersion": 1,
       "position": [
-        -1072,
-        96
+        224,
+        0
       ],
-      "id": "f46faccc-5c09-4d68-b2cd-a81b864d8a57"
+      "id": "b4e669f0-3f89-4dcf-b565-7ea6e805e199"
     },
     {
-      "parameters": {
-        "amount": 1
-      },
+      "parameters": {},
       "name": "Wait Between Emails",
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
       "position": [
-        -848,
-        96
+        448,
+        0
       ],
       "webhookId": "wait-webhook-id-email-weekly",
-      "id": "2d95dfd3-7e40-4d20-8445-34e9b5638f9d"
+      "id": "fbd29d7d-3462-480c-8cfd-8d5a5d8e27c6"
     },
     {
       "parameters": {
@@ -149,10 +149,10 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        -624,
-        96
+        672,
+        0
       ],
-      "id": "0aa7258b-20dd-4af9-84c1-e028e8e8fb7d",
+      "id": "19645d4f-af15-4d86-bf2c-77c75a590441",
       "credentials": {
         "httpHeaderAuth": {
           "id": "3exN5NrsjqTpnOsO",
@@ -168,11 +168,11 @@
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
       "position": [
-        48,
-        96
+        1344,
+        0
       ],
       "webhookId": "wait-webhook-id-next-page-weekly",
-      "id": "5b1d2f71-470e-495b-83bd-6f827a17d656"
+      "id": "df069b8c-1107-46e8-836a-2248142ea3fd"
     },
     {
       "parameters": {
@@ -182,10 +182,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -400,
-        96
+        896,
+        0
       ],
-      "id": "e74da429-a8eb-4b7f-a269-2a3f6e353199"
+      "id": "457a1cb4-7c29-4af8-9689-dbeaf6328467"
     },
     {
       "parameters": {
@@ -213,10 +213,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2,
       "position": [
-        -176,
-        96
+        1120,
+        0
       ],
-      "id": "931105fa-2608-4e6d-baad-9ebfeb08bcd0"
+      "id": "163cd4ff-e227-4a7e-800b-fd7d3ad053b2"
     },
     {
       "parameters": {},
@@ -224,10 +224,10 @@
       "type": "n8n-nodes-base.noOp",
       "typeVersion": 1,
       "position": [
-        48,
-        288
+        1344,
+        192
       ],
-      "id": "fff15b78-44c2-493b-91c6-9d5b1b615a53"
+      "id": "54752d9e-fdfc-4145-a0c4-ec868edf7c7e"
     }
   ],
   "pinData": {},
@@ -361,11 +361,10 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "92f81051-3d8e-41ae-a336-ad0335551f6d",
+  "versionId": "c1e0278f-8fb7-4d91-8fac-b6a715c9d604",
   "meta": {
-    "templateCredsSetupCompleted": true,
     "instanceId": "a0fe618831310e85c2efc6bcdfcba580d205b48a83b9b2f4b77a76183f679409"
   },
-  "id": "8Ea2Q9IJGbDL1u2h",
+  "id": "hRzXLXsXQzDGmPhs",
   "tags": []
 }
