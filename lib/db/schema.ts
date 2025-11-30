@@ -59,6 +59,19 @@ export const verificationTokens = pgTable(
     })
 );
 
+// Password reset tokens table
+export const passwordResetTokens = pgTable("password_reset_token", {
+    id: text("id")
+        .primaryKey()
+        .$defaultFn(() => crypto.randomUUID()),
+    userId: text("userId")
+        .notNull()
+        .references(() => users.id, { onDelete: "cascade" }),
+    token: text("token").notNull().unique(),
+    expires: timestamp("expires", { mode: "date" }).notNull(),
+    createdAt: timestamp("createdAt", { mode: "date" }).defaultNow(),
+});
+
 export const authenticators = pgTable(
     "authenticator",
     {
@@ -180,6 +193,8 @@ export type UserChecklistProgress = typeof userChecklistProgress.$inferSelect;
 export type NewUserChecklistProgress = typeof userChecklistProgress.$inferInsert;
 export type UserProgressHistory = typeof userProgressHistory.$inferSelect;
 export type NewUserProgressHistory = typeof userProgressHistory.$inferInsert;
+export type PasswordResetToken = typeof passwordResetTokens.$inferSelect;
+export type NewPasswordResetToken = typeof passwordResetTokens.$inferInsert;
 
 // Property listings tables
 export const properties = pgTable("property", {
