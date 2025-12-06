@@ -87,7 +87,9 @@ export default function DocumentsPage() {
 
   const getDisplayPath = (doc: Document): string => {
     if (doc.folder) {
-      return `${doc.folder} / ${doc.name}`;
+      // Substitui todas as barras por barras com espaços
+      const folderWithSpaces = doc.folder.replace(/\//g, ' / ');
+      return `${folderWithSpaces} / ${doc.name}`;
     }
     return doc.name;
   };
