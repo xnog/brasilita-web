@@ -50,7 +50,7 @@ export default async function ThankYouPage() {
                             <div className="flex items-center justify-center gap-4">
                                 <div className="flex items-center gap-2">
                                     <Calendar className="w-4 h-4" />
-                                    <span>30 de Novembro às 16h</span>
+                                    <span>Todo Domingo às 16h (Horário de Brasília)</span>
                                 </div>
                             </div>
                         </div>
@@ -150,10 +150,10 @@ export default async function ThankYouPage() {
                 <div className="container mx-auto container-padding text-center">
                     <div className="max-w-3xl mx-auto">
                         <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
-                            Nos Vemos no Dia 30 de Novembro às 16h
+                            Nos Vemos Todo Domingo às 16h
                         </h2>
                         <p className="text-lg text-white/90 mb-6">
-                            Não esqueça de entrar no grupo gratuito para receber o link
+                            Não esqueça de entrar no grupo gratuito para receber o link da live
                         </p>
 
                         <a

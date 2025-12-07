@@ -204,7 +204,7 @@ export default async function InsiderLaunchPage() {
 
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-5xl mx-auto">
                         <div className="text-center">
-                            <p className="text-4xl md:text-5xl font-bold text-primary mb-2">+238k</p>
+                            <p className="text-4xl md:text-5xl font-bold text-primary mb-2">+258k</p>
                             <p className="text-sm text-muted-foreground">Seguidores Combinados</p>
                         </div>
 
