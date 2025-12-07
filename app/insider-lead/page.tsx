@@ -121,7 +121,7 @@ export default async function InsiderCohort2PreLaunch() {
             <LandingHeader session={session} />
 
             {/* Hero Section */}
-            <section className="relative bg-gradient-to-br from-slate-800 via-slate-900 to-slate-950 section-padding overflow-hidden">
+            <section className="relative bg-gradient-to-br from-slate-800 via-slate-900 to-slate-950 section-padding">
                 {/* Background Pattern */}
                 <div className="absolute inset-0 opacity-10">
                     <div className="absolute inset-0" style={{
@@ -221,14 +221,14 @@ export default async function InsiderCohort2PreLaunch() {
                             </div>
 
                             {/* Right Column - Form + Countdown */}
-                            <div className="relative">
+                            <div className="relative min-w-0">
                                 {/* Countdown Timer */}
                                 <div className="mb-6">
                                     <CountdownTimer targetDate={launchDate} />
                                 </div>
 
                                 {/* Registration Form */}
-                                <div className="bg-white rounded-2xl p-8 shadow-2xl border-4 border-emerald-500">
+                                <div className="bg-white rounded-2xl p-6 md:p-8 shadow-2xl border-4 border-emerald-500 min-w-0">
                                     <div className="text-center mb-6">
                                         <div className="w-16 h-16 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4">
                                             <Video className="w-8 h-8 text-white" />

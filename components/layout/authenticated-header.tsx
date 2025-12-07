@@ -95,6 +95,14 @@ export function AuthenticatedHeader({ user }: AuthenticatedHeaderProps) {
                     </SheetContent>
                 </Sheet>
 
+                {/* Mobile Logo - visible only on mobile */}
+                <div className="flex flex-1 items-center lg:hidden">
+                    <Link href="/dashboard" className="flex items-center space-x-2">
+                        <Logo className="h-6 w-6" size={24} />
+                        <span className="font-bold">Brasilità</span>
+                    </Link>
+                </div>
+
                 <div className="mr-6 hidden lg:flex">
                     <Link href="/dashboard" className="flex items-center space-x-2">
                         <Logo className="h-6 w-6" size={24} />
@@ -124,7 +132,7 @@ export function AuthenticatedHeader({ user }: AuthenticatedHeaderProps) {
 
                 </nav>
 
-                <div className="flex flex-1 items-center justify-end">
+                <div className="flex items-center justify-end lg:flex-1">
                     <div className="flex items-center space-x-2">
                         {/* Support Button */}
                         <Button variant="ghost" size="sm" asChild>

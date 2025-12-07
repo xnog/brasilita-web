@@ -100,7 +100,7 @@ export function EventRegistrationForm() {
             <Button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-black font-bold text-lg py-6"
+                className="w-full bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-black font-bold text-sm sm:text-base md:text-lg py-6"
             >
                 {loading ? (
                     <>
