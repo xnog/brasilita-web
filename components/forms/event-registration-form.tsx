@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { getNextSundayAt16hBrasilia } from "@/lib/utils/date";
 
 export function EventRegistrationForm() {
     const router = useRouter();
@@ -21,35 +22,7 @@ export function EventRegistrationForm() {
         setLoading(true);
 
         try {
-            // Calculate next Sunday at 16h (Brasília time)
-            const getNextSunday = () => {
-                const now = new Date();
-                const brasiliaOffset = -3 * 60; // Brasília is UTC-3
-                const localOffset = now.getTimezoneOffset();
-                const offsetDiff = (brasiliaOffset - localOffset) * 60 * 1000;
-
-                const nowInBrasilia = new Date(now.getTime() + offsetDiff);
-                const nextSunday = new Date(nowInBrasilia);
-
-                // Set to 16:00 today
-                nextSunday.setHours(16, 0, 0, 0);
-
-                // If today is Sunday but already past 16h, or if today is not Sunday, find next Sunday
-                const dayOfWeek = nowInBrasilia.getDay();
-                if (dayOfWeek === 0 && nowInBrasilia.getHours() >= 16) {
-                    // Today is Sunday but past 16h, go to next Sunday
-                    nextSunday.setDate(nextSunday.getDate() + 7);
-                } else if (dayOfWeek !== 0) {
-                    // Not Sunday, calculate days until next Sunday
-                    const daysUntilSunday = 7 - dayOfWeek;
-                    nextSunday.setDate(nextSunday.getDate() + daysUntilSunday);
-                }
-
-                // Convert back to local time for display
-                return new Date(nextSunday.getTime() - offsetDiff);
-            };
-
-            const nextEventDate = getNextSunday();
+            const nextEventDate = getNextSundayAt16hBrasilia().toISOString();
 
             const response = await fetch("/api/event-registration", {
                 method: "POST",
@@ -58,7 +31,7 @@ export function EventRegistrationForm() {
                 },
                 body: JSON.stringify({
                     ...formData,
-                    eventDate: nextEventDate.toISOString(),
+                    eventDate: nextEventDate,
                     eventName: "insider-live-casas-25k", // Nome do evento para identificação
                 }),
             });

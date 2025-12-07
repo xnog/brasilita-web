@@ -5,11 +5,12 @@ import { LandingFooter } from "@/components/layout/landing-footer";
 import { EventRegistrationForm } from "@/components/forms/event-registration-form";
 import { CountdownTimer } from "@/components/ui/countdown-timer";
 import { auth } from "@/lib/auth";
+import { getNextSundayAt16hBrasilia } from "@/lib/utils/date";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-    title: "Casas na Itália por €25 mil - Live Semanal Gratuita | Brasilità",
-    description: "Live gratuita todo domingo às 16h revelando onde encontrar e como comprar casas de €25.000 na Itália sem precisar de cidadania. Descubra as melhores oportunidades.",
+    title: "Casas na Itália por €25 mil - Live Gratuita | Brasilità",
+    description: "Live gratuita domingo às 16h revelando onde encontrar e como comprar casas de €25.000 na Itália sem precisar de cidadania. Descubra as melhores oportunidades.",
     keywords: [
         "casas baratas itália",
         "imóveis 25 mil euros",
@@ -24,7 +25,7 @@ export const metadata: Metadata = {
     category: "Imóveis e Investimentos",
     openGraph: {
         title: "Casas na Itália por €25 mil: Onde estão?",
-        description: "Live gratuita todo domingo às 16h. Descubra onde encontrar e como comprar casas de €25.000 na Itália sem precisar de cidadania.",
+        description: "Live gratuita domingo às 16h. Descubra onde encontrar e como comprar casas de €25.000 na Itália sem precisar de cidadania.",
         type: "website",
         locale: "pt_BR",
         siteName: "Brasilità - Seu imóvel na Itália",
@@ -41,7 +42,7 @@ export const metadata: Metadata = {
     twitter: {
         card: "summary_large_image",
         title: "Casas na Itália por €25 mil: Onde estão?",
-        description: "Live gratuita todo domingo às 16h. Descubra onde encontrar e como comprar casas de €25.000 na Itália sem precisar de cidadania.",
+        description: "Live gratuita domingo às 16h. Descubra onde encontrar e como comprar casas de €25.000 na Itália sem precisar de cidadania.",
         images: ["/og-insider-lead.jpg"],
         creator: "@brasilita.it"
     },
@@ -63,43 +64,14 @@ export const metadata: Metadata = {
 
 export default async function InsiderCohort2PreLaunch() {
     const session = await auth();
-
-    // Calculate next Sunday at 16h (Brasília time)
-    const getNextSunday = () => {
-        const now = new Date();
-        const brasiliaOffset = -3 * 60; // Brasília is UTC-3
-        const localOffset = now.getTimezoneOffset();
-        const offsetDiff = (brasiliaOffset - localOffset) * 60 * 1000;
-
-        const nowInBrasilia = new Date(now.getTime() + offsetDiff);
-        const nextSunday = new Date(nowInBrasilia);
-
-        // Set to 16:00 today
-        nextSunday.setHours(16, 0, 0, 0);
-
-        // If today is Sunday but already past 16h, or if today is not Sunday, find next Sunday
-        const dayOfWeek = nowInBrasilia.getDay();
-        if (dayOfWeek === 0 && nowInBrasilia.getHours() >= 16) {
-            // Today is Sunday but past 16h, go to next Sunday
-            nextSunday.setDate(nextSunday.getDate() + 7);
-        } else if (dayOfWeek !== 0) {
-            // Not Sunday, calculate days until next Sunday
-            const daysUntilSunday = 7 - dayOfWeek;
-            nextSunday.setDate(nextSunday.getDate() + daysUntilSunday);
-        }
-
-        // Convert back to local time for display
-        return new Date(nextSunday.getTime() - offsetDiff);
-    };
-
-    const launchDate = getNextSunday();
+    const launchDate = getNextSundayAt16hBrasilia();
 
     // JSON-LD Structured Data for Recurring Event Series
     const eventJsonLd = {
         "@context": "https://schema.org",
         "@type": "EventSeries",
         "name": "Casas na Itália por €25 mil: Onde estão?",
-        "description": "Live semanal gratuita revelando onde encontrar e como comprar casas de €25.000 na Itália sem precisar de cidadania italiana. Descubra as melhores regiões e o processo completo de compra.",
+        "description": "Live gratuita domingo às 16h revelando onde encontrar e como comprar casas de €25.000 na Itália sem precisar de cidadania italiana. Descubra as melhores regiões e o processo completo de compra.",
         "eventSchedule": {
             "@type": "Schedule",
             "repeatFrequency": "P1W",
@@ -164,7 +136,7 @@ export default async function InsiderCohort2PreLaunch() {
                             <div className="text-white">
                                 <div className="inline-flex items-center px-4 py-2 rounded-full bg-emerald-500 text-white text-xs md:text-sm font-bold mb-6 shadow-xl animate-pulse">
                                     <Sparkles className="w-4 h-4 mr-2" />
-                                    LIVE ONLINE GRATUITA - TODO DOMINGO
+                                    LIVE ONLINE GRATUITA - DOMINGO
                                 </div>
 
                                 <h1 className="text-4xl md:text-6xl font-extrabold mb-6 leading-tight">
@@ -179,7 +151,7 @@ export default async function InsiderCohort2PreLaunch() {
 
                                 <div className="flex items-center gap-3 mb-6 text-xl">
                                     <Calendar className="w-6 h-6 text-emerald-400" />
-                                    <span className="font-semibold">Todo Domingo</span>
+                                    <span className="font-semibold">Domingo</span>
                                 </div>
 
                                 <div className="flex items-center gap-3 mb-8 text-xl">
@@ -188,7 +160,7 @@ export default async function InsiderCohort2PreLaunch() {
                                 </div>
 
                                 <p className="text-xl md:text-2xl text-white/90 mb-8 leading-relaxed">
-                                    Live semanal ao vivo e gratuita revelando onde estão as casas de €25.000 na Itália e
+                                    Live ao vivo e gratuita domingo revelando onde estão as casas de €25.000 na Itália e
                                     como você pode comprar mesmo sem ter cidadania italiana
                                 </p>
 
@@ -622,7 +594,7 @@ export default async function InsiderCohort2PreLaunch() {
                             Garanta Sua Vaga Gratuita Agora!
                         </h2>
                         <p className="text-xl text-white/90 mb-8">
-                            Todo Domingo às 16h - Live ao vivo revelando onde estão e como comprar casas de €25.000 na Itália sem cidadania
+                            Domingo às 16h - Live ao vivo revelando onde estão e como comprar casas de €25.000 na Itália sem cidadania
                         </p>
                         <a
                             href="#top"
