@@ -147,7 +147,7 @@ export default async function ConsultoriaPage() {
                                 <div className="flex flex-wrap items-center gap-6 text-white/80 text-sm mb-8">
                                     <div className="flex items-center gap-2">
                                         <Users className="w-5 h-5 text-green-400" />
-                                        <span>+220k seguidores</span>
+                                        <span>+260k seguidores</span>
                                     </div>
                                     <div className="flex items-center gap-2">
                                         <Globe className="w-5 h-5 text-green-400" />

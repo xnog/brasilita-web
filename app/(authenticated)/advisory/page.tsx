@@ -1,8 +1,9 @@
 import { Metadata } from "next";
 import { AdvisoryClient } from "./advisory-client";
 import { db } from "@/lib/db";
-import { properties } from "@/lib/db/schema";
+import { properties, userProfiles, UserProfile } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
+import { auth } from "@/lib/auth";
 
 export const metadata: Metadata = {
     title: "Assessoria de Compra de Imóveis na Itália | Brasilità",
@@ -32,12 +33,18 @@ export default async function AdvisoryPage({
 }) {
     const params = await searchParams;
     const propertyId = params.propertyId;
+    const session = await auth();
 
     let property = null;
+    let userProfile = null;
+    let userEmail: string | undefined = undefined;
+    let userRegionNames: string[] = [];
 
-    if (propertyId) {
-        try {
-            property = await db.query.properties.findFirst({
+    // Buscar informações do usuário
+    try {
+        const [propertyResult, profileResult] = await Promise.all([
+            // Buscar propriedade se propertyId foi fornecido
+            propertyId ? db.query.properties.findFirst({
                 where: eq(properties.id, propertyId),
                 with: {
                     region: true
@@ -45,11 +52,41 @@ export default async function AdvisoryPage({
                 columns: {
                     originalUrl: false
                 }
-            });
-        } catch (error) {
-            console.error("Error fetching property:", error);
+            }) : Promise.resolve(null),
+
+            // Buscar perfil do usuário
+            session?.user?.id ? db.query.userProfiles.findFirst({
+                where: eq(userProfiles.userId, session.user.id),
+                with: {
+                    userProfileRegions: {
+                        with: {
+                            region: true
+                        }
+                    }
+                }
+            }) : Promise.resolve(null),
+        ]);
+
+        property = propertyResult;
+        userProfile = profileResult;
+        userEmail = session?.user?.email || undefined;
+
+        // Mapear IDs das regiões do usuário para nomes
+        if (userProfile && userProfile.userProfileRegions) {
+            userRegionNames = userProfile.userProfileRegions.map(upr => upr.region.name);
+            // Adicionar regions como propriedade temporária
+            (userProfile as UserProfile & { regions?: string[] }).regions = userProfile.userProfileRegions.map(upr => upr.regionId);
         }
+    } catch (error) {
+        console.error("Error fetching advisory page data:", error);
     }
 
-    return <AdvisoryClient initialProperty={property} />;
+    return (
+        <AdvisoryClient
+            initialProperty={property}
+            userProfile={userProfile}
+            userEmail={userEmail}
+            userRegionNames={userRegionNames}
+        />
+    );
 }

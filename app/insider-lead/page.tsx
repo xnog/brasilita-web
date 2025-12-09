@@ -207,7 +207,7 @@ export default async function InsiderCohort2PreLaunch() {
                                 <div className="flex flex-wrap items-center gap-6 text-white/80 text-sm">
                                     <div className="flex items-center gap-2">
                                         <Users className="w-5 h-5 text-green-400" />
-                                        <span>+258k seguidores</span>
+                                        <span>+260k seguidores</span>
                                     </div>
                                     <div className="flex items-center gap-2">
                                         <Globe className="w-5 h-5 text-green-400" />
@@ -561,7 +561,7 @@ export default async function InsiderCohort2PreLaunch() {
 
                         <div className="grid md:grid-cols-3 gap-8 mb-12">
                             <div className="text-center">
-                                <div className="text-4xl font-bold text-primary mb-2">+258k</div>
+                                <div className="text-4xl font-bold text-primary mb-2">+260k</div>
                                 <div className="text-sm text-muted-foreground">Seguidores nas redes sociais</div>
                             </div>
                             <div className="text-center">

@@ -8,14 +8,23 @@ export const getFormattedPhoneNumber = () => {
 };
 
 
-export const generatePropertyNegotiationMessage = (property: Omit<Property, 'originalUrl'> & { region?: { name: string } | null }) => {
+export const generatePropertyNegotiationMessage = (
+    property: Omit<Property, 'originalUrl'> & { region?: { name: string } | null },
+    userEmail?: string,
+    userRegions?: string[],
+    userBudget?: number
+) => {
     const propertyCode = getPropertyCode(property.id);
     const propertyUrl = `${window.location.origin}/properties/${property.id}`;
+
+    const userInfo = userEmail ? `\nEmail: ${userEmail}` : '';
+    const regionsInfo = userRegions && userRegions.length > 0 ? `\nRegiões de interesse: ${userRegions.join(", ")}` : '';
+    const budgetInfo = userBudget ? `\nOrçamento: ${new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'EUR', minimumFractionDigits: 0 }).format(userBudget)}` : '';
 
     const message = `Olá! Tenho interesse em saber mais sobre este imóvel e sobre a assessoria da Brasilità.
 
 Código: ${propertyCode}
-Link: ${propertyUrl}
+Link: ${propertyUrl}${userInfo}${regionsInfo}${budgetInfo}
 
 _Mensagem enviada através do site brasilita.com_`;
 
@@ -23,18 +32,42 @@ _Mensagem enviada através do site brasilita.com_`;
 };
 
 
-export const generateRepresentationServiceMessage = () => {
-    const message = `Olá! Gostaria de saber mais sobre a assessoria completa de compra de imóveis.
+export const generateRepresentationServiceMessage = (
+    userEmail?: string,
+    userRegions?: string[],
+    userBudget?: number
+) => {
+    const userInfo = userEmail ? `\nEmail: ${userEmail}` : '';
+    const regionsInfo = userRegions && userRegions.length > 0
+        ? `\nRegiões de interesse: ${userRegions.join(", ")}`
+        : '\nRegiões de interesse: Todas as regiões';
+    const budgetInfo = userBudget
+        ? `\nOrçamento: ${new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'EUR', minimumFractionDigits: 0 }).format(userBudget)}`
+        : '';
+
+    const message = `Olá! Gostaria de saber mais sobre a assessoria completa de compra de imóveis.${userInfo}${regionsInfo}${budgetInfo}
 
 _Mensagem enviada através do site brasilita.com_`;
 
     return encodeURIComponent(message);
 };
 
-export const generatePropertyAdvisoryMessage = () => {
+export const generatePropertyAdvisoryMessage = (
+    userEmail?: string,
+    userRegions?: string[],
+    userBudget?: number
+) => {
+    const userInfo = userEmail ? `\nEmail: ${userEmail}` : '';
+    const regionsInfo = userRegions && userRegions.length > 0
+        ? `\nRegiões de interesse: ${userRegions.join(", ")}`
+        : '\nRegiões de interesse: Todas as regiões';
+    const budgetInfo = userBudget
+        ? `\nOrçamento: ${new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'EUR', minimumFractionDigits: 0 }).format(userBudget)}`
+        : '';
+
     const message = `Olá! Não encontrei nenhum imóvel que se encaixe no que estou procurando no site.
 
-Gostaria de saber mais sobre a assessoria completa de compra de imóveis.
+Gostaria de saber mais sobre a assessoria completa de compra de imóveis.${userInfo}${regionsInfo}${budgetInfo}
 
 _Mensagem enviada através do site brasilita.com_`;
 
