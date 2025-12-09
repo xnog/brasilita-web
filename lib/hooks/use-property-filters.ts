@@ -13,12 +13,14 @@ export interface PropertyFilters {
     areaMin?: number;
     areaMax?: number;
     location?: string;
+    pricePerSqmMin?: number;
+    pricePerSqmMax?: number;
     favoritesOnly?: boolean;
     isRented?: boolean;
     isRentToOwn?: boolean;
     page?: number;
     limit?: number;
-    sortBy?: 'price' | 'area' | 'createdAt';
+    sortBy?: 'price' | 'area' | 'createdAt' | 'pricePerSqm';
     sortOrder?: 'asc' | 'desc';
 }
 

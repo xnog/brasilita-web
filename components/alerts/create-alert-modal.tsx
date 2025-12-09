@@ -94,10 +94,11 @@ export function CreateAlertModal({
 
         // Ordenação
         if (filters.sortBy && filters.sortOrder) {
-            const sortLabels = {
+            const sortLabels: Record<string, string> = {
                 'price': 'preço',
                 'area': 'área',
-                'createdAt': 'data de cadastro'
+                'createdAt': 'data de cadastro',
+                'pricePerSqm': 'preço/m²'
             };
             const orderLabels = {
                 'asc': 'crescente',

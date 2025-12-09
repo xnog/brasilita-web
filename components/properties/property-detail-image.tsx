@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { getPropertyImageUrl, getPropertyImageWithError } from "@/lib/constants";
 
 interface PropertyDetailImageProps {
     images: string[];
@@ -15,14 +16,14 @@ interface PropertyDetailImageProps {
 export function PropertyDetailImage({ images, propertyTitle, className }: PropertyDetailImageProps) {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [imageError, setImageError] = useState<{ [key: number]: boolean }>({});
-    
+
     // Touch/swipe states
     const [touchStart, setTouchStart] = useState<number | null>(null);
     const [touchEnd, setTouchEnd] = useState<number | null>(null);
 
     const imageContainerRef = useRef<HTMLDivElement>(null);
 
-    const validImages = images.length > 0 ? images : ['/api/placeholder/800/600'];
+    const validImages = images.length > 0 ? images : [getPropertyImageUrl(undefined)];
     const currentImage = validImages[currentImageIndex];
 
     const nextImage = useCallback(() => {
@@ -104,7 +105,7 @@ export function PropertyDetailImage({ images, propertyTitle, className }: Proper
                 onTouchEnd={onTouchEnd}
             >
                 <Image
-                    src={imageError[currentImageIndex] ? '/api/placeholder/800/600' : currentImage}
+                    src={getPropertyImageWithError(currentImage, imageError[currentImageIndex] || false)}
                     alt={`${propertyTitle} - Foto ${currentImageIndex + 1}`}
                     fill
                     className="object-contain" // Changed from object-cover to object-contain to show full image
@@ -157,7 +158,7 @@ export function PropertyDetailImage({ images, propertyTitle, className }: Proper
                             )}
                         >
                             <Image
-                                src={imageError[index] ? '/api/placeholder/400/300' : image}
+                                src={getPropertyImageWithError(image, imageError[index] || false)}
                                 alt={`Thumbnail ${index + 1}`}
                                 fill
                                 className="object-cover"

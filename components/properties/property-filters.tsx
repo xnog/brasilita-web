@@ -11,6 +11,7 @@ import { MultiSelector, MultiSelectorContent, MultiSelectorInput, MultiSelectorI
 import { Filter, X, ChevronDown, ChevronUp, Heart, RotateCcw } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Region } from "@/lib/db/schema";
+import { RangeInput } from "./range-input";
 
 export interface PropertyFilters {
     regions?: string[];
@@ -25,12 +26,14 @@ export interface PropertyFilters {
     areaMin?: number;
     areaMax?: number;
     location?: string;
+    pricePerSqmMin?: number;
+    pricePerSqmMax?: number;
     favoritesOnly?: boolean;
     isRented?: boolean;
     isRentToOwn?: boolean;
     page?: number;
     limit?: number;
-    sortBy?: 'price' | 'area' | 'createdAt';
+    sortBy?: 'price' | 'area' | 'createdAt' | 'pricePerSqm';
     sortOrder?: 'asc' | 'desc';
 }
 
@@ -106,7 +109,11 @@ export function PropertyFilters({
         handleFilterChange(key, numValue);
     };
 
-
+    const handlePricePerSqmChange = (type: 'min' | 'max', value: string) => {
+        const numValue = value ? parseInt(value) : undefined;
+        const key = type === 'min' ? 'pricePerSqmMin' : 'pricePerSqmMax';
+        handleFilterChange(key, numValue);
+    };
 
     const regionOptions = regions.map(region => ({
         value: region.id,
@@ -155,6 +162,19 @@ export function PropertyFilters({
                             </MultiSelector>
                         </div>
 
+                        {/* Location Search - compact */}
+                        <div className="flex-1 min-w-0 min-w-[140px]">
+                            <Label className="text-xs font-medium text-slate-600 tracking-wide mb-1 block">Localização</Label>
+                            <Input
+                                type="text"
+                                placeholder="Comune, Provincia..."
+                                value={localFilters.location || ''}
+                                onChange={(e) => handleFilterChange('location', e.target.value || undefined)}
+                                disabled={isLoading}
+                                className="h-10 text-sm"
+                            />
+                        </div>
+
                         {/* Price Range - compact */}
                         <div className="flex-1 min-w-0 min-w-[160px]">
                             <Label className="text-xs font-medium text-slate-600 tracking-wide mb-1 block">Preço (€)</Label>
@@ -187,7 +207,7 @@ export function PropertyFilters({
                                     const [sortBy, sortOrder] = value.split('-');
                                     const newFilters = {
                                         ...localFilters,
-                                        sortBy: sortBy as 'price' | 'area' | 'createdAt',
+                                        sortBy: sortBy as 'price' | 'area' | 'createdAt' | 'pricePerSqm',
                                         sortOrder: sortOrder as 'asc' | 'desc'
                                     };
                                     setLocalFilters(newFilters);
@@ -204,6 +224,8 @@ export function PropertyFilters({
                                     <SelectItem value="price-desc">Maior preço</SelectItem>
                                     <SelectItem value="area-asc">Menor área</SelectItem>
                                     <SelectItem value="area-desc">Maior área</SelectItem>
+                                    <SelectItem value="pricePerSqm-asc">Menor preço/m²</SelectItem>
+                                    <SelectItem value="pricePerSqm-desc">Maior preço/m²</SelectItem>
                                 </SelectContent>
                             </Select>
                         </div>
@@ -269,103 +291,50 @@ export function PropertyFilters({
             {showAdvanced && (
                 <div className="p-3 sm:p-4 md:p-6 bg-white border-t space-y-4 sm:space-y-6">
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 sm:gap-6">
-                        {/* Rooms Range */}
-                        <div className="space-y-2">
-                            <Label className="text-xs font-medium text-slate-600 tracking-wide">Cômodos</Label>
-                            <div className="flex gap-2">
-                                <Input
-                                    type="number"
-                                    placeholder="Min"
-                                    value={localFilters.roomsMin || ''}
-                                    onChange={(e) => handleRoomChange('min', e.target.value)}
-                                    disabled={isLoading}
-                                    min="0"
-                                    className="h-9"
-                                />
-                                <Input
-                                    type="number"
-                                    placeholder="Max"
-                                    value={localFilters.roomsMax || ''}
-                                    onChange={(e) => handleRoomChange('max', e.target.value)}
-                                    disabled={isLoading}
-                                    min="0"
-                                    className="h-9"
-                                />
-                            </div>
-                        </div>
+                        <RangeInput
+                            label="Preço/m² (€)"
+                            minValue={localFilters.pricePerSqmMin}
+                            maxValue={localFilters.pricePerSqmMax}
+                            onMinChange={(val) => handlePricePerSqmChange('min', val)}
+                            onMaxChange={(val) => handlePricePerSqmChange('max', val)}
+                            disabled={isLoading}
+                        />
 
-                        {/* Bedrooms Range */}
-                        <div className="space-y-2">
-                            <Label className="text-xs font-medium text-slate-600 tracking-wide">Quartos</Label>
-                            <div className="flex gap-2">
-                                <Input
-                                    type="number"
-                                    placeholder="Min"
-                                    value={localFilters.bedroomsMin || ''}
-                                    onChange={(e) => handleBedroomChange('min', e.target.value)}
-                                    disabled={isLoading}
-                                    min="0"
-                                    className="h-9"
-                                />
-                                <Input
-                                    type="number"
-                                    placeholder="Max"
-                                    value={localFilters.bedroomsMax || ''}
-                                    onChange={(e) => handleBedroomChange('max', e.target.value)}
-                                    disabled={isLoading}
-                                    min="0"
-                                    className="h-9"
-                                />
-                            </div>
-                        </div>
+                        <RangeInput
+                            label="Cômodos"
+                            minValue={localFilters.roomsMin}
+                            maxValue={localFilters.roomsMax}
+                            onMinChange={(val) => handleRoomChange('min', val)}
+                            onMaxChange={(val) => handleRoomChange('max', val)}
+                            disabled={isLoading}
+                        />
 
-                        {/* Bathrooms Range */}
-                        <div className="space-y-2">
-                            <Label className="text-xs font-medium text-slate-600 tracking-wide">Banheiros</Label>
-                            <div className="flex gap-2">
-                                <Input
-                                    type="number"
-                                    placeholder="Min"
-                                    value={localFilters.bathroomsMin || ''}
-                                    onChange={(e) => handleBathroomChange('min', e.target.value)}
-                                    disabled={isLoading}
-                                    min="0"
-                                    className="h-9"
-                                />
-                                <Input
-                                    type="number"
-                                    placeholder="Max"
-                                    value={localFilters.bathroomsMax || ''}
-                                    onChange={(e) => handleBathroomChange('max', e.target.value)}
-                                    disabled={isLoading}
-                                    min="0"
-                                    className="h-9"
-                                />
-                            </div>
-                        </div>
+                        <RangeInput
+                            label="Quartos"
+                            minValue={localFilters.bedroomsMin}
+                            maxValue={localFilters.bedroomsMax}
+                            onMinChange={(val) => handleBedroomChange('min', val)}
+                            onMaxChange={(val) => handleBedroomChange('max', val)}
+                            disabled={isLoading}
+                        />
 
-                        {/* Area Range */}
-                        <div className="space-y-2">
-                            <Label className="text-xs font-medium text-slate-600 tracking-wide">Área (m²)</Label>
-                            <div className="flex gap-2">
-                                <Input
-                                    type="number"
-                                    placeholder="Min"
-                                    value={localFilters.areaMin || ''}
-                                    onChange={(e) => handleAreaChange('min', e.target.value)}
-                                    disabled={isLoading}
-                                    className="h-9"
-                                />
-                                <Input
-                                    type="number"
-                                    placeholder="Max"
-                                    value={localFilters.areaMax || ''}
-                                    onChange={(e) => handleAreaChange('max', e.target.value)}
-                                    disabled={isLoading}
-                                    className="h-9"
-                                />
-                            </div>
-                        </div>
+                        <RangeInput
+                            label="Banheiros"
+                            minValue={localFilters.bathroomsMin}
+                            maxValue={localFilters.bathroomsMax}
+                            onMinChange={(val) => handleBathroomChange('min', val)}
+                            onMaxChange={(val) => handleBathroomChange('max', val)}
+                            disabled={isLoading}
+                        />
+
+                        <RangeInput
+                            label="Área (m²)"
+                            minValue={localFilters.areaMin}
+                            maxValue={localFilters.areaMax}
+                            onMinChange={(val) => handleAreaChange('min', val)}
+                            onMaxChange={(val) => handleAreaChange('max', val)}
+                            disabled={isLoading}
+                        />
 
                         {/* Boolean Filters Row */}
                         <div className="lg:col-span-5 sm:col-span-2">
