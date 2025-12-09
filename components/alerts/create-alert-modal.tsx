@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { PropertyFilters } from "@/lib/api/property-filters";
+import { formatFiltersPreview } from "@/lib/utils/format-filters";
 import { toast } from "sonner";
 
 interface CreateAlertModalProps {
@@ -24,94 +25,6 @@ export function CreateAlertModal({
     const [name, setName] = useState("");
     const [loading, setLoading] = useState(false);
     const filters = initialFilters || {};
-
-    const formatFiltersPreview = (filters: PropertyFilters) => {
-        const parts = [];
-
-        if (filters.regions && filters.regions.length > 0) {
-            parts.push(`${filters.regions.length} região(ões)`);
-        }
-
-        if (filters.priceMin || filters.priceMax) {
-            if (filters.priceMin && filters.priceMax) {
-                parts.push(`€${filters.priceMin.toLocaleString()} - €${filters.priceMax.toLocaleString()}`);
-            } else if (filters.priceMin) {
-                parts.push(`A partir de €${filters.priceMin.toLocaleString()}`);
-            } else if (filters.priceMax) {
-                parts.push(`Até €${filters.priceMax.toLocaleString()}`);
-            }
-        }
-
-        if (filters.bedroomsMin || filters.bedroomsMax) {
-            if (filters.bedroomsMin && filters.bedroomsMax) {
-                if (filters.bedroomsMin === filters.bedroomsMax) {
-                    parts.push(`${filters.bedroomsMin} quartos`);
-                } else {
-                    parts.push(`${filters.bedroomsMin} a ${filters.bedroomsMax} quartos`);
-                }
-            } else if (filters.bedroomsMin) {
-                parts.push(`${filters.bedroomsMin}+ quartos`);
-            } else if (filters.bedroomsMax) {
-                parts.push(`Até ${filters.bedroomsMax} quartos`);
-            }
-        }
-
-        if (filters.bathroomsMin || filters.bathroomsMax) {
-            if (filters.bathroomsMin && filters.bathroomsMax) {
-                if (filters.bathroomsMin === filters.bathroomsMax) {
-                    parts.push(`${filters.bathroomsMin} banheiros`);
-                } else {
-                    parts.push(`${filters.bathroomsMin} a ${filters.bathroomsMax} banheiros`);
-                }
-            } else if (filters.bathroomsMin) {
-                parts.push(`${filters.bathroomsMin}+ banheiros`);
-            } else if (filters.bathroomsMax) {
-                parts.push(`Até ${filters.bathroomsMax} banheiros`);
-            }
-        }
-
-        if (filters.areaMin || filters.areaMax) {
-            if (filters.areaMin && filters.areaMax) {
-                parts.push(`${filters.areaMin} - ${filters.areaMax}m²`);
-            } else if (filters.areaMin) {
-                parts.push(`A partir de ${filters.areaMin}m²`);
-            } else if (filters.areaMax) {
-                parts.push(`Até ${filters.areaMax}m²`);
-            }
-        }
-
-        if (filters.location) {
-            parts.push(`Localização: "${filters.location}"`);
-        }
-
-        if (filters.favoritesOnly) {
-            parts.push("Apenas favoritos");
-        }
-
-        if (filters.isRented !== undefined) {
-            parts.push(filters.isRented ? "Apenas alugados" : "Apenas à venda");
-        }
-
-        // Ordenação
-        if (filters.sortBy && filters.sortOrder) {
-            const sortLabels: Record<string, string> = {
-                'price': 'preço',
-                'area': 'área',
-                'createdAt': 'data de cadastro',
-                'pricePerSqm': 'preço/m²'
-            };
-            const orderLabels = {
-                'asc': 'crescente',
-                'desc': 'decrescente'
-            };
-
-            const sortLabel = sortLabels[filters.sortBy] || filters.sortBy;
-            const orderLabel = orderLabels[filters.sortOrder] || filters.sortOrder;
-            parts.push(`Ordenado por ${sortLabel} (${orderLabel})`);
-        }
-
-        return parts.length > 0 ? parts.join(" • ") : "Todos os imóveis disponíveis";
-    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
