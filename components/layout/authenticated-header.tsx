@@ -18,8 +18,16 @@ const navigationItems = [
         href: "/dashboard",
     },
     {
+        name: "Meus Imóveis",
+        href: "/my-properties",
+    },
+    {
         name: "Imóveis",
         href: "/properties",
+    },
+    {
+        name: "Favoritos",
+        href: "/favorites",
     },
 ];
 

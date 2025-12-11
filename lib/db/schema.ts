@@ -350,6 +350,7 @@ export const usersRelations = relations(users, ({ many }) => ({
     userPropertyInterests: many(userPropertyInterests),
     userChecklistProgress: many(userChecklistProgress),
     propertyNotifications: many(propertyNotifications),
+    purchaseJourneys: many(purchaseJourneys),
 }));
 
 export type Region = typeof regions.$inferSelect;
@@ -380,3 +381,113 @@ export const eventRegistration = pgTable("event_registration", {
 
 export type EventRegistration = typeof eventRegistration.$inferSelect;
 export type NewEventRegistration = typeof eventRegistration.$inferInsert;
+
+// Purchase Journey tables - Processo de Compra do Imóvel
+export const purchaseJourneys = pgTable("purchase_journey", {
+    id: text("id")
+        .primaryKey()
+        .$defaultFn(() => crypto.randomUUID()),
+    userId: text("userId")
+        .notNull()
+        .references(() => users.id, { onDelete: "cascade" }),
+    propertyId: text("propertyId")
+        .notNull()
+        .references(() => properties.id, { onDelete: "cascade" }),
+    status: text("status").notNull().default("in_progress"), // in_progress, completed, cancelled
+    createdAt: timestamp("createdAt", { mode: "date" }).defaultNow(),
+    updatedAt: timestamp("updatedAt", { mode: "date" }).defaultNow(),
+}, (table) => ({
+    // Unique constraint: apenas uma jornada ativa por usuário + imóvel
+    uniqueUserProperty: unique("purchase_journey_user_property_unique").on(table.userId, table.propertyId),
+}));
+
+// Purchase Journey Steps - As 24 etapas padronizadas
+export const purchaseJourneySteps = pgTable("purchase_journey_step", {
+    id: text("id")
+        .primaryKey()
+        .$defaultFn(() => crypto.randomUUID()),
+    journeyId: text("journeyId")
+        .notNull()
+        .references(() => purchaseJourneys.id, { onDelete: "cascade" }),
+    stepNumber: integer("stepNumber").notNull(), // 1 a 24
+    title: text("title").notNull(),
+    description: text("description").notNull(),
+    uploadRequired: boolean("uploadRequired").default(false),
+    status: text("status").notNull().default("pending"), // pending, in_progress, completed
+    completedAt: timestamp("completedAt", { mode: "date" }),
+    notes: text("notes"), // Notas opcionais do usuário
+    // Campos opcionais para integração com reunião (etapa 1)
+    eventId: text("eventId"),
+    meetingLink: text("meetingLink"),
+    eventStart: timestamp("eventStart", { mode: "date" }),
+    eventEnd: timestamp("eventEnd", { mode: "date" }),
+    createdAt: timestamp("createdAt", { mode: "date" }).defaultNow(),
+    updatedAt: timestamp("updatedAt", { mode: "date" }).defaultNow(),
+}, (table) => ({
+    // Unique constraint: apenas uma etapa por número em cada jornada
+    uniqueJourneyStep: unique("purchase_journey_step_unique").on(table.journeyId, table.stepNumber),
+}));
+
+// Purchase Journey Uploads - Arquivos enviados para cada etapa
+export const purchaseJourneyUploads = pgTable("purchase_journey_upload", {
+    id: text("id")
+        .primaryKey()
+        .$defaultFn(() => crypto.randomUUID()),
+    journeyId: text("journeyId")
+        .notNull()
+        .references(() => purchaseJourneys.id, { onDelete: "cascade" }),
+    stepId: text("stepId")
+        .notNull()
+        .references(() => purchaseJourneySteps.id, { onDelete: "cascade" }),
+    fileName: text("fileName").notNull(),
+    fileUrl: text("fileUrl").notNull(), // URL do arquivo (S3, local, etc)
+    fileSize: integer("fileSize"), // Tamanho em bytes
+    mimeType: text("mimeType"), // Tipo MIME do arquivo
+    uploadedBy: text("uploadedBy")
+        .notNull()
+        .references(() => users.id, { onDelete: "cascade" }),
+    createdAt: timestamp("createdAt", { mode: "date" }).defaultNow(),
+});
+
+// Relations
+export const purchaseJourneysRelations = relations(purchaseJourneys, ({ one, many }) => ({
+    user: one(users, {
+        fields: [purchaseJourneys.userId],
+        references: [users.id],
+    }),
+    property: one(properties, {
+        fields: [purchaseJourneys.propertyId],
+        references: [properties.id],
+    }),
+    steps: many(purchaseJourneySteps),
+}));
+
+export const purchaseJourneyStepsRelations = relations(purchaseJourneySteps, ({ one, many }) => ({
+    journey: one(purchaseJourneys, {
+        fields: [purchaseJourneySteps.journeyId],
+        references: [purchaseJourneys.id],
+    }),
+    uploads: many(purchaseJourneyUploads),
+}));
+
+export const purchaseJourneyUploadsRelations = relations(purchaseJourneyUploads, ({ one }) => ({
+    journey: one(purchaseJourneys, {
+        fields: [purchaseJourneyUploads.journeyId],
+        references: [purchaseJourneys.id],
+    }),
+    step: one(purchaseJourneySteps, {
+        fields: [purchaseJourneyUploads.stepId],
+        references: [purchaseJourneySteps.id],
+    }),
+    uploadedByUser: one(users, {
+        fields: [purchaseJourneyUploads.uploadedBy],
+        references: [users.id],
+    }),
+}));
+
+export type PurchaseJourney = typeof purchaseJourneys.$inferSelect;
+export type NewPurchaseJourney = typeof purchaseJourneys.$inferInsert;
+export type PurchaseJourneyStep = typeof purchaseJourneySteps.$inferSelect;
+export type NewPurchaseJourneyStep = typeof purchaseJourneySteps.$inferInsert;
+export type PurchaseJourneyUpload = typeof purchaseJourneyUploads.$inferSelect;
+export type NewPurchaseJourneyUpload = typeof purchaseJourneyUploads.$inferInsert;
