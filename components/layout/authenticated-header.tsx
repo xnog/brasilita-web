@@ -7,7 +7,7 @@ import { Logo } from "@/components/ui/logo";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
-import { LogOut, User, Menu, HelpCircle, Bell, Settings } from "lucide-react";
+import { LogOut, User, Menu, HelpCircle, Bell, Settings, FileText } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { signOut } from "next-auth/react";
 
@@ -103,6 +103,14 @@ export function AuthenticatedHeader({ user }: AuthenticatedHeaderProps) {
                     </SheetContent>
                 </Sheet>
 
+                {/* Mobile Logo - visible only on mobile */}
+                <div className="flex flex-1 items-center lg:hidden">
+                    <Link href="/dashboard" className="flex items-center space-x-2">
+                        <Logo className="h-6 w-6" size={24} />
+                        <span className="font-bold">Brasilità</span>
+                    </Link>
+                </div>
+
                 <div className="mr-6 hidden lg:flex">
                     <Link href="/dashboard" className="flex items-center space-x-2">
                         <Logo className="h-6 w-6" size={24} />
@@ -132,7 +140,7 @@ export function AuthenticatedHeader({ user }: AuthenticatedHeaderProps) {
 
                 </nav>
 
-                <div className="flex flex-1 items-center justify-end">
+                <div className="flex items-center justify-end lg:flex-1">
                     <div className="flex items-center space-x-2">
                         {/* Support Button */}
                         <Button variant="ghost" size="sm" asChild>
@@ -167,15 +175,22 @@ export function AuthenticatedHeader({ user }: AuthenticatedHeaderProps) {
                                 </DropdownMenuLabel>
                                 <DropdownMenuSeparator />
                                 <DropdownMenuItem asChild>
-                                    <Link href="/preferences">
-                                        <User className="mr-2 h-4 w-4" />
-                                        <span>Perfil</span>
-                                    </Link>
-                                </DropdownMenuItem>
-                                <DropdownMenuItem asChild>
                                     <Link href="/alerts">
                                         <Bell className="mr-2 h-4 w-4" />
                                         <span>Alertas</span>
+                                    </Link>
+                                </DropdownMenuItem>
+                                <DropdownMenuItem asChild>
+                                    <Link href="/documents">
+                                        <FileText className="mr-2 h-4 w-4" />
+                                        <span>Documentos</span>
+                                    </Link>
+                                </DropdownMenuItem>
+                                <DropdownMenuSeparator />
+                                <DropdownMenuItem asChild>
+                                    <Link href="/preferences">
+                                        <User className="mr-2 h-4 w-4" />
+                                        <span>Perfil</span>
                                     </Link>
                                 </DropdownMenuItem>
                                 <DropdownMenuItem asChild>

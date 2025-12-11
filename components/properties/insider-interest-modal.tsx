@@ -14,6 +14,7 @@ import { MapPin, CheckCircle2, XIcon } from "lucide-react";
 import { parsePropertyImages } from "@/lib/utils/property-parsing";
 import { useMemo, useEffect } from "react";
 import { cn } from "@/lib/utils";
+import { getPropertyImageUrl } from "@/lib/constants";
 
 interface InsiderInterestModalProps {
     property: Omit<Property, 'originalUrl'> & {
@@ -25,7 +26,7 @@ interface InsiderInterestModalProps {
 
 export function InsiderInterestModal({ property, isOpen, onClose }: InsiderInterestModalProps) {
     const images = useMemo(() => parsePropertyImages(property.images), [property.images]);
-    const firstImage = images.length > 0 ? images[0] : '/api/placeholder/400/300';
+    const firstImage = getPropertyImageUrl(images[0]);
     const [portalContainer, setPortalContainer] = React.useState<HTMLDivElement | null>(null);
 
     const formattedPrice = useMemo(() => {

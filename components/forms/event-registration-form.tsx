@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { getNextSundayAt16hBrasilia } from "@/lib/utils/date";
 
 export function EventRegistrationForm() {
     const router = useRouter();
@@ -21,6 +22,8 @@ export function EventRegistrationForm() {
         setLoading(true);
 
         try {
+            const nextEventDate = getNextSundayAt16hBrasilia().toISOString();
+
             const response = await fetch("/api/event-registration", {
                 method: "POST",
                 headers: {
@@ -28,8 +31,8 @@ export function EventRegistrationForm() {
                 },
                 body: JSON.stringify({
                     ...formData,
-                    eventDate: "2025-11-30T16:00:00-03:00",
-                    eventName: "insider-launch-2-nov-2025", // Nome do evento para identificação
+                    eventDate: nextEventDate,
+                    eventName: "insider-live-casas-25k", // Nome do evento para identificação
                 }),
             });
 
@@ -97,7 +100,7 @@ export function EventRegistrationForm() {
             <Button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-black font-bold text-lg py-6"
+                className="w-full bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-black font-bold text-sm sm:text-base md:text-lg py-6"
             >
                 {loading ? (
                     <>

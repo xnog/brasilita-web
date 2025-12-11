@@ -5,26 +5,27 @@ import { LandingFooter } from "@/components/layout/landing-footer";
 import { EventRegistrationForm } from "@/components/forms/event-registration-form";
 import { CountdownTimer } from "@/components/ui/countdown-timer";
 import { auth } from "@/lib/auth";
+import { getNextSundayAt16hBrasilia } from "@/lib/utils/date";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-    title: "Evento Gratuito: Cidadania Italiana e Imóveis - O Guia Completo | Brasilità",
-    description: "Evento ao vivo gratuito em 30 de Novembro revelando como conquistar sua cidadania italiana e garantir seu imóvel na Itália. Com orientação jurídica especializada.",
+    title: "Casas na Itália por €25 mil - Live Gratuita | Brasilità",
+    description: "Live gratuita domingo às 16h revelando onde encontrar e como comprar casas de €25.000 na Itália sem precisar de cidadania. Descubra as melhores oportunidades.",
     keywords: [
-        "cidadania italiana",
-        "imóveis na Itália",
-        "comprar imóvel Itália",
-        "processo cidadania italiana",
-        "residência na Itália",
-        "advogada cidadania italiana",
-        "evento gratuito cidadania",
+        "casas baratas itália",
+        "imóveis 25 mil euros",
+        "comprar casa itália sem cidadania",
+        "imóveis baratos itália",
+        "investir na itália",
+        "casas acessíveis itália",
+        "como comprar imóvel itália",
         "Brasilità"
     ],
     authors: [{ name: "Brasilità" }],
     category: "Imóveis e Investimentos",
     openGraph: {
-        title: "Cidadania Italiana e Imóveis - O Guia Completo",
-        description: "Evento ao vivo e gratuito em 30/11 às 16h. Descubra como conquistar sua cidadania e garantir seu imóvel na Itália.",
+        title: "Casas na Itália por €25 mil: Onde estão?",
+        description: "Live gratuita domingo às 16h. Descubra onde encontrar e como comprar casas de €25.000 na Itália sem precisar de cidadania.",
         type: "website",
         locale: "pt_BR",
         siteName: "Brasilità - Seu imóvel na Itália",
@@ -34,14 +35,14 @@ export const metadata: Metadata = {
                 url: "/og-insider-lead.jpg",
                 width: 1200,
                 height: 630,
-                alt: "Evento Brasilità - Cidadania Italiana e Imóveis"
+                alt: "Brasilità - Casas na Itália por €25 mil"
             }
         ]
     },
     twitter: {
         card: "summary_large_image",
-        title: "Cidadania Italiana e Imóveis - O Guia Completo",
-        description: "Evento ao vivo e gratuito em 30/11 às 16h. Descubra como conquistar sua cidadania e garantir seu imóvel na Itália.",
+        title: "Casas na Itália por €25 mil: Onde estão?",
+        description: "Live gratuita domingo às 16h. Descubra onde encontrar e como comprar casas de €25.000 na Itália sem precisar de cidadania.",
         images: ["/og-insider-lead.jpg"],
         creator: "@brasilita.it"
     },
@@ -63,16 +64,21 @@ export const metadata: Metadata = {
 
 export default async function InsiderCohort2PreLaunch() {
     const session = await auth();
-    const launchDate = new Date("2025-11-30T16:00:00-03:00"); // 30 de Novembro de 2025 às 16h (horário de Brasília)
+    const launchDate = getNextSundayAt16hBrasilia();
 
-    // JSON-LD Structured Data for Event
+    // JSON-LD Structured Data for Recurring Event Series
     const eventJsonLd = {
         "@context": "https://schema.org",
-        "@type": "Event",
-        "name": "Cidadania Italiana e Imóveis: O Guia Completo",
-        "description": "Evento ao vivo e gratuito revelando como conquistar sua cidadania italiana e garantir seu imóvel na Itália com orientação jurídica especializada",
-        "startDate": "2025-11-30T16:00:00-03:00",
-        "endDate": "2025-11-30T18:00:00-03:00",
+        "@type": "EventSeries",
+        "name": "Casas na Itália por €25 mil: Onde estão?",
+        "description": "Live gratuita domingo às 16h revelando onde encontrar e como comprar casas de €25.000 na Itália sem precisar de cidadania italiana. Descubra as melhores regiões e o processo completo de compra.",
+        "eventSchedule": {
+            "@type": "Schedule",
+            "repeatFrequency": "P1W",
+            "byDay": "https://schema.org/Sunday",
+            "startTime": "16:00:00-03:00",
+            "endTime": "16:30:00-03:00"
+        },
         "eventStatus": "https://schema.org/EventScheduled",
         "eventAttendanceMode": "https://schema.org/OnlineEventAttendanceMode",
         "location": {
@@ -100,10 +106,6 @@ export default async function InsiderCohort2PreLaunch() {
             {
                 "@type": "Person",
                 "name": "Olavo Ferenshitz"
-            },
-            {
-                "@type": "Person",
-                "name": "Silvana Beckhauser"
             }
         ]
     };
@@ -119,7 +121,7 @@ export default async function InsiderCohort2PreLaunch() {
             <LandingHeader session={session} />
 
             {/* Hero Section */}
-            <section className="relative bg-gradient-to-br from-slate-800 via-slate-900 to-slate-950 section-padding overflow-hidden">
+            <section className="relative bg-gradient-to-br from-slate-800 via-slate-900 to-slate-950 section-padding">
                 {/* Background Pattern */}
                 <div className="absolute inset-0 opacity-10">
                     <div className="absolute inset-0" style={{
@@ -134,22 +136,22 @@ export default async function InsiderCohort2PreLaunch() {
                             <div className="text-white">
                                 <div className="inline-flex items-center px-4 py-2 rounded-full bg-emerald-500 text-white text-xs md:text-sm font-bold mb-6 shadow-xl animate-pulse">
                                     <Sparkles className="w-4 h-4 mr-2" />
-                                    EVENTO ONLINE GRATUITO
+                                    LIVE ONLINE GRATUITA - DOMINGO
                                 </div>
 
                                 <h1 className="text-4xl md:text-6xl font-extrabold mb-6 leading-tight">
-                                    Cidadania Italiana e Imóveis:
+                                    Casas na Itália por €25 mil:
                                     <span className="block text-emerald-400 mt-2">
-                                        O Guia Completo Para Brasileiros
+                                        Onde estão?
                                     </span>
                                 </h1>
                                 <p className="text-lg md:text-xl text-emerald-300 font-semibold mb-6">
-                                    Descubra como realizar o duplo sonho: conquistar sua cidadania e ter seu imóvel na Itália
+                                    Descubra onde encontrar e como comprar imóveis de €25.000 na Itália sem precisar de cidadania
                                 </p>
 
                                 <div className="flex items-center gap-3 mb-6 text-xl">
                                     <Calendar className="w-6 h-6 text-emerald-400" />
-                                    <span className="font-semibold">30 de Novembro (Domingo)</span>
+                                    <span className="font-semibold">Domingo</span>
                                 </div>
 
                                 <div className="flex items-center gap-3 mb-8 text-xl">
@@ -158,8 +160,8 @@ export default async function InsiderCohort2PreLaunch() {
                                 </div>
 
                                 <p className="text-xl md:text-2xl text-white/90 mb-8 leading-relaxed">
-                                    Evento ao vivo e gratuito com orientação jurídica especializada sobre como navegar o processo
-                                    de cidadania italiana e planejar seu futuro imobiliário na Europa
+                                    Live ao vivo e gratuita domingo revelando onde estão as casas de €25.000 na Itália e
+                                    como você pode comprar mesmo sem ter cidadania italiana
                                 </p>
 
                                 {/* Benefits */}
@@ -167,36 +169,36 @@ export default async function InsiderCohort2PreLaunch() {
                                     <div className="flex items-start gap-3">
                                         <CheckCircle className="w-6 h-6 text-green-400 flex-shrink-0 mt-1" />
                                         <div>
-                                            <p className="text-white font-semibold">Processo de Cidadania Italiana Explicado</p>
-                                            <p className="text-white/80 text-sm">Passo a passo, documentos e prazos com advogada especialista</p>
+                                            <p className="text-white font-semibold">Onde Encontrar Casas de €25.000</p>
+                                            <p className="text-white/80 text-sm">As regiões exatas e como identificar as melhores oportunidades</p>
                                         </div>
                                     </div>
                                     <div className="flex items-start gap-3">
                                         <CheckCircle className="w-6 h-6 text-green-400 flex-shrink-0 mt-1" />
                                         <div>
-                                            <p className="text-white font-semibold">Imóvel Para Quem Tem Cidadania</p>
-                                            <p className="text-white/80 text-sm">Como comprar seu imóvel após conquistar a cidadania</p>
+                                            <p className="text-white font-semibold">Como Comprar Sem Ter Cidadania</p>
+                                            <p className="text-white/80 text-sm">O processo completo para brasileiros sem passaporte italiano</p>
                                         </div>
                                     </div>
                                     <div className="flex items-start gap-3">
                                         <CheckCircle className="w-6 h-6 text-green-400 flex-shrink-0 mt-1" />
                                         <div>
-                                            <p className="text-white font-semibold">Melhores Regiões Para Viver e Investir</p>
-                                            <p className="text-white/80 text-sm">Onde morar e investir quando conquistar sua cidadania</p>
+                                            <p className="text-white font-semibold">Documentação e Burocracia Simplificada</p>
+                                            <p className="text-white/80 text-sm">Tudo que você precisa providenciar para fechar o negócio</p>
                                         </div>
                                     </div>
                                     <div className="flex items-start gap-3">
                                         <CheckCircle className="w-6 h-6 text-green-400 flex-shrink-0 mt-1" />
                                         <div>
-                                            <p className="text-white font-semibold">Planejando Sua Vida na Itália</p>
-                                            <p className="text-white/80 text-sm">Da cidadania ao seu próprio imóvel - o caminho completo</p>
+                                            <p className="text-white font-semibold">Custos Reais da Compra</p>
+                                            <p className="text-white/80 text-sm">Impostos, taxas e reformas - quanto você vai gastar de verdade</p>
                                         </div>
                                     </div>
                                     <div className="flex items-start gap-3">
                                         <CheckCircle className="w-6 h-6 text-green-400 flex-shrink-0 mt-1" />
                                         <div>
-                                            <p className="text-white font-semibold">Erros Jurídicos Que Custam Caro</p>
-                                            <p className="text-white/80 text-sm">Armadilhas na compra e no processo de cidadania</p>
+                                            <p className="text-white font-semibold">Armadilhas Que Custam Caro</p>
+                                            <p className="text-white/80 text-sm">Erros comuns que já custaram milhares para outros brasileiros</p>
                                         </div>
                                     </div>
                                 </div>
@@ -205,7 +207,7 @@ export default async function InsiderCohort2PreLaunch() {
                                 <div className="flex flex-wrap items-center gap-6 text-white/80 text-sm">
                                     <div className="flex items-center gap-2">
                                         <Users className="w-5 h-5 text-green-400" />
-                                        <span>+238k seguidores</span>
+                                        <span>+260k seguidores</span>
                                     </div>
                                     <div className="flex items-center gap-2">
                                         <Globe className="w-5 h-5 text-green-400" />
@@ -219,14 +221,14 @@ export default async function InsiderCohort2PreLaunch() {
                             </div>
 
                             {/* Right Column - Form + Countdown */}
-                            <div className="relative">
+                            <div className="relative min-w-0">
                                 {/* Countdown Timer */}
                                 <div className="mb-6">
                                     <CountdownTimer targetDate={launchDate} />
                                 </div>
 
                                 {/* Registration Form */}
-                                <div className="bg-white rounded-2xl p-8 shadow-2xl border-4 border-emerald-500">
+                                <div className="bg-white rounded-2xl p-6 md:p-8 shadow-2xl border-4 border-emerald-500 min-w-0">
                                     <div className="text-center mb-6">
                                         <div className="w-16 h-16 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4">
                                             <Video className="w-8 h-8 text-white" />
@@ -267,10 +269,10 @@ export default async function InsiderCohort2PreLaunch() {
                     <div className="max-w-6xl mx-auto">
                         <div className="text-center mb-12">
                             <h2 className="text-3xl md:text-4xl font-extrabold mb-4 text-foreground">
-                                O que você vai aprender neste evento
+                                O que você vai aprender na live
                             </h2>
                             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                                Conteúdo jurídico e prático com orientação especializada sobre cidadania italiana e imóveis
+                                Tudo sobre como comprar casas de €25.000 na Itália sem precisar de cidadania
                             </p>
                         </div>
 
@@ -281,10 +283,10 @@ export default async function InsiderCohort2PreLaunch() {
                                         <span className="text-white font-bold text-xl">1</span>
                                     </div>
                                     <div className="flex-1">
-                                        <h3 className="text-xl font-bold mb-2">Seu Processo de Cidadania do Zero</h3>
+                                        <h3 className="text-xl font-bold mb-2">Onde Estão as Casas de €25.000</h3>
                                         <p className="text-muted-foreground">
-                                            Entenda os diferentes tipos de processos, documentação necessária, prazos reais
-                                            e como evitar erros que podem travar seu processo por anos
+                                            Descubra as regiões exatas da Itália onde você encontra imóveis a partir de €25.000
+                                            e como identificar as melhores oportunidades
                                         </p>
                                     </div>
                                 </div>
@@ -296,10 +298,10 @@ export default async function InsiderCohort2PreLaunch() {
                                         <span className="text-white font-bold text-xl">2</span>
                                     </div>
                                     <div className="flex-1">
-                                        <h3 className="text-xl font-bold mb-2">Residência na Itália: O Que Você Precisa Saber</h3>
+                                        <h3 className="text-xl font-bold mb-2">Como Comprar Sem Cidadania Italiana</h3>
                                         <p className="text-muted-foreground">
-                                            Como estabelecer residência legalmente, onde fazer, requisitos burocráticos
-                                            e praticidades para quem tem ou busca cidadania
+                                            O processo completo passo a passo para brasileiros comprarem imóvel na Itália
+                                            mesmo sem ter passaporte europeu
                                         </p>
                                     </div>
                                 </div>
@@ -311,10 +313,10 @@ export default async function InsiderCohort2PreLaunch() {
                                         <span className="text-white font-bold text-xl">3</span>
                                     </div>
                                     <div className="flex-1">
-                                        <h3 className="text-xl font-bold mb-2">Planejamento: Cidadania e Imóvel</h3>
+                                        <h3 className="text-xl font-bold mb-2">Documentação Para Estrangeiros</h3>
                                         <p className="text-muted-foreground">
-                                            Como planejar sua jornada completa: da cidadania até ter seu próprio
-                                            imóvel na Itália, com todos os passos práticos
+                                            Todos os documentos que você precisa providenciar no Brasil e na Itália
+                                            para concretizar a compra legalmente
                                         </p>
                                     </div>
                                 </div>
@@ -326,10 +328,10 @@ export default async function InsiderCohort2PreLaunch() {
                                         <span className="text-white font-bold text-xl">4</span>
                                     </div>
                                     <div className="flex-1">
-                                        <h3 className="text-xl font-bold mb-2">Melhores Regiões Para Sua Nova Vida</h3>
+                                        <h3 className="text-xl font-bold mb-2">Custos Reais: Quanto Você Vai Gastar</h3>
                                         <p className="text-muted-foreground">
-                                            Onde morar levando em conta custo de vida, qualidade, proximidade com consulados,
-                                            facilidade para cidadania e oportunidades imobiliárias
+                                            Além dos €25.000: impostos, taxas notariais, reformas necessárias
+                                            e todos os custos ocultos que você precisa conhecer
                                         </p>
                                     </div>
                                 </div>
@@ -341,10 +343,10 @@ export default async function InsiderCohort2PreLaunch() {
                                         <span className="text-white font-bold text-xl">5</span>
                                     </div>
                                     <div className="flex-1">
-                                        <h3 className="text-xl font-bold mb-2">Comprar Imóvel na Itália: Guia Prático</h3>
+                                        <h3 className="text-xl font-bold mb-2">Financiamento e Formas de Pagamento</h3>
                                         <p className="text-muted-foreground">
-                                            Processo de compra, custos reais, impostos, documentação necessária
-                                            e diferenças entre comprar com ou sem cidadania
+                                            Como financiar a compra, transferir dinheiro do Brasil para a Itália
+                                            e as melhores formas de pagamento para estrangeiros
                                         </p>
                                     </div>
                                 </div>
@@ -356,10 +358,10 @@ export default async function InsiderCohort2PreLaunch() {
                                         <span className="text-white font-bold text-xl">6</span>
                                     </div>
                                     <div className="flex-1">
-                                        <h3 className="text-xl font-bold mb-2">Erros Jurídicos Que Custam Milhares</h3>
+                                        <h3 className="text-xl font-bold mb-2">Armadilhas Que Custam Milhares</h3>
                                         <p className="text-muted-foreground">
-                                            Armadilhas comuns na documentação de cidadania e na compra de imóveis
-                                            que já custaram caro para outros brasileiros
+                                            Os erros mais comuns que brasileiros cometem ao comprar casas baratas na Itália
+                                            e que já custaram muito caro
                                         </p>
                                     </div>
                                 </div>
@@ -371,10 +373,10 @@ export default async function InsiderCohort2PreLaunch() {
                                         <span className="text-white font-bold text-xl">7</span>
                                     </div>
                                     <div className="flex-1">
-                                        <h3 className="text-xl font-bold mb-2">Documentação e Burocracia Explicada</h3>
+                                        <h3 className="text-xl font-bold mb-2">Como a Comunidade Insider Pode Ajudar</h3>
                                         <p className="text-muted-foreground">
-                                            Todos os documentos necessários tanto para cidadania quanto para compra
-                                            de imóvel, sem termos complicados
+                                            Conheça a comunidade de brasileiros que já estão comprando imóveis na Itália
+                                            e como você pode fazer parte dessa jornada
                                         </p>
                                     </div>
                                 </div>
@@ -389,7 +391,7 @@ export default async function InsiderCohort2PreLaunch() {
                                         <h3 className="text-xl font-bold mb-2">Bônus Exclusivo Para Participantes</h3>
                                         <p className="text-muted-foreground">
                                             Uma oportunidade especial será revelada apenas para quem participar
-                                            do evento ao vivo (não perca!)
+                                            da live ao vivo (não perca!)
                                         </p>
                                     </div>
                                 </div>
@@ -408,41 +410,11 @@ export default async function InsiderCohort2PreLaunch() {
                                 Quem vai te guiar nesta jornada
                             </h2>
                             <p className="text-lg text-muted-foreground">
-                                Especialistas com décadas de experiência em cidadania italiana e mercado imobiliário
+                                Especialistas com experiência prática morando na Itália e investindo no mercado imobiliário italiano
                             </p>
                         </div>
 
-                        <div className="grid md:grid-cols-3 gap-8">
-                            {/* Silvana */}
-                            <div className="professional-card">
-                                <div className="flex flex-col items-center text-center">
-                                    <div className="relative w-32 h-32 mb-4 rounded-full overflow-hidden">
-                                        <Image
-                                            src="/Silvana.png"
-                                            alt="Silvana Beckhauser"
-                                            fill
-                                            className="object-cover"
-                                        />
-                                    </div>
-                                    <h3 className="text-2xl font-bold mb-2">Silvana Beckhauser</h3>
-                                    <p className="text-primary font-semibold mb-2">Advogada Especialista em Cidadania Italiana</p>
-                                    <a
-                                        href="https://www.instagram.com/advbeckhauser/"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors mb-4"
-                                    >
-                                        <Instagram className="w-4 h-4" />
-                                        @advbeckhauser (3.5k)
-                                    </a>
-                                    <p className="text-muted-foreground leading-relaxed">
-                                        Advogada especialista em Direito Internacional com mais de 17 anos de experiência
-                                        em processos de cidadania italiana. Já orientou centenas de famílias brasileiras
-                                        a conquistarem seu passaporte europeu com segurança jurídica.
-                                    </p>
-                                </div>
-                            </div>
-
+                        <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
                             {/* Aloisio */}
                             <div className="professional-card">
                                 <div className="flex flex-col items-center text-center">
@@ -513,10 +485,10 @@ export default async function InsiderCohort2PreLaunch() {
                     <div className="max-w-5xl mx-auto">
                         <div className="text-center mb-12">
                             <h2 className="text-3xl md:text-4xl font-extrabold mb-4 text-foreground">
-                                Este evento é para você?
+                                Esta live é para você?
                             </h2>
                             <p className="text-lg text-muted-foreground">
-                                Este evento é perfeito se você se identifica com pelo menos um desses perfis
+                                Esta live é perfeita se você se identifica com pelo menos um desses perfis
                             </p>
                         </div>
 
@@ -525,10 +497,10 @@ export default async function InsiderCohort2PreLaunch() {
                                 <div className="flex items-start gap-3">
                                     <CheckCircle className="w-6 h-6 text-blue-600 flex-shrink-0 mt-1" />
                                     <div>
-                                        <h3 className="font-bold mb-1 text-lg">Você está no processo de cidadania italiana...</h3>
+                                        <h3 className="font-bold mb-1 text-lg">Você quer comprar um imóvel na Itália mas não tem cidadania...</h3>
                                         <p className="text-sm text-muted-foreground">
-                                            Mas está perdido com documentação, prazos, ou não sabe se está fazendo tudo certo
-                                            e quer evitar erros que podem custar anos de atraso
+                                            E quer entender se é possível e como fazer isso sem precisar esperar anos
+                                            pelo processo de cidadania italiana
                                         </p>
                                     </div>
                                 </div>
@@ -538,10 +510,10 @@ export default async function InsiderCohort2PreLaunch() {
                                 <div className="flex items-start gap-3">
                                     <CheckCircle className="w-6 h-6 text-green-600 flex-shrink-0 mt-1" />
                                     <div>
-                                        <h3 className="font-bold mb-1 text-lg">Você sonha em morar na Itália...</h3>
+                                        <h3 className="font-bold mb-1 text-lg">Você busca um investimento acessível na Europa...</h3>
                                         <p className="text-sm text-muted-foreground">
-                                            E quer planejar sua jornada: primeiro conquistar sua cidadania,
-                                            depois ter seu próprio imóvel para uma vida estável na Europa
+                                            E ficou interessado em saber onde estão essas casas de €25.000
+                                            e se é realmente possível comprar com esse valor
                                         </p>
                                     </div>
                                 </div>
@@ -551,10 +523,10 @@ export default async function InsiderCohort2PreLaunch() {
                                 <div className="flex items-start gap-3">
                                     <CheckCircle className="w-6 h-6 text-purple-600 flex-shrink-0 mt-1" />
                                     <div>
-                                        <h3 className="font-bold mb-1 text-lg">Você já tem cidadania ou está próximo...</h3>
+                                        <h3 className="font-bold mb-1 text-lg">Você quer saber se essas oportunidades são reais...</h3>
                                         <p className="text-sm text-muted-foreground">
-                                            E agora quer saber os próximos passos: onde morar, como comprar imóvel,
-                                            custos reais e onde estabelecer sua residência
+                                            E não quer cair em armadilhas ou golpes, querendo entender
+                                            os custos reais e o processo legítimo de compra
                                         </p>
                                     </div>
                                 </div>
@@ -564,10 +536,10 @@ export default async function InsiderCohort2PreLaunch() {
                                 <div className="flex items-start gap-3">
                                     <CheckCircle className="w-6 h-6 text-yellow-600 flex-shrink-0 mt-1" />
                                     <div>
-                                        <h3 className="font-bold mb-1 text-lg">Você quer planejar estrategicamente...</h3>
+                                        <h3 className="font-bold mb-1 text-lg">Você quer fazer parte de uma comunidade...</h3>
                                         <p className="text-sm text-muted-foreground">
-                                            Seu caminho completo desde o início do processo de cidadania até
-                                            ter seu próprio imóvel na Itália
+                                            De brasileiros que já estão comprando imóveis na Itália e querem
+                                            ter suporte durante todo o processo
                                         </p>
                                     </div>
                                 </div>
@@ -589,7 +561,7 @@ export default async function InsiderCohort2PreLaunch() {
 
                         <div className="grid md:grid-cols-3 gap-8 mb-12">
                             <div className="text-center">
-                                <div className="text-4xl font-bold text-primary mb-2">+238k</div>
+                                <div className="text-4xl font-bold text-primary mb-2">+260k</div>
                                 <div className="text-sm text-muted-foreground">Seguidores nas redes sociais</div>
                             </div>
                             <div className="text-center">
@@ -622,7 +594,7 @@ export default async function InsiderCohort2PreLaunch() {
                             Garanta Sua Vaga Gratuita Agora!
                         </h2>
                         <p className="text-xl text-white/90 mb-8">
-                            30 de Novembro às 16h - Evento ao vivo com orientação jurídica especializada sobre cidadania italiana e imóveis
+                            Domingo às 16h - Live ao vivo revelando onde estão e como comprar casas de €25.000 na Itália sem cidadania
                         </p>
                         <a
                             href="#top"

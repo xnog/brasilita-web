@@ -17,6 +17,10 @@ frontend:
         - echo "SMTP_HOST=$SMTP_HOST" >> .env
         - echo "SMTP_USER=$SMTP_USER" >> .env
         - echo "SMTP_PASSWORD=$SMTP_PASSWORD" >> .env
+        - echo "S3_AWS_REGION=$S3_AWS_REGION" >> .env
+        - echo "S3_AWS_ACCESS_KEY_ID=$S3_AWS_ACCESS_KEY_ID" >> .env
+        - echo "S3_AWS_SECRET_ACCESS_KEY=$S3_AWS_SECRET_ACCESS_KEY" >> .env
+        - echo "S3_BUCKET_NAME=$S3_BUCKET_NAME" >> .env
         - npm ci --cache .npm --prefer-offline
     build:
       commands:

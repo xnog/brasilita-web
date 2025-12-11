@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
     CheckCircle,
@@ -21,9 +22,11 @@ import {
     HelpCircle
 } from "lucide-react";
 import { generateRepresentationServiceMessage, generatePropertyNegotiationMessage, openWhatsApp } from "@/lib/services/whatsapp-messages";
+import { isProfileComplete, getMissingProfileFields } from "@/lib/utils/user-profile";
+import { ProfileRequiredModal } from "@/components/advisory/profile-required-modal";
 import Image from "next/image";
 import { LandingFooter } from "@/components/layout/landing-footer";
-import { Property } from "@/lib/db/schema";
+import { Property, UserProfile } from "@/lib/db/schema";
 import {
     Accordion,
     AccordionContent,
@@ -249,13 +252,41 @@ const faqData = [
 
 interface AdvisoryClientProps {
     initialProperty?: (Omit<Property, 'originalUrl'> & { region?: { name: string } | null }) | null;
+    userProfile?: UserProfile | null;
+    userEmail?: string;
+    userRegionNames?: string[];
 }
 
-export function AdvisoryClient({ initialProperty = null }: AdvisoryClientProps) {
+export function AdvisoryClient({
+    initialProperty = null,
+    userProfile = null,
+    userEmail,
+    userRegionNames = [],
+}: AdvisoryClientProps) {
+    const [showProfileModal, setShowProfileModal] = useState(false);
+    const profileComplete = isProfileComplete(userProfile);
+    const missingFields = getMissingProfileFields(userProfile);
+
     const handleWhatsAppClick = () => {
+        // Verificar se o perfil está completo
+        if (!profileComplete) {
+            setShowProfileModal(true);
+            return;
+        }
+
+        // Gerar mensagem com dados do usuário
         const message = initialProperty
-            ? generatePropertyNegotiationMessage(initialProperty)
-            : generateRepresentationServiceMessage();
+            ? generatePropertyNegotiationMessage(
+                initialProperty,
+                userEmail,
+                userRegionNames,
+                userProfile?.investmentBudget || undefined
+            )
+            : generateRepresentationServiceMessage(
+                userEmail,
+                userRegionNames,
+                userProfile?.investmentBudget || undefined
+            );
         openWhatsApp(message);
     };
 
@@ -351,7 +382,7 @@ export function AdvisoryClient({ initialProperty = null }: AdvisoryClientProps) 
                         <div className="flex flex-wrap justify-center items-center gap-8 text-slate-400 text-sm">
                             <div className="flex items-center gap-2">
                                 <Users className="w-5 h-5 text-emerald-400" />
-                                <span>+220k seguidores</span>
+                                <span>+260k seguidores</span>
                             </div>
                             <div className="flex items-center gap-2">
                                 <Building2 className="w-5 h-5 text-emerald-400" />
@@ -385,7 +416,7 @@ export function AdvisoryClient({ initialProperty = null }: AdvisoryClientProps) 
                                 <div className="w-20 h-20 bg-emerald-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
                                     <Users className="w-10 h-10 text-emerald-600" />
                                 </div>
-                                <p className="text-4xl font-bold text-slate-900 mb-2">+220k</p>
+                                <p className="text-4xl font-bold text-slate-900 mb-2">+260k</p>
                                 <p className="text-slate-600 font-medium">Seguidores Combinados</p>
                                 <p className="text-sm text-slate-500 mt-2">Milhares de brasileiros nos acompanham diariamente</p>
                             </div>
@@ -919,6 +950,13 @@ export function AdvisoryClient({ initialProperty = null }: AdvisoryClientProps) 
             </section>
 
             <LandingFooter />
+
+            {/* Profile Required Modal */}
+            <ProfileRequiredModal
+                open={showProfileModal}
+                onClose={() => setShowProfileModal(false)}
+                missingFields={missingFields}
+            />
         </div>
     );
 }

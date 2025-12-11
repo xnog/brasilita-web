@@ -2,15 +2,17 @@
  * Utility functions for parsing property JSON fields safely
  */
 
+import { PROPERTY_PLACEHOLDER_IMAGE } from '@/lib/constants';
+
 export function parsePropertyImages(images: unknown): string[] {
-    if (!images) return ['/api/placeholder/800/600'];
+    if (!images) return [PROPERTY_PLACEHOLDER_IMAGE];
 
     try {
         const parsed = typeof images === 'string' ? JSON.parse(images) : images;
-        return Array.isArray(parsed) && parsed.length > 0 ? parsed : ['/api/placeholder/800/600'];
+        return Array.isArray(parsed) && parsed.length > 0 ? parsed : [PROPERTY_PLACEHOLDER_IMAGE];
     } catch (error) {
         console.warn('Error parsing property images:', error);
-        return ['/api/placeholder/800/600'];
+        return [PROPERTY_PLACEHOLDER_IMAGE];
     }
 }
 

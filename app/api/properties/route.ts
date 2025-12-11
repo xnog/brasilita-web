@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { properties, userPropertyInterests } from "@/lib/db/schema";
+import { properties, userPropertyInterests, regions } from "@/lib/db/schema";
 import { eq, and, inArray, sql, count, asc } from "drizzle-orm";
 import { 
     parseFiltersFromRequest,
@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
 
         // Build where clause
         let whereClause = buildWhereClause(filters);
-        
+
         // Add favorites filter if requested
         if (appliedFilters.favoritesOnly) {
             const favoritesCondition = inArray(
@@ -49,24 +49,51 @@ export async function GET(request: NextRequest) {
         const totalCount = totalCountResult.count;
         const totalPages = Math.ceil(totalCount / appliedFilters.limit!);
 
-        // Build sort order
-        const orderBy = buildOrderByClause(filters);
-
-        // Get properties with pagination
+        // Get properties with pagination - using raw query to calculate pricePerSqm
         const offset = (appliedFilters.page! - 1) * appliedFilters.limit!;
 
-        const propertyList = await db.query.properties.findMany({
-            where: whereClause,
-            with: {
-                region: true
-            },
-            orderBy: orderBy,
-            limit: appliedFilters.limit,
-            offset: offset,
-            columns: {
-                originalUrl: false // Hide originalUrl from API response
-            }
-        });
+        // Build ORDER BY clause using centralized function
+        const orderByClause = buildOrderByClause(filters);
+
+        // Query with calculated pricePerSqm
+        const propertyList = await db
+            .select({
+                id: properties.id,
+                title: properties.title,
+                description: properties.description,
+                price: properties.price,
+                location: properties.location,
+                regionId: properties.regionId,
+                propertyType: properties.propertyType,
+                rooms: properties.rooms,
+                bedrooms: properties.bedrooms,
+                bathrooms: properties.bathrooms,
+                area: properties.area,
+                features: properties.features,
+                images: properties.images,
+                latitude: properties.latitude,
+                longitude: properties.longitude,
+                realEstate: properties.realEstate,
+                isRentToOwn: properties.isRentToOwn,
+                isAvailable: properties.isAvailable,
+                isRented: properties.isRented,
+                createdAt: properties.createdAt,
+                updatedAt: properties.updatedAt,
+                pricePerSqm: sql<number>`ROUND((${properties.price}::float / NULLIF(${properties.area}, 0))::numeric, 2)`,
+                region: {
+                    id: regions.id,
+                    name: regions.name,
+                    examples: regions.examples,
+                    createdAt: regions.createdAt,
+                    updatedAt: regions.updatedAt,
+                }
+            })
+            .from(properties)
+            .leftJoin(regions, eq(properties.regionId, regions.id))
+            .where(whereClause)
+            .orderBy(orderByClause)
+            .limit(appliedFilters.limit!)
+            .offset(offset);
 
         // Get user interests for these properties
         const propertyIds = propertyList.map(p => p.id);

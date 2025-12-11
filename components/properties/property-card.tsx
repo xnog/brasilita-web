@@ -10,6 +10,7 @@ import { Property } from "@/lib/db/schema";
 import { PropertyDetailModal } from "./property-detail-modal";
 import removeMarkdown from "remove-markdown";
 import { parsePropertyImagesForCard, parsePropertyFeatures } from "@/lib/utils/property-parsing";
+import { getPropertyImageWithError } from "@/lib/constants";
 
 interface PropertyCardProps {
     property: Omit<Property, 'originalUrl'> & {
@@ -36,8 +37,8 @@ export function PropertyCard({ property, onToggleInterest }: PropertyCardProps) 
     const features = useMemo(() => parsePropertyFeatures(property.features), [property.features]);
 
     const currentImage = useMemo(() => {
-        return images[currentImageIndex] || '/api/placeholder/400/300';
-    }, [images, currentImageIndex]);
+        return getPropertyImageWithError(images[currentImageIndex], imageError);
+    }, [images, currentImageIndex, imageError]);
 
 
 
@@ -124,7 +125,7 @@ export function PropertyCard({ property, onToggleInterest }: PropertyCardProps) 
                 >
                     <div className="aspect-[4/3] overflow-hidden">
                         <Image
-                            src={imageError ? '/api/placeholder/400/300' : currentImage}
+                            src={currentImage}
                             alt={property.title}
                             fill
                             className="object-cover group-hover:scale-105 transition-transform duration-500"

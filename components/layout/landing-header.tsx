@@ -100,6 +100,14 @@ export function LandingHeader({ session }: LandingHeaderProps) {
                     </SheetContent>
                 </Sheet>
 
+                {/* Mobile Logo - visible only on mobile */}
+                <div className="flex flex-1 items-center lg:hidden">
+                    <Link href="/" className="flex items-center space-x-2">
+                        <Logo className="h-6 w-6" size={24} />
+                        <span className="font-bold">Brasilità</span>
+                    </Link>
+                </div>
+
                 {/* Left side - Logo and Navigation */}
                 <div className="hidden lg:flex items-center">
                     {/* Logo */}
@@ -142,7 +150,7 @@ export function LandingHeader({ session }: LandingHeaderProps) {
                 </div>
 
                 {/* Right side - Auth buttons only */}
-                <div className="flex flex-1 items-center justify-end">
+                <div className="flex items-center justify-end lg:flex-1">
 
                     {/* Auth buttons - Same spacing as navigation items */}
                     {session ? (

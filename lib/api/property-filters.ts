@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import { properties } from "@/lib/db/schema";
-import { eq, and, inArray, gte, lte, ilike, desc, asc } from "drizzle-orm";
+import { eq, and, inArray, gte, lte, ilike, desc, asc, sql } from "drizzle-orm";
 
 export interface PropertyFilters {
     regions?: string[];
@@ -15,12 +15,14 @@ export interface PropertyFilters {
     areaMin?: number;
     areaMax?: number;
     location?: string;
+    pricePerSqmMin?: number;
+    pricePerSqmMax?: number;
     favoritesOnly?: boolean;
     isRented?: boolean;
     isRentToOwn?: boolean;
     page?: number;
     limit?: number;
-    sortBy?: 'price' | 'area' | 'createdAt';
+    sortBy?: 'price' | 'area' | 'createdAt' | 'pricePerSqm';
     sortOrder?: 'asc' | 'desc';
 }
 
@@ -43,12 +45,14 @@ export function parseFiltersFromRequest(request: NextRequest): PropertyFilters {
         areaMin: searchParams.get('areaMin') ? parseInt(searchParams.get('areaMin')!) : undefined,
         areaMax: searchParams.get('areaMax') ? parseInt(searchParams.get('areaMax')!) : undefined,
         location: searchParams.get('location') || undefined,
+        pricePerSqmMin: searchParams.get('pricePerSqmMin') ? parseInt(searchParams.get('pricePerSqmMin')!) : undefined,
+        pricePerSqmMax: searchParams.get('pricePerSqmMax') ? parseInt(searchParams.get('pricePerSqmMax')!) : undefined,
         favoritesOnly: searchParams.get('favoritesOnly') === 'true',
         isRented: searchParams.get('isRented') ? searchParams.get('isRented') === 'true' : undefined,
         isRentToOwn: searchParams.get('isRentToOwn') ? searchParams.get('isRentToOwn') === 'true' : undefined,
         page: Math.max(1, parseInt(searchParams.get('page') || '1')),
         limit: Math.min(50, Math.max(10, parseInt(searchParams.get('limit') || '20'))),
-        sortBy: (searchParams.get('sortBy') as 'price' | 'area' | 'createdAt') || 'createdAt',
+        sortBy: (searchParams.get('sortBy') as 'price' | 'area' | 'createdAt' | 'pricePerSqm') || 'createdAt',
         sortOrder: (searchParams.get('sortOrder') as 'asc' | 'desc') || 'desc'
     };
 }
@@ -119,6 +123,21 @@ export function buildWhereClause(filters: PropertyFilters, includeCoordinates: b
         whereConditions.push(ilike(properties.location, `%${filters.location}%`));
     }
 
+    // Price per square meter filters
+    if (filters.pricePerSqmMin !== undefined && filters.pricePerSqmMax !== undefined) {
+        whereConditions.push(
+            sql`(${properties.price}::float / NULLIF(${properties.area}, 0)) BETWEEN ${filters.pricePerSqmMin} AND ${filters.pricePerSqmMax}`
+        );
+    } else if (filters.pricePerSqmMin !== undefined) {
+        whereConditions.push(
+            sql`(${properties.price}::float / NULLIF(${properties.area}, 0)) >= ${filters.pricePerSqmMin}`
+        );
+    } else if (filters.pricePerSqmMax !== undefined) {
+        whereConditions.push(
+            sql`(${properties.price}::float / NULLIF(${properties.area}, 0)) <= ${filters.pricePerSqmMax}`
+        );
+    }
+
     if (filters.isRented !== undefined) {
         whereConditions.push(eq(properties.isRented, filters.isRented));
     }
@@ -141,6 +160,11 @@ export function buildOrderByClause(filters: PropertyFilters) {
             return sortDirection(properties.price);
         case 'area':
             return sortDirection(properties.area);
+        case 'pricePerSqm':
+            // Sort by price per square meter with NULLS LAST
+            return filters.sortOrder === 'asc'
+                ? sql`(${properties.price}::float / NULLIF(${properties.area}, 0)) ASC NULLS LAST`
+                : sql`(${properties.price}::float / NULLIF(${properties.area}, 0)) DESC NULLS LAST`;
         default:
             return sortDirection(properties.createdAt);
     }
@@ -163,6 +187,8 @@ export function normalizeFilters(filters: PropertyFilters): PropertyFilters {
         areaMin: filters.areaMin,
         areaMax: filters.areaMax,
         location: filters.location,
+        pricePerSqmMin: filters.pricePerSqmMin,
+        pricePerSqmMax: filters.pricePerSqmMax,
         favoritesOnly: filters.favoritesOnly,
         isRented: filters.isRented,
         isRentToOwn: filters.isRentToOwn,
