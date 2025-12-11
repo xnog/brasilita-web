@@ -21,6 +21,10 @@ const navigationItems = [
         name: "Imóveis",
         href: "/properties",
     },
+    {
+        name: "Imóveis Favoritos",
+        href: "/favorites",
+    },
 ];
 
 interface AuthenticatedHeaderProps {

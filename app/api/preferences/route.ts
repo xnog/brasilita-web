@@ -1,6 +1,6 @@
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { userProfiles, userProfileRegions } from "@/lib/db/schema";
+import { userProfiles, userProfileRegions, users } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
 
@@ -46,7 +46,32 @@ export async function POST(request: Request) {
             return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
         }
 
+        // Verificar se o usuário existe no banco de dados
+        const user = await db.query.users.findFirst({
+            where: eq(users.id, session.user.id),
+        });
+
+        if (!user) {
+            console.error(`User not found in database: ${session.user.id}`);
+            return NextResponse.json(
+                { error: "User not found. Please sign in again." },
+                { status: 404 }
+            );
+        }
+
         const data = await request.json();
+
+        // Verificar se já existe um perfil para este usuário
+        const existingProfile = await db.query.userProfiles.findFirst({
+            where: eq(userProfiles.userId, session.user.id),
+        });
+
+        if (existingProfile) {
+            return NextResponse.json(
+                { error: "Profile already exists. Use PUT to update." },
+                { status: 400 }
+            );
+        }
 
         // Criar o perfil
         const profile = await db.insert(userProfiles).values({

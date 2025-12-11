@@ -19,8 +19,10 @@ import {
     Home,
     CreditCard,
     Key,
-    MessageCircle
+    MessageCircle,
+    ArrowRight
 } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { PropertyDetailImage } from "./property-detail-image";
 import { PropertyMap } from "./property-map";
 import { InsiderInterestModal } from "./insider-interest-modal";
@@ -48,6 +50,8 @@ export function PropertyDetailContent({
 }: PropertyDetailContentProps) {
     const [loading, setLoading] = useState(false);
     const [showInsiderModal, setShowInsiderModal] = useState(false);
+    const [creatingJourney, setCreatingJourney] = useState(false);
+    const router = useRouter();
 
     // Memoizar parsing para melhor performance
     const images = useMemo(() => parsePropertyImages(property.images), [property.images]);
@@ -80,6 +84,33 @@ export function PropertyDetailContent({
             });
         } catch (error) {
             console.error('Erro ao registrar interesse:', error);
+        }
+    };
+
+    const handleStartPurchaseJourney = async () => {
+        setCreatingJourney(true);
+        try {
+            const response = await fetch('/api/purchase-journey', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    propertyId: property.id,
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Erro ao criar jornada de compra');
+            }
+
+            const data = await response.json();
+            router.push(`/purchase-journey/${data.journey.id}`);
+        } catch (error) {
+            console.error('Erro ao iniciar processo de compra:', error);
+            alert('Erro ao iniciar processo de compra. Tente novamente.');
+        } finally {
+            setCreatingJourney(false);
         }
     };
 
@@ -424,6 +455,16 @@ export function PropertyDetailContent({
                                     >
                                         <MessageCircle className="h-5 w-5 mr-2" />
                                         Estou Interessado
+                                    </Button>
+                                    
+                                    <Button
+                                        onClick={handleStartPurchaseJourney}
+                                        disabled={loading || creatingJourney}
+                                        className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+                                        size="lg"
+                                    >
+                                        <ArrowRight className="h-5 w-5 mr-2" />
+                                        {creatingJourney ? "Iniciando..." : "Seguir com o Processo de Compra"}
                                     </Button>
                                 </div>
                             </div>

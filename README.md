@@ -1,36 +1,162 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Brasilità Web
 
-## Getting Started
+Aplicação web Next.js para a plataforma Brasilità.
 
-First, run the development server:
+## 🚀 Configuração para Desenvolvimento Local
+
+### Pré-requisitos
+
+- Node.js 20+ instalado
+- PostgreSQL instalado e rodando
+- npm, yarn, pnpm ou bun
+
+### Passo 1: Instalar Dependências
+
+```bash
+npm install
+# ou
+yarn install
+# ou
+pnpm install
+```
+
+### Passo 2: Configurar Variáveis de Ambiente
+
+1. Copie o arquivo `.env.example` para `.env.local`:
+
+```bash
+cp .env.example .env.local
+```
+
+2. Edite o arquivo `.env.local` e configure as seguintes variáveis:
+
+#### **Obrigatórias:**
+
+- **`DATABASE_URL`**: URL de conexão com PostgreSQL
+  - Exemplo: `postgresql://usuario:senha@localhost:5432/brasilita`
+  - Crie o banco de dados: `createdb brasilita`
+
+- **`NEXTAUTH_URL`**: URL base da aplicação (para local: `http://localhost:3000`)
+
+- **`NEXTAUTH_SECRET`**: Secret para criptografar tokens JWT
+  - Gere com: `openssl rand -base64 32`
+
+- **`GOOGLE_CLIENT_ID`** e **`GOOGLE_CLIENT_SECRET`**: Credenciais OAuth do Google
+  - Obtenha em: https://console.cloud.google.com/apis/credentials
+  - Configure o redirect URI: `http://localhost:3000/api/auth/callback/google`
+
+#### **Opcionais (para funcionalidades completas):**
+
+- **`SMTP_HOST`**, **`SMTP_USER`**, **`SMTP_PASSWORD`**: Para envio de emails
+  - Para desenvolvimento, use [Mailtrap](https://mailtrap.io) ou [Ethereal Email](https://ethereal.email)
+  - Para produção, use AWS SES ou outro serviço SMTP
+
+- **`EMAIL_API_SECRET_KEY`**: Chave para autenticar webhooks do N8N
+  - Gere uma chave aleatória segura
+
+- **`LISTMONK_URL`**, **`LISTMONK_API_USER`**, **`LISTMONK_API_KEY`**, **`LISTMONK_LIST_ID`**: Para integração com Listmonk (email marketing)
+  - Pode ser deixado vazio se não for usar
+
+- **`NEXT_PUBLIC_MIXPANEL_PROJECT_TOKEN`**: Token do Mixpanel para analytics
+  - Nota: Mixpanel é automaticamente desabilitado em localhost
+
+### Passo 3: Configurar o Banco de Dados
+
+1. Certifique-se de que o PostgreSQL está rodando:
+
+```bash
+# macOS (com Homebrew)
+brew services start postgresql
+
+# Linux
+sudo systemctl start postgresql
+
+# Ou inicie manualmente
+```
+
+2. Crie o banco de dados (se ainda não existir):
+
+```bash
+createdb brasilita
+# ou
+psql -U postgres -c "CREATE DATABASE brasilita;"
+```
+
+3. Execute as migrações do banco de dados:
+
+```bash
+npm run db:migrate
+# ou
+npm run db:push
+```
+
+4. (Opcional) Abra o Drizzle Studio para visualizar o banco:
+
+```bash
+npm run db:studio
+```
+
+### Passo 4: Executar a Aplicação
 
 ```bash
 npm run dev
-# or
+# ou
 yarn dev
-# or
+# ou
 pnpm dev
-# or
+# ou
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+A aplicação estará disponível em [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📝 Scripts Disponíveis
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `npm run dev` - Inicia o servidor de desenvolvimento
+- `npm run build` - Cria build de produção
+- `npm run start` - Inicia o servidor de produção
+- `npm run lint` - Executa o linter
+- `npm run db:generate` - Gera migrações do Drizzle
+- `npm run db:migrate` - Executa migrações do banco
+- `npm run db:push` - Sincroniza schema com o banco (sem migrações)
+- `npm run db:studio` - Abre o Drizzle Studio
+- `npm run email:dev` - Inicia servidor de preview de emails (porta 3001)
 
-## Learn More
+## 🗄️ Estrutura do Projeto
 
-To learn more about Next.js, take a look at the following resources:
+- `app/` - Rotas e páginas (App Router do Next.js)
+- `components/` - Componentes React reutilizáveis
+- `lib/` - Utilitários, configurações e lógica de negócio
+- `drizzle/` - Migrações do banco de dados
+- `emails/` - Templates de email (React Email)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🔐 Autenticação
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+A aplicação usa NextAuth v5 com suporte a:
+- Login com Google OAuth
+- Login com email/senha (credentials)
 
-## Deploy on Vercel
+## 📧 Sistema de Emails
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+A aplicação envia emails através de:
+- AWS SES (via SMTP) ou outro serviço SMTP
+- Templates React Email
+- Integração com N8N para automação
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Veja mais detalhes em `workflows/README.md`
+
+## 🛠️ Tecnologias Principais
+
+- **Next.js 15** - Framework React
+- **NextAuth v5** - Autenticação
+- **Drizzle ORM** - ORM para PostgreSQL
+- **PostgreSQL** - Banco de dados
+- **React Email** - Templates de email
+- **Tailwind CSS** - Estilização
+- **TypeScript** - Tipagem estática
+
+## 📚 Recursos Adicionais
+
+- [Next.js Documentation](https://nextjs.org/docs)
+- [NextAuth Documentation](https://next-auth.js.org)
+- [Drizzle ORM Documentation](https://orm.drizzle.team)
