@@ -11,10 +11,13 @@ import { addSubscriberToListmonk } from "./integrations/listmonk";
 export const { handlers, signIn, signOut, auth } = NextAuth({
     adapter: DrizzleAdapter(db),
     trustHost: true,
+    secret: process.env.NEXTAUTH_SECRET,
+    debug: process.env.NODE_ENV === "development",
     providers: [
         Google({
             clientId: process.env.GOOGLE_CLIENT_ID!,
             clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+            checks: ["pkce", "state"],
         }),
         Credentials({
             name: "credentials",

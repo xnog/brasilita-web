@@ -9,7 +9,7 @@ import {
     Bed,
     Bath,
     Square,
-    ThumbsUp,
+    Heart,
     Calendar,
     Euro,
     Hash,
@@ -19,14 +19,17 @@ import {
     Home,
     CreditCard,
     Key,
-    MessageCircle
+    MessageCircle,
+    ArrowRight
 } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { PropertyDetailImage } from "./property-detail-image";
 import { PropertyMap } from "./property-map";
 import { InsiderInterestModal } from "./insider-interest-modal";
 import { getPropertyCode } from "@/lib/utils";
 import ReactMarkdown from "react-markdown";
 import { parsePropertyImages, parsePropertyFeatures } from "@/lib/utils/property-parsing";
+import { toast } from "sonner";
 
 interface PropertyDetailContentProps {
     property: Omit<Property, 'originalUrl'> & {
@@ -48,6 +51,8 @@ export function PropertyDetailContent({
 }: PropertyDetailContentProps) {
     const [loading, setLoading] = useState(false);
     const [showInsiderModal, setShowInsiderModal] = useState(false);
+    const [creatingJourney, setCreatingJourney] = useState(false);
+    const router = useRouter();
 
     // Memoizar parsing para melhor performance
     const images = useMemo(() => parsePropertyImages(property.images), [property.images]);
@@ -80,6 +85,57 @@ export function PropertyDetailContent({
             });
         } catch (error) {
             console.error('Erro ao registrar interesse:', error);
+        }
+    };
+
+    const handleStartPurchaseJourney = async () => {
+        setCreatingJourney(true);
+        try {
+            const response = await fetch('/api/purchase-journey', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    propertyId: property.id,
+                }),
+            });
+
+            if (!response.ok) {
+                // Tentar extrair mensagem do backend
+                let message = 'Erro ao criar jornada de compra';
+                let journeyId: string | undefined;
+                try {
+                    const err = await response.json();
+                    if (err?.error) message = err.error;
+                    if (err?.journeyId) journeyId = err.journeyId;
+                } catch (e) {
+                    // ignore parse errors
+                }
+
+                // Se não autenticado, redirecionar para login
+                if (response.status === 401) {
+                    router.push(`/auth/signin?callbackUrl=${encodeURIComponent(window.location.pathname)}`);
+                    return;
+                }
+
+                // Se já existe jornada ativa, avisar e direcionar para Meus Imóveis
+                if (response.status === 409) {
+                    toast.info(message || "Você já possui um processo em andamento. Continue em Meus Imóveis.");
+                    router.push("/my-properties");
+                    return;
+                }
+
+                throw new Error(message);
+            }
+
+            const data = await response.json();
+            router.push(`/purchase-journey/${data.journey.id}`);
+        } catch (error) {
+            console.error('Erro ao iniciar processo de compra:', error);
+            toast.error((error as Error)?.message || 'Erro ao iniciar processo de compra. Tente novamente.');
+        } finally {
+            setCreatingJourney(false);
         }
     };
 
@@ -274,7 +330,10 @@ export function PropertyDetailContent({
                                         }
                                         size="lg"
                                     >
-                                        <ThumbsUp className="h-5 w-5 mr-2" />
+                                        <Heart
+                                            className="h-5 w-5 mr-2"
+                                            fill={property.isInterested ? "currentColor" : "none"}
+                                        />
                                         {property.isInterested ? "Favoritado" : "Adicionar aos Favoritos"}
                                     </Button>
 
@@ -410,7 +469,10 @@ export function PropertyDetailContent({
                                     }
                                     size="lg"
                                 >
-                                    <ThumbsUp className="h-5 w-5 mr-2" />
+                                    <Heart
+                                        className="h-5 w-5 mr-2"
+                                        fill={property.isInterested ? "currentColor" : "none"}
+                                    />
                                     {property.isInterested ? "Favoritado" : "Adicionar aos Favoritos"}
                                 </Button>
 
@@ -424,6 +486,16 @@ export function PropertyDetailContent({
                                     >
                                         <MessageCircle className="h-5 w-5 mr-2" />
                                         Estou Interessado
+                                    </Button>
+                                    
+                                    <Button
+                                        onClick={handleStartPurchaseJourney}
+                                        disabled={loading || creatingJourney}
+                                        className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+                                        size="lg"
+                                    >
+                                        <ArrowRight className="h-5 w-5 mr-2" />
+                                        {creatingJourney ? "Iniciando..." : "Seguir com o Processo de Compra"}
                                     </Button>
                                 </div>
                             </div>
