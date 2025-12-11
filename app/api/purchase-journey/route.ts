@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { purchaseJourneys, purchaseJourneySteps, properties, users } from "@/lib/db/schema";
+import { purchaseJourneys, purchaseJourneySteps, properties, users, userPropertyInterests } from "@/lib/db/schema";
 import { eq, and } from "drizzle-orm";
 import { PURCHASE_JOURNEY_STEPS } from "@/lib/data/purchase-journey-steps";
 
@@ -31,7 +31,26 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ error: "Imóvel não encontrado" }, { status: 404 });
         }
 
-        // Verificar se já existe uma jornada ativa para este usuário + imóvel
+        // Verificar se já existe uma jornada ativa para este usuário (qualquer imóvel)
+        const activeJourney = await db.query.purchaseJourneys.findFirst({
+            where: and(
+                eq(purchaseJourneys.userId, session.user.id),
+                eq(purchaseJourneys.status, "in_progress")
+            ),
+        });
+
+        if (activeJourney && activeJourney.propertyId !== propertyId) {
+            return NextResponse.json(
+                {
+                    error: "Você já possui um processo de compra em andamento. Continue de onde parou.",
+                    journeyId: activeJourney.id,
+                    propertyId: activeJourney.propertyId,
+                },
+                { status: 409 }
+            );
+        }
+
+        // Verificar se já existe uma jornada para este imóvel
         const existingJourney = await db.query.purchaseJourneys.findFirst({
             where: and(
                 eq(purchaseJourneys.userId, session.user.id),
@@ -63,6 +82,17 @@ export async function POST(request: NextRequest) {
                     status: "in_progress",
                 })
                 .returning();
+
+            // Remover dos favoritos (se estiver favoritado)
+            await tx
+                .update(userPropertyInterests)
+                .set({ isInterested: false })
+                .where(
+                    and(
+                        eq(userPropertyInterests.userId, session.user.id),
+                        eq(userPropertyInterests.propertyId, propertyId)
+                    )
+                );
 
             // Criar as 24 etapas padronizadas
             const steps = await tx

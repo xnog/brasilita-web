@@ -6,10 +6,11 @@ import { Property } from "@/lib/db/schema";
 import { PurchaseJourneyTimeline } from "@/components/purchase-journey/purchase-journey-timeline";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Home } from "lucide-react";
+import { ArrowLeft, Home, AlertTriangle } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
 
 interface PurchaseJourneyWithRelations extends PurchaseJourney {
     property: Property & {
@@ -27,6 +28,8 @@ interface PurchaseJourneyClientProps {
 export function PurchaseJourneyClient({ initialJourney }: PurchaseJourneyClientProps) {
     const [journey, setJourney] = useState(initialJourney);
     const [loading, setLoading] = useState(false);
+    const [showCancelModal, setShowCancelModal] = useState(false);
+    const [cancelling, setCancelling] = useState(false);
     const router = useRouter();
     const isProcessingRef = useRef(false);
 
@@ -123,6 +126,34 @@ export function PurchaseJourneyClient({ initialJourney }: PurchaseJourneyClientP
         refreshJourney();
     };
 
+    const handleCancelJourney = async () => {
+        setCancelling(true);
+        try {
+            const res = await fetch(`/api/purchase-journey/${journey.id}/cancel`, {
+                method: "POST",
+            });
+            if (!res.ok) {
+                const err = await res.json().catch(() => null);
+                throw new Error(err?.error || "Não foi possível cancelar o processo agora. Tente novamente mais tarde.");
+            }
+            toast.success("Processo de compra cancelado com sucesso.");
+            router.push("/my-properties");
+        } catch (error: any) {
+            toast.error(error.message || "Não foi possível cancelar o processo agora. Tente novamente mais tarde.");
+        } finally {
+            setCancelling(false);
+            setShowCancelModal(false);
+        }
+    };
+
+    // Se status vier cancelado ou concluído, redirecionar
+    useEffect(() => {
+        if (journey.status === "cancelled") {
+            toast.info("Processo cancelado.");
+            router.push("/my-properties");
+        }
+    }, [journey.status, router]);
+
     const completedSteps = journey.steps.filter((s) => s.status === "completed").length;
     const totalSteps = journey.steps.length;
     const progressPercentage = Math.round((completedSteps / totalSteps) * 100);
@@ -151,12 +182,22 @@ export function PurchaseJourneyClient({ initialJourney }: PurchaseJourneyClientP
                             </p>
                         )}
                     </div>
-                    <Link href={`/properties/${journey.propertyId}`}>
-                        <Button variant="outline">
-                            <Home className="h-4 w-4 mr-2" />
-                            Ver Imóvel
+                    <div className="flex items-center gap-2">
+                        <Button
+                            variant="outline"
+                            className="text-amber-700 border-amber-300 hover:bg-amber-50"
+                            onClick={() => setShowCancelModal(true)}
+                        >
+                            <AlertTriangle className="h-4 w-4 mr-2" />
+                            Cancelar Processo
                         </Button>
-                    </Link>
+                        <Link href={`/properties/${journey.propertyId}`}>
+                            <Button variant="outline">
+                                <Home className="h-4 w-4 mr-2" />
+                                Ver Imóvel
+                            </Button>
+                        </Link>
+                    </div>
                 </div>
             </div>
 
@@ -195,6 +236,30 @@ export function PurchaseJourneyClient({ initialJourney }: PurchaseJourneyClientP
                 currentStepNumber={currentStepNumber}
                 onStepCompleted={handleStepCompleted}
             />
+
+            <Dialog open={showCancelModal} onOpenChange={setShowCancelModal}>
+                <DialogContent>
+                    <DialogHeader>
+                        <DialogTitle>Cancelar processo de compra</DialogTitle>
+                        <DialogDescription>
+                            Tem certeza de que deseja cancelar este processo de compra? Todo o progresso será perdido e você terá que iniciar um novo processo se quiser retomar.
+                        </DialogDescription>
+                    </DialogHeader>
+                    <DialogFooter className="flex justify-end gap-2">
+                        <Button variant="outline" onClick={() => setShowCancelModal(false)} disabled={cancelling}>
+                            Voltar
+                        </Button>
+                        <Button
+                            variant="destructive"
+                            onClick={handleCancelJourney}
+                            disabled={cancelling}
+                            className="bg-amber-600 hover:bg-amber-700"
+                        >
+                            {cancelling ? "Cancelando..." : "Cancelar processo"}
+                        </Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
         </div>
     );
 }

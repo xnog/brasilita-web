@@ -12,9 +12,9 @@ export default async function FavoritesPage() {
     return (
         <div className="container-padding py-8">
             <div className="mb-6">
-                <h1 className="text-3xl font-bold tracking-tight">Imóveis Favoritos</h1>
+                <h1 className="text-3xl font-bold tracking-tight">Favoritos</h1>
                 <p className="text-muted-foreground mt-2">
-                    Gerencie e acompanhe os imóveis que você favoritou
+                    Gerencie e acompanhe os imóveis que você favoritou.
                 </p>
             </div>
             <FavoritesClient />

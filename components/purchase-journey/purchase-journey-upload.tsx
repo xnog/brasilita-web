@@ -12,12 +12,14 @@ interface PurchaseJourneyUploadComponentProps {
     };
     journeyId: string;
     onUploadComplete: () => void;
+    uploadRequired?: boolean;
 }
 
 export function PurchaseJourneyUploadComponent({
     step,
     journeyId,
     onUploadComplete,
+    uploadRequired,
 }: PurchaseJourneyUploadComponentProps) {
     const [uploading, setUploading] = useState(false);
     const [deletingId, setDeletingId] = useState<string | null>(null);
@@ -76,6 +78,12 @@ export function PurchaseJourneyUploadComponent({
     };
 
     const handleDelete = async (uploadId: string) => {
+        // Bloquear remoção do último arquivo quando upload é obrigatório
+        if (uploadRequired && step.uploads.length <= 1) {
+            alert("Esta etapa precisa ter pelo menos um documento enviado.");
+            return;
+        }
+
         if (!confirm("Tem certeza que deseja excluir este arquivo?")) return;
 
         setDeletingId(uploadId);

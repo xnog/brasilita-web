@@ -90,6 +90,16 @@ export async function PATCH(
             }
         }
 
+        // 2.1. Regra específica da Etapa 1: só pode concluir com eventId salvo
+        if (status === "completed" && step.stepNumber === 1) {
+            if (!step.eventId) {
+                return NextResponse.json(
+                    { error: "Etapa 1 só pode ser concluída após agendar a reunião." },
+                    { status: 400 }
+                );
+            }
+        }
+
         // 3. Se está tentando reabrir uma etapa concluída (mudando para in_progress ou pending)
         // e há uploads, permitir mas manter os uploads
         if (

@@ -133,7 +133,7 @@ export function FavoritesClient() {
         <div className="space-y-6">
             {/* Lista de favoritos */}
             {validFavorites.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                     {validFavorites.map((favorite) => {
                         if (!favorite.property) return null;
                         

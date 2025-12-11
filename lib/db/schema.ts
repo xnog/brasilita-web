@@ -416,6 +416,11 @@ export const purchaseJourneySteps = pgTable("purchase_journey_step", {
     status: text("status").notNull().default("pending"), // pending, in_progress, completed
     completedAt: timestamp("completedAt", { mode: "date" }),
     notes: text("notes"), // Notas opcionais do usuário
+    // Campos opcionais para integração com reunião (etapa 1)
+    eventId: text("eventId"),
+    meetingLink: text("meetingLink"),
+    eventStart: timestamp("eventStart", { mode: "date" }),
+    eventEnd: timestamp("eventEnd", { mode: "date" }),
     createdAt: timestamp("createdAt", { mode: "date" }).defaultNow(),
     updatedAt: timestamp("updatedAt", { mode: "date" }).defaultNow(),
 }, (table) => ({
